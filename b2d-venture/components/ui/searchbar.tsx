@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Button } from './button';
 import { IoFilter } from "react-icons/io5";
 
-const SearchBar = () => {
+const SearchBar = ({className}) => {
    return (
-      <div className='flex mt-10'>
+      <div className={`flex ${className}`}>
          <input
          type="text"
          placeholder=" Search..."
@@ -15,6 +15,7 @@ const SearchBar = () => {
             Filter
          </Button>
       </div>
+ 
    );
 };
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/shared/Header";
 import SearchBar from "@/components/ui/searchbar";
+import BusinessCard from "@/components/shared/BusinessCard";
 
 import "../globals.css";
 
@@ -14,7 +15,8 @@ const Page = () =>{
                 Discover tomorrow's leaders with <b>B2D Venture</b>. Unlock opportunities across Southeast Asia 
                 Dive into the dynamic business landscape, connect with emerging startups, and explore investment prospects that are shaping the region's future growth."
             </p>
-            <SearchBar />
+            <SearchBar className="mt-10"/>
+            <BusinessCard />
         </div>
         </>
     );
