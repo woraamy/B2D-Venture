@@ -292,3 +292,13 @@ body {
 .react-datepicker__time-list-item--selected {
   background-color: #624cf5 !important;
 }
+
+
+h1 {
+  color: #FF553E;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 52px; /* 108.333% */
+  letter-spacing: -0.4px;
+}
