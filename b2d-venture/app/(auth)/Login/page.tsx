@@ -10,13 +10,13 @@ const Login = () => {
         <h2 className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</h2>
 
         {/* Placeholder for the image */}
-        <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px]">
-          <img
-            src="/assets/images/rocket-laptop.png" // Replace with the actual image path
-            alt="Rocket with Laptop"
-            className="w-full h-full object-contain"
-          />
-        </div>
+        <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
+            <img
+              src="/assets/images/rocket-gif.gif"
+              alt="Rocket with Laptop"
+              className="w-full h-full object-contain"
+            />
+          </div>
       </div>
 
       {/* Right side (Login form) */}
