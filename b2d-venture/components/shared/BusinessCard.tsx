@@ -31,7 +31,22 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                     <h2 className="mt-7 ml-2 font-semibold">{name}</h2>
                     <p className="ml-2 text-[15px] font-normal">{description}</p>
                     <hr className="mb-2 mt-[100px] border-t border-gray-300" />
-                    <p className="ml-2 text-[15px] font-normal">{description}</p>
+                    <div className="flex">
+                        <p className="ml-2 text-[15px] font-semibold">{raised}</p>
+                        <p className="ml-2">Raised</p>
+                    </div>
+                    <div className="flex">
+                        <p className="ml-2 text-[15px] font-semibold">{investors}</p>
+                        <p className="ml-2">investors</p>
+                    </div>
+                    <div className="flex">
+                        <p className="ml-2 text-[15px] font-semibold">{min}</p>
+                        <p className="ml-2">min. investment</p>
+                    </div>
+                    <div className="flex">
+                        <p className="ml-2 text-[15px] font-semibold">{valuation}</p>
+                        <p className="ml-2">valuation cap</p>
+                    </div>
                  </CardContent>
               
             </div>

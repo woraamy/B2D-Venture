@@ -22,6 +22,10 @@ const Page = () =>{
                 profile="/images/p1.png"
                 name="RAD AI"
                 description="The Future of AI Marketing"
+                raised="100,000"
+                investors="20"
+                min="500"
+                valuation="20,000,000"
                 />
         </div>
         </>
