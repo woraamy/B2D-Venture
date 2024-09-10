@@ -16,7 +16,13 @@ const Page = () =>{
                 Dive into the dynamic business landscape, connect with emerging startups, and explore investment prospects that are shaping the region's future growth."
             </p>
             <SearchBar className="mt-10"/>
-            <BusinessCard />
+            <BusinessCard 
+                className="mt-10" 
+                coverimg="/images/b1.png"
+                profile="/images/p1.png"
+                name="RAD AI"
+                description="The Future of AI Marketing"
+                />
         </div>
         </>
     );
