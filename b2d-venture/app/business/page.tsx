@@ -20,6 +20,7 @@ const Page = () =>{
               investors="20"
               min="500"
               valuation="20,000,000"
+              link="/businessas"
             />
           );
         }
