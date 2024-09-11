@@ -7,7 +7,7 @@ const Login = () => {
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       {/* Left side */}
       <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center p-8 relative">
-        <h2 className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</h2>
+        <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</a>
 
         {/* Placeholder for the image */}
         <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
@@ -21,9 +21,9 @@ const Login = () => {
 
       {/* Right side (Login form) */}
       <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
-        <a href="/" className="absolute top-6 left-50 flex items-center">
-          <ChevronsLeft className="relative text-[#FF6347] text-3xl cursor-pointer z-10" />
-          <p className="text-[#FF6347] p-regular-16 ml-2">
+        <a href="/" className="absolute top-10 left-4 md:hidden flex items-center">
+          <ChevronsLeft className="text-[#FF6347] text-2xl cursor-pointer" />
+          <p className="text-[#FF6347] p-medium-16 ml-2">
             Back to home
           </p>
         </a>
