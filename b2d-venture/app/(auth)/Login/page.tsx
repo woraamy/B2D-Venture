@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { ChevronsLeft } from 'lucide-react';
 import Link from "next/link";
 
 const Login = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       {/* Left side */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 relative">
-        {/* Position the B2D Venture text */}
+      <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center p-8 relative">
         <h2 className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</h2>
 
         {/* Placeholder for the image */}
@@ -20,8 +20,14 @@ const Login = () => {
       </div>
 
       {/* Right side (Login form) */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
-        <h1 className="text-3xl font-bold text-center text-[#FF6347]">Welcome back</h1>
+      <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
+        <a href="/" className="absolute top-6 left-50 flex items-center">
+          <ChevronsLeft className="relative text-[#FF6347] text-3xl cursor-pointer z-10" />
+          <p className="text-[#FF6347] p-regular-16 ml-2">
+            Back to home
+          </p>
+        </a>
+        <h1 className="text-5xl font-bold text-center text-[#FF6347]">Welcome back</h1>
         <p className="text-center mt-5 text-lg">Welcome back! Please enter your details to log into your account</p>
 
         <form className="space-y-5">
@@ -68,7 +74,7 @@ const Login = () => {
           </div>
         </form>
 
-        <p className="mt-10 flex justify-center space-x-2">
+        <p className="mt-10 flex justify-center items-center space-x-2">
           <span className="text-sm md:text-base">Don't have an account?</span>
           <a href="/SignUp" className="text-[#FF6347] font-medium">Sign up now</a>
         </p>
