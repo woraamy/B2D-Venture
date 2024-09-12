@@ -7,7 +7,7 @@ const SearchBar = ({className}) => {
       <div className={`flex ${className}`}>
          <input
          type="text"
-         placeholder=" Search..."
+         placeholder=" Search businesses "
          className="h-42px border p-2 w-full rounded-md bg-[#F2EBEB]"
          />
          <Button className='text-white ms-5'>

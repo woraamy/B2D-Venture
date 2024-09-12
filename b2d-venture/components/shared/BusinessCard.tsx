@@ -2,6 +2,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
+
 const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tag}) => {
  return (
     <div className ={className}>
@@ -71,7 +72,6 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 </div>
             </Card>
         </Link>
-
     </div>
  );
 };
