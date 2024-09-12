@@ -12,8 +12,8 @@ const Page = () =>{
             <BusinessCard
               key={i} // Adding a unique key prop
               className="mt-10"
-              coverimg="/images/b1.png"
-              profile="/images/p1.png"
+              coverimg="/assets/images/b1.png"
+              profile="/assets/images/p1.png"
               name="RAD AI"
               description="The Future of AI Marketing"
               raised="100,000"
@@ -21,6 +21,8 @@ const Page = () =>{
               min="500"
               valuation="20,000,000"
               link="/businessas"
+              tagName="Ai"
+              tagLink="/tag=Ai"
             />
           );
         }
