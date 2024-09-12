@@ -2,10 +2,9 @@ import Link from "next/link";
 import Header from "@/components/shared/Header";
 import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
-
 import "../globals.css";
-
 const Page = () =>{
+    const tag = ["AI", "Science", "Technology"]
     const listItems: JSX.Element[] = [];
     for (let i = 0 ; i < 12;i++ ){
         listItems.push(
@@ -21,8 +20,7 @@ const Page = () =>{
               min="500"
               valuation="20,000,000"
               link="/businessas"
-              tagName="Ai"
-              tagLink="/tag=Ai"
+              tag = {tag}
             />
           );
         }
@@ -43,6 +41,7 @@ const Page = () =>{
         </div>
         </>
     );
+
 };
 
 export default Page;

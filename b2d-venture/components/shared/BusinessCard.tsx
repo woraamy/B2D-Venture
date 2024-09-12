@@ -2,7 +2,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
-const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tagName, tagLink}) => {
+const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tag}) => {
  return (
     <div className ={className}>
          <Link href={link} passHref>
@@ -38,15 +38,13 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                 <h2 className="font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="ml-2   flex">
-                                <Tag className="pr-2"
-                                tagLink={tagLink}
-                                tagName={tagName} 
-                                />
-                                <Tag 
-                                tagLink={tagLink}
-                                tagName={tagName} 
-                                />
+                            <div className="ml-2 flex">
+                               {Array.isArray(tag) && tag.map((name, index) => (
+                                    <Tag className="pr-2"
+                                    key={index}
+                                    tagName={name} 
+                                    />
+                                ))}
                             </div>
                             <div className="mt-4">
                                 <hr className="mb-2  border-t border-gray-300" />
