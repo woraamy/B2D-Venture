@@ -15,7 +15,7 @@ const Page = () =>{
               coverimg="/assets/images/b1.png"
               profile="/assets/images/p1.png"
               name="RAD AI"
-              description="The Future of AI Marketing"
+              description="The Future of AI Marketingkjhjkjkjhjkjhkjkjhufrrsd kkln;lkmo[m ygj uiu6ylih;"
               raised="100,000"
               investors="20"
               min="500"

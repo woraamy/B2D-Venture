@@ -34,11 +34,11 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                             </div>
                         </div>
                         <div className="relative -top-7">
-                            <div className="overflow relative ml-2 h-[100px]">
+                            <div className="overflow-hidden relative ml-2 h-[100px]">
                                 <h2 className="font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="ml-2  flex">
+                            <div className="ml-2   flex">
                                 <Tag className="pr-2"
                                 tagLink={tagLink}
                                 tagName={tagName} 
@@ -48,7 +48,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                 tagName={tagName} 
                                 />
                             </div>
-                            <div className="mt-5">
+                            <div className="mt-4">
                                 <hr className="mb-2  border-t border-gray-300" />
                                 <div className="flex">
                                     <p className="ml-2 text-[15px] font-semibold">{raised}</p>
