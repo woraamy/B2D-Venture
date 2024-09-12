@@ -38,7 +38,11 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                 <h2 className="font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="ml-2">
+                            <div className="ml-2  flex">
+                                <Tag className="pr-2"
+                                tagLink={tagLink}
+                                tagName={tagName} 
+                                />
                                 <Tag 
                                 tagLink={tagLink}
                                 tagName={tagName} 
