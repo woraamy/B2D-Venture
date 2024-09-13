@@ -5,28 +5,11 @@ import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
 import "../globals.css";
+import { promises as fs } from "fs";
 
-const Page = () =>{
-    const tag = ["AI", "Science", "Technology"]
-    const listItems: JSX.Element[] = [];
-    for (let i = 0 ; i < 12;i++ ){
-        listItems.push(
-            <BusinessCard
-              key={i} // Adding a unique key prop
-              className="mt-10"
-              coverimg="/assets/images/b1.png"
-              profile="/assets/images/p1.png"
-              name="RAD AI"
-              description="The Future of AI Marketingkjhjkjkjhjkjhkjkjhufrrsd kkln;lkmo[m ygj uiu6ylih;"
-              raised="100,000"
-              investors="20"
-              min="500"
-              valuation="20,000,000"
-              link="/businessas"
-              tag = {tag}
-            />
-          );
-        }
+export default async function Page() {
+    const file = await fs.readFile(process.cwd()+'/public/data/mockup.json');
+    const data = JSON.parse(file);
       
     return(
         <>
@@ -39,7 +22,21 @@ const Page = () =>{
             </p>
             <SearchBar className="mt-10" />
             <div className="flex flex-wrap gap-4 ">
-                {listItems}
+                {data.map(business =>(
+                    <BusinessCard
+                    className="mt-10"
+                    coverimg = {business.coverimg}
+                    profile= {business.profile}
+                    name= {business.business_name}
+                    description={business.description}
+                    raised={business.raised}
+                    investors={business.investors}
+                    min={business.min}
+                    valuation={business.valuation}
+                    link="/businessas"
+                    tag = {business.tag}
+                  />
+                ))}
             </div>
             <Button className="ml-[45%] my-[40px]">
                 <span className="text-white">See more</span>
@@ -51,4 +48,4 @@ const Page = () =>{
 
 };
 
-export default Page;
+// export default Page;
