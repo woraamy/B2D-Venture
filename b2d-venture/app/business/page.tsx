@@ -33,7 +33,7 @@ export default async function Page() {
                     investors={business.investors}
                     min={business.min}
                     valuation={business.valuation}
-                    link="/businessas"
+                    link={`/business/${business.business_name}`}
                     tag = {business.tag}
                   />
                 ))}
