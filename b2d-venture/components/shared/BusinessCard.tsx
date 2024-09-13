@@ -24,7 +24,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 <div className="relative group">
                     <CardContent className="relative z-0 bg-[#F2EBEB] h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
                         <div className="relative z-10 -top-7  ">
-                            <div className="relative w-[60px] h-[60px] ">
+                            <div className="relative w-[50px] h-[50px] ">
                                 <Image 
                                 src={profile} 
                                 style={{objectFit:"cover"}}
@@ -35,8 +35,8 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                             </div>
                         </div>
                         <div className="relative -top-7">
-                            <div className="overflow-hidden relative ml-2 h-[100px]">
-                                <h2 className="font-semibold">{name}</h2>
+                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                                <h2 className="mt-2 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
                             <div className="ml-2 flex">
