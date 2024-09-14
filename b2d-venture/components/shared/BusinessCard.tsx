@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import Tag from "../ui/tag";
 const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tag}) => {
  return (
     <div className ={className}>
-         <Link href={link} passHref>
+         {/* <Link href={link}> */}
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-[#F2EBEB] rounded-xl">
                 <CardHeader className="relative flex-grow h-1/2 p-0 m-0">
                     <div className="relative w-full h-full">
@@ -71,7 +72,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 
                 </div>
             </Card>
-        </Link>
+        {/* </Link> */}
     </div>
  );
 };

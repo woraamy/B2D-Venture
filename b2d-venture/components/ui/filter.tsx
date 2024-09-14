@@ -13,31 +13,17 @@ import {
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuCheckboxItem,
-    DropdownMenuRadioItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuGroup,
-    DropdownMenuPortal,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuRadioGroup,
   } from './dropdown-menu';
+// import {useCheckbox, Chip, VisuallyHidden, tv} from "@nextui-org/react";
+
 
 export default function Filter({className}){
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
     const [isOpen, setIsOpen] = useState(false);
-    // const [checkedItems, setCheckedItems] = useState([]);
-
-    // const handleCheckBoxChange = (item) => {
-    //     setCheckedItems((prev) => 
-    //         prev.includes(item)
-    //         ? prev.filter((i) => i !== item)
-    //         : [...prev, item] 
-    //     );
-    // };
+    const [checked, setChecked] = useState([]);
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+      };
     return (
         <div className={className}>
             <Button 
@@ -51,9 +37,9 @@ export default function Filter({className}){
                     </div>
             </Button>
             {isOpen &&(
-                <div className="absolute w-[300px] h-[300px] bg-white shadow-lg rounded-lg z-10">
+                <div className="absolute w-[20%] h-[350px] bg-white shadow-lg rounded-lg z-10 overflow-auto">
                     <div className="flex sort ml-2 mt-2 mr-2">
-                        <SearchBar/>
+                        <SearchBar text="Search Tag"/>
                         <div className='ml-2'>
                             <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -71,13 +57,26 @@ export default function Filter({className}){
                                     <DropdownMenuItem>
                                         Popular
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        sd
-                                    </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
                     </div>
+                    <div className="h-[250px] overflow-auto flex flex-wrap gap-4">
+                        {tag.map((item, index) => (
+                            <div key={index} className="flex  items-center mt-2 ml-2">
+                             <Checkbox
+                                className="inline-box"
+                                label={item}
+                                value={checked}
+                                onChange={handleChange}
+                                />
+                                 <span className="ml-2">{item}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <Button className='mt-1 ml-2 text-white '>
+                        Filter Now
+                    </Button>
                 </div>
             )}
         </div>

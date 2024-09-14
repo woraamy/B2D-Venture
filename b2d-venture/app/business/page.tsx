@@ -25,12 +25,8 @@ export default async function Page() {
                 Dive into the dynamic business landscape, connect with emerging startups, and explore investment prospects that are shaping the region's future growth."
             </p>
             <div className="flex mt-10">
-                <SearchBar />
+                <SearchBar text="Search Business"/>
                 <Filter className="ms-5"/>
-                {/* <Button className='text-white ms-5'>
-                    <IoFilter />            
-                    Filter
-                </Button> */}
             </div>
             <div className="flex flex-wrap gap-4 ">
                 {data.map(business =>(
