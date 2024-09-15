@@ -7,15 +7,12 @@ import { usePathname } from 'next/navigation';
 
 export default async function Sidenav() {
     const pathname = usePathname();
-    // if(pathname == "/investor"){
-    //     const investpage = "bg-black";
-    // }
     const investpage = pathname === "/investor" ? "bg-white text-[#FF553E]  rounded-xl" : "";
     const historypage = pathname === "/investor/history" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
-    const informationpage = pathname === "/investor/information" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
+    const informationpage = pathname === "/investor/sharedInformation" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
-        <div className="overflow-hidden flex bg-[#FFF8F2] sticky top-0 left-0 h-screen w-[20%]">
+        <div className="overflow-hidden flex bg-[#FFF8F2] sticky top-0 left-0 h-screen w-[20%] xl:w-[15%]">
             <div className="relative ml-[20%] mt-20 w-[70%] ">
                 <div className={`flex p-3 ${investpage}`}>
                     < BsFileBarGraphFill />
