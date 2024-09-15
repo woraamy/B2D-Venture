@@ -5,7 +5,7 @@ import { MdWorkHistory } from "react-icons/md";
 import { RiInformation2Fill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 
-export default async function Sidenav() {
+export default function Sidenav() {
     const pathname = usePathname();
     const investpage = pathname === "/investor" ? "bg-white text-[#FF553E]  rounded-xl" : "";
     const historypage = pathname === "/investor/history" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
