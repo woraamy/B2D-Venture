@@ -6,7 +6,10 @@ export default function InvestLayout({
   }>) {
     return (
         <>
+        <div className="flex">
             <Sidenav />
+            <main className="flex">{children}</main>
+        </div>
         </>
     );
 };

@@ -12,9 +12,10 @@ export default async function Sidenav() {
     const informationpage = pathname === "/investor/sharedInformation" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
-        <div className="overflow-hidden flex bg-[#FFF8F2] sticky top-0 left-0 h-screen w-[20%] xl:w-[15%]">
+        <div className="overflow-hidden flex bg-[#FFF8F2] sticky top-0 left-0 h-[90vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
             <div className="relative ml-[20%] mt-20 w-[70%] ">
-                <div className={`flex p-3 ${investpage}`}>
+                <span className="p-3">MENU</span>
+                <div className={`flex p-3 mt-2 ${investpage}`}>
                     < BsFileBarGraphFill />
                     <Link href='/investor' className="ml-2">Dashboard</Link>
                 </div>
