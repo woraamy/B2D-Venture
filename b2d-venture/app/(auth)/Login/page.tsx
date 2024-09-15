@@ -27,7 +27,7 @@ const Login = () => {
             Back to home
           </p>
         </a>
-        <h1 className="text-5xl font-bold text-center text-[#FF6347]">Welcome back</h1>
+        <h1 className="text-5xl font-bold text-center text-[#FF6347] mt-10">Welcome back</h1>
         <p className="text-center mt-5 text-lg">Welcome back! Please enter your details to log into your account</p>
 
         <form className="space-y-5">

@@ -4,7 +4,7 @@ import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-[#FFF8F2]">
+    <footer className="border-t bg-[#FF543E]">
       <div className="flex-center wrapper flex-between flex flex-col gap-4 p-5 text-center sm:flex-row">
         <Link href='/'>
           <Image
@@ -15,7 +15,7 @@ const Footer = () => {
           />
         </Link>
 
-        <p className="p-regular-18">2024 B2D Venture. All Rights reserved.</p>
+        <p className="p-regular-18 text-[#ffffff]">2024 B2D Venture. All Rights reserved.</p>
         {/* <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
             {FOOTER_LINKS.map((columns) => (
               <FooterColumn title={columns.title}>

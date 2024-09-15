@@ -13,6 +13,11 @@ const SignUp = () => {
           </p>
         </a>
         <p className="flex-center text-3xl font-bold text-[#FF6347] mt-32">Join the Community</p>
+
+        <p className="mt-10 flex justify-center items-center space-x-2">
+          <span className="text-sm md:text-base">Already have an account?</span>
+          <a href="/Login" className="text-[#FF6347] font-medium">Login here</a>
+        </p>
       </div>
     )
 }
