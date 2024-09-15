@@ -1,0 +1,148 @@
+[
+ {
+    "id": 1,
+    "coverimg" : "/assets/images/businesscover/b1.png",
+    "profile" : "/assets/images/businessprofile/p1.png",
+    "business_name": "Zephyr Aerospace",
+    "description": "A lie-flat airline seat for Economy Class travelers",
+    "tag": ["Aerospace"],
+    "raised" : "22,930,000", 
+    "investors" : "30", 
+    "min": "30,000", 
+    "valuation" : "90,680,000"
+ },
+ {
+    "id": 2,
+    "coverimg" : "/assets/images/businesscover/b2.png",
+    "profile" : "/assets/images/businessprofile/p2.png",
+    "business_name": "The New Shop",
+    "description": "Franchised convenience store network with 150+ locations across India",
+    "tag": ["Food & Drinks", "Shop"],
+    "raised" : "2,950,000", 
+    "investors" : "3", 
+    "min": "20,000", 
+    "valuation" : "49,770,000"
+ },
+ {
+    "id": 3,
+    "coverimg" : "/assets/images/businesscover/b3.png",
+    "profile" : "/assets/images/businessprofile/p3.png",
+    "business_name": "TWhereBy.Us",
+    "description": "The platform that helps customers build, grow, and monetize their newsletters",
+    "tag": ["Technology"],
+    "raised" : "71,870,000", 
+    "investors" : "4", 
+    "min": "20,000", 
+    "valuation" : "99,670,000"
+ },
+ {
+    "id": 4,
+    "coverimg" : "/assets/images/businesscover/b4.png",
+    "profile" : "/assets/images/businessprofile/p4.png",
+    "business_name": "WellWell",
+    "description": "Plant Based Functional Beverages",
+    "tag": ["Food & Drinks", "Innovation"],
+    "raised" : "26,770,000", 
+    "investors" : "7", 
+    "min": "15,000", 
+    "valuation" : "195,080,000"
+ },
+ {
+    "id": 5,
+    "coverimg" : "/assets/images/businesscover/b5.png",
+    "profile" : "/assets/images/businessprofile/p5.png",
+    "business_name": "WolfPack",
+    "description": "A connected vehicle technology company focused on motorcycles",
+    "tag": ["Transportation"],
+    "raised" : "45,680,000", 
+    "investors" : "8", 
+    "min": "5,000", 
+    "valuation" : "116,060,000"
+ },
+ {
+    "id": 6,
+    "coverimg" : "/assets/images/businesscover/b6.png",
+    "profile" : "/assets/images/businessprofile/p6.png",
+    "business_name": "SorbiForce",
+    "description": "World's first non-metal sustainable battery",
+    "tag": ["Energy", "Technology", "Innovation"],
+    "raised" : "45,680,000", 
+    "investors" : "8", 
+    "min": "5,000", 
+    "valuation" : "116,060,000"
+ },
+ {
+    "id": 7,
+    "coverimg" : "/assets/images/businesscover/b7.png",
+    "profile" : "/assets/images/businessprofile/p7.png",
+    "business_name": "RAD AI",
+    "description": "The Future of AI Marketing",
+    "tag": ["AI & Machine Learning"],
+    "raised" : "100,000", 
+    "investors" : "20", 
+    "min": "500", 
+    "valuation" : "20,000,000"
+ },
+ {
+    "id": 8,
+    "coverimg" : "/assets/images/businesscover/b8.png",
+    "profile" : "/assets/images/businessprofile/p8.png",
+    "business_name": "Pressman Film",
+    "description": "New movies from the company behind 'Wall Street' & 'American Psycho'",
+    "tag": ["Media production"],
+    "raised" : "55,180,000", 
+    "investors" : "5", 
+    "min": "50,000", 
+    "valuation" : "166,540,000"
+ },
+ {
+    "id": 9,
+    "coverimg" : "/assets/images/businesscover/b9.png",
+    "profile" : "/assets/images/businessprofile/p9.png",
+    "business_name": "FitBake",
+    "description": "The future of desserts — low-carb, gluten-free, grab n' go cakes and frostings",
+    "tag": ["Food & Drinks"],
+    "raised" : "180,000", 
+    "investors" : "2", 
+    "min": "50,000", 
+    "valuation" : "6,540,000"
+ },
+ {
+    "id": 10,
+    "coverimg" : "/assets/images/businesscover/b10.png",
+    "profile" : "/assets/images/businessprofile/p10.png",
+    "business_name": "32 Biosciences",
+    "description": "Diversified life science company focused on Gut Microbiome medicine",
+    "tag": ["Healthcare", "Biology"],
+    "raised" : "28,360,000", 
+    "investors" : "10", 
+    "min": "10,000", 
+    "valuation" : "41,500,000"
+ },
+ {
+    "id": 11,
+    "coverimg" : "/assets/images/businesscover/b11.png",
+    "profile" : "/assets/images/businessprofile/p11.png",
+    "business_name": "True Gault",
+    "description": "We use 3D imaging via your iPhone to create gorgeous shoes, made to fit",
+    "tag": ["Fashion"],
+    "raised" : "30,000,000", 
+    "investors" : "12", 
+    "min": "10,000", 
+    "valuation" : "50,500,000"
+ },
+ {
+    "id": 12,
+    "coverimg" : "/assets/images/businesscover/b12.png",
+    "profile" : "/assets/images/businessprofile/p12.png",
+    "business_name": "VONMERCIER",
+    "description": "Bringing imagined vehicles to life—starting with the electric (EV) hovercraft",
+    "tag": ["Transportation"],
+    "raised" : "74,100,000", 
+    "investors" : "6", 
+    "min": "100,000", 
+    "valuation" : "185,130,000"
+ }
+
+
+]

@@ -17,6 +17,7 @@ module.exports = {
       },
     },
     extend: {
+      display: ["group-hover"],
       colors: {
         primary: {
           400: '#FF553E',
