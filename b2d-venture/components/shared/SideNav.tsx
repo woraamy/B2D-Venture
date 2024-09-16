@@ -7,9 +7,9 @@ import { usePathname } from 'next/navigation';
 
 export default function Sidenav() {
     const pathname = usePathname();
-    const investpage = pathname === "/investor" ? "bg-white text-[#FF553E]  rounded-xl" : "";
-    const historypage = pathname === "/investor/history" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
-    const informationpage = pathname === "/investor/sharedInformation" ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
+    const investpage = /^\/investor\/\d+$/.test(pathname) ? "bg-white text-[#FF553E]  rounded-xl" : "" ;
+    const historypage = pathname.startsWith("/investor/history" ) ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
+    const informationpage = pathname.startsWith("/investor/sharedInformation") ? "bg-white text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-[#FFF8F2] sticky top-0 left-0 h-[90vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">

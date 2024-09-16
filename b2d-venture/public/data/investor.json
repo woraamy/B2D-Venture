@@ -1,0 +1,31 @@
+[
+    {
+    "id" : 1,
+    "name": "John",
+    "lastname": "Smith",
+    "username" : "Johnn",
+    "profile": "",
+    "bio": "focuses on investing in early-stage startups that have the potential to transform industries. Our primary interest lies in technology-driven ventures, particularly in Artificial Intelligence (AI), FinTech, and Machine Learning, where we see tremendous growth opportunities.",
+    "contact": {
+        "Email" : "john.smith@gmail.com",
+        "Tel." : "0812345679",
+        "Facebook" : "-",
+        "Instagram" : "@John_Smith",
+        "Twitter" : "-"
+        },
+    "chartData": [
+        { "month": "January", "invest": 186},
+        { "month": "February", "invest": 305 },
+        { "month": "March","invest": 237},
+        { "month": "April", "invest": 73 },
+        { "month": "May", "invest": 20},
+        { "month": "June", "invest": 0},
+        { "month": "July", "invest": 214},
+        { "month": "August", "invest": 0},
+        { "month": "September", "invest": 150},
+        { "month": "October", "invest": 192},
+        { "month": "November", "invest": 50},
+        { "month": "December", "invest": 10}
+      ]
+    }
+]

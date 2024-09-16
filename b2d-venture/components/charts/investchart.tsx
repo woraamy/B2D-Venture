@@ -11,21 +11,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-const chartData = [
-  { month: "January", invest: 186},
-  { month: "February", invest: 305 },
-  { month: "March", invest: 237},
-  { month: "April", invest: 73 },
-  { month: "May", invest: 20},
-  { month: "June", invest: 0},
-  { month: "July", invest: 214},
-  { month: "August", invest: 0},
-  { month: "September", invest: 150},
-  { month: "October", invest: 192},
-  { month: "November", invest: 50},
-  { month: "December", invest: 10},
 
-]
 const chartConfig = {
     invest: {
       label: "invest",
@@ -33,7 +19,7 @@ const chartConfig = {
     },
   } satisfies ChartConfig
 
-export function InvestChart() {
+export function InvestChart({chartData}) {
   return (
     <Card className="h-[100%] w-[100%] border-0">
         <CardHeader>
