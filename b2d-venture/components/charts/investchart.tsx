@@ -1,7 +1,7 @@
 "use client"
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import {
     Card,
@@ -20,6 +20,7 @@ const chartConfig = {
   } satisfies ChartConfig
 
 export function InvestChart({chartData}) {
+  console.log(chartData)
   return (
     <Card className="h-[100%] w-[100%] border-0">
         <CardHeader>

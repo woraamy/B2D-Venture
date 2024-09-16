@@ -3,6 +3,8 @@ import { InvestChart } from "@/components/charts/investchart";
 import { promises as fs } from "fs";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
+import { OverviewChart } from "@/components/charts/overviewchart";
+
 async function fetchInvestorData(id){
     const filePath = process.cwd() + '/public/data/investor.json';
     const file = await fs.readFile(filePath);
@@ -20,9 +22,14 @@ export default async function Page({ params }) {
     if (!investor) {
         return <div>Investor not found</div>;
     }
-    let chartdata = [];
-    investor.chartData.map((item) =>
-        chartdata.push({month: item.month, invest:item.invest})
+    let chartdata1 = [];
+    investor.chartData1.map((item) =>
+        chartdata1.push({month: item.month, invest:item.invest})
+    );
+
+    let chartdata2 = [];
+    investor.chartData2.map((item) =>
+        chartdata2.push({business:item.business,raised: item.raised})
     );
     
     return(
@@ -32,7 +39,7 @@ export default async function Page({ params }) {
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
-                        <InvestChart chartData={chartdata} />
+                        <InvestChart chartData={chartdata1} />
                     </div>
                 </div>
             </div>
@@ -82,7 +89,7 @@ export default async function Page({ params }) {
                 
             </div>
             <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
-            
+                <OverviewChart chartData={chartdata2} />
             </div>
             <div id="history" className="w-[27.5vw] h-1/2 border-r-2">
             
