@@ -10,11 +10,18 @@ import Register_company from "@/components/shared/Register_company";
 
 const SignUp = () => {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState(1); // To track the current step: 1 -> Select Role, 2 -> Enter Details
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formValidated, setFormValidated] = useState(false);
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
-    setCurrentStep(2); // Move to the next step
+    setCurrentStep(2);
+  };
+
+  const handleFormValidated = (isValid: boolean) => {
+    if (isValid) {
+      setFormValidated(true);
+    }
   };
 
   return (
@@ -45,7 +52,7 @@ const SignUp = () => {
         <div className="flex items-center space-x-2">
           <img src="/assets/icons/number2.svg" alt="Number 2 Icon" className="w-6 h-6 md:w-8 md:h-8" />
           <p
-            className={`text-sm md:text-lg cursor-pointer transition-colors duration-300 ${currentStep === 2 ? 'text-red-500' : 'text-gray-500'}`}
+            className={`text-sm md:text-lg cursor-pointer transition-colors duration-300 ${currentStep === 2 ? 'text-red-500' : 'text-black'}`}
           >
             Enter your details
           </p>
@@ -53,7 +60,7 @@ const SignUp = () => {
         <Separator orientation="vertical" className="hidden md:block" />
         <div className="flex items-center space-x-2">
           <img src="/assets/icons/number3.svg" alt="Number 3 Icon" className="w-6 h-6 md:w-8 md:h-8" />
-          <p className="text-sm md:text-lg text-gray-500 cursor-pointer transition-colors duration-300">
+          <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
             Pending review
           </p>
         </div>
@@ -82,9 +89,9 @@ const SignUp = () => {
       {/* Conditional rendering of forms */}
       <div>
         {selectedRole === "investor" ? (
-          <RegisterInvestor />
+          <RegisterInvestor onFormValidated={handleFormValidated} />
         ) : selectedRole === "company" ? (
-          <Register_company />
+          <Register_company onFormValidated={handleFormValidated} />
         ) : (
           <div className="text-center mt-10">Please select a role to continue</div>
         )}
