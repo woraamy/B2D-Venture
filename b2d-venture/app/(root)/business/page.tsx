@@ -1,13 +1,8 @@
-import Link from "next/link";
-import Header from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
 import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
-import "../globals.css";
 import { promises as fs } from "fs";
-import { IoFilter } from "react-icons/io5";
 
 
 
@@ -17,7 +12,6 @@ export default async function Page() {
       
     return(
         <>
-        <Header />
         <div className="max-w-[70%] mx-auto mt-20">
             <h1 className="text-[#FF553E] text-[60px] font-semibold leading-[52px] tracking[-0.4px]">Businesses</h1>
             <p className="max-w-[70%] mt-10 text-sm/[20px]">
@@ -49,7 +43,6 @@ export default async function Page() {
                 <span className="text-white">See more</span>
             </Button>
         </div>
-        <Footer />
         </>
     );
 
