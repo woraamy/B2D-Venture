@@ -3,11 +3,11 @@ import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import { promises as fs } from "fs";
-
+import Link from "next/link";
 
 
 export default async function Page() {
-    const file = await fs.readFile(process.cwd()+'/public/data/mockup.json');
+    const file = await fs.readFile(process.cwd()+'/public/data/business.json');
     const data = JSON.parse(file);
       
     return(
@@ -24,6 +24,7 @@ export default async function Page() {
             </div>
             <div className="flex flex-wrap gap-4 ">
                 {data.map(business =>(
+                    <Link href={`/business/${business.id}`} passHref>
                     <BusinessCard
                     className="mt-10"
                     coverimg = {business.coverimg}
@@ -37,6 +38,7 @@ export default async function Page() {
                     link={`/business/${business.business_name}`}
                     tag = {business.tag}
                   />
+                  </Link>
                 ))}
             </div>
             <Button className="ml-[45%] my-[40px]">

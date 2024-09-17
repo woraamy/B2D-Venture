@@ -6,10 +6,13 @@
     "business_name": "Zephyr Aerospace",
     "description": "A lie-flat airline seat for Economy Class travelers",
     "tag": ["Aerospace"],
-    "raised" : "22,930,000", 
+    "raised" : "2,930,000", 
     "investors" : "30", 
     "min": "30,000", 
-    "valuation" : "90,680,000"
+    "max": "5000,000",
+    "valuation" : "90,680,000",
+    "goal" : "5,000,000",
+    "deadline" : "September 30, 2024"
  },
  {
     "id": 2,
@@ -21,7 +24,10 @@
     "raised" : "2,950,000", 
     "investors" : "3", 
     "min": "20,000", 
-    "valuation" : "49,770,000"
+    "max": "1,000,000",
+    "valuation" : "49,770,000",
+    "goal" : "5,000,000",
+    "deadline" : "October 25, 2024"
  },
  {
     "id": 3,
@@ -33,7 +39,10 @@
     "raised" : "71,870,000", 
     "investors" : "4", 
     "min": "20,000", 
-    "valuation" : "99,670,000"
+    "max": "2,000,000",
+    "valuation" : "99,670,000",
+    "goal" : "100,000,000",
+    "deadline" : "November 5, 2024"
  },
  {
     "id": 4,
@@ -45,7 +54,11 @@
     "raised" : "26,770,000", 
     "investors" : "7", 
     "min": "15,000", 
-    "valuation" : "195,080,000"
+    "max": "2,000,000",
+    "valuation" : "195,080,000",
+    "goal" : "27,000,000",
+    "deadline" : "October 4, 2024"
+
  },
  {
     "id": 5,
@@ -57,7 +70,10 @@
     "raised" : "45,680,000", 
     "investors" : "8", 
     "min": "5,000", 
-    "valuation" : "116,060,000"
+    "max": "2,000,000",
+    "valuation" : "116,060,000",
+    "goal" : "60,000,000",
+    "deadline" : "October 20, 2024" 
  },
  {
     "id": 6,
@@ -69,7 +85,11 @@
     "raised" : "45,680,000", 
     "investors" : "8", 
     "min": "5,000", 
-    "valuation" : "116,060,000"
+    "max": "2,000,000",
+    "valuation" : "116,060,000",
+    "goal" : "100,000,000",
+    "deadline" : "December 25, 2024"
+
  },
  {
     "id": 7,
@@ -81,7 +101,10 @@
     "raised" : "100,000", 
     "investors" : "20", 
     "min": "500", 
-    "valuation" : "20,000,000"
+    "max": "300,000",
+    "valuation" : "20,000,000",
+    "goal" : "800,000",
+    "deadline" : "September 28, 2024"
  },
  {
     "id": 8,
@@ -93,7 +116,10 @@
     "raised" : "55,180,000", 
     "investors" : "5", 
     "min": "50,000", 
-    "valuation" : "166,540,000"
+    "max": "2,000,000",
+    "valuation" : "166,540,000",
+    "goal" : "100,000,000",
+    "deadline" : "December 16, 2024"
  },
  {
     "id": 9,
@@ -105,7 +131,10 @@
     "raised" : "180,000", 
     "investors" : "2", 
     "min": "50,000", 
-    "valuation" : "6,540,000"
+    "max": "100,000",
+    "valuation" : "6,540,000",
+    "goal" : "800,000",
+    "deadline" : "Febuary 2, 2025"
  },
  {
     "id": 10,
@@ -117,7 +146,12 @@
     "raised" : "28,360,000", 
     "investors" : "10", 
     "min": "10,000", 
-    "valuation" : "41,500,000"
+    "max": "2,000,000",
+    "valuation" : "41,500,000",
+    "goal" : "90,000,000",
+    "deadline" : "Febuary 8, 2025"
+    
+
  },
  {
     "id": 11,
@@ -129,7 +163,11 @@
     "raised" : "30,000,000", 
     "investors" : "12", 
     "min": "10,000", 
-    "valuation" : "50,500,000"
+    "max": "2,000,000",
+    "valuation" : "50,500,000",
+    "goal" : "40,000,000",
+    "deadline" : "Febuary 8, 2025"
+
  },
  {
     "id": 12,
@@ -141,7 +179,11 @@
     "raised" : "74,100,000", 
     "investors" : "6", 
     "min": "100,000", 
-    "valuation" : "185,130,000"
+    "max": "2,000,000",
+    "valuation" : "185,130,000",
+    "goal" : "100,000,000",
+    "deadline" : "Febuary 8, 2025"
+
  }
 
 
