@@ -8,13 +8,11 @@ const Header = () => {
   return (
     <header className="w-full border-b bg-[#FFF8F2]">
       <div className="wrapper flex items-center justify-between">
-        <Link href="/" className="w-36">
-          <Image 
-            src="/assets/images/logo.svg" 
-            width={128} 
-            height={38}
-            alt="B2D Venture logo"
-          />
+        <Link href="/" >
+          <h1 className="text-3xl text-[#FF553E] font-bold">B2D Venture</h1>
+        </Link>
+        <Link href={"/business"} className="ml-[50%]">
+          <h3 className="p-regular-18"> Business </h3>
         </Link>
 
         {/* Show after login */}

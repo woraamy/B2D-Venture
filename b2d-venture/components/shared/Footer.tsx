@@ -7,12 +7,7 @@ const Footer = () => {
     <footer className="bg-[#FF543E] border-t">
       <div className="flex-center wrapper flex-between flex-col gap-4 p-5 text-center sm:flex-row">
         <Link href="/">
-          <Image
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={128}
-            height={38}
-          />
+          <h1 className="text-3xl text-white font-bold">B2D Venture</h1>
         </Link>
         
         <p className="text-white">2024 B2D Venture. All Rights reserved.</p>
