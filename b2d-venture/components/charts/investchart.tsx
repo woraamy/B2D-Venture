@@ -30,7 +30,7 @@ export function InvestChart({chartData}) {
                     <h1 className="font-medium text-[20px]">$ 10,000 This month</h1>
                 </div>
                 
-                <Button className="relative ml-[50%] bg-white drop-shadow hover:text-white left-10">
+                <Button className="relative ml-[50%] bg-white drop-shadow text-orange-500 hover:text-white left-10">
                             View Report
                 </Button>
             </div>

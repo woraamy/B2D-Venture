@@ -60,7 +60,7 @@ export default async function Page({ params }) {
                 </div>
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
                     <p className="font-light text-[12px] mb-3 max-w-[80%]">{investor.bio}</p>
-                    <Button className="bg-white shadow hover:text-white min-w-[80%]">
+                    <Button className="bg-white shadow text-orange-500 hover:text-white min-w-[80%]">
                         Contact Investor
                     </Button>
                     <table className="mt-3 text-[12px] font-light">
