@@ -6,17 +6,14 @@ import MoblieNav from "./MoblieNav"
 
 const Header = () => {
   return (
-    <header className="w-full border-b bg-[#FFF8F2]">
+    <header className="w-full border-b bg-white">
       <div className="wrapper flex items-center justify-between">
-        <Link href="/" className="w-36">
-          <Image 
-            src="/assets/images/logo.svg" 
-            width={128} 
-            height={38}
-            alt="B2D Venture logo"
-          />
+        <Link href="/">
+          <b className='text-[#FF543E] text-[40px]'>B2D Venture</b>
         </Link>
-
+        <Link href="/" className='hover:text-blue-500'>Home</Link>
+        <Link href="/business" className="mr-[40%] hover:text-blue-500">Business</Link>
+     
         {/* Show after login */}
           {/* Navigation items */}
           {/* <nav className="hidden md:flex flex-grow ml-6">

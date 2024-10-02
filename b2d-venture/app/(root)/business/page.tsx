@@ -23,7 +23,7 @@ export default async function Page() {
                 <Filter className="ms-5"/>
             </div>
             <div className="flex flex-wrap gap-4 ">
-                {data.map(business =>(
+                {data.map((business,index) =>(
                     <Link href={`/business/${business.id}`} passHref>
                     <BusinessCard
                     className="mt-10"

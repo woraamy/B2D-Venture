@@ -7,7 +7,7 @@ import Tag from "../ui/tag";
 const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tag}) => {
  return (
     <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-[#F2EBEB] rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-white rounded-xl">
                 <CardHeader className="relative flex-grow h-1/2 p-0 m-0">
                     <div className="relative w-full h-full">
                         <Image 
@@ -22,7 +22,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 
             
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-[#F2EBEB] h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
+                    <CardContent className="relative z-0 bg-white h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
                         <div className="relative z-10 -top-7  ">
                             <div className="relative w-[50px] h-[50px] ">
                                 <Image 
