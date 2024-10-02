@@ -4,6 +4,11 @@ import Tag from "@/components/ui/tag";
 import DetailCard from "@/components/shared/DetailCard";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from 'react';
+import Dialog from "@/components/ui/popup";
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from 'react-hot-toast'
+import{ useEffect } from 'react';
 
 async function fetchbusinessData(id){
     const filePath = process.cwd() + '/public/data/business.json';
@@ -17,8 +22,12 @@ export default async function Page({params}) {
     if (!business) {
         return <div>business not found</div>;
     }
-
+  
     return(
+        <>
+        <Dialog title="Shared profile permission" link={`/business/${id}`} oktext='Allow' successmessage='Send request successed' >
+            <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
+        </Dialog>
         <div  className="pb-[10%]">
             <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
                 <div className="flex">
@@ -89,10 +98,12 @@ export default async function Page({params}) {
             <div className="fixed flex flex-col top-[15%] left-[65%]"> 
                 <DetailCard Data={business}/>
                 <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
-                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white"> Ask for more information </Button>
+                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
+                    <Link href={`${id}?showDialog=y`} >Ask for more information</Link>
+                </Button>
             </div>
             
         </div>
-
+        </>
     )
 }
