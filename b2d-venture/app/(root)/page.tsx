@@ -10,8 +10,8 @@ export default async function Home() {
     const data = JSON.parse(file);
     return (
         <div className="flex-col">
-            <div className="flex">
-                <div className="flex">
+            <div className="flex ">
+                <div className="flex ">
                     <div className="flex-col font-semibold w-[50%] ml-20 mt-[10%]">
                         <div className="text-5xl">
                             <h1>Invest in <b className="text-[#FF553E]">Southeast Asia</b>'s best startups</h1>
@@ -33,7 +33,7 @@ export default async function Home() {
 
             </div>
             <div className="relative mt-[10%]">
-                <div className="static h-[300px] w-auto">
+                <div className="static h-[500px] w-auto">
                     <Image 
                         src='/assets/icons/home-vector.png' 
                         style={{objectFit:"contain"}}
@@ -57,7 +57,7 @@ export default async function Home() {
                 </div>
             </div>
             <div className="relative -mt-20">
-                <div className="static h-[500px] w-auto">
+                <div className="static h-[700px] w-auto">
                     <Image 
                         src='/assets/images/home-image.png' 
                         style={{objectFit:"contain"}}
@@ -66,9 +66,9 @@ export default async function Home() {
                         />
                 </div>
             </div>
-            <div className="relative flex-col text-[#FF553E] ml-[15%] my-20">
+            <div className="relative flex-col text-[#FF553E] mx-[15vw] my-20 ">
                 <h1 className="font-semibold text-3xl">Trending Businesses</h1>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 justify-center">
                 {data.slice(0, 3).map((business,index) =>(
                     <Link href={`/business/${business.id}`} passHref>
                     <BusinessCard
@@ -87,8 +87,8 @@ export default async function Home() {
                   </Link>
                 ))}
             </div>
-            <h1 className="mt-10 font-semibold text-3xl">Just launched</h1>
-            <div className="flex flex-wrap gap-3">
+            <h1 className="mt-10 font-semibold text-3xl ">Just launched</h1>
+            <div className="flex flex-wrap gap-3 justify-center ">
                 {data.slice(9, 12).map((business,index) =>(
                     <Link href={`/business/${business.id}`} passHref>
                     <BusinessCard
