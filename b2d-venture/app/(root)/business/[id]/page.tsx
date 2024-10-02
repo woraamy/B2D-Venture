@@ -31,8 +31,8 @@ export default async function Page({params}) {
 
     return(
         <>
-        <Dialog title="Example Modal" onClose={onClose} onOk={onOk} link={`/business/${id}`}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam eligendi odio ipsa nostrum dolores voluptas architecto tempore nulla voluptatibus vel, placeat explicabo exercitationem id officia laborum doloremque blanditiis earum accusamus.</p>
+        <Dialog title="Shared profile permission" onClose={onClose} onOk={onOk} link={`/business/${id}`} oktext='Allow'>
+            <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
         </Dialog>
         <div  className="pb-[10%]">
             <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
@@ -105,7 +105,7 @@ export default async function Page({params}) {
                 <DetailCard Data={business}/>
                 <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
                 <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
-                    <Link href={`${id}?showDialog=y`} className="text-3xl underline">Ask for more information</Link>
+                    <Link href={`${id}?showDialog=y`} >Ask for more information</Link>
                 </Button>
             </div>
             
