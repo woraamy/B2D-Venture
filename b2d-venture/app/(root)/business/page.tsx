@@ -1,23 +1,17 @@
-import Link from "next/link";
-import Header from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
 import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
-import "../globals.css";
 import { promises as fs } from "fs";
-import { IoFilter } from "react-icons/io5";
-
+import Link from "next/link";
 
 
 export default async function Page() {
-    const file = await fs.readFile(process.cwd()+'/public/data/mockup.json');
+    const file = await fs.readFile(process.cwd()+'/public/data/business.json');
     const data = JSON.parse(file);
       
     return(
         <>
-        <Header />
         <div className="max-w-[70%] mx-auto mt-20">
             <h1 className="text-[#FF553E] text-[60px] font-semibold leading-[52px] tracking[-0.4px]">Businesses</h1>
             <p className="max-w-[70%] mt-10 text-sm/[20px]">
@@ -30,6 +24,7 @@ export default async function Page() {
             </div>
             <div className="flex flex-wrap gap-4 ">
                 {data.map(business =>(
+                    <Link href={`/business/${business.id}`} passHref>
                     <BusinessCard
                     className="mt-10"
                     coverimg = {business.coverimg}
@@ -43,13 +38,13 @@ export default async function Page() {
                     link={`/business/${business.business_name}`}
                     tag = {business.tag}
                   />
+                  </Link>
                 ))}
             </div>
             <Button className="ml-[45%] my-[40px]">
                 <span className="text-white">See more</span>
             </Button>
         </div>
-        <Footer />
         </>
     );
 
