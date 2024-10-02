@@ -34,14 +34,20 @@ export default function Dialog({ title, children, link, oktext }: Props) {
     }
 
     const clickOk = async() => {
-        toast.success('Sending request success')
-        closeDialog()
+        const toastId = toast.success('Sending request success', {
+            duration: 2000,  // Duration of the toast in milliseconds (optional, default is 4000)
+        });
+         // Wait for the toast to finish
+        setTimeout(() => {
+            closeDialog();  // Close dialog after the toast finishes
+        }, 2000);
     }
 
     const dialog: JSX.Element | null = showDialog === 'y'
         ? (
             <>
             <dialog ref={dialogRef} className="fixed top-20 left-[40%] -translate-x-50 -translate-y-50 z-10  rounded-xl backdrop:bg-gray-800/50">
+                <Toaster />
                 <div className="w-[500px] max-w-fullbg-gray-200 flex flex-col">
                     <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-[#FF553E]">
                         <h1 className="text-2xl text-white">{title}</h1>
@@ -63,7 +69,6 @@ export default function Dialog({ title, children, link, oktext }: Props) {
                     </div>
                 </div>
             </dialog>
-            <Toaster />
             </>
         ) : null
 
