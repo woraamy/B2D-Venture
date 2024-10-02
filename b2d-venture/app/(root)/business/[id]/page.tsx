@@ -8,7 +8,6 @@ import React from 'react';
 import Dialog from "@/components/ui/popup";
 
 
-
 async function fetchbusinessData(id){
     const filePath = process.cwd() + '/public/data/business.json';
     const file = await fs.readFile(filePath);
@@ -21,8 +20,20 @@ export default async function Page({params}) {
     if (!business) {
         return <div>business not found</div>;
     }
+    async function onClose() {
+        "use server"
+        console.log("Modal has closed")
+    }
+    async function onOk() {
+        "use server"
+        console.log("Ok was clicked")
+    }
 
     return(
+        <>
+        <Dialog title="Example Modal" onClose={onClose} onOk={onOk} link={`/business/${id}`}>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam eligendi odio ipsa nostrum dolores voluptas architecto tempore nulla voluptatibus vel, placeat explicabo exercitationem id officia laborum doloremque blanditiis earum accusamus.</p>
+        </Dialog>
         <div  className="pb-[10%]">
             <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
                 <div className="flex">
@@ -93,10 +104,12 @@ export default async function Page({params}) {
             <div className="fixed flex flex-col top-[15%] left-[65%]"> 
                 <DetailCard Data={business}/>
                 <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
-                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white"> Ask for more information </Button>
+                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
+                    <Link href={`${id}?showDialog=y`} className="text-3xl underline">Ask for more information</Link>
+                </Button>
             </div>
             
         </div>
-
+        </>
     )
 }
