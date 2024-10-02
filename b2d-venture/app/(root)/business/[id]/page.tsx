@@ -4,6 +4,10 @@ import Tag from "@/components/ui/tag";
 import DetailCard from "@/components/shared/DetailCard";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from 'react';
+import Dialog from "@/components/ui/popup";
+
+
 
 async function fetchbusinessData(id){
     const filePath = process.cwd() + '/public/data/business.json';
