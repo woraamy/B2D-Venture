@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/ui/popup";
-
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from 'react-hot-toast'
+import{ useEffect } from 'react';
 
 async function fetchbusinessData(id){
     const filePath = process.cwd() + '/public/data/business.json';
@@ -20,18 +22,10 @@ export default async function Page({params}) {
     if (!business) {
         return <div>business not found</div>;
     }
-    async function onClose() {
-        "use server"
-        console.log("Modal has closed")
-    }
-    async function onOk() {
-        "use server"
-        console.log("Ok was clicked")
-    }
-
+  
     return(
         <>
-        <Dialog title="Shared profile permission" onClose={onClose} onOk={onOk} link={`/business/${id}`} oktext='Allow'>
+        <Dialog title="Shared profile permission" link={`/business/${id}`} oktext='Allow' successmessage='Send request successed' >
             <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
         </Dialog>
         <div  className="pb-[10%]">

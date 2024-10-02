@@ -1,17 +1,18 @@
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useRef, useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 type Props = {
     title: string,
-    onClose: () => void,
-    onOk: () => void,
-    link: string
+    link: string,
     children: React.ReactNode,
-    oktext: string
+    oktext: string,
+    successmessage: string
 }
 
-export default function Dialog({ title, onClose, onOk, children, link, oktext }: Props) {
+export default function Dialog({ title, children, link, oktext }: Props) {
 
     const searchParams = useSearchParams()
     const dialogRef = useRef<null | HTMLDialogElement>(null)
@@ -28,17 +29,18 @@ export default function Dialog({ title, onClose, onOk, children, link, oktext }:
 
     const closeDialog = () => {
         dialogRef.current?.close();
-        onClose();
         router.push(link);
+        
     }
 
-    const clickOk = () => {
-        onOk()
+    const clickOk = async() => {
+        toast.success('Sending request success')
         closeDialog()
     }
 
     const dialog: JSX.Element | null = showDialog === 'y'
         ? (
+            <>
             <dialog ref={dialogRef} className="fixed top-20 left-[40%] -translate-x-50 -translate-y-50 z-10  rounded-xl backdrop:bg-gray-800/50">
                 <div className="w-[500px] max-w-fullbg-gray-200 flex flex-col">
                     <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-[#FF553E]">
@@ -61,6 +63,8 @@ export default function Dialog({ title, onClose, onOk, children, link, oktext }:
                     </div>
                 </div>
             </dialog>
+            <Toaster />
+            </>
         ) : null
 
 
