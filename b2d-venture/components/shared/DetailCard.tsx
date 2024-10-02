@@ -6,7 +6,7 @@ export default function DetailCard({Data}){
     const formattedPercent = percent.toFixed(2);
     const mformatt = (parseInt(Data.goal.replace(/,/g, ''))/1000000).toFixed(2);
     return(
-        <Card className="bg-[#F2EBEB] h-[30rem] w-[30rem] shadow-lg ">
+        <Card className="bg-white h-[30rem] w-[30rem] shadow-lg ">
             <CardHeader className="border-b-4 border-[#D9D9D9]">
                 <h1 className="text-[20px]">Rasied</h1>
                 <h1 className="text-[32px]"><b>${Data.raised}</b> | {formattedPercent}%</h1>
