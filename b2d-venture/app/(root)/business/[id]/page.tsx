@@ -6,14 +6,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/ui/popup";
-import { Toaster } from "@/components/ui/toaster"
-import { toast } from 'react-hot-toast'
-import{ useEffect } from 'react';
-
 async function fetchbusinessData(id){
     const filePath = process.cwd() + '/public/data/business.json';
     const file = await fs.readFile(filePath);
-    const data = JSON.parse(file);
+    const data = JSON.parse(file.toString());
     return data.find((entry) => entry.id === parseInt(id, 10));
 }
 export default async function Page({params}) {
