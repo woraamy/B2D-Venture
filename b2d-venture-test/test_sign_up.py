@@ -22,7 +22,7 @@ try:
     lastname = driver.find_element(By.XPATH,'//*[@id="last-name"]').send_keys("Smith")
     email = driver.find_element(By.XPATH,'//*[@id="email"]').send_keys("Jonh.smith@gmail.com")
     phone = driver.find_element(By.XPATH,'//*[@id="phone"]').send_keys("660123456789")
-    date = driver.find_element(By.XPATH,'//*[@id="birthday"]').send_keys("2004-10-02")
+    date = driver.find_element(By.XPATH,'//*[@id="birthday"]').send_keys("12-02-2004")
     nid = driver.find_element(By.XPATH,'//*[@id="national-id"]').send_keys("0123456789012")
     national = driver.find_element(By.XPATH,'//*[@id="nationality"]').send_keys("Thai")
     networth = driver.find_element(By.XPATH,'//*[@id="net-worth"]').send_keys("10000000")
