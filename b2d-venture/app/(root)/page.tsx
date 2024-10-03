@@ -7,7 +7,8 @@ import { promises as fs } from "fs";
 
 export default async function Home() {
     const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    const data = JSON.parse(file);
+    const data = JSON.parse(file.toString());
+    
     return (
         <div className="flex-col">
             <div className="flex ">

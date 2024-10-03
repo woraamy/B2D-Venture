@@ -20,7 +20,7 @@ const Login = () => {
       </div>
 
       {/* Right side (Login form) */}
-      <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
+      <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white" >
         <a href="/" className="absolute top-10 left-4 md:hidden flex items-center">
           <ChevronsLeft className="text-[#FF6347] text-2xl cursor-pointer" />
           <p className="text-[#FF6347] p-medium-16 ml-2">

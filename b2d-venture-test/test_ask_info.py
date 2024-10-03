@@ -9,7 +9,7 @@ driver = webdriver.Chrome(executable_path=driver_path)
 
 try:
     # Step 1: Navigate to the main page where the business page can be accessed
-    driver.get("http://localhost:3000")  # Replace with your actual URL
+    driver.get("http://localhost:3000/business")  # Replace with your actual URL
     
     # Step 2: Click on the business page link/button
     business_page_button = WebDriverWait(driver, 10).until(
