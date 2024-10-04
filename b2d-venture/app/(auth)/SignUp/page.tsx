@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import RegisterInvestor from "@/components/shared/Register_investor";
 import RegisterCompany  from "@/components/shared/Register_company";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const SignUp = () => {
@@ -15,6 +16,7 @@ const SignUp = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
@@ -27,6 +29,10 @@ const SignUp = () => {
     if (isValid) {
       setSubmitted(true); // Set the submitted state to true when form is valid
       setFormValidated(true);
+      
+      if (selectedRole === "investor") {
+        router.push("/"); // Redirect to home page after investor form submission
+      }
     } else {
       setFormValidated(false);
     }
@@ -120,8 +126,8 @@ const SignUp = () => {
         </>
       )}
 
-      {/* Success Message */}
-      {submitted && (
+      {/* Success Message for Company*/}
+      {submitted && selectedRole === "company" && (
         <div className="text-center">
         <div className="flex justify-center items-center">
           <img src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
