@@ -289,7 +289,23 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                 <FormMessage />
               </FormItem>
             )}
-          />          
+          />
+
+          {/* Confirm Password */}
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password  <span className="text-red-500"> *</span></FormLabel>
+                <FormControl>
+                  <Input id="confirm-password" type="password" placeholder="Confirm Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
         </div>
 
         {/* Submit Button */}
