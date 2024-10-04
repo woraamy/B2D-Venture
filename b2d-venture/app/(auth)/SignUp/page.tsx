@@ -123,8 +123,8 @@ const SignUp = () => {
       {/* Success Message */}
       {submitted && (
         <div className="text-center">
-        <div className="flex justify-center items-center mt-16 mb-10">
-          <img src="/assets/icons/success.svg" alt="Success icon" className="w-20 h-20 md:w-30 md:h-30" />
+        <div className="flex justify-center items-center">
+          <img src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
         </div>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Your details have been submitted successfully.</p>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Please wait for approval to create your account.</p>
