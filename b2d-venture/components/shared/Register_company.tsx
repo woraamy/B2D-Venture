@@ -141,7 +141,23 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
             )}
           />
 
-          
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  E-mail
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="email" type="email" placeholder="e.g. example@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Submit Button */}
