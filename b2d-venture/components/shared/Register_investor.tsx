@@ -36,6 +36,26 @@ const FormSchema = z.object({
   nationalId: z.string().min(1, { message: "National ID is required" }),
   nationality: z.string().min(1, { message: "Nationality is required" }),
   netWorth: z.number().min(1, { message: "Net worth should be greater than 0" }),
+
+  /* For create account */
+  password: z
+  .string()
+  .min(10, { message: "Password must be at least 10 characters long" })
+  .refine((value) =>
+    /[A-Z]/.test(value) &&
+    /[a-z]/.test(value) &&
+    /[0-9]/.test(value) &&
+    /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value), 
+    {
+      message: "Password must contain at least three of the following: uppercase letters, lowercase letters, numbers, or symbols",
+    }
+  ),
+  confirmPassword: z
+    .string()
+    .min(1, { message: "Please confirm your password" })
+    .refine((value, ctx) => value === ctx.parent.password, {
+      message: "Passwords must match",
+    }),
 });
 
 interface RegisterInvestorProps {
