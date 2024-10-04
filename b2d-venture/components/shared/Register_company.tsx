@@ -212,6 +212,24 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
               </FormItem>
             )}
           />
+
+          {/* Postal Code */}
+          <FormField
+            control={form.control}
+            name="postalCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Postal / Zip Code
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="postal-code" placeholder="Postal / Zip Code" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Submit Button */}
