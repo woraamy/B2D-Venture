@@ -76,7 +76,7 @@ const Login = () => {
 
         <p className="mt-10 flex justify-center items-center space-x-2">
           <span className="text-sm md:text-base">Don't have an account?</span>
-          <a href="/SignUp" className="text-[#FF6347] font-medium">Sign up now</a>
+          <a href="/signup" className="text-[#FF6347] font-medium">Sign up now</a>
         </p>
       </div>
     </div>
