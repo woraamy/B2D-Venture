@@ -104,6 +104,24 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
               </FormItem>
             )}
           />
+
+          {/* Company Name */}
+          <FormField
+            control={form.control}
+            name="companyName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Company Name
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="company-name" placeholder="Company Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Submit Button */}
