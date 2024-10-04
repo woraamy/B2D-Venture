@@ -31,7 +31,6 @@ const FormSchema = z.object({
 interface RegisterCompanyProps {
   onFormValidated: (isValid: boolean) => void;
 }
-
 const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

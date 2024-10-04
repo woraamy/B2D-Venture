@@ -1,27 +1,38 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronsLeft } from 'lucide-react';
+import { ChevronsLeft } from "lucide-react";
 import Link from "next/link";
-import { useState } from 'react';
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form"; // handling form submission
+import { zodResolver } from "@hookform/resolvers/zod"; // validation
+import { z } from "zod"; // schema validation
+import { useRouter } from "next/navigation"; // navigation
 
-// Define a schema using Zod for form validation
-const schema = z.object({
-  email: z.string().email("Please enter a valid email").nonempty("Email is required"),
-  password: z.string().nonempty("Password is required"),
+// Define the validation schema
+const FormSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
-type FormData = z.infer<typeof schema>; // Create type from the schema
-
 const Login = () => {
-  const [email, setEmail] = useState("");   // State to store email
-  const [password, setPassword] = useState(""); // State to store password
+  const router = useRouter();
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  // Function to check if both email and password are filled
-  const isFormValid = () => email.length > 0 && password.length > 0;
+  const handleSubmit = async (data) => {
+    console.log("Login data:", data);    
+    const isLoginSuccessful = true;
 
+    if (isLoginSuccessful) {
+      // Redirect to home page after successful login
+      router.push("/");
+    }
+  };
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       {/* Left side */}
@@ -50,25 +61,17 @@ const Login = () => {
         <p className="text-center mt-5 text-lg">Welcome back! Please enter your details to log into your account</p>
 
         <form className="space-y-5">
-        <div className="flex justify-center">
+          <div className="flex justify-center">
             <input 
-              type="email"  
-              placeholder="Your email"
-              className="mt-10 w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}  // Update email state
-              required 
-            />
+              type="text" 
+              placeholder="Your username or email"
+              className="mt-10 w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           <div className="flex justify-center">
             <input 
               type="password" 
               placeholder="Your Password" 
-              className="w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}  // Update password state
-              required 
-            />
+              className="w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           
           <div className="flex justify-between items-center mt-5 w-[300px] md:w-[450px] mx-auto">
@@ -85,14 +88,10 @@ const Login = () => {
           </div>
 
           <div className="flex justify-center mt-8">
-            <Button 
-              asChild 
-              className={`w-[300px] md:w-[450px] h-[50px] rounded-full text-white ${isFormValid() ? 'bg-[#FF993B] hover:bg-[#FF7A00]' : 'bg-gray-400 cursor-not-allowed'}`}
-              disabled={!isFormValid()}  // Disable button if form is not valid
-            >
-              <Link href={isFormValid() ? "/" : "#"}> {/* Only navigate if valid */}
-                Login
-              </Link>
+            <Button asChild className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
+                <Link href="/">
+                  Login
+                </Link>
             </Button>
           </div>
           <div className="flex justify-center mt-5">
