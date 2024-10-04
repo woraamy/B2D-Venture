@@ -105,8 +105,10 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
-          
+        {/* Investor Information Title */}
+        <h2 className="p-medium-18 mt-10 ml-14">Investor Information</h2>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10">
           {/* First Name */}
           <FormField
             control={form.control}
