@@ -59,6 +59,10 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
     });
     onFormValidated(true);
   };
+
+  const handleFormError = () => {
+    onFormValidated(false);
+  };
 };
 
 export default RegisterCompany;
