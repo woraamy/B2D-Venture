@@ -272,6 +272,25 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           />
 
         </div>
+        {/* Account Creation Section */}
+        <h2 className="p-medium-18 mt-10 ml-14">For creating your account</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10 mb-14">
+
+          {/* Password */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password  <span className="text-red-500"> *</span></FormLabel>
+                <FormControl>
+                  <Input id="password" type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />          
+        </div>
 
         {/* Submit Button */}
         <div className="flex justify-center">
