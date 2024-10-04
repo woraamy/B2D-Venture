@@ -67,6 +67,27 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
+          
+          {/* First Name */}
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Company Owner First Name
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="first-name" placeholder="First Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+        </div>
 
         {/* Submit Button */}
         <div className="flex justify-center">
