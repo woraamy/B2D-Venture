@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import RegisterInvestor from "@/components/shared/Register_investor";
-import Register_company from "@/components/shared/Register_company";
+import RegisterCompany  from "@/components/shared/Register_company";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -68,10 +68,14 @@ const SignUp = () => {
         <Separator orientation="vertical" className="hidden md:block" />
         <div className="flex items-center space-x-2">
           <img src="/assets/icons/number3.svg" alt="Number 3 Icon" className="w-6 h-6 md:w-8 md:h-8" />
-          <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
-            Waiting for approval
-          </p>
+          <div className="flex flex-col">
+            <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
+              Waiting for approval
+            </p>
+            <p className="text-xs text-gray-500">(only for companies)</p>
+          </div>
         </div>
+
       </div>
 
       {/* Conditionally render Tabs and Role Selection */}
@@ -102,7 +106,7 @@ const SignUp = () => {
             {selectedRole === "investor" ? (
               <RegisterInvestor onFormValidated={handleFormValidated} />
             ) : selectedRole === "company" ? (
-              <Register_company onFormValidated={handleFormValidated} />
+              <RegisterCompany onFormValidated={handleFormValidated} />
             ) : (
               <div className="text-center mt-10">Please select a role to continue</div>
             )}
@@ -111,7 +115,7 @@ const SignUp = () => {
           {/* Already have an account */}
           <p className="mt-10 flex justify-center items-center space-x-2 mb-20">
             <span className="text-sm md:text-base">Already have an account?</span>
-            <a href="/Login" className="text-[#FF6347] font-medium">Login here</a>
+            <a href="/login" className="text-[#FF6347] font-medium">Login here</a>
           </p>
         </>
       )}
