@@ -122,6 +122,26 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
               </FormItem>
             )}
           />
+
+          {/* Contact Number */}
+          <FormField
+            control={form.control}
+            name="contactNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Contact Number
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="contact-number" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          
         </div>
 
         {/* Submit Button */}
