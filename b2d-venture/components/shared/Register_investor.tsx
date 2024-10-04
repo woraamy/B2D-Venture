@@ -41,21 +41,27 @@ const FormSchema = z.object({
   password: z
   .string()
   .min(10, { message: "Password must be at least 10 characters long" })
-  .refine((value) =>
-    /[A-Z]/.test(value) &&
-    /[a-z]/.test(value) &&
-    /[0-9]/.test(value) &&
-    /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value), 
+  .refine(
+    (value) =>
+      /[A-Z]/.test(value) &&
+      /[a-z]/.test(value) &&
+      /[0-9]/.test(value) &&
+      /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value),
     {
-      message: "Password must contain at least three of the following: uppercase letters, lowercase letters, numbers, or symbols",
+      message:
+        "Password must contain at least three of the following: uppercase letters, lowercase letters, numbers, or symbols",
     }
   ),
-  confirmPassword: z
-    .string()
-    .min(1, { message: "Please confirm your password" })
-    .refine((value, ctx) => value === ctx.parent.password, {
+  confirmPassword: z.string().min(1, { message: "Please confirm your password" }),
+  })
+  .superRefine((data, ctx) => {
+  if (data.password !== data.confirmPassword) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
       message: "Passwords must match",
-    }),
+      path: ["confirmPassword"], // Path to where the error should show
+    });
+  }
 });
 
 interface RegisterInvestorProps {
@@ -75,6 +81,8 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       nationalId: "",
       nationality: "",
       netWorth: 0,
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -96,7 +104,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
           
           {/* First Name */}
