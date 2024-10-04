@@ -63,6 +63,20 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
   const handleFormError = () => {
     onFormValidated(false);
   };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
+
+        {/* Submit Button */}
+        <div className="flex justify-center">
+          <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
+            Submit your details
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
 };
 
 export default RegisterCompany;
