@@ -32,4 +32,21 @@ interface RegisterCompanyProps {
   onFormValidated: (isValid: boolean) => void;
 }
 
+const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      contactNumber: "",
+      email: "",
+      companyAddress: "",
+      city: "",
+      stateProvince: "",
+      postalCode: ""
+    },
+  });
+};
+
 export default RegisterCompany;
