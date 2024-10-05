@@ -73,7 +73,7 @@ function LoginPage() {
           <div className="flex justify-center">
             <input 
               type="text" 
-              placeholder="Your username or email"
+              placeholder="Your email"
               onChange={(e) => setEmail(e.target.value)}
               className="mt-10 w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>

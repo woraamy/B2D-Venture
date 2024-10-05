@@ -15,7 +15,6 @@ const User = mongoose.Schema(
       },
       role: {
         type: String,
-        default: 'Investor'
       },
       contact_information: {
         type: Map,

@@ -3,12 +3,17 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import bcrypt from 'bcryptjs'
+import Email from "next-auth/providers/email";
+import { PassThrough } from "stream";
 
-const authOptions = {
+const handler = NextAuth({ 
     providers: [
         CredentialsProvider({
           name: 'credentials',
-          credentials: {},
+          credentials: {
+            email: {},
+            password: {}
+          },
           async authorize(credentials) {
            
             const { email, password } = credentials;
@@ -51,8 +56,7 @@ const authOptions = {
             if (user) {
                 return {
                     ...token,
-                    id: user._id,
-                    role: user.role
+                    id: user.id
                 }
             }
 
@@ -69,8 +73,6 @@ const authOptions = {
             }
         }
     }
-}
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST }
