@@ -97,6 +97,22 @@ export function AccountForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bio (optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="Tell us about yourself" {...field} />
+              </FormControl>
+              <FormDescription>
+                This will be displayed on your profile.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Update account</Button>
       </form>
     </Form>
