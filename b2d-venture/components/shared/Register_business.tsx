@@ -77,6 +77,8 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       city: "",
       stateProvince: "",
       postalCode: "",
+      country: "",
+      typeOfBusiness: [],
       username: "",
       password: "",
       confirmPassword: "",
@@ -160,16 +162,13 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
             )}
           />
 
-          {/* Contact Number */}
+          {/* Contact Number (Optional) */}
           <FormField
             control={form.control}
             name="contactNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Contact Number
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Contact Number</FormLabel>
                 <FormControl>
                   <Input id="contact-number" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
                 </FormControl>
