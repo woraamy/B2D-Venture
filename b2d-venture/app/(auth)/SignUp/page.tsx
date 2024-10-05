@@ -9,12 +9,23 @@ import RegisterInvestor from "@/components/shared/Register_investor";
 import Register_company from "@/components/shared/Register_company";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
-const SignUp = () => {
+function SignUp() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const { data: session } = useSession();
+    if (session) redirect('/');
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
@@ -31,6 +42,60 @@ const SignUp = () => {
       setFormValidated(false);
     }
   };
+
+  const handleInvestorSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password != confirmPassword) {
+        setError("Password do not match!");
+        return;
+    }
+
+    if (!name || !email || !password || !confirmPassword) {
+        setError("Please complete all inputs.");
+        return;
+    }
+
+    const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email })
+    })
+
+    const { user } = await resCheckUser.json();
+
+    if (user) { 
+        setError("User already exists.");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:3000/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name, email, password
+            })
+        })
+
+        if (res.ok) {
+            const form = e.target;
+            setError("");
+            setSuccess("User registration successfully!");
+            form.reset();
+        } else {
+            console.log("User registration failed.")
+        }
+
+    } catch(error) {
+        console.log("Error during registration: ", error)
+    }
+}
+
 
   return (
     <div className="signUp-bg relative">
@@ -111,7 +176,7 @@ const SignUp = () => {
           {/* Already have an account */}
           <p className="mt-10 flex justify-center items-center space-x-2 mb-20">
             <span className="text-sm md:text-base">Already have an account?</span>
-            <a href="/Login" className="text-[#FF6347] font-medium">Login here</a>
+            <a href="/login" className="text-[#FF6347] font-medium">Login here</a>
           </p>
         </>
       )}

@@ -17,25 +17,9 @@ import {
 
 // Define the validation schema with zod
 const FormSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  middleName: z.string().optional(),
-  lastName: z.string().min(1, { message: "Last name is required" }),
+  userName: z.string().min(1, { message: "Username is required" }),
   email: z.string().email({ message: "Invalid email address" }),
-  phone: z.string().min(1, { message: "Contact Number is required" }),
-  birthday: z
-    .date({
-      required_error: "Date of birth is required",
-    })
-    .refine((date) => {
-      const now = new Date();
-      const minDate = new Date(now.getFullYear() - 20, now.getMonth(), now.getDate());
-      return date <= now && date <= minDate;
-    }, {
-      message: "You must be at least 20 years old and the date cannot be in the future"
-    }),
-  nationalId: z.string().min(1, { message: "National ID is required" }),
-  nationality: z.string().min(1, { message: "Nationality is required" }),
-  netWorth: z.number().min(1, { message: "Net worth should be greater than 0" }),
+  password: z.string().min(8, { message: "Password should be at least 8 characters" }),
 });
 
 interface RegisterInvestorProps {
@@ -46,15 +30,9 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
+      userName: "",
       email: "",
-      phone: "",
-      birthday: undefined,
-      nationalId: "",
-      nationality: "",
-      netWorth: 0,
+      password: "",
     },
   });
 
@@ -79,36 +57,18 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
           
-          {/* First Name */}
+          {/* Username */}
           <FormField
             control={form.control}
-            name="firstName"
+            name="userName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  First Name
+                  Username 
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="first-name" placeholder="First Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Last Name */}
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Last Name
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="last-name" placeholder="Last Name" {...field} />
+                  <Input id="userName" placeholder="e.g. Amy1234" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,119 +82,29 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Your E-mail
+                  Email
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="email" type="email" placeholder="e.g. example@example.com" {...field} />
+                  <Input id="email" placeholder="e.g. example@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Phone */}
+          {/* Password */}
           <FormField
             control={form.control}
-            name="phone"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Contact Number
+                  Password
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="phone" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Date of birth */}
-          <FormField
-            control={form.control}
-            name="birthday"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Date of birth
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    id="birthday"
-                    type="date"
-                    value={field.value ? field.value.toISOString().split('T')[0] : ''}
-                    onChange={(e) => {
-                      const date = e.target.value ? new Date(e.target.value) : undefined;
-                      field.onChange(date);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* National ID */}
-          <FormField
-            control={form.control}
-            name="nationalId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Your National ID Card
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="national-id" placeholder="e.g. 123456789012" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Nationality */}
-          <FormField
-            control={form.control}
-            name="nationality"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Your Nationality
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="nationality" placeholder="Select your nationality" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Net Worth */}
-          <FormField
-            control={form.control}
-            name="netWorth"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Approximate net worth in USD
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    id="net-worth"
-                    type="number"
-                    min="0"
-                    placeholder="Net worth"
-                    {...field}
-                    onChange={(e) => {
-                      const value = e.target.value ? Number(e.target.value) : undefined;
-                      field.onChange(value);
-                    }}
-                  />
+                  <Input id="password" placeholder="Minimum 8 charaters" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -242,7 +112,6 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           />
 
         </div>
-
         {/* Submit Button */}
         <div className="flex justify-center">
           <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
