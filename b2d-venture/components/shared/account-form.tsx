@@ -63,5 +63,26 @@ export function AccountForm() {
   }
 
   return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="Your username" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name. It can be your real name or a pseudonym.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Update account</Button>
+      </form>
+    </Form>
   )
 }
