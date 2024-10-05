@@ -1,10 +1,8 @@
 import Image from "next/image";
 import { redirect } from 'next/navigation';
-import { getUser, addUser } from '@/app/actions/postAction';
 import BusinessCard from "@/components/shared/BusinessCard";
 import Link from "next/link";
 import { promises as fs } from "fs";
-import { useSession } from 'next-auth/react';
 
 export default async function Home() {
     const file = await fs.readFile(process.cwd()+'/public/data/business.json');

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft } from 'lucide-react';
 import Link from "next/link";
@@ -16,7 +16,13 @@ function LoginPage() {
   const router = useRouter();
 
   const { data: session } = useSession();
-  if (session) router.replace('welcome');
+
+  useEffect(() => {
+    if (session) {
+      router.replace("/");
+    }
+  }, [session, router]);
+
 
 
   const handleSubmit = async (e) => {
@@ -25,7 +31,8 @@ function LoginPage() {
       try {
 
           const res = await signIn("credentials", {
-              email, password, redirect: false
+              email, password, redirect: false,
+              callbackUrl: "/"
           })
 
           if (res.error) {
@@ -33,7 +40,7 @@ function LoginPage() {
               return;
           }
 
-          router.replace("welcome");
+          router.replace("/");
 
       } catch(error) {
           console.log(error);
@@ -99,11 +106,9 @@ function LoginPage() {
           </div>
 
           <div className="flex justify-center mt-8">
-            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
-                <Link href="/">
+            <button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
                   Login
-                </Link>
-            </Button>
+            </button>
           </div>
           <div className="flex justify-center mt-5">
             <Button className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
