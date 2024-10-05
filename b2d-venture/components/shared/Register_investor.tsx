@@ -14,12 +14,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
+
 
 // Define the validation schema with zod
 const FormSchema = z.object({
   userName: z.string().min(1, { message: "Username is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(8, { message: "Password should be at least 8 characters" }),
+  confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
 });
 
 interface RegisterInvestorProps {
@@ -27,12 +30,19 @@ interface RegisterInvestorProps {
 }
 
 const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       userName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -52,6 +62,59 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     onFormValidated(false);
   };
 
+  const handleInvestorSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password != confirmPassword) {
+        setError("Password do not match!");
+        return;
+    }
+
+    if (!name || !email || !password || !confirmPassword) {
+        setError("Please complete all inputs.");
+        return;
+    }
+
+    const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email })
+    })
+
+    const { user } = await resCheckUser.json();
+
+    if (user) { 
+        setError("User already exists.");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:3000/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name, email, password
+            })
+        })
+
+        if (res.ok) {
+            const form = e.target;
+            setError("");
+            setSuccess("User registration successfully!");
+            form.reset();
+        } else {
+            console.log("User registration failed.")
+        }
+
+    } catch(error) {
+        console.log("Error during registration: ", error)
+    }
+}
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
@@ -68,7 +131,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="userName" placeholder="e.g. Amy1234" {...field} />
+                  <Input type="text" onChange={(e) => setName(e.target.value)} id="userName" placeholder="e.g. Amy1234" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -86,7 +149,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="email" placeholder="e.g. example@example.com" {...field} />
+                  <Input type="text" onChange={(e) => setEmail(e.target.value)} id="email" placeholder="e.g. example@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,7 +167,25 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="password" placeholder="Minimum 8 charaters" {...field} />
+                  <Input type="text" onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Minimum 8 charaters" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Confirm Password */}
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Password Confirmation
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input type="text" onChange={(e) => setConfirmPassword(e.target.value)} id="confirmPassword" placeholder="Confirm your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

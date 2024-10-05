@@ -25,6 +25,7 @@ const handler = NextAuth({
                 const user = await User.findOne({ email });
 
                 if (!user) {
+                    console.log("User not found");
                     return null;
                 }
 
@@ -53,7 +54,7 @@ const handler = NextAuth({
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: "/login"
+        signIn: "/login",
     },
     callbacks: {
         async signIn({ user, account }: { user: any; account: any }) {

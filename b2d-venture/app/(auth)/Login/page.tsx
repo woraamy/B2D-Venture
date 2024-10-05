@@ -16,13 +16,7 @@ function LoginPage() {
   const router = useRouter();
 
   const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session) {
-      router.replace("/");
-    }
-  }, [session, router]);
-
+  if (session) router.replace('/');
 
 
   const handleSubmit = async (e) => {
@@ -39,8 +33,7 @@ function LoginPage() {
               setError("Invalid credentials");
               return;
           }
-
-          router.replace("/");
+          console.log(res);
 
       } catch(error) {
           console.log(error);

@@ -17,12 +17,6 @@ function SignUp() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const { data: session } = useSession();
     if (session) redirect('/');
@@ -42,59 +36,6 @@ function SignUp() {
       setFormValidated(false);
     }
   };
-
-  const handleInvestorSubmit = async (e) => {
-    e.preventDefault();
-
-    if (password != confirmPassword) {
-        setError("Password do not match!");
-        return;
-    }
-
-    if (!name || !email || !password || !confirmPassword) {
-        setError("Please complete all inputs.");
-        return;
-    }
-
-    const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email })
-    })
-
-    const { user } = await resCheckUser.json();
-
-    if (user) { 
-        setError("User already exists.");
-        return;
-    }
-
-    try {
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name, email, password
-            })
-        })
-
-        if (res.ok) {
-            const form = e.target;
-            setError("");
-            setSuccess("User registration successfully!");
-            form.reset();
-        } else {
-            console.log("User registration failed.")
-        }
-
-    } catch(error) {
-        console.log("Error during registration: ", error)
-    }
-}
 
 
   return (
