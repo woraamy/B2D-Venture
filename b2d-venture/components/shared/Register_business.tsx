@@ -19,28 +19,28 @@ import {
 const FormSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  companyName: z.string().min(1, { message: "Company name is required" }),
+  BusinessName: z.string().min(1, { message: "Business name is required" }),
   contactNumber: z.string().min(1, { message: "Contact number is required" }),
   email: z.string().email({ message: "Invalid email address" }),
-  companyAddress: z.string().min(1, { message: "Address is required" }),
+  BusinessAddress: z.string().min(1, { message: "Address is required" }),
   city: z.string().min(1, { message: "City is required" }),
   stateProvince: z.string().min(1, { message: "State/Province is required" }),
   postalCode: z.string().min(1, { message: "Postal/Zip code is required" }),
 });
 
-interface RegisterCompanyProps {
+interface RegisterBusinessProps {
   onFormValidated: (isValid: boolean) => void;
 }
-const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
+const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
-      companyName: "",
+      BusinessName: "",
       contactNumber: "",
       email: "",
-      companyAddress: "",
+      BusinessAddress: "",
       city: "",
       stateProvince: "",
       postalCode: ""
@@ -75,7 +75,7 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Company Owner First Name
+                  Business Owner First Name
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
@@ -93,7 +93,7 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Company Owner Last Name
+                  Business Owner Last Name
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
@@ -104,18 +104,18 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
             )}
           />
 
-          {/* Company Name */}
+          {/* Business Name */}
           <FormField
             control={form.control}
-            name="companyName"
+            name="BusinessName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Company Name
+                  Business Name
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="company-name" placeholder="Company Name" {...field} />
+                  <Input id="Business-name" placeholder="Business Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -158,18 +158,18 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
             )}
           />
 
-          {/* Company Address */}
+          {/* Business Address */}
           <FormField
             control={form.control}
-            name="companyAddress"
+            name="BusinessAddress"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Company Address
+                  Business Address
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="company-address" placeholder="Address" {...field} />
+                  <Input id="Business-address" placeholder="Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -242,4 +242,4 @@ const RegisterCompany = ({ onFormValidated }: RegisterCompanyProps) => {
   );
 };
 
-export default RegisterCompany;
+export default RegisterBusiness;

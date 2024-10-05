@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import RegisterInvestor from "@/components/shared/Register_investor";
-import RegisterCompany  from "@/components/shared/Register_company";
+import RegisterBusiness  from "@/components/shared/Register_business";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -78,7 +78,7 @@ const SignUp = () => {
             <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
               Waiting for approval
             </p>
-            <p className="text-xs text-gray-500">(only for companies)</p>
+            <p className="text-xs text-gray-500">(only for Business)</p>
           </div>
         </div>
 
@@ -98,11 +98,11 @@ const SignUp = () => {
                 Investor
               </TabsTrigger>
               <TabsTrigger
-                value="company"
-                className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'company' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
-                onClick={() => handleRoleSelect("company")}
+                value="Business"
+                className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'Business' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
+                onClick={() => handleRoleSelect("Business")}
               >
-                Company
+                Business
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -111,8 +111,8 @@ const SignUp = () => {
           <div>
             {selectedRole === "investor" ? (
               <RegisterInvestor onFormValidated={handleFormValidated} />
-            ) : selectedRole === "company" ? (
-              <RegisterCompany onFormValidated={handleFormValidated} />
+            ) : selectedRole === "Business" ? (
+              <RegisterBusiness onFormValidated={handleFormValidated} />
             ) : (
               <div className="text-center mt-10">Please select a role to continue</div>
             )}
@@ -126,8 +126,8 @@ const SignUp = () => {
         </>
       )}
 
-      {/* Success Message for Company*/}
-      {submitted && selectedRole === "company" && (
+      {/* Success Message for Business*/}
+      {submitted && selectedRole === "Business" && (
         <div className="text-center">
         <div className="flex justify-center items-center">
           <img src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
