@@ -265,6 +265,25 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
           />
         </div>
 
+        {/* Business Account Section */}
+        <h2 className="p-medium-20 mt-10 ml-14">Business Account</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10">
+          {/* Username */}
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username  <span className="text-red-500"> *</span></FormLabel>
+                <FormControl>
+                  <Input id="username" placeholder="Username" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         {/* Submit Button */}
         <div className="flex justify-center">
           <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
