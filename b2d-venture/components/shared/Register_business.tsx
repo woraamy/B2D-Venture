@@ -282,6 +282,36 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               </FormItem>
             )}
           />
+
+          {/* Password */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password <span className="text-red-500"> *</span></FormLabel>
+                <FormControl>
+                  <Input id="password" type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Confirm Password */}
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password <span className="text-red-500"> *</span></FormLabel>
+                <FormControl>
+                  <Input id="confirm-password" type="password" placeholder="Confirm Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Submit Button */}
