@@ -46,7 +46,15 @@ const FormSchema = z.object({
     ),
   confirmPassword: z.string().min(1, { message: "Please confirm your password" }),
 })
-
+.superRefine((data, ctx) => {
+  if (data.password !== data.confirmPassword) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Passwords must match",
+      path: ["confirmPassword"],
+    });
+  }
+});
 
 interface RegisterBusinessProps {
   onFormValidated: (isValid: boolean) => void;
