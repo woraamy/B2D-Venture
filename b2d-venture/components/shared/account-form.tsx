@@ -34,6 +34,33 @@ const accountFormSchema = z.object({
   bio: z.string().max(160).optional(), // Made bio optional
 })
 
+type AccountFormValues = z.infer<typeof accountFormSchema>
+
+// Default values
+const defaultValues: Partial<AccountFormValues> = {
+  // username: "your_username",
+  // email: "your_email@example.com",
+  // bio: "I am a software engineer.",
+}
+
+export function AccountForm() {
+  const form = useForm<AccountFormValues>({
+    resolver: zodResolver(accountFormSchema),
+    defaultValues,
+  })
+
+  const { toast } = useToast()
+
+  function onSubmit(data: AccountFormValues) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    })
+  }
 
   return (
   )
