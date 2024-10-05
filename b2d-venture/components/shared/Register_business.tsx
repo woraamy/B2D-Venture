@@ -284,6 +284,114 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               </FormItem>
             )}
           />
+          {/* Type of Business*/}
+          <FormField
+            control={form.control}
+            name="typeOfBusiness"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Type of Business
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="Technology"
+                        checked={field.value.includes("Technology")}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (field.value.includes(value)) {
+                            field.onChange(
+                              field.value.filter((val: string) => val !== value)
+                            );
+                          } else {
+                            field.onChange([...field.value, value]);
+                          }
+                        }}
+                      />{" "}
+                      Technology
+                    </label>
+                    <label className="ml-4">
+                      <input
+                        type="checkbox"
+                        value="Retail"
+                        checked={field.value.includes("Retail")}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (field.value.includes(value)) {
+                            field.onChange(
+                              field.value.filter((val: string) => val !== value)
+                            );
+                          } else {
+                            field.onChange([...field.value, value]);
+                          }
+                        }}
+                      />{" "}
+                      Retail
+                    </label>
+                    <label className="ml-4">
+                      <input
+                        type="checkbox"
+                        value="Finance"
+                        checked={field.value.includes("Finance")}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (field.value.includes(value)) {
+                            field.onChange(
+                              field.value.filter((val: string) => val !== value)
+                            );
+                          } else {
+                            field.onChange([...field.value, value]);
+                          }
+                        }}
+                      />{" "}
+                      Finance
+                    </label>
+                    <label className="ml-4">
+                      <input
+                        type="checkbox"
+                        value="Healthcare"
+                        checked={field.value.includes("Healthcare")}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (field.value.includes(value)) {
+                            field.onChange(
+                              field.value.filter((val: string) => val !== value)
+                            );
+                          } else {
+                            field.onChange([...field.value, value]);
+                          }
+                        }}
+                      />{" "}
+                      Healthcare
+                    </label>
+                    <label className="ml-4">
+                      <input
+                        type="checkbox"
+                        value="Food & Beverage"
+                        checked={field.value.includes("Food & Beverage")}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (field.value.includes(value)) {
+                            field.onChange(
+                              field.value.filter((val: string) => val !== value)
+                            );
+                          } else {
+                            field.onChange([...field.value, value]);
+                          }
+                        }}
+                      />{" "}
+                      Food & Beverage
+                    </label>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Business Account Section */}
