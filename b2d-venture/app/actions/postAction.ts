@@ -1,6 +1,6 @@
 'use server';
 
-import User from '@/Model/User';
+import User from '@/models/user';
 
 const addUser = async (formData: FormData) => {
     const name = formData.get('name') as string;

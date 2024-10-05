@@ -1,10 +1,47 @@
 "use client";
 
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft } from 'lucide-react';
 import Link from "next/link";
+import { signIn } from 'next-auth/react'
+import { useRouter, redirect } from 'next/navigation'
+import { useSession } from 'next-auth/react';
 
-const Login = () => {
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  const { data: session } = useSession();
+  if (session) router.replace('welcome');
+
+
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      try {
+
+          const res = await signIn("credentials", {
+              email, password, redirect: false
+          })
+
+          if (res.error) {
+              setError("Invalid credentials");
+              return;
+          }
+
+          router.replace("welcome");
+
+      } catch(error) {
+          console.log(error);
+      }
+  }
+
+
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       {/* Left side */}
@@ -32,17 +69,19 @@ const Login = () => {
         <h1 className="text-5xl font-bold text-center text-[#FF6347] mt-10">Welcome back</h1>
         <p className="text-center mt-5 text-lg">Welcome back! Please enter your details to log into your account</p>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="flex justify-center">
             <input 
               type="text" 
               placeholder="Your username or email"
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-10 w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           <div className="flex justify-center">
             <input 
               type="password" 
-              placeholder="Your Password" 
+              placeholder="Your Password"
+              onChange={(e) => setPassword(e.target.value)}
               className="w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           
@@ -60,7 +99,7 @@ const Login = () => {
           </div>
 
           <div className="flex justify-center mt-8">
-            <Button asChild className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
+            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
                 <Link href="/">
                   Login
                 </Link>
@@ -85,4 +124,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
 const User = mongoose.Schema(
     {
-      username: String,
-      password: String,
-      email: String,
-      role: String,
+      username: {
+        type: String,
+        required: true
+      },
+      password: {
+        type: String,
+        required: true
+      },
+      email: {
+        type: String,
+        required: true
+      },
+      role: {
+        type: String,
+        default: 'Investor'
+      },
       contact_information: {
         type: Map,
         of: String,

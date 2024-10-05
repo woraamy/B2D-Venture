@@ -23,11 +23,11 @@ const Header = () => {
 
         {/* Mobile navigation and Login/Sign up */}
         <div className="flex items-center gap-5">
-            <Link href="/Login" className="flex-center p-regular-18 whitespace-nowrap mr-5">
+            <Link href="/login" className="flex-center p-regular-18 whitespace-nowrap mr-5">
               Login
             </Link>
             <Button asChild className="rounded-full text-white p-regular-16">
-              <Link href="/SignUp">
+              <Link href="/signup">
                 Sign up
               </Link>
             </Button>
