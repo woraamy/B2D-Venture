@@ -111,12 +111,10 @@ function LoginPage() {
             </button>
           </div>
           <div className="flex justify-center mt-5">
-            <Button className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
+            <button onClick={() => signIn("google")} className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
               <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2" />
-              <Link href="/">
                 Login with Google
-              </Link>
-            </Button>
+            </button>
           </div>
         </form>
 
