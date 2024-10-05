@@ -17,6 +17,7 @@ import {
 
 // Define the validation schema with zod
 const FormSchema = z.object({
+  // Business Information Schema
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
   BusinessName: z.string().min(1, { message: "Business name is required" }),
@@ -26,11 +27,31 @@ const FormSchema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   stateProvince: z.string().min(1, { message: "State/Province is required" }),
   postalCode: z.string().min(1, { message: "Postal/Zip code is required" }),
-});
+
+  // Business Account Schema
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z
+    .string()
+    .min(10, { message: "Password must be at least 10 characters long" })
+    .refine(
+      (value) =>
+        /[A-Z]/.test(value) &&
+        /[a-z]/.test(value) &&
+        /[0-9]/.test(value) &&
+        /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value),
+      {
+        message:
+          "Password must contain at least three of the following: uppercase letters, lowercase letters, numbers, or symbols",
+      }
+    ),
+  confirmPassword: z.string().min(1, { message: "Please confirm your password" }),
+})
+
 
 interface RegisterBusinessProps {
   onFormValidated: (isValid: boolean) => void;
 }
+
 const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -43,7 +64,10 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       BusinessAddress: "",
       city: "",
       stateProvince: "",
-      postalCode: ""
+      postalCode: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -66,7 +90,9 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
+        {/* Business Information */}
+        <h2 className="p-medium-20 mt-10 ml-14">Business Information</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10">
           
           {/* First Name */}
           <FormField
