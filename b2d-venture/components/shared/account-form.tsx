@@ -81,6 +81,22 @@ export function AccountForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="Your email" {...field} />
+              </FormControl>
+              <FormDescription>
+                This will be used for notifications and account recovery.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Update account</Button>
       </form>
     </Form>
