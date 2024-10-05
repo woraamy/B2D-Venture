@@ -266,6 +266,24 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               </FormItem>
             )}
           />
+
+          {/* Country */}
+          <FormField
+            control={form.control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Country
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <Input id="country" placeholder="Country" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Business Account Section */}
