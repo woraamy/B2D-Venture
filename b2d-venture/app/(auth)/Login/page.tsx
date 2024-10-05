@@ -34,6 +34,12 @@ function LoginPage() {
               return;
           }
           console.log(res);
+          if (res.error) {
+            setError("Invalid credentials"); // Set error message if credentials are invalid
+            return;
+          }
+
+          router.push("/");
 
       } catch(error) {
           console.log(error);

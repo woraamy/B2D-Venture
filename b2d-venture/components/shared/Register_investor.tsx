@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 
-
 // Define the validation schema with zod
 const FormSchema = z.object({
   userName: z.string().min(1, { message: "Username is required" }),
@@ -36,6 +35,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -46,78 +46,64 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     },
   });
 
-  const handleFormSubmit = (data: z.infer<typeof FormSchema>) => {
-    toast({
-      title: "Form submitted successfully",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-    onFormValidated(true);
-  };
-
-  const handleFormError = () => {
-    onFormValidated(false);
-  };
-
   const handleInvestorSubmit = async (e) => {
     e.preventDefault();
 
-    if (password != confirmPassword) {
-        setError("Password do not match!");
-        return;
+    if (password !== confirmPassword) {
+      setError("Passwords do not match!");
+      return;
     }
 
     if (!name || !email || !password || !confirmPassword) {
-        setError("Please complete all inputs.");
-        return;
+      setError("Please complete all inputs.");
+      return;
     }
 
     const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email })
-    })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
 
     const { user } = await resCheckUser.json();
 
-    if (user) { 
-        setError("User already exists.");
-        return;
+    if (user) {
+      setError("User already exists.");
+      return;
     }
 
     try {
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name, email, password
-            })
-        })
+      const res = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name, email, password,
+        }),
+      });
 
-        if (res.ok) {
-            const form = e.target;
-            setError("");
-            setSuccess("User registration successfully!");
-            form.reset();
-        } else {
-            console.log("User registration failed.")
-        }
-
-    } catch(error) {
-        console.log("Error during registration: ", error)
+      if (res.ok) {
+        setError("");
+        setSuccess("User registration successful!");
+        toast({
+          title: "Registration Success",
+          description: `Welcome ${name}!`,
+        });
+        form.reset(); // Reset form after successful submission
+      } else {
+        console.log("User registration failed.");
+      }
+    } catch (error) {
+      console.log("Error during registration:", error);
     }
-}
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
+      <form onSubmit={handleInvestorSubmit} className="space-y-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
           
           {/* Username */}
@@ -131,7 +117,13 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" onChange={(e) => setName(e.target.value)} id="userName" placeholder="e.g. Amy1234" {...field} />
+                  <Input 
+                    type="text" 
+                    onChange={(e) => setName(e.target.value)} 
+                    id="userName" 
+                    placeholder="e.g. Amy1234" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -149,7 +141,13 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" onChange={(e) => setEmail(e.target.value)} id="email" placeholder="e.g. example@example.com" {...field} />
+                  <Input 
+                    type="text" 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    id="email" 
+                    placeholder="e.g. example@example.com" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -167,7 +165,13 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Minimum 8 charaters" {...field} />
+                  <Input 
+                    type="password" 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    id="password" 
+                    placeholder="Minimum 8 characters" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,7 +189,13 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" onChange={(e) => setConfirmPassword(e.target.value)} id="confirmPassword" placeholder="Confirm your password" {...field} />
+                  <Input 
+                    type="password" 
+                    onChange={(e) => setConfirmPassword(e.target.value)} 
+                    id="confirmPassword" 
+                    placeholder="Confirm your password" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -195,10 +205,16 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
         </div>
         {/* Submit Button */}
         <div className="flex justify-center">
-          <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
+          <Button 
+            type="submit" 
+            className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg"
+          >
             Submit your details
           </Button>
         </div>
+
+        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+        {success && <p className="text-green-500 text-center mt-4">{success}</p>}
       </form>
     </Form>
   );
