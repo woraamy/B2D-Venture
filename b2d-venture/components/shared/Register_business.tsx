@@ -21,12 +21,16 @@ const FormSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
   BusinessName: z.string().min(1, { message: "Business name is required" }),
-  contactNumber: z.string().min(1, { message: "Contact number is required" }),
+  contactNumber: z.string().optional(),
   email: z.string().email({ message: "Invalid email address" }),
   BusinessAddress: z.string().min(1, { message: "Address is required" }),
   city: z.string().min(1, { message: "City is required" }),
   stateProvince: z.string().min(1, { message: "State/Province is required" }),
   postalCode: z.string().min(1, { message: "Postal/Zip code is required" }),
+  country: z.string().min(1, { message: "Country is required" }),
+  typeOfBusiness: z
+    .array(z.string())
+    .min(1, { message: "At least one business type must be selected" }),
 
   // Business Account Schema
   username: z.string().min(1, { message: "Username is required" }),
