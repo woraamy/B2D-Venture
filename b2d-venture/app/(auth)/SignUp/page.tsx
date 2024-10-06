@@ -19,7 +19,6 @@ function SignUp() {
   const [submitted, setSubmitted] = useState(false);
 
   const { data: session } = useSession();
-    if (session) redirect('/');
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);

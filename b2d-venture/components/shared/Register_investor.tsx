@@ -6,73 +6,41 @@ import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { useState } from "react";
 
-// Define the validation schema with zod
-const FormSchema = z.object({
-  userName: z.string().min(1, { message: "Username is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password should be at least 8 characters" }),
-  confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
-});
+const FormSchema = z
+  .object({
+    username: z.string().min(1, { message: "Username is required" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z.string().min(8, { message: "Password should be at least 8 characters" }),
+    confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 interface RegisterInvestorProps {
   onFormValidated: (isValid: boolean) => void;
 }
 
 const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      userName: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  const handleInvestorSubmit = async (e) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
-    if (!name || !email || !password || !confirmPassword) {
-      setError("Please complete all inputs.");
-      return;
-    }
-
-    const resCheckUser = await fetch("http://localhost:3000/api/usercheck", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-
-    const { user } = await resCheckUser.json();
-
-    if (user) {
-      setError("User already exists.");
-      return;
-    }
+  const handleInvestorSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const { username, email, password } = data;
 
     try {
       const res = await fetch("http://localhost:3000/api/register", {
@@ -81,7 +49,9 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name, email, password,
+          username,
+          email,
+          password,
         }),
       });
 
@@ -90,41 +60,34 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
         setSuccess("User registration successful!");
         toast({
           title: "Registration Success",
-          description: `Welcome ${name}!`,
+          description: `Welcome ${username}!`,
         });
         form.reset(); // Reset form after successful submission
       } else {
-        console.log("User registration failed.");
+        const errorData = await res.json();
+        setError(errorData.message || "Registration failed.");
       }
     } catch (error) {
-      console.log("Error during registration:", error);
+      setError("An error occurred during registration.");
+      console.error("Error during registration:", error);
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={handleInvestorSubmit} className="space-y-5">
+      <form onSubmit={form.handleSubmit(handleInvestorSubmit)} className="space-y-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
-          
           {/* Username */}
           <FormField
             control={form.control}
-            name="userName"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Username 
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="text" 
-                    onChange={(e) => setName(e.target.value)} 
-                    id="userName" 
-                    placeholder="e.g. Amy1234" 
-                    {...field} 
-                  />
+                  <Input placeholder="e.g. Amy1234" {...field} />
                 </FormControl>
+                <FormDescription>This is your public display name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -136,18 +99,9 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Email
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="text" 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    id="email" 
-                    placeholder="e.g. example@example.com" 
-                    {...field} 
-                  />
+                  <Input placeholder="e.g. example@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,18 +114,9 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Password
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="password" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    id="password" 
-                    placeholder="Minimum 8 characters" 
-                    {...field} 
-                  />
+                  <Input type="password" placeholder="Minimum 8 characters" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -184,31 +129,21 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Password Confirmation
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="password" 
-                    onChange={(e) => setConfirmPassword(e.target.value)} 
-                    id="confirmPassword" 
-                    placeholder="Confirm your password" 
-                    {...field} 
-                  />
+                  <Input type="password" placeholder="Confirm your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
         </div>
+
         {/* Submit Button */}
         <div className="flex justify-center">
-          <Button 
-            type="submit" 
-            className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg"
-          >
+          <Button
+            type="submit"
+            className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
             Submit your details
           </Button>
         </div>

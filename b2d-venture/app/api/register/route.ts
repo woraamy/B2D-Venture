@@ -1,22 +1,40 @@
-import { NextResponse } from 'next/server'
-import { connectMongoDB } from "@/lib/mongodb";
+import { NextResponse } from "next/server";
+import connectDB from "@/lib/connectDB";
 import User from "@/models/user";
-import bcrypt from 'bcryptjs'
+import bcrypt from "bcryptjs";
 
-export async function POST(req) {
-    try {
+const hashPassword = async (password: string) => {
+  const saltRounds = 10;
+  return bcrypt.hash(password, saltRounds);
+};
 
-        const { username, email, password } = await req.json();
-        const hashedPassword = await bcrypt.hash(password, 10);
+export async function POST(req: Request) {
+  try {
+    const { username, email, password } = await req.json();
 
-        await connectMongoDB();
-        await User.create({ username, email, password: hashedPassword });
-
-        return NextResponse.json({ message: "User registered." }, { status: 201 })
-
-    } catch(error) {
-
-        return NextResponse.json({ message: "An error occured while registering the user." }, { status: 500 })
-
+    if (!username || !email || !password) {
+      return NextResponse.json({ message: "All fields (username, email, password) are required." }, { status: 400 });
     }
+
+    await connectDB();
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ message: "User with this email already exists." }, { status: 409 });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    return NextResponse.json({ message: "User registered successfully.", userId: newUser._id }, { status: 201 });
+  } catch (error) {
+    console.error("Error during user registration:", error);
+
+    return NextResponse.json({ message: "An error occurred while registering the user." }, { status: 500 });
+  }
 }

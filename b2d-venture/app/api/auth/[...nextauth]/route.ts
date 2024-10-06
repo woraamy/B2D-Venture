@@ -1,7 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { connectMongoDB } from "@/lib/mongodb";  // Use this throughout for consistency
 import User from "@/models/user";
 import bcrypt from 'bcryptjs';
 import { NextAuthOptions } from "next-auth";
@@ -51,7 +50,7 @@ const handler = NextAuth({
     session: {
         strategy: "jwt", // Use JSON Web Tokens (JWT) for session handling
     },
-    secret: process.env.NEXTAUTH_URL, // Set the secret for session signing
+    secret: process.env.NEXTAUTH_SECRET, // Set the secret for session signing
     pages: {
         signIn: "/login", // Custom login page
     },

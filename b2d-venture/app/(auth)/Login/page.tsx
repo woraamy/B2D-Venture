@@ -16,8 +16,7 @@ function LoginPage() {
   const router = useRouter();
 
   const { data: session } = useSession();
-  if (session) router.replace('/');
-
+  console.log(session);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
