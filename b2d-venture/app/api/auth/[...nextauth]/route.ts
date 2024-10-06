@@ -13,8 +13,8 @@ const handler = NextAuth({
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                email: { label: "Email", type: "email", placeholder: "email@example.com" },
-                password: { label: "Password", type: "password" }
+                email: {},
+                password: {}
             },
             async authorize(credentials) {
                 const { email, password } = credentials;
@@ -51,7 +51,7 @@ const handler = NextAuth({
     session: {
         strategy: "jwt", // Use JSON Web Tokens (JWT) for session handling
     },
-    secret: process.env.NEXTAUTH_SECRET, // Set the secret for session signing
+    secret: process.env.NEXTAUTH_URL, // Set the secret for session signing
     pages: {
         signIn: "/login", // Custom login page
     },

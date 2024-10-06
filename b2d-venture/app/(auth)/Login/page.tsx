@@ -105,17 +105,18 @@ function LoginPage() {
           </div>
 
           <div className="flex justify-center mt-8">
-            <button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
+            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
                   Login
-            </button>
+            </Button>
           </div>
+        </form>
           <div className="flex justify-center mt-5">
             <button onClick={() => signIn("google")} className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
               <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2" />
                 Login with Google
             </button>
           </div>
-        </form>
+        
 
         <p className="mt-10 flex justify-center items-center space-x-2">
           <span className="text-sm md:text-base">Don't have an account?</span>
