@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import NavItems from "./NavItems";
 import MobileNav from "./MoblieNav";
-import { useSession } from "next-auth/react";
+import SignOutButton from "./signOutButton";
+import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
@@ -22,25 +23,23 @@ const AuthenticatedHeader = () => {
           Business
         </Link>
 
-        {/* Show after login - Authenticated Header */}
         <nav className="hidden md:flex flex-grow ml-6">
           <NavItems />
         </nav>
 
-        {/* Mobile navigation and Profile (after login) */}
         <div className="flex items-center gap-5">
-          {/* Profile button */}
           <div className="flex items-center gap-3">
-            <Image
-              src="/path/to/profile-image.jpg" // Update with the actual user profile image
+            {/* <Image
+              src="/path/to/profile-image.jpg"
               alt="User Profile"
               width={40}
               height={40}
               className="rounded-full"
-            />
+            /> */}
             <Link href="/profile" className="hover:text-blue-500">
               Profile
             </Link>
+            <SignOutButton/>
           </div>
 
           {/* Mobile nav (hamburger menu) */}
@@ -85,13 +84,6 @@ const UnauthenticatedHeader = () => {
 // Main Header Component
 const Header = async () => {
   const session = await getServerSession(authOptions)
-
-  // If status is loading, you can show a loading indicator or nothing
-  if (!session) {
-    return null; // Optionally return a loading state
-  }
-
-  // Conditionally render header based on authentication status
   return session ? <AuthenticatedHeader /> : <UnauthenticatedHeader />;
 };
 
