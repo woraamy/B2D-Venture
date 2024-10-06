@@ -33,7 +33,7 @@ const accountFormSchema = z.object({
     .email({
       message: "Please enter a valid email address.",
     }),
-  bio: z.string().max(160).optional(), // Made bio optional
+  bio: z.string().max(160).optional(),
 })
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -51,6 +51,18 @@ export function AccountForm() {
   })
 
   const { toast } = useToast()
+
+    // handle profile picture upload and preview
+    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+      const file = event.target.files?.[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = () => {
+          setPreviewImage(reader.result as string)
+        }
+        reader.readAsDataURL(file)
+      }
+    }
 
   function onSubmit(data: AccountFormValues) {
     toast({
