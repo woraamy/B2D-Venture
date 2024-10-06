@@ -78,6 +78,34 @@ export function AccountForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+        <div className="flex flex-col">
+          {previewImage ? (
+            <img
+              src={previewImage}
+              alt="Profile preview"
+              className="w-52 h-52 rounded-full object-cover mb-4"
+            />
+          ) : (
+            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+              <span className="text-gray-400">No image</span>
+            </div>
+          )}
+
+          <label className="font-medium text-gray-700">
+            Profile Picture
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleProfilePictureChange}
+            className="mt-2"
+          />
+          <FormDescription>
+            Please upload an image for your profile (optional).
+          </FormDescription>
+        </div>
+
         <FormField
           control={form.control}
           name="username"
