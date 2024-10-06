@@ -15,9 +15,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 // Schema for form validation
 const accountFormSchema = z.object({
+  profilePicture: z.any().optional(), // Profile picture is optional
   username: z
     .string()
     .min(2, {
@@ -38,12 +40,11 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 
 // Default values
 const defaultValues: Partial<AccountFormValues> = {
-  // username: "your_username",
-  // email: "your_email@example.com",
-  // bio: "I am a software engineer.",
 }
 
 export function AccountForm() {
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
+
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
