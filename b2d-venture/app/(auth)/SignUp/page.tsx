@@ -6,8 +6,9 @@ import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import RegisterInvestor from "@/components/shared/Register_investor";
-import Register_company from "@/components/shared/Register_company";
+import RegisterBusiness  from "@/components/shared/Register_business";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
@@ -17,6 +18,7 @@ function SignUp() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -31,6 +33,10 @@ function SignUp() {
     if (isValid) {
       setSubmitted(true); // Set the submitted state to true when form is valid
       setFormValidated(true);
+      
+      if (selectedRole === "investor") {
+        router.push("/"); // Redirect to home page after investor form submission
+      }
     } else {
       setFormValidated(false);
     }
@@ -73,10 +79,14 @@ function SignUp() {
         <Separator orientation="vertical" className="hidden md:block" />
         <div className="flex items-center space-x-2">
           <img src="/assets/icons/number3.svg" alt="Number 3 Icon" className="w-6 h-6 md:w-8 md:h-8" />
-          <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
-            Waiting for approval
-          </p>
+          <div className="flex flex-col">
+            <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
+              Waiting for approval
+            </p>
+            <p className="text-xs text-gray-500">(only for Business)</p>
+          </div>
         </div>
+
       </div>
 
       {/* Conditionally render Tabs and Role Selection */}
@@ -93,11 +103,11 @@ function SignUp() {
                 Investor
               </TabsTrigger>
               <TabsTrigger
-                value="company"
-                className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'company' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
-                onClick={() => handleRoleSelect("company")}
+                value="Business"
+                className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'Business' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
+                onClick={() => handleRoleSelect("Business")}
               >
-                Company
+                Business
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -106,8 +116,8 @@ function SignUp() {
           <div>
             {selectedRole === "investor" ? (
               <RegisterInvestor onFormValidated={handleFormValidated} />
-            ) : selectedRole === "company" ? (
-              <Register_company onFormValidated={handleFormValidated} />
+            ) : selectedRole === "Business" ? (
+              <RegisterBusiness onFormValidated={handleFormValidated} />
             ) : (
               <div className="text-center mt-10">Please select a role to continue</div>
             )}
@@ -121,11 +131,11 @@ function SignUp() {
         </>
       )}
 
-      {/* Success Message */}
-      {submitted && (
+      {/* Success Message for Business*/}
+      {submitted && selectedRole === "Business" && (
         <div className="text-center">
-        <div className="flex justify-center items-center mt-16 mb-10">
-          <img src="/assets/icons/success.svg" alt="Success icon" className="w-20 h-20 md:w-30 md:h-30" />
+        <div className="flex justify-center items-center">
+          <img src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
         </div>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Your details have been submitted successfully.</p>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Please wait for approval to create your account.</p>
