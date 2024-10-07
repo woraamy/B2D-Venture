@@ -6,110 +6,88 @@ import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { useState } from "react";
 
-// Define the validation schema with zod
-const FormSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  middleName: z.string().optional(),
-  lastName: z.string().min(1, { message: "Last name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  phone: z.string().min(1, { message: "Contact Number is required" }),
-  birthday: z
-    .date({
-      required_error: "Date of birth is required",
-    })
-    .refine((date) => {
-      const now = new Date();
-      const minDate = new Date(now.getFullYear() - 20, now.getMonth(), now.getDate());
-      return date <= now && date <= minDate;
-    }, {
-      message: "You must be at least 20 years old and the date cannot be in the future"
-    }),
-  nationalId: z.string().min(1, { message: "National ID is required" }),
-  nationality: z.string().min(1, { message: "Nationality is required" }),
-  netWorth: z.number().min(1, { message: "Net worth should be greater than 0" }),
-});
+const FormSchema = z
+  .object({
+    username: z.string().min(1, { message: "Username is required" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z.string().min(8, { message: "Password should be at least 8 characters" }),
+    confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 interface RegisterInvestorProps {
   onFormValidated: (isValid: boolean) => void;
 }
 
 const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
+      username: "",
       email: "",
-      phone: "",
-      birthday: undefined,
-      nationalId: "",
-      nationality: "",
-      netWorth: 0,
+      password: "",
+      confirmPassword: "",
     },
   });
 
-  const handleFormSubmit = (data: z.infer<typeof FormSchema>) => {
-    toast({
-      title: "Form submitted successfully",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-    onFormValidated(true);
-  };
+  const handleInvestorSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const { username, email, password } = data;
 
-  const handleFormError = () => {
-    onFormValidated(false);
+    try {
+      const res = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+
+      if (res.ok) {
+        setError("");
+        setSuccess("User registration successful!");
+        toast({
+          title: "Registration Success",
+          description: `Welcome ${username}!`,
+        });
+        form.reset(); // Reset form after successful submission
+      } else {
+        const errorData = await res.json();
+        setError(errorData.message || "Registration failed.");
+      }
+    } catch (error) {
+      setError("An error occurred during registration.");
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(handleInvestorSubmit)} className="space-y-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
-          
-          {/* First Name */}
+          {/* Username */}
           <FormField
             control={form.control}
-            name="firstName"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  First Name
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input id="first-name" placeholder="First Name" {...field} />
+                  <Input placeholder="e.g. Amy1234" {...field} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Last Name */}
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Last Name
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="last-name" placeholder="Last Name" {...field} />
-                </FormControl>
+                <FormDescription>This is your public display name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -121,134 +99,57 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Your E-mail
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input id="email" type="email" placeholder="e.g. example@example.com" {...field} />
+                  <Input placeholder="e.g. example@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Phone */}
+          {/* Password */}
           <FormField
             control={form.control}
-            name="phone"
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Contact Number
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input id="phone" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
+                  <Input type="password" placeholder="Minimum 8 characters" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Date of birth */}
+          {/* Confirm Password */}
           <FormField
             control={form.control}
-            name="birthday"
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Date of birth
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input
-                    id="birthday"
-                    type="date"
-                    value={field.value ? field.value.toISOString().split('T')[0] : ''}
-                    onChange={(e) => {
-                      const date = e.target.value ? new Date(e.target.value) : undefined;
-                      field.onChange(date);
-                    }}
-                  />
+                  <Input type="password" placeholder="Confirm your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          {/* National ID */}
-          <FormField
-            control={form.control}
-            name="nationalId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Your National ID Card
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="national-id" placeholder="e.g. 123456789012" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Nationality */}
-          <FormField
-            control={form.control}
-            name="nationality"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Your Nationality
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input id="nationality" placeholder="Select your nationality" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Net Worth */}
-          <FormField
-            control={form.control}
-            name="netWorth"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Approximate net worth in USD
-                  <span className="text-red-500"> *</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    id="net-worth"
-                    type="number"
-                    min="0"
-                    placeholder="Net worth"
-                    {...field}
-                    onChange={(e) => {
-                      const value = e.target.value ? Number(e.target.value) : undefined;
-                      field.onChange(value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
         </div>
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
+          <Button
+            type="submit"
+            className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
             Submit your details
           </Button>
         </div>
+
+        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+        {success && <p className="text-green-500 text-center mt-4">{success}</p>}
       </form>
     </Form>
   );

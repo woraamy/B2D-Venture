@@ -12,7 +12,22 @@ const Investor = mongoose.Schema(
       profile_picture: String,
       investment_history: [{
         type:mongoose.Schema.Types.ObjectId, ref:investment
-        }]
+        }],
+      firstName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+      },
+      birthDate: {
+        type: Date,
+      },
+      idCardNumber: {
+        type: String,
+      },
+      nationality: {
+        type: String,
+      },  
     },
     {
         timestamps: true,

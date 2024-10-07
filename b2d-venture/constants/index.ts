@@ -5,12 +5,12 @@ export const headerLinks = [
     },
     {
         label: 'Bussinesses',
-        route: '/bussinesses',
+        route: '/bussines',
     },
-    {
-        label: 'About',
-        route: '/about',
-    },
+    // {
+    //     label: 'About',
+    //     route: '/about',
+    // },
 ]
 
 // FOOTER SECTION

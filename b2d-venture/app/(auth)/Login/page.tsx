@@ -1,8 +1,52 @@
+"use client";
+
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft } from 'lucide-react';
 import Link from "next/link";
+import { signIn } from 'next-auth/react'
+import { useRouter, redirect } from 'next/navigation'
+import { useSession } from 'next-auth/react';
 
-const Login = () => {
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  const { data: session } = useSession();
+  console.log(session);
+
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      try {
+
+          const res = await signIn("credentials", {
+              email, password, redirect: false,
+              callbackUrl: "/"
+          })
+
+          if (res.error) {
+              setError("Invalid credentials");
+              return;
+          }
+          console.log(res);
+          if (res.error) {
+            setError("Invalid credentials"); // Set error message if credentials are invalid
+            return;
+          }
+
+          router.push("/");
+
+      } catch(error) {
+          console.log(error);
+      }
+  }
+
+
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       {/* Left side */}
@@ -20,7 +64,7 @@ const Login = () => {
       </div>
 
       {/* Right side (Login form) */}
-      <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
+      <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white" >
         <a href="/" className="absolute top-10 left-4 md:hidden flex items-center">
           <ChevronsLeft className="text-[#FF6347] text-2xl cursor-pointer" />
           <p className="text-[#FF6347] p-medium-16 ml-2">
@@ -30,17 +74,19 @@ const Login = () => {
         <h1 className="text-5xl font-bold text-center text-[#FF6347] mt-10">Welcome back</h1>
         <p className="text-center mt-5 text-lg">Welcome back! Please enter your details to log into your account</p>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="flex justify-center">
             <input 
               type="text" 
-              placeholder="Your username or email"
+              placeholder="Your email"
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-10 w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           <div className="flex justify-center">
             <input 
               type="password" 
-              placeholder="Your Password" 
+              placeholder="Your Password"
+              onChange={(e) => setPassword(e.target.value)}
               className="w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
           
@@ -58,29 +104,26 @@ const Login = () => {
           </div>
 
           <div className="flex justify-center mt-8">
-            <Button asChild className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
-                <Link href="/">
+            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
                   Login
-                </Link>
-            </Button>
-          </div>
-          <div className="flex justify-center mt-5">
-            <Button className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
-              <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2" />
-              <Link href="/">
-                Login with Google
-              </Link>
             </Button>
           </div>
         </form>
+          <div className="flex justify-center mt-5">
+            <button onClick={() => signIn("google")} className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
+              <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2" />
+                Login with Google
+            </button>
+          </div>
+        
 
         <p className="mt-10 flex justify-center items-center space-x-2">
           <span className="text-sm md:text-base">Don't have an account?</span>
-          <a href="/SignUp" className="text-[#FF6347] font-medium">Sign up now</a>
+          <a href="/signup" className="text-[#FF6347] font-medium">Sign up now</a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;

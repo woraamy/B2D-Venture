@@ -9,12 +9,16 @@ import RegisterInvestor from "@/components/shared/Register_investor";
 import Register_company from "@/components/shared/Register_company";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
-const SignUp = () => {
+function SignUp() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const { data: session } = useSession();
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
@@ -31,6 +35,7 @@ const SignUp = () => {
       setFormValidated(false);
     }
   };
+
 
   return (
     <div className="signUp-bg relative">
@@ -111,7 +116,7 @@ const SignUp = () => {
           {/* Already have an account */}
           <p className="mt-10 flex justify-center items-center space-x-2 mb-20">
             <span className="text-sm md:text-base">Already have an account?</span>
-            <a href="/Login" className="text-[#FF6347] font-medium">Login here</a>
+            <a href="/login" className="text-[#FF6347] font-medium">Login here</a>
           </p>
         </>
       )}

@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default async function Page() {
     const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    const data = JSON.parse(file);
+    const data = JSON.parse(file.toString());
       
     return(
         <>
