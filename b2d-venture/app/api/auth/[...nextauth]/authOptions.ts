@@ -101,6 +101,11 @@ const authOptions: NextAuthOptions = {
       }
       return session; // Return the modified session
     },
+
+    async redirect({ url, baseUrl }) {
+        // If the user signed in with Google, redirect to the homepage
+        return baseUrl; // Redirect to "/"
+      },
   },
 };
 
