@@ -10,13 +10,17 @@ import RegisterBusiness  from "@/components/shared/Register_business";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
-const SignUp = () => {
+function SignUp() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const router = useRouter();
+
+  const { data: session } = useSession();
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
@@ -37,6 +41,7 @@ const SignUp = () => {
       setFormValidated(false);
     }
   };
+
 
   return (
     <div className="signUp-bg relative">

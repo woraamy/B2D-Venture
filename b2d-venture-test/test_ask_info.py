@@ -32,6 +32,7 @@ try:
         print("Test Passed: The page will display a success message. ")
     else:
         print("Test Failed: Modal is not closed")
+
 except Exception as e:
     print(f"Test Failed: {e}")
 finally:
