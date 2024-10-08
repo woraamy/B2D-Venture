@@ -16,16 +16,16 @@ const AuthenticatedHeader = () => {
         <Link href="/">
           <b className="text-[#FF543E] text-[40px]">B2D Venture</b>
         </Link>
-        {/* <Link href="/" className="hover:text-blue-500">
+        <Link href="/" className="hover:text-blue-500">
           Home
         </Link>
         <Link href="/business" className="mr-[40%] hover:text-blue-500">
           Business
-        </Link> */}
+        </Link>
 
-        <nav className="hidden md:flex flex-grow ml-6">
+        {/* <nav className="hidden md:flex flex-grow ml-6">
           <NavItems />
-        </nav>
+        </nav> */}
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">

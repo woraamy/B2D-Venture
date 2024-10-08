@@ -4,8 +4,8 @@ export const headerLinks = [
         route: '/',
     },
     {
-        label: 'Bussinesses',
-        route: '/bussines',
+        label: 'Bussiness',
+        route: '/business',
     },
     // {
     //     label: 'About',
