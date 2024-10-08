@@ -36,7 +36,7 @@ const AuthenticatedHeader = () => {
               height={40}
               className="rounded-full"
             /> */}
-            <Link href="/profile" className="hover:text-blue-500">
+            <Link href="/settings/account" className="hover:text-blue-500">
               Profile
             </Link>
             <SignOutButton/>

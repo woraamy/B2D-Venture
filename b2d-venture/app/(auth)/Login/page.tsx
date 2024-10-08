@@ -7,6 +7,9 @@ import Link from "next/link";
 import { signIn } from 'next-auth/react'
 import { useRouter, redirect } from 'next/navigation'
 import { useSession } from 'next-auth/react';
+import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -30,6 +33,7 @@ function LoginPage() {
 
           if (res.error) {
               setError("Invalid credentials");
+              toast.error("User not found");
               return;
           }
           console.log(res);
@@ -49,6 +53,7 @@ function LoginPage() {
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
+      <Toaster /> {/* Add this to render toasts */}
       {/* Left side */}
       <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center p-8 relative">
         <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</a>
@@ -107,6 +112,7 @@ function LoginPage() {
             <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">
                   Login
             </Button>
+            
           </div>
         </form>
           <div className="flex justify-center mt-5">
