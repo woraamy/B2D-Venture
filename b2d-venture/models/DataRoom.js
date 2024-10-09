@@ -8,8 +8,10 @@ const DataRoom = mongoose.Schema(
         unique: true, 
         ref:'Business'
         },
-      file_name: String,
-      file_path: String,
+      files: [{
+        type:mongoose.Schema.Types.ObjectId, 
+        ref:File,
+        }]
     },
     {
         timestamps: true,

@@ -7,20 +7,16 @@ const Investment = mongoose.Schema(
         unique: true, 
         ref:'Investor' 
         },
-      business_id: { 
+      raise_campaign_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         unique: true, 
-        ref:'Business' 
+        ref:'RaisedCampaign' 
         },
       amount: {
         type: Number,
         required: true
         },
-      payment_status: {
-        type: String,
-        enum: [completed, failed]
-        }  
     },
   );
 

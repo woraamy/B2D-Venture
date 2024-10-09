@@ -22,9 +22,6 @@ const Investor = mongoose.Schema(
       birthDate: {
         type: Date,
       },
-      idCardNumber: {
-        type: String,
-      },
       nationality: {
         type: String,
       },  
