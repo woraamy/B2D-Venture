@@ -19,13 +19,9 @@ const Business = mongoose.Schema(
         type: Map,
         of: String,
       },
-      raise_campaign: [{
-        type:mongoose.Schema.Types.ObjectId, 
-        ref:RaisedCampaign,
-        }],
       tag_list: [{
         type:mongoose.Schema.Types.ObjectId, 
-        ref:Tag,
+        ref:'Tag',
         }]
     },
     {

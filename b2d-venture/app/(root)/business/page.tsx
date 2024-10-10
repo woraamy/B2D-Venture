@@ -5,13 +5,15 @@ import Filter from "@/components/ui/filter";
 import { promises as fs } from "fs";
 import Link from "next/link";
 import Business from "@/models/Business"
+import RaisedCampaign from "@/models/RaiseCampaign"
 
-const getBusiness = async () => {
-    return Post.find()
+const getRaisedCampaign = async () => {
+    return RaisedCampaign.find()
 }
 export default async function Page() {
-    const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    const data = JSON.parse(file.toString());
+    // const file = await fs.readFile(process.cwd()+'/public/data/business.json');
+    // const data = JSON.parse(file.toString());
+    const data = await getRaisedCampaign()
       
     return(
         <>
@@ -25,21 +27,28 @@ export default async function Page() {
                 <SearchBar text="Search Business"/>
                 <Filter className="ms-5"/>
             </div>
+            {data.map(data => (
+                <div key={data._id}>
+                    <h1>{data.business_id.name}</h1>
+                    <h1>{data.raised}</h1>
+                </div>
+            ))
+            }
             <div className="flex flex-wrap gap-4 ">
-                {data.map((business,index) =>(
-                    <Link href={`/business/${business.id}`} passHref>
+                {data.map((campaign,index) =>(
+                    <Link href={`/business/${campaign.business_id}`} passHref>
                     <BusinessCard
                     className="mt-10"
-                    coverimg = {business.coverimg}
-                    profile= {business.profile}
-                    name= {business.business_name}
-                    description={business.description}
-                    raised={business.raised}
-                    investors={business.investors}
-                    min={business.min}
-                    valuation={business.valuation}
-                    link={`/business/${business.business_name}`}
-                    tag = {business.tag}
+                    coverimg = {campaign.business_id.coverImg}
+                    profile= {campaign.business_id.profile}
+                    name= {campaign.business_id.name}
+                    description={campaign.business_id.description}
+                    raised={campaign.raised}
+                    investors="10"
+                    min={campaign.min_investment}
+                    valuation={campaign.business_id.valuation}
+                    link={`/business/${campaign.business_id.name}`}
+                    tag = {campaign.business_id.tag_list}
                   />
                   </Link>
                 ))}

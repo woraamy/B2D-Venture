@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-const DataRoom = mongoose.Schema(
+const Tag = mongoose.Schema(
     {
-      tag_name: String,
+      name: String,
     },
   );
 
   
-  export default mongoose.models.DataRoom || mongoose.model("DataRoom", DataRoom);
+  export default mongoose.models.Tag || mongoose.model("Tag", Tag);
