@@ -7,10 +7,6 @@ export const headerLinks = [
         label: 'Bussiness',
         route: '/business',
     },
-    // {
-    //     label: 'About',
-    //     route: '/about',
-    // },
 ]
 
 // FOOTER SECTION

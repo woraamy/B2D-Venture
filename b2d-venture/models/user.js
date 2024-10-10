@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
         required: true
       },
       role: {
-        type: String,
+        enum: ['investor','business','admin']
       },
       contact_information: {
         type: Map,

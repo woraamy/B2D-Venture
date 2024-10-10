@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 const Business = mongoose.Schema(
-    {
+    { 
+      user_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true, 
+        unique: true, 
+        ref:'User'},
       name: String,
       business_name: String,
       description: String,
