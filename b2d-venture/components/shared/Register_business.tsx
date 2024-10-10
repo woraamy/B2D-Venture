@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
 
 // Define the validation schema with zod
 const FormSchema = z.object({
@@ -49,6 +50,8 @@ const FormSchema = z.object({
       }
     ),
   confirmPassword: z.string().min(1, { message: "Please confirm your password" }),
+  role: z.literal("business"),
+  status: z.literal("pending"),
 })
 .superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
@@ -65,6 +68,9 @@ interface RegisterBusinessProps {
 }
 
 const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -82,6 +88,8 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       username: "",
       password: "",
       confirmPassword: "",
+      role: "business",
+      status: "pending",
     },
   });
 
@@ -95,6 +103,66 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       ),
     });
     onFormValidated(true);
+  };
+
+  const handleBusinessSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const { firstName, 
+            lastName, 
+            BusinessName, 
+            email, 
+            contactNumber, 
+            BusinessAddress, 
+            city, 
+            stateProvince, 
+            postalCode, 
+            country, 
+            typeOfBusiness, 
+            username, 
+            password,
+            role,
+            status } = data;
+
+    try {
+      const res = await fetch("http://localhost:3000/api/registerBusiness", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          BusinessName,
+          email,
+          contactNumber,
+          BusinessAddress,
+          city,
+          stateProvince,
+          postalCode,
+          country,
+          typeOfBusiness,
+          username,
+          password,
+          role:"business",
+          status: "pending"
+        }),
+      });
+
+      if (res.ok) {
+        setError("");
+        setSuccess("User registration successful!");
+        toast({
+          title: "Registration Success",
+          description: `Welcome ${username}!`,
+        });
+        form.reset(); // Reset form after successful submission
+      } else {
+        const errorData = await res.json();
+        setError(errorData.message || "Registration failed.");
+      }
+    } catch (error) {
+      setError("An error occurred during registration.");
+      console.error("Error during registration:", error);
+    }
   };
 
   const handleFormError = () => {
