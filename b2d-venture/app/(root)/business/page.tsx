@@ -6,13 +6,13 @@ import { promises as fs } from "fs";
 import Link from "next/link";
 import Business from "@/models/Business"
 import RaisedCampaign from "@/models/RaiseCampaign"
+import connect from "@/lib/connectDB";
 
 const getRaisedCampaign = async () => {
-    return RaisedCampaign.find()
+    return RaisedCampaign.find().populate("business_id");
 }
 export default async function Page() {
-    // const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    // const data = JSON.parse(file.toString());
+    await connect()
     const data = await getRaisedCampaign()
       
     return(
@@ -27,13 +27,13 @@ export default async function Page() {
                 <SearchBar text="Search Business"/>
                 <Filter className="ms-5"/>
             </div>
-            {data.map(data => (
+            {/* {data.map(data => (
                 <div key={data._id}>
                     <h1>{data.business_id.name}</h1>
                     <h1>{data.raised}</h1>
                 </div>
             ))
-            }
+            } */}
             <div className="flex flex-wrap gap-4 ">
                 {data.map((campaign,index) =>(
                     <Link href={`/business/${campaign.business_id}`} passHref>
