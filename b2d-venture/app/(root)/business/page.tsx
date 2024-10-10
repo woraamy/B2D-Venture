@@ -9,7 +9,9 @@ import RaisedCampaign from "@/models/RaiseCampaign"
 import connect from "@/lib/connectDB";
 
 const getRaisedCampaign = async () => {
+    const x = Business.find().populate("user_id")
     return RaisedCampaign.find().populate("business_id");
+    
 }
 export default async function Page() {
     await connect()
@@ -29,14 +31,14 @@ export default async function Page() {
             </div>
             {/* {data.map(data => (
                 <div key={data._id}>
-                    <h1>{data.business_id.name}</h1>
-                    <h1>{data.raised}</h1>
+                    <h1>{data.name}</h1>
+                    <h1>{data.user_id.name}</h1>
                 </div>
             ))
             } */}
             <div className="flex flex-wrap gap-4 ">
                 {data.map((campaign,index) =>(
-                    <Link href={`/business/${campaign.business_id}`} passHref>
+                    <Link href={`/business/${campaign.business_id}`} passHref key={campaign._id}>
                     <BusinessCard
                     className="mt-10"
                     coverimg = {campaign.business_id.coverImg}

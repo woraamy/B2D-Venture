@@ -4,9 +4,10 @@ const nextConfig = {
         instrumentationHook: true,
     },
     images: {
-        domains: ['storage.googleapis.com'], // Allow images from GCS
-      },
- 
+        domains: ["storage.googleapis.com",
+                  "storage.cloud.google.com"
+        ], // Correct domain
+    },
 };
 
 export default nextConfig;
