@@ -3,6 +3,9 @@ const nextConfig = {
     experimental: {
         instrumentationHook: true,
     },
+    images: {
+        domains: ['storage.googleapis.com'], // Allow images from GCS
+      },
  
 };
 
