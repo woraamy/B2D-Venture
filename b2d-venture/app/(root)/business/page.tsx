@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import { promises as fs } from "fs";
 import Link from "next/link";
+import Business from "@/models/Business"
 
-
+const getBusiness = async () => {
+    return Post.find()
+}
 export default async function Page() {
     const file = await fs.readFile(process.cwd()+'/public/data/business.json');
     const data = JSON.parse(file.toString());

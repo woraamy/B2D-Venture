@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const RaisedCampaign = mongoose.Schema(
     {
-      name: String,
       business_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
@@ -9,8 +8,11 @@ const RaisedCampaign = mongoose.Schema(
         ref:'Business'
         },
       target_raise: String,
-      description: String,
-      minimum_investment: Number,
+      min_investment: Number,
+      max_investment: Number,
+      shared_price: Number,
+      raised: Number,
+      goal: Number,
       start_date: Date,
       end_date : Date
     },

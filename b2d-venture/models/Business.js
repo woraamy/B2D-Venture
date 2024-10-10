@@ -7,11 +7,11 @@ const Business = mongoose.Schema(
         unique: true, 
         ref:'User'},
       name: String,
-      business_name: String,
       description: String,
       valuation: Number,
-      shared_price: Number,
-      business_status: {
+      cover_img: String,
+      profile: String,
+      status: {
         type: String,
         enum: ['active','pending','suspended']
       },
