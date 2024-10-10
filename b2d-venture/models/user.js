@@ -14,6 +14,8 @@ const userSchema = mongoose.Schema(
       },
       role: {
         type: String,
+        enum: ['admin','investor','business'],
+        default: 'investor'
       },
       contact_information: {
         type: Map,
