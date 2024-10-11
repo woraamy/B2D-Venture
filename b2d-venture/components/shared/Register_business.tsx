@@ -135,7 +135,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
             status } = data;
 
     try {
-      const res = await fetch("http://localhost:3000/api/registerBusiness", {
+      const res = await fetch("http://localhost:3000/api/register/businessRequest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

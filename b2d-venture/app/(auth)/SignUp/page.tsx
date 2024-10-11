@@ -114,7 +114,7 @@ function SignUp() {
 
           {/* Conditional rendering of forms */}
           <div>
-            {selectedRole === "Investor" ? (
+            {selectedRole === "investor" ? (
               <RegisterInvestor onFormValidated={handleFormValidated} />
             ) : selectedRole === "Business" ? (
               <RegisterBusiness onFormValidated={handleFormValidated} />

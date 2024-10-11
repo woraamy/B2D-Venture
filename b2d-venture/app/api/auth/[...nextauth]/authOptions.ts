@@ -29,7 +29,7 @@ const authOptions: NextAuthOptions = {
 
                     // If business request is approved, create the business user and activate it
                 if (status === "approved") {
-                    const activateBusinessRes = await fetch("/api/registerBusiness", {
+                    const activateBusinessRes = await fetch("/api/register/businessRequest", {
                     method: "POST",
                     body: JSON.stringify({ email }),
                     headers: { "Content-Type": "application/json" },
