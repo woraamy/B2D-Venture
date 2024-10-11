@@ -1,52 +1,80 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
-import BusinessRequest from "@/models/businessRequest"  // Assuming you have a model for business requests
+import BusinessRequest from "@/models/businessRequest"; // Assuming you have a model for business requests
 import User from "@/models/user";
 
-// API handler to register a business
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Connect to the database
-  await connectDB();
+// Handle POST request
+export async function POST(req: NextRequest) {
+  try {
+    // Parse the request body
+    const {
+      firstName,
+      lastName,
+      BusinessName,
+      email,
+      contactNumber,
+      BusinessAddress,
+      city,
+      stateProvince,
+      postalCode,
+      country,
+      typeOfBusiness,
+      username,
+      password,
+      role,
+      status,
+    } = await req.json();
 
-  if (req.method === "POST") {
-    const { firstName, lastName, BusinessName, email, contactNumber, BusinessAddress, city, stateProvince, postalCode, country, typeOfBusiness, username, password } = req.body;
+    // Connect to the database
+    await connectDB();
 
-    try {
-      // Check if user with this email already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: "User with this email already exists" });
-      }
-
-      // Save business registration request to the database
-      const newRequest = new BusinessRequest({
-        firstName,
-        lastName,
-        BusinessName,
-        email,
-        contactNumber,
-        BusinessAddress,
-        city,
-        stateProvince,
-        postalCode,
-        country,
-        typeOfBusiness,
-        username,
-        password,
-        status: "pending",  // Request is pending approval by the admin
-      });
-
-      await newRequest.save();
-
-      // Send response back to the client
-      res.status(200).json({ message: "Business registration request submitted successfully" });
-
-    } catch (error) {
-      console.error("Error submitting business registration request:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+    // Check if a user with this email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "User with this email already exists" },
+        { status: 400 }
+      );
     }
 
-  } else {
-    res.status(405).json({ message: "Method Not Allowed" });
+    // Create a new business registration request
+    const newRequest = new BusinessRequest({
+      firstName,
+      lastName,
+      BusinessName,
+      email,
+      contactNumber,
+      BusinessAddress,
+      city,
+      stateProvince,
+      postalCode,
+      country,
+      typeOfBusiness,
+      username,
+      password,
+      role: "business",
+      status: "pending", // Request is pending approval by the admin
+    });
+
+    // Save the new request to the database
+    await newRequest.save();
+    console.log("Business registration request submitted successfully");
+
+    // Return a success response
+    return NextResponse.json(
+      { message: "Business registration request submitted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error submitting business registration request:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
+}
+
+// Handle unsupported methods (optional)
+export async function OPTIONS() {
+  return NextResponse.json({ message: "Method Not Allowed" }, { status: 405 });
 }
