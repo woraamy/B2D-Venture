@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
 function SignUp() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
