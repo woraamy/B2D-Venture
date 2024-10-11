@@ -14,7 +14,7 @@ export default async function Page({params}) {
     const {id} = params;
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${id}`);
     const {data}  =  await res.json();
-    // const business = await fetchbusinessData(id);
+   
     if (!data) {
         return <div>business not found</div>;
     }

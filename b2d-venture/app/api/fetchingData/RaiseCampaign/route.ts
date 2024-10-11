@@ -5,9 +5,9 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET() {
     try{
         await connect();
-        const data = await RaiseCampaign.find().populate('business_id').lean();
+        const data = await RaiseCampaign.find().populate('business_id');
         if (data) {
-            return NextResponse.json({ data }); 
+            return NextResponse.json({data}); 
         }
         return NextResponse.json({ message: `RaiseCampaign not found` });
     } catch (error){
