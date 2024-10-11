@@ -43,7 +43,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                {Array.isArray(tag) && tag.map((tag, index) => (
                                     <Tag className="pr-2"
                                     key={index}
-                                    tagName={tag.name} 
+                                    tagName={tag} 
                                     />
                                 ))}
                             </div>

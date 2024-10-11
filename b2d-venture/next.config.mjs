@@ -4,9 +4,18 @@ const nextConfig = {
         instrumentationHook: true,
     },
     images: {
-        domains: ["storage.googleapis.com",
-                  "storage.cloud.google.com"
-        ], // Correct domain
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'storage.googleapis.com',
+                pathname: '/**',  // Allows any path
+            },
+            {
+                protocol: 'https',
+                hostname: 'storage.cloud.google.com',
+                pathname: '/**',  // Allows any path
+            },
+        ],
     },
 };
 

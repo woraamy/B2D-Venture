@@ -20,8 +20,7 @@ const Business = mongoose.Schema(
         of: String,
       },
       tag_list: [{
-        type:mongoose.Schema.Types.ObjectId, 
-        ref:'Tag',
+        type: String
         }]
     },
     {

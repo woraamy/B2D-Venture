@@ -9,12 +9,16 @@ import RaisedCampaign from "@/models/RaiseCampaign"
 import connect from "@/lib/connectDB";
 
 const getRaisedCampaign = async () => {
-    const x = Business.find().populate("user_id")
-    return RaisedCampaign.find().populate("business_id");
-    
+    // try{
+        const business = await Business.find()
+        const raised = await RaisedCampaign.find().populate("business_id")
+        return raised 
+  
 }
+
+
 export default async function Page() {
-    await connect()
+    // await connect()
     const data = await getRaisedCampaign()
       
     return(
@@ -29,13 +33,6 @@ export default async function Page() {
                 <SearchBar text="Search Business"/>
                 <Filter className="ms-5"/>
             </div>
-            {/* {data.map(data => (
-                <div key={data._id}>
-                    <h1>{data.name}</h1>
-                    <h1>{data.user_id.name}</h1>
-                </div>
-            ))
-            } */}
             <div className="flex flex-wrap gap-4 ">
                 {data.map((campaign,index) =>(
                     <Link href={`/business/${campaign.business_id}`} passHref key={campaign._id}>
