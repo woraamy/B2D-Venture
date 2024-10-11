@@ -18,7 +18,7 @@ const getRaisedCampaign = async () => {
 
 
 export default async function Page() {
-    // await connect()
+    await connect()
     const data = await getRaisedCampaign()
       
     return(
