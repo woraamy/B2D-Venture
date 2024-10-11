@@ -27,5 +27,5 @@ const Business = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.Business || mongoose.model("Business", Business);
+  const business = mongoose.models.Business || mongoose.model("Business", Business);
+  export default business

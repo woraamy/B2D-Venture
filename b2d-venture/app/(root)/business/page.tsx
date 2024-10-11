@@ -33,7 +33,7 @@ export default async function Page() {
             </div>
             <div className="flex flex-wrap gap-4 ">
                 {data.map((campaign,index) =>(
-                    <Link href={`/business/${campaign.business_id._id}`} passHref key={campaign._id}>
+                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                     <BusinessCard
                     className="mt-10"
                     coverimg = {campaign.business_id.coverimg}
