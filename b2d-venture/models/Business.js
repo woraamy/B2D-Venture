@@ -9,7 +9,7 @@ const Business = mongoose.Schema(
       name: String,
       description: String,
       valuation: Number,
-      cover_img: String,
+      coverimg: String,
       profile: String,
       status: {
         type: String,

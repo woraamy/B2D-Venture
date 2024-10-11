@@ -38,7 +38,7 @@ export default async function Page() {
                     <Link href={`/business/${campaign.business_id}`} passHref key={campaign._id}>
                     <BusinessCard
                     className="mt-10"
-                    coverimg = {campaign.business_id.coverImg}
+                    coverimg = {campaign.business_id.coverimg}
                     profile= {campaign.business_id.profile}
                     name= {campaign.business_id.name}
                     description={campaign.business_id.description}
