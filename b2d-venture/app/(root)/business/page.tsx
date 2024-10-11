@@ -9,11 +9,9 @@ import RaisedCampaign from "@/models/RaiseCampaign"
 import connect from "@/lib/connectDB";
 
 const getRaisedCampaign = async () => {
-    // try{
         const business = await Business.find()
         const raised = await RaisedCampaign.find().populate("business_id")
         return raised 
-  
 }
 
 

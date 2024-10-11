@@ -3,8 +3,7 @@ const Business = mongoose.Schema(
     { 
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
+        required: false, 
         ref:'User'},
       name: String,
       description: String,
