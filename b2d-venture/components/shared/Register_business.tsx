@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
 
 // Define the validation schema with zod
 const FormSchema = z.object({
@@ -49,6 +50,8 @@ const FormSchema = z.object({
       }
     ),
   confirmPassword: z.string().min(1, { message: "Please confirm your password" }),
+  role: z.literal("business"),
+  status: z.literal("pending"),
 })
 .superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
@@ -65,6 +68,9 @@ interface RegisterBusinessProps {
 }
 
 const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -82,19 +88,93 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       username: "",
       password: "",
       confirmPassword: "",
+      role: "business",
+      status: "pending",
     },
   });
 
-  const handleFormSubmit = (data: z.infer<typeof FormSchema>) => {
-    toast({
-      title: "Form submitted successfully",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-    onFormValidated(true);
+  const handleFormSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      // Call the business submit handler to send data to the backend
+      await handleBusinessSubmit(data);
+  
+      // Show the success message with the form data
+      toast({
+        title: "Form submitted successfully",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      });
+  
+      // Notify parent component that form is validated successfully
+      onFormValidated(true);
+    } catch (error) {
+      // Handle errors that might occur during the form submission process
+      setError("An error occurred while submitting the form.");
+      console.error("Error:", error);
+    }
+  };
+
+  const handleBusinessSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const { firstName, 
+            lastName, 
+            BusinessName, 
+            email, 
+            contactNumber, 
+            BusinessAddress, 
+            city, 
+            stateProvince, 
+            postalCode, 
+            country, 
+            typeOfBusiness, 
+            username, 
+            password,
+            role,
+            status } = data;
+
+    try {
+      const res = await fetch("http://localhost:3000/api/register/businessRequest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          BusinessName,
+          email,
+          contactNumber,
+          BusinessAddress,
+          city,
+          stateProvince,
+          postalCode,
+          country,
+          typeOfBusiness,
+          username,
+          password,
+          role:"business",
+          status: "pending"
+        }),
+      });
+
+      if (res.ok) {
+        setError("");
+        setSuccess("User registration successful!");
+        toast({
+          title: "Registration Success",
+          description: `Welcome ${username}!`,
+        });
+        form.reset(); // Reset form after successful submission
+      } else {
+        const errorData = await res.json();
+        setError(errorData.message || "Registration failed.");
+      }
+    } catch (error) {
+      setError("An error occurred during registration.");
+      console.error("Error during registration:", error);
+    }
   };
 
   const handleFormError = () => {
@@ -119,7 +199,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="first-name" placeholder="First Name" {...field} />
+                  <Input id="firstName" placeholder="First Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -137,7 +217,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="last-name" placeholder="Last Name" {...field} />
+                  <Input id="lastName" placeholder="Last Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -155,7 +235,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="Business-name" placeholder="Business Name" {...field} />
+                  <Input id="BusinessName" placeholder="Business Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -170,7 +250,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               <FormItem>
                 <FormLabel>Contact Number</FormLabel>
                 <FormControl>
-                  <Input id="contact-number" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
+                  <Input id="contactNumber" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -206,7 +286,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="Business-address" placeholder="Address" {...field} />
+                  <Input id="BusinessAddress" placeholder="Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -242,7 +322,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="state-province" placeholder="State / Province" {...field} />
+                  <Input id="stateProvince" placeholder="State / Province" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -260,7 +340,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="postal-code" placeholder="Postal / Zip Code" {...field} />
+                  <Input id="postalCode" placeholder="Postal / Zip Code" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -435,7 +515,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               <FormItem>
                 <FormLabel>Confirm Password <span className="text-red-500"> *</span></FormLabel>
                 <FormControl>
-                  <Input id="confirm-password" type="password" placeholder="Confirm Password" {...field} />
+                  <Input id="confirmPassword" type="password" placeholder="Confirm Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

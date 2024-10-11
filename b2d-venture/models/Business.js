@@ -1,26 +1,33 @@
+import { User } from "lucide-react";
 import mongoose from "mongoose";
-const Business = mongoose.Schema(
+import { type } from "os";
+const businessSchema = mongoose.Schema(
     {
-      name: String,
-      business_name: String,
+      user_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        unique: true, 
+        ref:'User'
+      },
+      firstName: { type: String },
+      lastName: { type: String },
+      BusinessName: { type: String },
+      email: { type: String },
+      contactNumber: { type: String },
+      BusinessAddress: { type: String },
+      city: { type: String },
+      stateProvince: { type: String },
+      postalCode: { type: String },
+      country: { type: String },
+      typeOfBusiness: { type: String },
       description: String,
       valuation: Number,
-      shared_price: Number,
-      business_status: {
+      status: {
         type: String,
         enum: ['active','pending','suspended']
       },
-      contact_information: {
-        type: Map,
-        of: String,
-      },
-      raise_campaign: [{
-        type:mongoose.Schema.Types.ObjectId, 
-        ref:RaisedCampaign,
-        }],
       tag_list: [{
         type:mongoose.Schema.Types.ObjectId, 
-        ref:Tag,
+        ref:"Tag",
         }]
     },
     {
@@ -28,5 +35,6 @@ const Business = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.Business || mongoose.model("Business", Business);
+  const Business = mongoose.models.Business || mongoose.model("Business", businessSchema);
+
+  export default Business;
