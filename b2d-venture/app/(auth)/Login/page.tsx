@@ -26,6 +26,29 @@ function LoginPage() {
 
       try {
 
+                      // Check the status of the business registration request
+          const businessRequestRes = await fetch(`/api/getBusinessRequestStatus?email=${email}`);
+          const businessRequestData = await businessRequestRes.json();
+          const status = businessRequestData.businessRequest.status; // Get status from the returned object
+
+
+              // If business request is approved, create the business user and activate it
+          if (status === "approved") {
+            const activateBusinessRes = await fetch("/api/registerBusiness", {
+              method: "POST",
+              body: JSON.stringify({ email }),
+              headers: { "Content-Type": "application/json" },
+            });
+
+            if (!activateBusinessRes.ok) {
+              toast.error("Error activating business account");
+              return;
+            }
+
+            // // Optionally, display success message
+            // toast.success("Your business account has been activated!");
+          }
+
           const res = await signIn("credentials", {
               email, password, redirect: false,
               callbackUrl: "/"
@@ -36,6 +59,7 @@ function LoginPage() {
               toast.error("User not found");
               return;
           }
+
           console.log(res);
           if (res.error) {
             setError("Invalid credentials"); // Set error message if credentials are invalid

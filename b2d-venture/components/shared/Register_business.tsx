@@ -199,7 +199,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="first-name" placeholder="First Name" {...field} />
+                  <Input id="firstName" placeholder="First Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -217,7 +217,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="last-name" placeholder="Last Name" {...field} />
+                  <Input id="lastName" placeholder="Last Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -235,7 +235,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="Business-name" placeholder="Business Name" {...field} />
+                  <Input id="BusinessName" placeholder="Business Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -250,7 +250,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               <FormItem>
                 <FormLabel>Contact Number</FormLabel>
                 <FormControl>
-                  <Input id="contact-number" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
+                  <Input id="contactNumber" type="tel" placeholder="e.g. +XX XXX XXX XXXX" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -286,7 +286,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="Business-address" placeholder="Address" {...field} />
+                  <Input id="BusinessAddress" placeholder="Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -322,7 +322,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="state-province" placeholder="State / Province" {...field} />
+                  <Input id="stateProvince" placeholder="State / Province" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -340,7 +340,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                   <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
-                  <Input id="postal-code" placeholder="Postal / Zip Code" {...field} />
+                  <Input id="postalCode" placeholder="Postal / Zip Code" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -515,7 +515,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               <FormItem>
                 <FormLabel>Confirm Password <span className="text-red-500"> *</span></FormLabel>
                 <FormControl>
-                  <Input id="confirm-password" type="password" placeholder="Confirm Password" {...field} />
+                  <Input id="confirmPassword" type="password" placeholder="Confirm Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
