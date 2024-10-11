@@ -111,7 +111,13 @@ function LoginPage() {
           console.log(activateBusinessRes);
           return;
         }
+
       } else {
+        if (status === "done") {
+          await signIn("credentials", { email, password, redirect: false, callbackUrl: "/" });
+          router.push("/");
+          return; // Exit the function, no need to continue further
+        }
         toast.error("Business request not approved yet.");
         return;
       }
