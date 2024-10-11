@@ -3,10 +3,20 @@ import { redirect } from 'next/navigation';
 import BusinessCard from "@/components/shared/BusinessCard";
 import Link from "next/link";
 import { promises as fs } from "fs";
+import Business from '@/models/Business'
+import RaisedCampaign from '@/models/RaiseCampaign'
+import connect from '@/lib/connectDB'
+
+const getRaisedCampaign = async () => {
+    const business = await Business.find()
+    const trend = await RaisedCampaign.find().populate("business_id").sort({raised: -1 }).limit(3);
+    const latest = await RaisedCampaign.find().populate("business_id").sort({start_date: -1 }).limit(3);
+    return {trend, latest}
+}
 
 export default async function Home() {
-    const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    const data = JSON.parse(file.toString());
+    await connect()
+    const {trend: trendData, latest :latestData} = await getRaisedCampaign()
     
     return (
         <div className="flex-col">
@@ -69,40 +79,40 @@ export default async function Home() {
             <div className="relative flex-col text-[#FF553E] mx-[15vw] my-20 ">
                 <h1 className="font-semibold text-3xl">Trending Businesses</h1>
                 <div className="flex flex-wrap gap-3 justify-center">
-                {data.slice(0, 3).map((business,index) =>(
-                    <Link href={`/business/${business.id}`} passHref>
+                {trendData.map((campaign,index) =>(
+                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                     <BusinessCard
-                    className="mt-10 mr-5"
-                    coverimg = {business.coverimg}
-                    profile= {business.profile}
-                    name= {business.business_name}
-                    description={business.description}
-                    raised={business.raised}
-                    investors={business.investors}
-                    min={business.min}
-                    valuation={business.valuation}
-                    link={`/business/${business.business_name}`}
-                    tag = {business.tag}
+                    className="mt-10"
+                    coverimg = {campaign.business_id.coverimg}
+                    profile= {campaign.business_id.profile}
+                    name= {campaign.business_id.name}
+                    description={campaign.business_id.description}
+                    raised={campaign.raised}
+                    investors="10"
+                    min={campaign.min_investment}
+                    valuation={campaign.business_id.valuation}
+                    link={`/business/${campaign.business_id.name}`}
+                    tag = {campaign.business_id.tag_list}
                   />
                   </Link>
                 ))}
             </div>
             <h1 className="mt-10 font-semibold text-3xl ">Just launched</h1>
             <div className="flex flex-wrap gap-3 justify-center ">
-                {data.slice(9, 12).map((business,index) =>(
-                    <Link href={`/business/${business.id}`} passHref>
+            {latestData.map((campaign,index) =>(
+                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                     <BusinessCard
-                    className="mt-10 mr-5"
-                    coverimg = {business.coverimg}
-                    profile= {business.profile}
-                    name= {business.business_name}
-                    description={business.description}
-                    raised={business.raised}
-                    investors={business.investors}
-                    min={business.min}
-                    valuation={business.valuation}
-                    link={`/business/${business.business_name}`}
-                    tag = {business.tag}
+                    className="mt-10"
+                    coverimg = {campaign.business_id.coverimg}
+                    profile= {campaign.business_id.profile}
+                    name= {campaign.business_id.name}
+                    description={campaign.business_id.description}
+                    raised={campaign.raised}
+                    investors="10"
+                    min={campaign.min_investment}
+                    valuation={campaign.business_id.valuation}
+                    link={`/business/${campaign.business_id.name}`}
+                    tag = {campaign.business_id.tag_list}
                   />
                   </Link>
                 ))}
