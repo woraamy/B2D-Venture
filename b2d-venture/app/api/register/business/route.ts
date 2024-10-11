@@ -3,15 +3,13 @@ import connectDB from "@/lib/connectDB";
 import BusinessRequest from "@/models/businessRequest";
 import User from "@/models/user";
 import Business from "@/models/business";
-import business from "@/models/business";
-import { hash } from "crypto";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   const hashPassword = async (password: string) => {
-      const saltRounds = 10;
-      return bcrypt.hash(password, saltRounds);
-    };
+    const saltRounds = 10;
+    return bcrypt.hash(password, saltRounds);
+  };
 
   try {
     // Parse the request body
@@ -32,7 +30,6 @@ export async function POST(req: NextRequest) {
       status,
     } = await req.json();
 
-    // Log the incoming data to check for missing fields
     console.log("Request body:", {
       firstName,
       lastName,
@@ -54,65 +51,72 @@ export async function POST(req: NextRequest) {
 
     // Check if a user with this email already exists
     const existingUser = await User.findOne({ email });
-        if (existingUser) {
-        return NextResponse.json(
-            { message: "User with this email already exists" },
-            { status: 400 }
-        );
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "User with this email already exists" },
+        { status: 400 }
+      );
     }
 
     // Retrieve the corresponding business request
     const businessRequest = await BusinessRequest.findOne({ email });
 
-    // Check if the business request exists
     if (!businessRequest) {
-        return NextResponse.json(
-            { message: "Business request not found" },
-            { status: 404 }
-        );
+      return NextResponse.json(
+        { message: "Business request not found" },
+        { status: 404 }
+      );
     }
 
     const hashedPassword = await hashPassword(password);
 
     // Handle case where typeOfBusiness is an array
-    const businessType = Array.isArray(typeOfBusiness) ? typeOfBusiness.join(", ") : typeOfBusiness;
+    const businessType = Array.isArray(typeOfBusiness)
+      ? typeOfBusiness.join(", ")
+      : typeOfBusiness;
 
     // Create a new business user
     const newUser = new User({
-        username,
-        email,
-        password: hashedPassword,
-        role: "business",
+      username,
+      email,
+      password: hashedPassword,
+      role: "business",
     });
     await newUser.save();
 
     // Create a new business record
     const newBusiness = new Business({
-        user_id: newUser._id,
-        firstName,
-        lastName,
-        BusinessName,
-        email,
-        contactNumber,
-        BusinessAddress,
-        city,
-        stateProvince,
-        postalCode,
-        country,
-        typeOfBusiness: businessType,
-        username,
-        status: "active",
+      user_id: newUser._id,
+      firstName,
+      lastName,
+      BusinessName,
+      email,
+      contactNumber,
+      BusinessAddress,
+      city,
+      stateProvince,
+      postalCode,
+      country,
+      typeOfBusiness: businessType,
+      username,
+      status: "active",
     });
     await newBusiness.save();
 
     // Update the business request status to "done"
-    businessRequest.status = "done";
-    await businessRequest.save();
+    const updatedRequest = await BusinessRequest.findOneAndUpdate(
+      { email },                   // Find the business request by email
+      { $set: { status: "done" } }, // Set status to "done"
+      { new: true }                 // Return the updated document
+    );
+
+    // Log and verify if update was successful
+    console.log("Updated business request:", updatedRequest);
 
     // Return success response
     return NextResponse.json(
-    { message: "Business and user created successfully" },
-    { status: 200 }
+      { message: "Business and user created successfully" },
+      { status: 200 }
     );
 
   } catch (error) {
