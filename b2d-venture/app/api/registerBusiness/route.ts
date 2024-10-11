@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import BusinessRequest from "@/models/businessRequest"; // Assuming you have a model for business requests
 import User from "@/models/user";
+import Business from "@/models/business"; // Import the Business model
 
 // Handle POST request
 export async function POST(req: NextRequest) {
@@ -27,6 +28,41 @@ export async function POST(req: NextRequest) {
 
     // Connect to the database
     await connectDB();
+
+    if (status != "pending") {
+        const newUser = await User.create({
+            username,
+            email,
+            password,
+            role: "business",
+          });
+
+        const newBusiness = await Business.create({
+            user_id: newUser._id,
+            firstName,
+            lastName,
+            BusinessName,
+            email,
+            contactNumber,
+            BusinessAddress,
+            city,
+            stateProvince,
+            postalCode,
+            country,
+            typeOfBusiness,
+            username,
+            role,
+          });
+        
+        await newUser.save();
+        console.log("User registrated successfully");
+        await newBusiness.save();
+        console.log("Business registrated successfully");
+
+        return null;
+      
+    }
+
 
     // Check if a user with this email already exists
     const existingUser = await User.findOne({ email });
