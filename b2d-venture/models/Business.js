@@ -5,19 +5,20 @@ const BusinessSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId, 
         required: false, 
         ref:'User'},
-      name: String,
+      firstName: String,
+      lastName:  String,
+      c: String,
+      email: String,
+      contactNumber: String,
+      BusinessAddress: String,
+      city: String,
+      stateProvince: String,
+      postalCode: String,
+      country: String,
       description: String,
       valuation: Number,
       coverimg: String,
       profile: String,
-      status: {
-        type: String,
-        enum: ['active','pending','suspended']
-      },
-      contact_information: {
-        type: Map,
-        of: String,
-      },
       tag_list: [{
         type: String
         }]

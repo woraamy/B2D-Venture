@@ -85,13 +85,13 @@ export default async function Home() {
                     className="mt-10"
                     coverimg = {campaign.business_id.coverimg}
                     profile= {campaign.business_id.profile}
-                    name= {campaign.business_id.name}
+                    name= {campaign.business_id.BusinessName}
                     description={campaign.business_id.description}
                     raised={campaign.raised}
                     investors="10"
                     min={campaign.min_investment}
                     valuation={campaign.business_id.valuation}
-                    link={`/business/${campaign.business_id.name}`}
+                    link={`/business/${campaign.business_id.BusinessName}`}
                     tag = {campaign.business_id.tag_list}
                   />
                   </Link>
@@ -105,13 +105,13 @@ export default async function Home() {
                     className="mt-10"
                     coverimg = {campaign.business_id.coverimg}
                     profile= {campaign.business_id.profile}
-                    name= {campaign.business_id.name}
+                    name= {campaign.business_id.BusinessName}
                     description={campaign.business_id.description}
                     raised={campaign.raised}
                     investors="10"
                     min={campaign.min_investment}
                     valuation={campaign.business_id.valuation}
-                    link={`/business/${campaign.business_id.name}`}
+                    link={`/business/${campaign.business_id.BusinessName}`}
                     tag = {campaign.business_id.tag_list}
                   />
                   </Link>
