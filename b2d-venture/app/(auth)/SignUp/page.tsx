@@ -96,7 +96,7 @@ function SignUp() {
           <Tabs className="mt-10 flex justify-center">
             <TabsList className="w-[300px] md:w-[500px] md:h-[45px]">
               <TabsTrigger
-                value="investor"
+                value="Investor"
                 className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'investor' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
                 onClick={() => handleRoleSelect("investor")}
               >
@@ -114,7 +114,7 @@ function SignUp() {
 
           {/* Conditional rendering of forms */}
           <div>
-            {selectedRole === "investor" ? (
+            {selectedRole === "Investor" ? (
               <RegisterInvestor onFormValidated={handleFormValidated} />
             ) : selectedRole === "Business" ? (
               <RegisterBusiness onFormValidated={handleFormValidated} />

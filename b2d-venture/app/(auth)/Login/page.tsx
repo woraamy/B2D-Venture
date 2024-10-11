@@ -30,18 +30,37 @@ function LoginPage() {
           const businessRequestRes = await fetch(`/api/getBusinessRequestStatus?email=${email}`);
           const businessRequestData = await businessRequestRes.json();
           const status = businessRequestData.businessRequest.status; // Get status from the returned object
+          const { firstName, lastName, BusinessName, contactNumber, BusinessAddress, city, stateProvince, postalCode, country, typeOfBusiness, username, password } = businessRequestData.businessRequest;
 
 
               // If business request is approved, create the business user and activate it
+          console.log(status);
           if (status === "approved") {
-            const activateBusinessRes = await fetch("/api/registerBusiness", {
+            const activateBusinessRes = await fetch("/api/register/business", {
               method: "POST",
-              body: JSON.stringify({ email }),
+              body: JSON.stringify({ 
+                firstName: firstName,
+                lastName: lastName,
+                BusinessName: BusinessName,
+                contactNumber: contactNumber,
+                BusinessAddress: BusinessAddress,
+                stateProvince: stateProvince,
+                postalCode: postalCode,
+                city: city,
+                country: country,
+                typeOfBusiness: typeOfBusiness,
+                username: username,
+                password: password,
+                email: email,
+                status: status,
+                role: "business"
+               }),
               headers: { "Content-Type": "application/json" },
             });
 
             if (!activateBusinessRes.ok) {
               toast.error("Error activating business account");
+              console.log(activateBusinessRes)
               return;
             }
 
