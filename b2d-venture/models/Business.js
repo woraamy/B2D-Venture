@@ -19,6 +19,7 @@ const Business = mongoose.Schema(
       stateProvince: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      typeOfBusiness: { type: String },
       username: { type: String, required: true },
       password: { type: String, required: true },
       description: Text,

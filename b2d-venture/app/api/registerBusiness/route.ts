@@ -22,14 +22,13 @@ export async function POST(req: NextRequest) {
       typeOfBusiness,
       username,
       password,
-      role,
       status,
     } = await req.json();
 
     // Connect to the database
     await connectDB();
 
-    if (status != "pending") {
+    if (status == "approved") {
         const newUser = await User.create({
             username,
             email,
@@ -51,7 +50,7 @@ export async function POST(req: NextRequest) {
             country,
             typeOfBusiness,
             username,
-            role,
+            status: "active",
           });
         
         await newUser.save();
