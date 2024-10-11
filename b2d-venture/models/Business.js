@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Business = mongoose.Schema(
+const BusinessSchema = mongoose.Schema(
     { 
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -27,5 +27,5 @@ const Business = mongoose.Schema(
       }
   );
 
-  const business = mongoose.models.Business || mongoose.model("Business", Business);
+  const business = mongoose.models.Business|| mongoose.model("Business", BusinessSchema);
   export default business

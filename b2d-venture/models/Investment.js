@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Investment = mongoose.Schema(
+const InvestmentSchema = mongoose.Schema(
     {
       investor_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -21,4 +21,4 @@ const Investment = mongoose.Schema(
   );
 
   
-  export default mongoose.models.Investment || mongoose.model("Investment", Investment);
+  export default mongoose.models.Investment || mongoose.model("Investment", InvestmentSchema);

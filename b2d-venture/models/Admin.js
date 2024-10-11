@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Admin = mongoose.Schema(
+const AdminSchema = mongoose.Schema(
     {
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -17,4 +17,4 @@ const Admin = mongoose.Schema(
   );
 
   
-  export default mongoose.models.Admin || mongoose.model("Admin", Admin);
+  export default mongoose.models.Admin || mongoose.model("Admin", AdminSchema);

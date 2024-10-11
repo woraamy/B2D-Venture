@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Investor = mongoose.Schema(
+const InvestorSchema = mongoose.Schema(
     {
       name: String,
       user_id: { 
@@ -32,4 +32,4 @@ const Investor = mongoose.Schema(
   );
 
   
-  export default mongoose.models.Investor || mongoose.model("Investor", Investor);
+  export default mongoose.models.Investor || mongoose.model("Investor", InvestorSchema);

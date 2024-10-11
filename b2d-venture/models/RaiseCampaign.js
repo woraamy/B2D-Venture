@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const RaisedCampaign = mongoose.Schema(
+const RaisedCampaignSchema = mongoose.Schema(
     {
       business_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -22,4 +22,4 @@ const RaisedCampaign = mongoose.Schema(
   );
 
   
-  export default mongoose.models.RaisedCampaign || mongoose.model("RaisedCampaign", RaisedCampaign);
+  export default mongoose.models.RaisedCampaign || mongoose.model("RaisedCampaign", RaisedCampaignSchema);
