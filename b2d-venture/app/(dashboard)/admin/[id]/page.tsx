@@ -8,6 +8,7 @@ import User from "@/models/user"
 import RaiseCampaign from "@/models/RaiseCampaign";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
 
 export default async function Page({ params }) {
     await connect();
@@ -58,7 +59,16 @@ export default async function Page({ params }) {
                     </div>
                     <div className="ml-7">
                         <h1 className="text-[32px] mt-5 font-bold">Business request</h1>    
-                        <div className="flex w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md"></div>    
+                        <div className="flex px-5 py-3 w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md">
+                            <InvestorRequestCard 
+                                contact="0123456789" 
+                                name="John smith" 
+                                description="focuses on investing in early-stage startups that have the potential to transform industries. Our primary interest lies in technology-driven ventures, particularly in Artificial Intelligence (AI), FinTech, and Machine Learning, where we see tremendous growth opportunities." 
+                                email="test.test@gmail.com"
+                                link="670798f622c345724e722e58"
+                                business="The New Shop"
+                                />
+                        </div>    
                     </div>
                 
                 </div>

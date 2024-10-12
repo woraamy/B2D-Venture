@@ -19,6 +19,7 @@ const InvestorSchema = mongoose.Schema(
       lastName: {
         type: String,
       },
+      contactNumber: String,
       birthDate: {
         type: Date,
       },
