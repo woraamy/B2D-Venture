@@ -4,7 +4,8 @@ import { BsFileBarGraphFill } from "react-icons/bs";
 import { RiInformation2Fill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { CiSquareQuestion } from "react-icons/ci";
-
+import { FaUser } from "react-icons/fa";
+import { SiCampaignmonitor } from "react-icons/si";
 
 export default function AdminSideNav({id}) {
     const pathname = usePathname();
@@ -26,11 +27,11 @@ export default function AdminSideNav({id}) {
                     <Link href={`/admin/${id}/request`} className="ml-2">Request</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${user}`}>
-                    < RiInformation2Fill />
+                    < FaUser />
                     <Link href={`/admin/${id}/user`} className="ml-2">User</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${campaign}`}>
-                    < RiInformation2Fill />
+                    < SiCampaignmonitor />
                     <Link href={`/admin/${id}/campaign`} className="ml-2">Raise Campaign</Link>
                 </div>
             </div>
