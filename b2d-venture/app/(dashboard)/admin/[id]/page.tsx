@@ -9,11 +9,12 @@ import RaiseCampaign from "@/models/RaiseCampaign";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
 import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequest from "@/models/businessRequest";
 
 export default async function Page({ params }) {
     await connect();
     const {id} = params;
-
+    const businessrequest = await BusinessRequest.find() 
     const activeInvestor = await User.countDocuments({role:'investor'})
     const activeBusiness = await User.countDocuments({role:'business'})
     const activeCampaign = await RaiseCampaign.countDocuments()
@@ -47,14 +48,16 @@ export default async function Page({ params }) {
                     <div>
                         <h1 className="text-[32px] mt-5 font-bold ">Business request</h1>
                         <div className="flex px-5 py-3 w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md">
-                            <BusinessRequestCard 
-                                contact="0123456789" 
-                                address="Franchised convenience store network with 150+ locations across India"
-                                name="AI" 
-                                description="asdasdasdsadsadasdsadowpqe uhfekfweori[wprmqpeumqwnxw9e90q3yr3urhc" 
-                                tag={["ass","asdasd","sda"]} 
-                                email="test.test@gmail.com"
+                            {businessrequest.map((req)=>(
+                                <BusinessRequestCard 
+                                contact={req.contactNumber}
+                                address={req.BusinessAddress + req.stateProvince + req.city + req.country + req.postalCode}  
+                                name={req.BusinessName} 
+                                description={req.description}
+                                tag={req.typeOfBusiness} 
+                                email={req.email}
                                 />
+                            ))}
                         </div>    
                     </div>
                     <div className="ml-7">
