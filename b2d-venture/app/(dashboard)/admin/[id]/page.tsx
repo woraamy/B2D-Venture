@@ -7,7 +7,7 @@ import connect from "@/lib/connectDB";
 import User from "@/models/user"
 import RaiseCampaign from "@/models/RaiseCampaign";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-
+import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
 
 export default async function Page({ params }) {
     await connect();
@@ -45,7 +45,16 @@ export default async function Page({ params }) {
                 <div className='ml-5 mb-10 flex'>
                     <div>
                         <h1 className="text-[32px] mt-5 font-bold ">Business request</h1>
-                        <div className="flex w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md"></div>    
+                        <div className="flex px-5 py-3 w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md">
+                            <BusinessRequestCard 
+                                contact="0123456789" 
+                                address="sdasdwaasdasdsadsadsadasdsad"
+                                name="AI" 
+                                description="asdasdasdsadsadasdsadowpqe uhfekfweori[wprmqpeumqwnxw9e90q3yr3urhc" 
+                                tag={["ass,asdasd,sda"]} 
+                                email="test.test@gmail.com"
+                                />
+                        </div>    
                     </div>
                     <div className="ml-7">
                         <h1 className="text-[32px] mt-5 font-bold">Business request</h1>    
