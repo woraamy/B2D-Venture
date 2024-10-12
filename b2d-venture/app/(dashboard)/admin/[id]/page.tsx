@@ -50,6 +50,7 @@ export default async function Page({ params }) {
                         <div className="flex overflow-auto px-5 py-3 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
                             {businessrequest.map((req)=>(
                                 <BusinessRequestCard 
+                                key={req._id}
                                 contact={req.contactNumber}
                                 address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                                 name={req.BusinessName} 
