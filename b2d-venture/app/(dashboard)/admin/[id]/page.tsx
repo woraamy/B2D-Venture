@@ -48,10 +48,10 @@ export default async function Page({ params }) {
                         <div className="flex px-5 py-3 w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md">
                             <BusinessRequestCard 
                                 contact="0123456789" 
-                                address="sdasdwaasdasdsadsadsadasdsad"
+                                address="Franchised convenience store network with 150+ locations across India"
                                 name="AI" 
                                 description="asdasdasdsadsadasdsadowpqe uhfekfweori[wprmqpeumqwnxw9e90q3yr3urhc" 
-                                tag={["ass,asdasd,sda"]} 
+                                tag={["ass","asdasd","sda"]} 
                                 email="test.test@gmail.com"
                                 />
                         </div>    

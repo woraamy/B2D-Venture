@@ -3,23 +3,21 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
-
+import { Button } from "../ui/button";
 const BusinessRequestCard = ({className, email, contact, address, name, description, tag}) => {
  return (
     <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-white rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
             
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-white h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
-                        <div className="relative z-10 -top-7  ">
-                        </div>
+                    <CardContent className="relative z-0 bg-white h-[400px] .text-[24px] ">
                         <div className="relative -top-7">
                             <div className="overflow-hidden relative ml-2 h-[110px]">
-                                
                                 <h2 className="mt-10 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="ml-2 flex">
+                            
+                            <div className="ml-2 mt-2 flex">
                                {Array.isArray(tag) && tag.map((tag, index) => (
                                     <Tag className="pr-2"
                                     key={index}
@@ -27,7 +25,7 @@ const BusinessRequestCard = ({className, email, contact, address, name, descript
                                     />
                                 ))}
                             </div>
-                            <div className="mt-4">
+                            <div className="relative block flex-col mt-4 overflow-hidden">
                                 <hr className="mb-2  border-t border-gray-300" />
                                 <div className="flex">
                                     <p className="ml-2">Email</p>
@@ -37,12 +35,18 @@ const BusinessRequestCard = ({className, email, contact, address, name, descript
                                     <p className="ml-2">Tel.</p>
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
-                                <div className="flex">
+                                <div className="mr-2 flex relative">
                                     <p className="ml-2">Address</p>
-                                    <p className="ml-2 text-[15px] font-semibold">{address}</p>
+                                    <p className="ml-2 block text-[15px] font-semibold">{address}</p>
                                 </div>
-                
+                                <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">
+                                    Allow
+                                </Button>
+                                <Button className="rounded-3xl ml-3 bg-red-600  hover:bg-blue-950">
+                                    Reject
+                                </Button>
                             </div>
+                            
                         </div>
                     </CardContent>
                 

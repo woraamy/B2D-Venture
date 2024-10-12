@@ -36,7 +36,8 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                         </div>
                         <div className="relative -top-7">
                             <div className="overflow-hidden relative ml-2 h-[110px]">
-                                <h1 className="mt-2 font-semibold"> {name}</h1>                                <p className="text-[15px] font-normal">{description}</p>
+                                <h1 className="mt-2 font-semibold"> {name}</h1>
+                                <p className="text-[15px] font-normal">{description}</p>
                             </div>
                             <div className="ml-2 flex">
                                {Array.isArray(tag) && tag.map((tag, index) => (
