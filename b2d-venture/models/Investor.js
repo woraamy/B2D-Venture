@@ -10,9 +10,7 @@ const InvestorSchema = mongoose.Schema(
         },
       investor_description: String,
       profile_picture: String,
-      investment_history: [{
-        type:mongoose.Schema.Types.ObjectId, ref:investment
-        }],
+      email: String,
       firstName: {
         type: String,
       },
@@ -32,5 +30,6 @@ const InvestorSchema = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.Investor || mongoose.model("Investor", InvestorSchema);
+  const data = mongoose.models.Investor || mongoose.model("Investor", InvestorSchema);
+
+  export default data
