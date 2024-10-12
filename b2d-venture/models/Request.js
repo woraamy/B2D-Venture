@@ -18,13 +18,19 @@ const RequestSchema = mongoose.Schema(
         required: true, 
         unique: true, 
         ref:'Admin' 
-        },  
-      amount: Integer,
+        },
       request_status: {
         type: String,
-        enum: [approved, pending, declined]
-        }  
+        enum: ["approved", "pending", "declined"]
+        },
+      request_type: {
+        type: String,
+        enum: ["ask_information"]
+        },
     },
+    {
+        timestamps: true,
+      }
   );
 
   

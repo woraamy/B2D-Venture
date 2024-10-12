@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import mongoose from "mongoose";
 const BusinessSchema = mongoose.Schema(
     { 
@@ -21,7 +22,11 @@ const BusinessSchema = mongoose.Schema(
       profile: String,
       tag_list: [{
         type: String
-        }]
+         }]
+      status: {
+        type: String,
+        enum: ['active','pending','suspended']
+      }
     },
     {
         timestamps: true,
@@ -30,3 +35,4 @@ const BusinessSchema = mongoose.Schema(
 
   const business = mongoose.models.Business|| mongoose.model("Business", BusinessSchema);
   export default business
+

@@ -4,6 +4,7 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import connectDB from "@/lib/connectDB";
+import { toast } from "react-toastify";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -22,9 +23,31 @@ const authOptions: NextAuthOptions = {
           const user = await User.findOne({ email });
 
           if (!user) {
-            console.log("User not found");
+            try {
+                const businessRequestRes = await fetch(`/api/getBusinessRequestStatus?email=${email}`);
+                const { status } = await businessRequestRes.json();
+
+                    // If business request is approved, create the business user and activate it
+                if (status === "approved") {
+                    const activateBusinessRes = await fetch("/api/register/businessRequest", {
+                    method: "POST",
+                    body: JSON.stringify({ email }),
+                    headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (!activateBusinessRes.ok) {
+                    toast.error("Error activating business account");
+                    return;
+                    }
+
+                    // // Optionally, display success message
+                    // toast.success("Your business account has been activated!");
+                }
+            }
+            catch { console.log("User not found") };
             return null;
           }
+
 
           // Compare provided password with hashed password in DB
           const passwordMatch = await bcrypt.compare(password, user.password);

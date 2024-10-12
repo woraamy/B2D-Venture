@@ -15,6 +15,7 @@ const FormSchema = z
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string().min(8, { message: "Password should be at least 8 characters" }),
     confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
+    role: z.literal("investor"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -36,11 +37,12 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "investor",
     },
   });
 
   const handleInvestorSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const { username, email, password } = data;
+    const { username, email, password, role } = data;
 
     try {
       const res = await fetch("http://localhost:3000/api/register", {
@@ -52,6 +54,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           username,
           email,
           password,
+          role
         }),
       });
 
