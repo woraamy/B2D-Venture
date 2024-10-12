@@ -22,7 +22,7 @@ const BusinessSchema = mongoose.Schema(
       profile: String,
       tag_list: [{
         type: String
-         }]
+         }],
       status: {
         type: String,
         enum: ['active','pending','suspended']
