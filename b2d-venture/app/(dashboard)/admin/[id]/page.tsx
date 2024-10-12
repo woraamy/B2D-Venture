@@ -6,6 +6,8 @@ import ReportCard from "@/components/shared/ReportCard";
 import connect from "@/lib/connectDB";
 import User from "@/models/user"
 import RaiseCampaign from "@/models/RaiseCampaign";
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+
 
 export default async function Page({ params }) {
     await connect();
@@ -28,19 +30,31 @@ export default async function Page({ params }) {
 
     return(
         <>
-        <div className=" flex flex-wrap w-[85vw] h-[100%]">
-            {/* <div id="bar graph" className="flex w-[55vw] h-1/2 border-r-2 border-b-2"> */}
-                <div className="mt-5 ml-10">
-                    <h1 className="text-[32px] font-bold">Dashboard</h1>                    
-                    <div className="ml-3 flex">
-                    <ReportCard name='Active Investor' amout={activeInvestor}/>
-                    <ReportCard name='Active Business' amout={activeBusiness}/>
-                    <ReportCard name='Active Raise Campaign' amout={activeCampaign}/>
-                    <ReportCard name='Total Raised' amout={totalRaised.total}/>
+        <div className="flex-wrap w-[85vw] h-[100%]">
+            <div className="flex-col ml-10 mt-5">
+                <h1 className="text-[32px] font-bold ml-5">Dashboard</h1>      
+                    <div className="flex ml-3">
+                        <ReportCard name='Active Investor' amout={activeInvestor}/>
+                        <ReportCard name='Active Business' amout={activeBusiness}/>
+                        <ReportCard name='Active Raise Campaign' amout={activeCampaign}/>
+                        <ReportCard name='Total Raised' amout={totalRaised.total}/>
                     </div>
+                <div className="px-2">
+                    <Card className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">d</Card>
                 </div>
-            {/* </div> */}
-
+                <div className='ml-5 mb-10 flex'>
+                    <div>
+                        <h1 className="text-[32px] mt-5 font-bold ">Business request</h1>
+                        <div className="flex w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md"></div>    
+                    </div>
+                    <div className="ml-7">
+                        <h1 className="text-[32px] mt-5 font-bold">Business request</h1>    
+                        <div className="flex w-[37vw] h-[40vh] mt-5 bg-white rounded-xl shadow-md"></div>    
+                    </div>
+                
+                </div>
+                   
+            </div>
         </div>
     </>
     );
