@@ -15,7 +15,7 @@ export default function AdminSideNav({id}) {
     const campaign = pathname.startsWith(`/admin/${id}/campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
-        <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[90vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
+        <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[100vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
             <div className="relative ml-[20%] mt-20 w-[70%] ">
                 <span className="p-3">MENU</span>
                 <div className={`flex p-3 mt-2 ${dashboard}`}>
