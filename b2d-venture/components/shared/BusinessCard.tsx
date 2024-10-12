@@ -22,7 +22,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 
             
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-white h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
+                    <CardContent className="relative z-0 bg-hite h-[400px] .text-[24px]  transition-transform duration-400 transform group-hover:-translate-y-[120px]">
                         <div className="relative z-10 -top-7  ">
                             <div className="relative w-[50px] h-[50px] ">
                                 <Image 
@@ -31,7 +31,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                 alt="Business Image" 
                                 fill={true}
                                 className="rounded-t-xl"
-                                />
+                                />w
                             </div>
                         </div>
                         <div className="relative -top-7">

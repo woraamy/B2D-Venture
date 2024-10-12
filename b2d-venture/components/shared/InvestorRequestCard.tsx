@@ -13,7 +13,7 @@ const InvestorRequestCard = ({className, email, contact, name, description,busin
                     <Link href={`/business/${link}`} className="ml-2 underline hover:text-blue-700">{business}</Link>
                 </CardHeader>
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-white h-[400px] ">
+                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] ">
                         <div className="relative">
                             <div className="overflow-auto relative ml-2 h-[160px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>

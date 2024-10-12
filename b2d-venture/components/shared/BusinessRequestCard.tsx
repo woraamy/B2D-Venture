@@ -10,7 +10,7 @@ const BusinessRequestCard = ({className, email, contact, address, name, descript
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
             
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-white h-[400px] .text-[24px] ">
+                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] .text-[24px] ">
                         <div className="relative -top-7">
                             <div className="overflow-hidden relative ml-2 h-[110px]">
                                 <h2 className="mt-10 font-semibold">{name}</h2>
