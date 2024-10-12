@@ -13,24 +13,13 @@ const RequestSchema = mongoose.Schema(
         unique: true, 
         ref:'Business' 
         },
-      admin_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
-        ref:'Admin' 
-        },
       request_status: {
         type: String,
         enum: ["approved", "pending", "declined"]
         },
-      request_type: {
-        type: String,
-        enum: ["ask_information"]
-        },
+      reason: String,
+      createdAt: { type: Date, default: Date.now },
     },
-    {
-        timestamps: true,
-      }
   );
 
   
