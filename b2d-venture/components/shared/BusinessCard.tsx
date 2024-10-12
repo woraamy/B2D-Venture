@@ -61,10 +61,12 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                     <p className="ml-2 text-[15px] font-semibold">{min}</p>
                                     <p className="ml-2">min. investment</p>
                                 </div>
-                                <div className="flex">
-                                    <p className="ml-2 text-[15px] font-semibold">{valuation}</p>
-                                    <p className="ml-2">valuation cap</p>
+                                {status === "pending" && (
+                                <div className="flex justify-start mt-2">
+                                    <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                 </div>
+                                )}
                             </div>
                         </div>
                     </CardContent>

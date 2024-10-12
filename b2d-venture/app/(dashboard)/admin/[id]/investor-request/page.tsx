@@ -32,7 +32,7 @@ export default async function Page({ params }) {
             </div>
             <div className="ml-7">
                 <h1 className="text-[32px] mt-5 font-bold">Business request</h1>    
-                <div className="flex px-5 py-5 ">
+                <div className="flex flex-wrap gap-4 justify-between ">
                     {investorRequest.map((req)=>(
                         <InvestorRequestCard
                         key={req.id} 
@@ -43,7 +43,7 @@ export default async function Page({ params }) {
                         link={req.business_id.toString()}
                         business={req.business_id.BusinessName}
                         reason={req.reason}
-                        className='mr-5'
+                        className='ml-5'
                         />
                     ))}
                 </div>    

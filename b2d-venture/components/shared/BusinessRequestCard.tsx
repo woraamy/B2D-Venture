@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
 import { Button } from "../ui/button";
-const BusinessRequestCard = ({className, email, contact, address, name, description, tag}) => {
+const BusinessRequestCard = ({className, email, contact, address, name, description, tag, status}) => {
  return (
     <div className ={className}>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
@@ -39,12 +39,17 @@ const BusinessRequestCard = ({className, email, contact, address, name, descript
                                     <p className="ml-2">Address</p>
                                     <p className="ml-2 block text-[15px] font-semibold">{address}</p>
                                 </div>
-                                <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">
-                                    Allow
-                                </Button>
-                                <Button className="rounded-3xl ml-3 bg-red-600  hover:bg-blue-950">
-                                    Reject
-                                </Button>
+                                {status === "pending" ? (
+                                    <div className="flex justify-start mt-2">
+                                    <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    </div>
+                                ) : status === "approved"|| "done" ? (
+                                    <p className="mt-2 text-green-600">Request approved</p>
+                                ) : (
+                                    <p className="mt-2 text-red-600">Request rejected</p>
+                                 )}
+
                             </div>
                             
                         </div>
