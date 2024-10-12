@@ -62,6 +62,7 @@ export default async function Page({ params }) {
                                 description={req.description}
                                 tag={req.typeOfBusiness} 
                                 email={req.email}
+                                status={req.status}
                                 className='mr-5'
                                 />
                             ))}
@@ -80,6 +81,7 @@ export default async function Page({ params }) {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
+                                status={req.request_status}
                                 className='mr-5'
                                 />
                             ))}
