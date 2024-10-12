@@ -2,9 +2,9 @@
 import { Card, CardContent, CardHeader } from "../ui/card"
 export default function DetailCard({Data}){
     if (!Data || Data.goal === 0) return null; 
-    const percent = (parseInt(Data.raised.replace(/,/g, ''))/parseInt(Data.goal.replace(/,/g, '')))*100;
+    const percent = parseInt(Data.raised)/parseInt(Data.goal)*100;
     const formattedPercent = percent.toFixed(2);
-    const mformatt = (parseInt(Data.goal.replace(/,/g, ''))/1000000).toFixed(2);
+    const mformatt = (parseInt(Data.goal)/1000000).toFixed(2);
     return(
         <Card className="bg-white h-[30rem] w-[30rem] shadow-lg ">
             <CardHeader className="border-b-4 border-[#D9D9D9]">
@@ -25,23 +25,23 @@ export default function DetailCard({Data}){
                 <table className="text-[16px] mt-5">
                     <tr>
                         <td className="w-[60%] py-2">Valuation cap</td>
-                        <td className="font-semibold">${Data.valuation}</td>
+                        <td className="font-semibold px-5">${Data.business_id.valuation}</td>
                     </tr>
                     <tr>
                         <td>Minimum investment</td>
-                        <td className="font-semibold py-2">${Data.min}</td>
+                        <td className="font-semibold py-2 px-5">${Data.min_investment}</td>
                     </tr>
                     <tr>
                         <td>Maximum investment</td>
-                        <td className="font-semibold py-2">${Data.max}</td>
+                        <td className="font-semibold py-2 px-5">${Data.max_investment}</td>
                     </tr>
                     <tr>
                         <td>Investors</td>
-                        <td className="font-semibold py-2">${Data.investors}</td>
+                        <td className="font-semibold py-2 px-5">"10"</td>
                     </tr>
                     <tr>
                         <td>Deadline</td>
-                        <td className="font-semibold py-2">${Data.deadline}</td>
+                        <td className="font-semibold py-2 px-5">{Data.end_date.slice(0, 10)}</td>
                     </tr>
                     
                 </table>

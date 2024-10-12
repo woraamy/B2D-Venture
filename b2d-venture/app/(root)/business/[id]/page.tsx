@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/ui/popup";
-async function fetchbusinessData(id){
-    const filePath = process.cwd() + '/public/data/business.json';
-    const file = await fs.readFile(filePath);
-    const data = JSON.parse(file.toString());
-    return data.find((entry) => entry.id === parseInt(id, 10));
-}
+import Business from "@/models/Business"
+import connect from "@/lib/connectDB"
+import RaiseCampaign from "@/models/RaiseCampaign";
+
 export default async function Page({params}) {
     const {id} = params;
-    const business = await fetchbusinessData(id);
-    if (!business) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${id}`);
+    const {data}  =  await res.json();
+   
+    if (!data) {
         return <div>business not found</div>;
     }
   
@@ -29,7 +29,7 @@ export default async function Page({params}) {
                 <div className="flex">
                     <div className="relative h-[100px] w-[100px]">
                         <Image 
-                        src={business.profile}
+                        src={data.business_id.profile}
                         alt="profile"
                         fill={true}
                         style={{objectFit:"cover"}}
@@ -37,23 +37,17 @@ export default async function Page({params}) {
                         />
                     </div>
                     <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business.business_name} </h1>
-                        <p className="text-[16px]">by {business.company}</p>
+                        <h1 className="text-[#18063C] text-[48px] font-semibold">{data.business_id.BusinessName} </h1>
+                        {/* <p className="text-[16px]">by {business.company}</p> */}
                     </div>
                 </div>
-                <p className="mt-5">{business.description}</p>
+                <p className="mt-5">{data.business_id.description}</p>
                 <div className="flex mt-2">
-                    {business.tag.map((item, key)=>(
-                        <Tag 
-                        key={key}
-                        tagName={item}
-                        className='mr-2' 
-                        />
-                    ))}
+
                 </div>
                 <div className="relative mt-5 h-[30rem] w-[45vw]">
                     <Image 
-                    src={business.coverimg}
+                    src={data.business_id.coverimg}
                     alt="s"
                     fill={true}
                     style={{objectFit:"cover"}}
@@ -92,7 +86,7 @@ export default async function Page({params}) {
 
             </div>
             <div className="fixed flex flex-col top-[15%] left-[65%]"> 
-                <DetailCard Data={business}/>
+                <DetailCard Data={data}/>
                 <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
                 <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
                     <Link href={`${id}?showDialog=y`} >Ask for more information</Link>

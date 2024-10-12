@@ -23,19 +23,8 @@ const AuthenticatedHeader = () => {
           Business
         </Link>
 
-        {/* <nav className="hidden md:flex flex-grow ml-6">
-          <NavItems />
-        </nav> */}
-
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">
-            {/* <Image
-              src="/path/to/profile-image.jpg"
-              alt="User Profile"
-              width={40}
-              height={40}
-              className="rounded-full"
-            /> */}
             <Link href="/settings/account" className="hover:text-blue-500">
               Profile
             </Link>

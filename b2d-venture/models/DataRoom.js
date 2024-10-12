@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const DataRoom = mongoose.Schema(
+const DataRoomSchema = mongoose.Schema(
     {
       name: String,
       business_id: { 
@@ -19,4 +19,4 @@ const DataRoom = mongoose.Schema(
   );
 
   
-  export default mongoose.models.DataRoom || mongoose.model("DataRoom", DataRoom);
+  export default mongoose.models.DataRoom || mongoose.model("DataRoom", DataRoomSchema);

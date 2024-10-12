@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Request = mongoose.Schema(
+const RequestSchema = mongoose.Schema(
     {
       investor_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -34,4 +34,4 @@ const Request = mongoose.Schema(
   );
 
   
-  export default mongoose.models.Request || mongoose.model("Request", Request);
+  export default mongoose.models.Request || mongoose.model("Request", RequestSchema);

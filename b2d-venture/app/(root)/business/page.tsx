@@ -4,11 +4,20 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import { promises as fs } from "fs";
 import Link from "next/link";
+import Business from "@/models/Business"
+import RaisedCampaign from "@/models/RaiseCampaign"
+import connect from "@/lib/connectDB";
+
+const getRaisedCampaign = async () => {
+        const business = await Business.find()
+        const raised = await RaisedCampaign.find().populate("business_id")
+        return raised 
+}
 
 
 export default async function Page() {
-    const file = await fs.readFile(process.cwd()+'/public/data/business.json');
-    const data = JSON.parse(file.toString());
+    await connect()
+    const data = await getRaisedCampaign()
       
     return(
         <>
@@ -23,20 +32,20 @@ export default async function Page() {
                 <Filter className="ms-5"/>
             </div>
             <div className="flex flex-wrap gap-4 ">
-                {data.map((business,index) =>(
-                    <Link href={`/business/${business.id}`} passHref>
+                {data.map((campaign,index) =>(
+                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                     <BusinessCard
                     className="mt-10"
-                    coverimg = {business.coverimg}
-                    profile= {business.profile}
-                    name= {business.business_name}
-                    description={business.description}
-                    raised={business.raised}
-                    investors={business.investors}
-                    min={business.min}
-                    valuation={business.valuation}
-                    link={`/business/${business.business_name}`}
-                    tag = {business.tag}
+                    coverimg = {campaign.business_id.coverimg}
+                    profile= {campaign.business_id.profile}
+                    name= {campaign.business_id.BusinessName}
+                    description={campaign.business_id.description}
+                    raised={campaign.raised}
+                    investors="10"
+                    min={campaign.min_investment}
+                    valuation={campaign.business_id.valuation}
+                    link={`/business/${campaign.business_id.BusinessName}`}
+                    tag = {campaign.business_id.tag_list}
                   />
                   </Link>
                 ))}
@@ -49,4 +58,3 @@ export default async function Page() {
     );
 
 };
-

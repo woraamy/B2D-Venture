@@ -40,10 +40,10 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
                             <div className="ml-2 flex">
-                               {Array.isArray(tag) && tag.map((name, index) => (
+                               {Array.isArray(tag) && tag.map((tag, index) => (
                                     <Tag className="pr-2"
                                     key={index}
-                                    tagName={name} 
+                                    tagName={tag} 
                                     />
                                 ))}
                             </div>

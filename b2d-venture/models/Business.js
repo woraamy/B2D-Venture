@@ -1,40 +1,38 @@
 import { User } from "lucide-react";
 import mongoose from "mongoose";
-import { type } from "os";
-const businessSchema = mongoose.Schema(
-    {
+const BusinessSchema = mongoose.Schema(
+    { 
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        unique: true, 
-        ref:'User'
-      },
-      firstName: { type: String },
-      lastName: { type: String },
-      BusinessName: { type: String },
-      email: { type: String },
-      contactNumber: { type: String },
-      BusinessAddress: { type: String },
-      city: { type: String },
-      stateProvince: { type: String },
-      postalCode: { type: String },
-      country: { type: String },
-      typeOfBusiness: { type: String },
+        required: false, 
+        ref:'User'},
+      firstName: String,
+      lastName:  String,
+      c: String,
+      email: String,
+      contactNumber: String,
+      BusinessAddress: String,
+      city: String,
+      stateProvince: String,
+      postalCode: String,
+      country: String,
       description: String,
       valuation: Number,
+      coverimg: String,
+      profile: String,
+      tag_list: [{
+        type: String
+         }]
       status: {
         type: String,
         enum: ['active','pending','suspended']
-      },
-      tag_list: [{
-        type:mongoose.Schema.Types.ObjectId, 
-        ref:"Tag",
-        }]
+      }
     },
     {
         timestamps: true,
       }
   );
 
-  const Business = mongoose.models.Business || mongoose.model("Business", businessSchema);
+  const business = mongoose.models.Business|| mongoose.model("Business", BusinessSchema);
+  export default business
 
-  export default Business;
