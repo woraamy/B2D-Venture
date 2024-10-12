@@ -9,9 +9,9 @@ import { CiSquareQuestion } from "react-icons/ci";
 export default function AdminSideNav({id}) {
     const pathname = usePathname();
     const dashboard = /^\/admin\/\d+$/.test(pathname) ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
-    const request = pathname.startsWith("/admin/request" ) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const user = pathname.startsWith("/investor/sharedInformation") ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const campaign = pathname.startsWith("/investor/sharedInformation") ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const request = pathname.startsWith(`/admin/${id}/request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const user = pathname.startsWith(`/admin/${id}/user`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const campaign = pathname.startsWith(`/admin/${id}/campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[90vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
