@@ -1,16 +1,19 @@
 "use client"
 import Link from "next/link";
 import { BsFileBarGraphFill } from "react-icons/bs";
-import { RiInformation2Fill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
-import { CiSquareQuestion } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { SiCampaignmonitor } from "react-icons/si";
+import { MdBusinessCenter } from "react-icons/md";
+import { IoIosInformationCircle } from "react-icons/io";
+
+
 
 export default function AdminSideNav({id}) {
     const pathname = usePathname();
     const dashboard = /^\/admin\/\d+$/.test(pathname) ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
-    const request = pathname.startsWith(`/admin/${id}/request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const businessrequest = pathname.startsWith(`/admin/${id}/business-request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const investorrequest = pathname.startsWith(`/admin/${id}/investor-request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const user = pathname.startsWith(`/admin/${id}/user`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const campaign = pathname.startsWith(`/admin/${id}/campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
@@ -22,9 +25,13 @@ export default function AdminSideNav({id}) {
                     < BsFileBarGraphFill />
                     <Link href={`/admin/${id}`} className="ml-2">Dashboard</Link>
                 </div>
-                <div className={`flex mt-2 p-3 ${request}`}>
-                    < CiSquareQuestion />
-                    <Link href={`/admin/${id}/request`} className="ml-2">Request</Link>
+                <div className={`flex mt-2 p-3 ${businessrequest}`}>
+                    < MdBusinessCenter />
+                    <Link href={`/admin/${id}/business-request`} className="ml-2">Business Request</Link>
+                </div>
+                <div className={`flex mt-2 p-3 ${investorrequest}`}>
+                    < IoIosInformationCircle />
+                    <Link href={`/admin/${id}/investor-request`} className="ml-2">Investor Request</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${user}`}>
                     < FaUser />
