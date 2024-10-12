@@ -9,11 +9,13 @@ import Dialog from "@/components/ui/popup";
 import Business from "@/models/Business"
 import connect from "@/lib/connectDB"
 import RaiseCampaign from "@/models/RaiseCampaign";
+import ClientComponent from "./ClientComponent";
 
 export default async function Page({params}) {
     const {id} = params;
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${id}`);
     const {data}  =  await res.json();
+    const {campaignId} = data._id
    
     if (!data) {
         return <div>business not found</div>;
@@ -85,13 +87,14 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            <div className="fixed flex flex-col top-[15%] left-[65%]"> 
+            {/* <div className="fixed flex flex-col top-[15%] left-[65%]"> 
                 <DetailCard Data={data}/>
                 <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
                 <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
                     <Link href={`${id}?showDialog=y`} >Ask for more information</Link>
                 </Button>
-            </div>
+            </div> */}
+            <ClientComponent businessId={id} campaignId={campaignId} data={data}/>
             
         </div>
         </>

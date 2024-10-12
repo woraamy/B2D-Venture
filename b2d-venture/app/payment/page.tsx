@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify"; // For success notification
+import { toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
-
 
 export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const campaignId = searchParams.get("campaignId");
   const businessId = searchParams.get("businessId");
 
   const [cardNumber, setCardNumber] = useState("");
@@ -23,20 +23,35 @@ export default function PaymentPage() {
     setLoading(true);
 
     // Simulate payment processing
-    setTimeout(() => {
-      // Always pass the transaction
+    setTimeout(async () => {
+      // Simulate successful payment
       setLoading(false);
       toast.success("Payment successful!");
 
-      // Redirect to the business page after success
-      router.push(`/business/${businessId}`);
+      // After payment success, send data to create investment
+      const response = await fetch("/api/investment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          raisedcampaign_id: campaignId,
+          business_id: businessId,
+          amount_of_money: amount,
+        }),
+      });
+
+      if (response.ok) {
+        // Redirect to business page
+        router.push(`/business/${businessId}`);
+      } else {
+        toast.error("Failed to create investment.");
+      }
     }, 2000);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-700">Invest with Credit Card</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-700">Enter Payment Details</h2>
         <form onSubmit={handlePayment}>
           {/* Credit Card Number */}
           <div className="mb-4">
