@@ -27,7 +27,7 @@ export default function ClientComponent({
   // Function to fetch user role from the server
   const fetchUserRoleandInvestor = async () => {
     try {
-      const response = await fetch(`/api/register/checkUserRole?email=${userEmail}`);
+      const response = await fetch(`/api/fetchingData/getUserbyEmail?email=${userEmail}`);
       const user = await response.json();
       console.log("User:", user);
 
