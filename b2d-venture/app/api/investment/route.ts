@@ -8,7 +8,7 @@ import RaiseCampaign from "@/models/RaiseCampaign";
 export async function POST(req) {
   try {
     await connectDB();
-    const { investor_id, raisedcampaign_id, business_id, amount } = await req.json();
+    const { investor_id, raisedcampaign_id, amount } = await req.json();
 
     // Ensure investor and campaign exist
     const investor = await User.findById(investor_id);

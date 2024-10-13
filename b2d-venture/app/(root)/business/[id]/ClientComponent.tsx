@@ -22,14 +22,22 @@ export default function ClientComponent({
 }) {
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [investorId, setInvestorId] = useState<string | null>(null); // Store the investor ID
 
   // Function to fetch user role from the server
-  const fetchUserRole = async () => {
+  const fetchUserRoleandInvestor = async () => {
     try {
-      const response = await fetch(`/api/checkUserRole?email=${userEmail}`);
-      const result = await response.json();
-      if (result.user) {
-        setUserRole(result.user.role); // Assuming user object contains 'role'
+      const response = await fetch(`/api/register/checkUserRole?email=${userEmail}`);
+      const user = await response.json();
+      console.log("User:", user);
+
+      if (user && user._id) {
+        setUserRole(user.role);
+        const investorResponse = await fetch(`/api/fetchingData/getInvestorByUserId?userId=${user._id}`);
+        const investor = await investorResponse.json();
+        if (investor) {
+          setInvestorId(investor._id); 
+        }
       }
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -38,13 +46,13 @@ export default function ClientComponent({
 
   useEffect(() => {
     if (userEmail) {
-      fetchUserRole();
+      fetchUserRoleandInvestor();
     }
   }, [userEmail]);
 
   const handleRedirectToPayment = () => {
-    if (userRole === "investor") {
-      router.push(`/payment?campaignId=${campaignId}&businessId=${businessId}`);
+    if (userRole === "investor" && investorId) {
+      router.push(`/payment?campaignId=${campaignId}&businessId=${businessId}&investorId=${investorId}`);
     } else {
       toast.error("Only investors can make investments.");
     }

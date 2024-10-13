@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
+import investor from "@/models/investor";
 
 export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const campaignId = searchParams.get("campaignId");
   const businessId = searchParams.get("businessId");
+  const investorId = searchParams.get("investorId");
 
   const [cardNumber, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("");
@@ -33,9 +35,9 @@ export default function PaymentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          investor_id: investorId,
           raisedcampaign_id: campaignId,
-          business_id: businessId,
-          amount_of_money: amount,
+          amount: amount,
         }),
       });
 

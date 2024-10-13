@@ -10,6 +10,8 @@ import Business from "@/models/Business"
 import connect from "@/lib/connectDB"
 import RaiseCampaign from "@/models/RaiseCampaign";
 import ClientComponent from "./ClientComponent";
+import { getServerSession } from "next-auth"; 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
 
 export default async function Page({params}) {
     const {id} = params;
@@ -20,6 +22,9 @@ export default async function Page({params}) {
     if (!data) {
         return <div>business not found</div>;
     }
+
+    const session = await getServerSession(authOptions);
+    const userEmail = session?.user?.email || "";
   
     return(
         <>
@@ -87,7 +92,7 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            <ClientComponent businessId={id} campaignId={campaignId} data={data}/>
+            <ClientComponent businessId={id} campaignId={campaignId} data={data} userEmail={userEmail}/>
             
         </div>
         </>
