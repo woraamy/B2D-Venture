@@ -102,7 +102,7 @@ export default async function Page({ params }) {
                         </div>    
                     </div>
                     <div className="ml-7">
-                        <h1 className="text-[32px] mt-5 font-bold">Business request</h1>    
+                        <h1 className="text-[32px] mt-5 font-bold">Investor request</h1>    
                         <div className="flex px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
                             {investorRequest.map((req)=>(
                                 <InvestorRequestCard

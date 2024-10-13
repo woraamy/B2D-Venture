@@ -16,7 +16,7 @@ export default async function Page({ params }) {
     return(
         <div>
             <div className="ml-[10%] mt-[5%] w-[85vw]">
-                <h1 className="text-5xl font-bold">Business request</h1>
+                <h1 className="text-5xl font-bold">Investor request</h1>
                 <h1 className="text-3xl mt-5">Current Request</h1>
                 <div className="w-[80%]">
                     <div className="flex mt-5">
