@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart"
 
 
-
+// dummy data have to change later
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },

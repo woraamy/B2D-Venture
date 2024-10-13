@@ -4,7 +4,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 export default function ReportCard({className, name, amout}){
     return (
         <div className="py-5 px-2">
-            <Card className= "shadow-md overflow-hidden relative  w-[15vw] h-[120px] bg-white rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative  w-[14vw] h-[120px] bg-white rounded-xl">
                 <h1 className='text-xl py-3 px-5 font-bold'>{name}</h1>
                 <span className="text-3xl px-5 text-[#FF553E] ">{amout}</span>
             </Card>

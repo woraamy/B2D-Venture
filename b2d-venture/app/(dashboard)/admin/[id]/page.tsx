@@ -42,6 +42,7 @@ export default async function Page({ params }) {
                         <ReportCard name='Active Business' amout={activeBusiness}/>
                         <ReportCard name='Active Raise Campaign' amout={activeCampaign}/>
                         <ReportCard name='Total Raised' amout={totalRaised.total}/>
+                        <ReportCard name='Total Profit' amout='1234564'/>
                     </div>
                 <div className="px-2">
                     <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">
