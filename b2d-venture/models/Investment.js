@@ -13,12 +13,6 @@ const InvestmentSchema = mongoose.Schema(
         unique: true, 
         ref:'RaisedCampaign' 
         },
-      business_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
-        ref:'Business' 
-        },
       amount: {
         type: Number,
         required: true
@@ -26,7 +20,8 @@ const InvestmentSchema = mongoose.Schema(
       fee: {
         type: Number,
         require: true
-      }
+      },
+      createdAt: { type: Date, default: Date.now },
     },
   );
 

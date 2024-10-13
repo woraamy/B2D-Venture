@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -21,11 +21,12 @@ import {
 function getLastSixMonth(){
     const months = [];
     const now = new Date();
-    for (let i=5;i>0;i=i-1){
-        const date = new Date(now.getFullYear(), now.getMonth()-i);
-        const month = date.toLocaleString('en', { month: 'long' });
-        months.push(month)
-    } 
+    for (let i = 5; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i);
+        const monthName = date.toLocaleString('en', { month: 'long' });
+        const monthNum = date.getMonth() + 1;
+        months.push({ month: monthName, monthNum });
+      }
     return months
 }
 
@@ -41,18 +42,23 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function AdminChart({className}) {
+export function AdminChart({className, data}) {
     // dummy data have to change later
-    const month = getLastSixMonth();
-    console.log(month)
-    const chartData = [
-        { month: "January", raised: 186, profit: 80 },
-        { month: "February", raised: 305, profit: 200 },
-        { month: "March", raised: 237, profit: 120 },
-        { month: "April", raised: 73, profit: 190 },
-        { month: "May", raised: 209, profit: 130 },
-        { month: "June", raised: 214, profit: 140 },
-  ]
+
+    const months = getLastSixMonth();
+    months.forEach((month, i) => {
+        if (!data.some(item => item._id.month === month.monthNum)) {
+          data.splice(i, 0, { _id: { year: 2024, month: month.monthNum }, raised: 0, profit: 0 });
+        }
+      });
+    console.log(data)
+    const chartData =  data.map((data,index)=>({
+        month: months[index].month, 
+        raised: data.raised,
+
+        profit: data.profit,
+  }));
+  console.log(chartData)
   return (
     <Card className={className} >
       <CardHeader>
@@ -78,6 +84,12 @@ export function AdminChart({className}) {
               axisLine={false}
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
+            />
+             <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `${value}`}
+              domain={[0, 'auto']}
             />
             <ChartTooltip
               cursor={false}

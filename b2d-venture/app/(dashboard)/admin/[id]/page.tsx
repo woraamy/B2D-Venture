@@ -9,6 +9,7 @@ import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
 import Business from '@/models/Business'
+import Investment from '@/models/Investment'
 import { AdminChart } from "@/components/charts/AdminChart";
 
 export default async function Page({ params }) {
@@ -26,11 +27,41 @@ export default async function Page({ params }) {
             $group:{
                 _id: null,
                 total: {
-                    $sum: "$raised"
-            }
+                    $sum: "$raised"}
             }
         }]
     )
+    const [profit] = await Investment.aggregate(
+        [{
+            $group:{
+                _id: null,
+                total: {
+                    $sum: "$fee"}
+            }
+        }]
+    )
+    const now = new Date();
+    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+    const chartData = await Investment.aggregate([
+        {
+          $match: {
+            created_at: { $gte: sixMonthsAgo }
+          }
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: "$created_at" },
+              month: { $month: "$created_at" }
+            },
+            raised: { $sum: "$amount" },
+            profit: { $sum: "$fee"}
+          }
+        },
+        {
+          $sort: { "_id.year": 1, "_id.month": 1 }
+        }
+      ]);
 
     return(
         <>
@@ -42,11 +73,13 @@ export default async function Page({ params }) {
                         <ReportCard name='Active Business' amout={activeBusiness}/>
                         <ReportCard name='Active Raise Campaign' amout={activeCampaign}/>
                         <ReportCard name='Total Raised' amout={totalRaised.total}/>
-                        <ReportCard name='Total Profit' amout='1234564'/>
+                        <ReportCard name='Total Profit' amout={profit.total}/>
                     </div>
                 <div className="px-2">
                     <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">
-                        <AdminChart className=""/>
+                        <AdminChart 
+                            className=""
+                            data={chartData}/>
                     </div>
                 </div>
                 <div className='ml-5 mb-10 flex'>
