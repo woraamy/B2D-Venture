@@ -31,8 +31,6 @@ export default function ClientComponent({
       const user = await response.json();
 
       if (user) { 
-        console.log('Joo');
-        console.log(user)
         setUserRole(user.user.role);
         const investorResponse = await fetch(`/api/fetchingData/getInvestorbyUserId?userId=${user.user._id}`);
         const investor = await investorResponse.json();
@@ -52,12 +50,8 @@ export default function ClientComponent({
   }, [userEmail]);
 
   const handleRedirectToPayment = () => {
-    console.log("Hello");
     
-    console.log(userRole);
     if (userRole === "investor" && investorId) {
-      console.log("Hello hello");
-      console.log(campaignId);
       router.push(`/payment?campaignId=${campaignId}&businessId=${businessId}&investorId=${investorId}`);
     } else {
       toast.error("Only investors can make investments.");

@@ -13,18 +13,14 @@ export async function GET(req: Request) {
   }
 
   try {
-    // Connect to the database
     await connectDB();
 
-    // Find the user in the database by email
     const user = await User.findOne({ email });
 
     if (!user) {
       return NextResponse.json({ user: null, message: "User not found" }, { status: 404 });
     }
 
-    // Return the found user
-    // console.log(user);
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     console.error("Error checking user:", error);

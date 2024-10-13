@@ -1,3 +1,4 @@
+import { create } from "domain";
 import mongoose from "mongoose";
 const InvestmentSchema = mongoose.Schema(
     {
@@ -15,6 +16,14 @@ const InvestmentSchema = mongoose.Schema(
         type: Number,
         required: true
         },
+      fee: {
+        type: Number,
+        required: true
+        },
+      created_at: {
+        type: Date,
+        default: Date.now
+      },
     },
   );
 
