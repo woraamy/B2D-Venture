@@ -31,7 +31,7 @@ export default function ClientComponent({
       const user = await response.json();
       console.log("User:", user);
 
-      if (user && user._id) {
+      if (user && user._id) { 
         setUserRole(user.role);
         const investorResponse = await fetch(`/api/fetchingData/getInvestorByUserId?userId=${user._id}`);
         const investor = await investorResponse.json();
