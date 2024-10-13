@@ -24,13 +24,10 @@ export default function PaymentPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate payment processing
     setTimeout(async () => {
-      // Simulate successful payment
       setLoading(false);
       toast.success("Payment successful!");
 
-      // After payment success, send data to create investment
       const response = await fetch("/api/investment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,7 +39,6 @@ export default function PaymentPage() {
       });
 
       if (response.ok) {
-        // Redirect to business page
         router.push(`/business/${businessId}`);
       } else {
         toast.error("Failed to create investment.");
