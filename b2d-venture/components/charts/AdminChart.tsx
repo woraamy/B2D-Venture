@@ -18,29 +18,41 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
+function getLastSixMonth(){
+    const months = [];
+    const now = new Date();
+    for (let i=5;i>0;i=i-1){
+        const date = new Date(now.getFullYear(), now.getMonth()-i);
+        const month = date.toLocaleString('en', { month: 'long' });
+        months.push(month)
+    } 
+    return months
+}
 
-// dummy data have to change later
-const chartData = [
-  { month: "January", raised: 186, profit: 80 },
-  { month: "February", raised: 305, profit: 200 },
-  { month: "March", raised: 237, profit: 120 },
-  { month: "April", raised: 73, profit: 190 },
-  { month: "May", raised: 209, profit: 130 },
-  { month: "June", raised: 214, profit: 140 },
-]
 
 const chartConfig = {
-  desktop: {
+    raised: {
     label: "raised",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
+  profit: {
     label: "profit",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
 
 export function AdminChart({className}) {
+    // dummy data have to change later
+    const month = getLastSixMonth();
+    console.log(month)
+    const chartData = [
+        { month: "January", raised: 186, profit: 80 },
+        { month: "February", raised: 305, profit: 200 },
+        { month: "March", raised: 237, profit: 120 },
+        { month: "April", raised: 73, profit: 190 },
+        { month: "May", raised: 209, profit: 130 },
+        { month: "June", raised: 214, profit: 140 },
+  ]
   return (
     <Card className={className} >
       <CardHeader>
@@ -74,17 +86,17 @@ export function AdminChart({className}) {
             <Area
               dataKey="raised"
               type="natural"
-              fill="var(--color-mobile)"
+              fill="var(--color-profit)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--color-profit)"
               stackId="a"
             />
             <Area
               dataKey="profit"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--color-raised)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-raised)"
               stackId="a"
             />
           </AreaChart>
