@@ -21,21 +21,21 @@ import {
 
 // dummy data have to change later
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "January", raised: 186, profit: 80 },
+  { month: "February", raised: 305, profit: 200 },
+  { month: "March", raised: 237, profit: 120 },
+  { month: "April", raised: 73, profit: 190 },
+  { month: "May", raised: 209, profit: 130 },
+  { month: "June", raised: 214, profit: 140 },
 ]
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "raised",
     color: "hsl(var(--chart-1))",
   },
   mobile: {
-    label: "Mobile",
+    label: "profit",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
@@ -44,9 +44,9 @@ export function AdminChart({className}) {
   return (
     <Card className={className} >
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Overview</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing total Transaction for the last 6 months
         </CardDescription>
       </CardHeader>
       <CardContent >
@@ -72,7 +72,7 @@ export function AdminChart({className}) {
               content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
-              dataKey="mobile"
+              dataKey="raised"
               type="natural"
               fill="var(--color-mobile)"
               fillOpacity={0.4}
@@ -80,7 +80,7 @@ export function AdminChart({className}) {
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="profit"
               type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
