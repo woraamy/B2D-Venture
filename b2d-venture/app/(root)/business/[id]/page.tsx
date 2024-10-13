@@ -87,13 +87,6 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            {/* <div className="fixed flex flex-col top-[15%] left-[65%]"> 
-                <DetailCard Data={data}/>
-                <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
-                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
-                    <Link href={`${id}?showDialog=y`} >Ask for more information</Link>
-                </Button>
-            </div> */}
             <ClientComponent businessId={id} campaignId={campaignId} data={data}/>
             
         </div>
