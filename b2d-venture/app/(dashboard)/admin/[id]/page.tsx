@@ -1,7 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { promises as fs } from "fs";
-import { CgProfile } from "react-icons/cg";
-import Image from "next/image";
 import ReportCard from "@/components/shared/ReportCard";
 import connect from "@/lib/connectDB";
 import User from "@/models/user"
@@ -13,6 +9,7 @@ import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
 import Business from '@/models/Business'
+import { AdminChart } from "@/components/charts/AdminChart";
 
 export default async function Page({ params }) {
     await connect();
@@ -47,7 +44,9 @@ export default async function Page({ params }) {
                         <ReportCard name='Total Raised' amout={totalRaised.total}/>
                     </div>
                 <div className="px-2">
-                    <Card className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">d</Card>
+                    <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">
+                        <AdminChart className=""/>
+                    </div>
                 </div>
                 <div className='ml-5 mb-10 flex'>
                     <div>
