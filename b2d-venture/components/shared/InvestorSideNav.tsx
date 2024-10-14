@@ -28,7 +28,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${informationpage}`}>
                     < RiInformation2Fill />
-                    <Link href={`/investor/${id}/sharedInformation`} className="ml-2">Shared Information</Link>
+                    <Link href={`/investor/${id}/sharedInformation/status`} className="ml-2">Shared Information</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
