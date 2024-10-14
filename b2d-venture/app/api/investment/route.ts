@@ -5,6 +5,7 @@ import User from "@/models/user";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Investor from "@/models/investor";
 import toast from "react-hot-toast";
+import Business from "@/models/Business";
 
 export async function POST(req) {
   try {
@@ -14,6 +15,7 @@ export async function POST(req) {
     // Ensure investor and campaign exist
     const investor = await Investor.findById(investor_id);
     const campaign = await RaiseCampaign.findById(raisedcampaign_id);
+    const business = await Business.findById(campaign.business_id);
     const fee = amount * 0.03;
 
     if (!investor || !campaign) {
@@ -31,6 +33,14 @@ export async function POST(req) {
 
     investor.investment_history.push(newInvestment._id);
     await investor.save();
+
+    campaign.raised += amount;
+    await campaign.save();
+
+    business.valuation += amount;
+    await business.save();
+
+    
 
     return NextResponse.json({ message: "Investment created successfully", investment: newInvestment }, { status: 201 });
   } catch (error) {
