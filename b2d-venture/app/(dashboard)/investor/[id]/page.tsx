@@ -4,7 +4,7 @@ import { promises as fs } from "fs";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { OverviewChart } from "@/components/charts/overviewchart";
-
+import InvestHistoryCard from "@/components/shared/InvestHistoryCard"
 async function fetchInvestorData(id){
     const filePath = process.cwd() + '/public/data/investor.json';
     const file = await fs.readFile(filePath);
@@ -60,7 +60,7 @@ export default async function Page({ params }) {
                 </div>
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
                     <p className="font-light text-[12px] mb-3 max-w-[80%]">{investor.bio}</p>
-                    <Button className="bg-white shadow hover:text-white min-w-[80%]">
+                    <Button className=" shadow hover:text-white min-w-[80%]">
                         Contact Investor
                     </Button>
                     <table className="mt-3 text-[12px] font-light">
@@ -91,8 +91,43 @@ export default async function Page({ params }) {
             <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
                 <OverviewChart chartData={chartdata2} />
             </div>
-            <div id="history" className="w-[27.5vw] h-1/2 border-r-2">
-            
+            <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
+                <div className="ml-10 overflow-auto">
+                    <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
+                    <InvestHistoryCard 
+                        businessName="Atombeam"
+                        businessImg="/assets/images/businessprofile/p3.png"
+                        link="1" 
+                        valuation="123456" 
+                        raised="1000" 
+                        equityStake="12"
+                        shared="10" 
+                        date="1/2/2024"
+                        className="relative py-2"
+                        />
+                        <InvestHistoryCard 
+                        businessName="Atombeam"
+                        businessImg="/assets/images/businessprofile/p3.png"
+                        link="1" 
+                        valuation="123456" 
+                        raised="1000" 
+                        equityStake="12"
+                        shared="10" 
+                        date="1/2/2024"
+                        className="relative py-2"
+                        />
+                        <InvestHistoryCard 
+                        businessName="Atombeam"
+                        businessImg="/assets/images/businessprofile/p3.png"
+                        link="1" 
+                        valuation="123456" 
+                        raised="1000" 
+                        equityStake="12"
+                        shared="10" 
+                        date="1/2/2024"
+                        className="relative py-2"
+                        />
+                </div>
             </div>
             <div id="history" className="w-[30vw] h-1/2">
             
