@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/Header";
+import AuthProvider from "@/components/Providers";
 
 const poppins = Poppins({ 
   subsets: ["latin"],
@@ -13,14 +14,18 @@ export const metadata = {
   description: "B2D Venture is a platform for startup investment.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

@@ -30,7 +30,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/layout.tsx", "components/shared/Footer.tsx", "components/shared/Header.js", "app/(root)/layout.js", "app/(root)/page.tsx"  ],
+, "app/layout.tsx", "components/shared/Footer.tsx", "components/shared/Header.js", "app/(root)/layout.js", "app/(root)/page.tsx", "app/api/data/page.tsx", "lib/connectDB.ts", "instrumentation.js"  ],
   "exclude": [
     "node_modules"
   ]

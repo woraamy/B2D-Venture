@@ -4,12 +4,8 @@ export const headerLinks = [
         route: '/',
     },
     {
-        label: 'Bussinesses',
-        route: '/bussinesses',
-    },
-    {
-        label: 'About',
-        route: '/about',
+        label: 'Bussiness',
+        route: '/business',
     },
 ]
 
