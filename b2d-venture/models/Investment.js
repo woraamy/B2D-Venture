@@ -17,6 +17,11 @@ const InvestmentSchema = mongoose.Schema(
         type: Number,
         required: true
         },
+      fee: {
+        type: Number,
+        require: true
+      },
+      createdAt: { type: Date, default: Date.now },
     },
   );
 

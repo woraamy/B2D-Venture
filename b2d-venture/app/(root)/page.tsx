@@ -17,7 +17,6 @@ const getRaisedCampaign = async () => {
 export default async function Home() {
     await connect()
     const {trend: trendData, latest :latestData} = await getRaisedCampaign()
-    
     return (
         <div className="flex-col">
             <div className="flex ">

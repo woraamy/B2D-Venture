@@ -61,10 +61,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                     <p className="ml-2 text-[15px] font-semibold">{min}</p>
                                     <p className="ml-2">min. investment</p>
                                 </div>
-                                <div className="flex">
-                                    <p className="ml-2 text-[15px] font-semibold">{valuation}</p>
-                                    <p className="ml-2">valuation cap</p>
-                                </div>
+                                
                             </div>
                         </div>
                     </CardContent>

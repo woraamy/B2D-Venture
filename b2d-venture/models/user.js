@@ -17,14 +17,6 @@ const userSchema = mongoose.Schema(
         enum: ['admin','investor','business'],
         default: 'investor'
       },
-      contact_information: {
-        type: Map,
-        of: String,
-      },
-      status: {
-        type: String,
-        enum: ['active','pending','suspended']
-      }
     },
     {
       timestamps: true,
