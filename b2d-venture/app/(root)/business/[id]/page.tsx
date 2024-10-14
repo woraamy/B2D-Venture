@@ -1,17 +1,14 @@
-import { promises as fs } from "fs";
+
 import Image from "next/image";
-import Tag from "@/components/ui/tag";
-import DetailCard from "@/components/shared/DetailCard";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/ui/popup";
-import Business from "@/models/Business"
-import connect from "@/lib/connectDB"
-import RaiseCampaign from "@/models/RaiseCampaign";
 import ClientComponent from "./ClientComponent";
 import { getServerSession } from "next-auth"; 
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+
 
 export default async function Page({params}) {
     const {id} = params;

@@ -14,7 +14,6 @@ export async function GET(req: Request) {
     await connectDB();
 
     const investor = await Investor.findOne({ user_id: userId });
-    console.log(investor);
 
     if (!investor) {
       return NextResponse.json({ investor: null, message: "Investor not found" }, { status: 404 });
