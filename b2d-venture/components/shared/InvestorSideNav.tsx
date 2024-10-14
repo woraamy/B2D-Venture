@@ -4,12 +4,15 @@ import { BsFileBarGraphFill } from "react-icons/bs";
 import { MdWorkHistory } from "react-icons/md";
 import { RiInformation2Fill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
+import { IoIosSettings } from "react-icons/io";
 
 export default function InvestorSidenav({id}) {
     const pathname = usePathname();
     const investpage = pathname === `/investor/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const historypage = pathname.startsWith(`/investor/${id}/history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const informationpage = pathname.startsWith(`/investor/${id}/sharedInformation`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    // edit path after
+    const setting = pathname.startsWith(`/settings/account`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[90vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
@@ -26,6 +29,10 @@ export default function InvestorSidenav({id}) {
                 <div className={`flex mt-2 p-3 ${informationpage}`}>
                     < RiInformation2Fill />
                     <Link href={`/investor/${id}/sharedInformation`} className="ml-2">Shared Information</Link>
+                </div>
+                <div className={`flex mt-2 p-3 ${setting}`}>
+                    < IoIosSettings />
+                    <Link href={`/settings/account`} className="ml-2">Profile Setting</Link>
                 </div>
             </div>
         </div>
