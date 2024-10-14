@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 const InvestHistoryCard = ({className, businessName, businessImg, link, valuation, raised, equityStake, shared, date}) => {
  return (
     <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative bg-white w-[425px] h-[110px] bg-white rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative bg-white w-[420px] h-[110px] bg-white rounded-xl">
             
                 <div className="relative group">
                     <CardContent className="flex relative z-0">

@@ -5,6 +5,8 @@ import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { OverviewChart } from "@/components/charts/overviewchart";
 import InvestHistoryCard from "@/components/shared/InvestHistoryCard"
+import RequestStatus from "@/components/shared/RequestStatus";
+
 async function fetchInvestorData(id){
     const filePath = process.cwd() + '/public/data/investor.json';
     const file = await fs.readFile(filePath);
@@ -129,8 +131,28 @@ export default async function Page({ params }) {
                         />
                 </div>
             </div>
-            <div id="history" className="w-[30vw] h-1/2">
-            
+            <div id="requestStatus" className="w-[30vw] h-1/2">
+            <div className="ml-16">
+                <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
+                    <div>
+                        <RequestStatus
+                        businessName="LEXI"
+                        date="1/8/2024"
+                        status="approve"
+                        businessImg="/assets/images/businessprofile/p8.png"
+                        link="1" 
+                        />
+                    </div>
+                    <div>
+                        <RequestStatus
+                        businessName="LEXI"
+                        date="1/8/2024"
+                        status="rejected"
+                        businessImg="/assets/images/businessprofile/p10.png"
+                        link="1" 
+                        />
+                    </div>
+                </div>
             </div>
 
         </div>
