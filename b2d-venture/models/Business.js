@@ -1,5 +1,6 @@
 import { User } from "lucide-react";
 import mongoose from "mongoose";
+
 const BusinessSchema = mongoose.Schema(
     { 
       user_id: { 

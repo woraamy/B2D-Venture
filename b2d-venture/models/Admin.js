@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
+import User from "./user"
+
 const AdminSchema = mongoose.Schema(
     {
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         unique: true, 
-        ref:'User'},
+        ref: User},
       request_list: [{
         type:mongoose.Schema.Types.ObjectId, 
         ref:Request

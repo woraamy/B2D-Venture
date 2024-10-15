@@ -25,8 +25,8 @@ export default async function Page({ params }) {
     const {id} = params;
     await connect();
     const investor = await Investor.findById(id);
-    const raiseCampaign = await RaiseCampaign.find()
-    const business = await Business.find()
+    // const raiseCampaign = await RaiseCampaign.find()
+    // const business = await Business.find()
     const investment = await Investment.find({ 'investor_id': id })
         .populate({
             path: 'raise_campaign_id',
