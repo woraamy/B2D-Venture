@@ -4,7 +4,6 @@ import TableCard from "@/components/shared/TableCard";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 export default function Page() {
-    // const pathname = usePathname();
     const data = [
         {value:"Date", type:"text"}, 
         {value:"Business Profile", type:"text"},
