@@ -12,11 +12,8 @@ import Business from '@/models/Business'
 import Investment from '@/models/Investment'
 import { AdminChart } from "@/components/charts/AdminChart";
 
-export default async function Page({ params }) {
+export default async function Page() {
     await connect();
-    const {id} = params;
-    const investor = await Investor.find()
-    const business = await Business.find()
     const businessRequest = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
     const investorRequest = await InvestorRequest.find({request_status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const activeInvestor = await User.countDocuments({role:'investor'})

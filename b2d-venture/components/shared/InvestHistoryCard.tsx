@@ -23,7 +23,7 @@ const InvestHistoryCard = ({className, businessName, businessImg, link, valuatio
                         <div className="mt-3 ml-5">
                             <div className="flex">
                                 <Link href={`/business/${link}`} className="text-[#144583] font-semibold text-s underline">{businessName}</Link>
-                                <span className="ml-28 ">{date}</span>
+                                <span className="ml-auto">{date}</span>
                             </div>
                             <table className="text-xs">
                                 <tr>

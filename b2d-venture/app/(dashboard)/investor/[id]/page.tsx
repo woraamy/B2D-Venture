@@ -25,18 +25,15 @@ export default async function Page({ params }) {
     const {id} = params;
     await connect();
     const investor = await Investor.findById(id);
-    // const raiseCampaign = await RaiseCampaign.find()
-    // const business = await Business.find()
+   
     const investment = await Investment.find({ 'investor_id': id })
-        .populate({
-            path: 'raise_campaign_id',
-            populate: {
-            path: 'business_id',      
-            model: 'Business'     
-            }    
-        })
-        .sort({ createdAt: -1 })
-        .limit(3)     
+  .populate({
+    path: 'raise_campaign_id',
+    populate: {path: 'business_id'}
+  })
+  .sort({ createdAt: -1 })
+  .limit(3);
+    
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
     const { ObjectId } = mongoose.Types;
@@ -124,14 +121,14 @@ export default async function Page({ params }) {
                     {investment.map((item, index)=>(
                         <InvestHistoryCard 
                         key = {index}
-                        businessName={item.businessName}
-                        businessImg="/assets/images/businessprofile/p3.png"
-                        link="1" 
-                        valuation="123456" 
-                        raised="1000" 
-                        equityStake="12"
-                        shared="10" 
-                        date="1/2/2024"
+                        businessName={item.raise_campaign_id.business_id.BusinessName}
+                        businessImg={item.raise_campaign_id.business_id.profile}
+                        link={item.raise_campaign_id._id}
+                        valuation={item.raise_campaign_id.business_id.valuation}
+                        raised={item.amount}
+                        equityStake={((item.amount/item.raise_campaign_id.raised)*100)}
+                        shared={item.raise_campaign_id.business_id.valuation/item.raise_campaign_id.shared_price}
+                        date={item.created_at}
                         className="relative py-2"
                         />
                     ))}
