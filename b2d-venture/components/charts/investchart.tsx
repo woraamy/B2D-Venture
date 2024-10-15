@@ -50,14 +50,11 @@ export function InvestChart({data}) {
             <div className="flex">
                 <div>
                     <span className="font-regular text-[14px]">Past 12 month investment.</span>
-                    {/* <h1 className="font-medium text-[20px]">$ {data[data.length - 1]} This month</h1> */}
+                    <h1 className="font-medium text-[20px]">$ {data[data.length - 1]?.raised || 0} This month</h1>
                 </div>
-                
-                <Button className="relative ml-[50%] drop-shadow hover:text-white left-10">
-                            View Report
-                </Button>
+
             </div>
-            <CardDescription>Invest from last 12 month Jan-Dec, 2024</CardDescription>
+            <CardDescription>Invest from last 12 month {months[0].month}-{months[months.length - 1].month}, 2024</CardDescription>
             
         </CardHeader>
         <CardContent>
