@@ -10,30 +10,9 @@ import connect from "@/lib/connectDB"
 import Investment from "@/models/Investment";
 import Investor from "@/models/Investor"
 import mongoose from "mongoose"; 
+import RaiseCampaign from "@/models/RaiseCampaign";
+import Business from "@/models/Business";
 
-// async function fetchInvestorData(id){
-//     const filePath = process.cwd() + '/public/data/investor.json';
-//     const file = await fs.readFile(filePath);
-//     const data = JSON.parse(file);
-
-//     // Find the investor by ID
-//     return data.find((entry) => entry.id === parseInt(id, 10));
-
-// }
-const chartData1 = [
-        { "month": "January", "invest": 186},
-        { "month": "February", "invest": 305 },
-        { "month": "March","invest": 237},
-        { "month": "April", "invest": 73 },
-        { "month": "May", "invest": 20},
-        { "month": "June", "invest": 0},
-        { "month": "July", "invest": 214},
-        { "month": "August", "invest": 0},
-        { "month": "September", "invest": 150},
-        { "month": "October", "invest": 192},
-        { "month": "November", "invest": 50},
-        { "month": "December", "invest": 10}
-      ]
 const chartData2 = [
         {"business":"RAD AI", "raised": 100000},
         {"business":"Pressman Film", "raised": 50000},
@@ -46,6 +25,18 @@ export default async function Page({ params }) {
     const {id} = params;
     await connect();
     const investor = await Investor.findById(id);
+    const raiseCampaign = await RaiseCampaign.find()
+    const business = await Business.find()
+    const investment = await Investment.find({ 'investor_id': id })
+        .populate({
+            path: 'raise_campaign_id',
+            populate: {
+            path: 'business_id',      
+            model: 'Business'     
+            }    
+        })
+        .sort({ createdAt: -1 })
+        .limit(3)     
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
     const { ObjectId } = mongoose.Types;
@@ -87,34 +78,38 @@ export default async function Page({ params }) {
                     </div>
                 </div>
             </div>
-            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2">
+            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2 ">
                 <div className="relative ml-[15%] mt-10 flex"> 
-                    <div className="relative h-[80px] w-[80px]">
-                        <Image
-                        src="/assets/images/profile-user.png"
-                        style={{objectFit:"cover"}}
-                        alt="Business Image" 
+                    <div className="relative h-[80px] w-[80px] rounded-full">
+                    <Image
+                        src={investor.profile_picture || "/assets/images/profile-user.png"}
+                        style={{ objectFit: "cover" }}
+                        alt="Business Image"
                         fill={true}
+                        className="rounded-full"
                         />
+
+                       
                     </div>
                     <div className="ml-2">
-                        <h1 className="text-[32px] font-bold">{investor.name} {investor.lastname}</h1>
-                        <span className="font-thin">{investor.username}</span>   
+                        <h1 className="text-[32px] font-bold">{investor.firstName} {investor.lastName}</h1>
+                        <span className="font-thin">{investor.name}</span>   
                     </div>
                 </div>
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
-                    <p className="font-light text-[12px] mb-3 max-w-[80%]">{investor.bio}</p>
+                    <p className="font-light text-[12px] mb-3 max-w-[80%]">
+                        {investor.investor_description || "No bio "}</p>
                     <Button className=" shadow hover:text-white min-w-[80%]">
                         Contact Investor
                     </Button>
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
                             <td className="w-[150px]">Email </td>
-                            <td >{investor.email}</td>
+                            <td >{investor.email || "-"}</td>
                         </tr>
                         <tr>
                             <td>Tel.</td>
-                            <td>{investor.contactNumber}</td>
+                            <td>{investor.contactNumber || "-"}</td>
                         </tr>
                     </table>
                 </div>
@@ -126,19 +121,10 @@ export default async function Page({ params }) {
             <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
                 <div className="ml-10 overflow-auto">
                     <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
-                    <InvestHistoryCard 
-                        businessName="Atombeam"
-                        businessImg="/assets/images/businessprofile/p3.png"
-                        link="1" 
-                        valuation="123456" 
-                        raised="1000" 
-                        equityStake="12"
-                        shared="10" 
-                        date="1/2/2024"
-                        className="relative py-2"
-                        />
+                    {investment.map((item, index)=>(
                         <InvestHistoryCard 
-                        businessName="Atombeam"
+                        key = {index}
+                        businessName={item.businessName}
                         businessImg="/assets/images/businessprofile/p3.png"
                         link="1" 
                         valuation="123456" 
@@ -148,17 +134,8 @@ export default async function Page({ params }) {
                         date="1/2/2024"
                         className="relative py-2"
                         />
-                        <InvestHistoryCard 
-                        businessName="Atombeam"
-                        businessImg="/assets/images/businessprofile/p3.png"
-                        link="1" 
-                        valuation="123456" 
-                        raised="1000" 
-                        equityStake="12"
-                        shared="10" 
-                        date="1/2/2024"
-                        className="relative py-2"
-                        />
+                    ))}
+                      
                 </div>
             </div>
             <div id="requestStatus" className="w-[30vw] h-1/2">
