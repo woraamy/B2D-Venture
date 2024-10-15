@@ -43,22 +43,18 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function AdminChart({className, data}) {
-    // dummy data have to change later
-
     const months = getLastSixMonth();
     months.forEach((month, i) => {
         if (!data.some(item => item._id.month === month.monthNum)) {
           data.splice(i, 0, { _id: { year: 2024, month: month.monthNum }, raised: 0, profit: 0 });
         }
       });
-    console.log(data)
     const chartData =  data.map((data,index)=>({
         month: months[index].month, 
         raised: data.raised,
 
         profit: data.profit,
   }));
-  console.log(chartData)
   return (
     <Card className={className} >
       <CardHeader>

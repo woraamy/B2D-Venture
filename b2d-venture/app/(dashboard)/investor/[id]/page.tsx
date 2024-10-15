@@ -6,34 +6,76 @@ import Image from "next/image";
 import { OverviewChart } from "@/components/charts/overviewchart";
 import InvestHistoryCard from "@/components/shared/InvestHistoryCard"
 import RequestStatus from "@/components/shared/RequestStatus";
+import connect from "@/lib/connectDB"
+import Investment from "@/models/Investment";
+import Investor from "@/models/Investor"
+import mongoose from "mongoose"; 
 
-async function fetchInvestorData(id){
-    const filePath = process.cwd() + '/public/data/investor.json';
-    const file = await fs.readFile(filePath);
-    const data = JSON.parse(file);
+// async function fetchInvestorData(id){
+//     const filePath = process.cwd() + '/public/data/investor.json';
+//     const file = await fs.readFile(filePath);
+//     const data = JSON.parse(file);
 
-    // Find the investor by ID
-    return data.find((entry) => entry.id === parseInt(id, 10));
+//     // Find the investor by ID
+//     return data.find((entry) => entry.id === parseInt(id, 10));
 
-}
+// }
+const chartData1 = [
+        { "month": "January", "invest": 186},
+        { "month": "February", "invest": 305 },
+        { "month": "March","invest": 237},
+        { "month": "April", "invest": 73 },
+        { "month": "May", "invest": 20},
+        { "month": "June", "invest": 0},
+        { "month": "July", "invest": 214},
+        { "month": "August", "invest": 0},
+        { "month": "September", "invest": 150},
+        { "month": "October", "invest": 192},
+        { "month": "November", "invest": 50},
+        { "month": "December", "invest": 10}
+      ]
+const chartData2 = [
+        {"business":"RAD AI", "raised": 100000},
+        {"business":"Pressman Film", "raised": 50000},
+        {"business":"WolfPack", "raised": 200000},
+        {"business":"Zephyr Aerospace", "raised": 575000},
+        {"business":"The New Shop", "raised": 80000}
+    ]
 
 export default async function Page({ params }) {
     const {id} = params;
-    const investor = await fetchInvestorData(id)
+    await connect();
+    const investor = await Investor.findById(id);
+    const now = new Date();
+    const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
+    const { ObjectId } = mongoose.Types;
+    const investorObjectId = new ObjectId(id);
+    const  barChartdata = await Investment.aggregate([
+        {
+          $match: {
+            investor_id: investorObjectId,
+            created_at: { $gte: twelthMonthsAgo }
+          }
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: "$created_at" },
+              month: { $month: "$created_at" }
+            },
+            raised: { $sum: "$amount" }
+          }
+        },
+        {
+          $sort: { "_id.year": 1, "_id.month": 1 }
+        }
+      ]);
+
+      console.log(barChartdata)
 
     if (!investor) {
         return <div>Investor not found</div>;
     }
-    let chartdata1 = [];
-    investor.chartData1.map((item) =>
-        chartdata1.push({month: item.month, invest:item.invest})
-    );
-
-    let chartdata2 = [];
-    investor.chartData2.map((item) =>
-        chartdata2.push({business:item.business,raised: item.raised})
-    );
-    
     return(
         <>
         <div className=" flex flex-wrap w-[85vw] h-[100%]">
@@ -41,7 +83,7 @@ export default async function Page({ params }) {
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
-                        <InvestChart chartData={chartdata1} />
+                        <InvestChart data={barChartdata} />
                     </div>
                 </div>
             </div>
@@ -68,30 +110,18 @@ export default async function Page({ params }) {
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
                             <td className="w-[150px]">Email </td>
-                            <td >{investor.contact.Email}</td>
+                            <td >{investor.email}</td>
                         </tr>
                         <tr>
                             <td>Tel.</td>
-                            <td>{investor.contact.Tel}</td>
-                        </tr>
-                        <tr>
-                            <td>Facebook</td>
-                            <td>{investor.contact.Facebook}</td>
-                        </tr>
-                        <tr>
-                            <td>Instagram</td>
-                            <td>{investor.contact.Instagram}</td>
-                        </tr>
-                        <tr>
-                            <td>Twitter</td>
-                            <td>{investor.contact.Twitter}</td>
+                            <td>{investor.contactNumber}</td>
                         </tr>
                     </table>
                 </div>
                 
             </div>
             <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
-                <OverviewChart chartData={chartdata2} />
+                {/* <OverviewChart chartData={chartdata2} /> */}
             </div>
             <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
                 <div className="ml-10 overflow-auto">

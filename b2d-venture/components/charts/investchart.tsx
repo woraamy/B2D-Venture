@@ -12,6 +12,18 @@ import {
     CardTitle,
   } from "@/components/ui/card"
 
+function getLastTwelthMonth(){
+  const months = [];
+  const now = new Date();
+  for (let i = 11; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i);
+      const monthName = date.toLocaleString('en', { month: 'long' });
+      const monthNum = date.getMonth() + 1;
+      months.push({ month: monthName, monthNum });
+    }
+  return months
+}
+
 const chartConfig = {
     invest: {
       label: "invest",
@@ -19,15 +31,26 @@ const chartConfig = {
     },
   } satisfies ChartConfig
 
-export function InvestChart({chartData}) {
-  console.log(chartData)
+export function InvestChart({data}) {
+  const months = getLastTwelthMonth();
+  
+  months.forEach((month, i) => {
+      if (!data.some(item => item._id.month === month.monthNum)) {
+        data.splice(i, 0, { _id: { year: 2024, month: month.monthNum }, raised: 0});
+      }
+    });
+  console.log(data)
+  const chartData =  data.map((data,index)=>({
+      month: months[index].month, 
+      invest: data.raised,
+  }));
   return (
     <Card className="h-[100%] w-[100%] border-0">
         <CardHeader>
             <div className="flex">
                 <div>
                     <span className="font-regular text-[14px]">Past 12 month investment.</span>
-                    <h1 className="font-medium text-[20px]">$ 10,000 This month</h1>
+                    {/* <h1 className="font-medium text-[20px]">$ {data[data.length - 1]} This month</h1> */}
                 </div>
                 
                 <Button className="relative ml-[50%] drop-shadow hover:text-white left-10">
@@ -43,7 +66,12 @@ export function InvestChart({chartData}) {
                 barSize={10}
                 >
                     
-                <CartesianGrid vertical={false} />
+                <CartesianGrid vertical={false} />\
+                <ChartTooltip
+                  cursor={false}
+                  
+                  content={<ChartTooltipContent indicator="dot" />}
+                  />
                 <ChartTooltip
                 content={
                     <ChartTooltipContent
