@@ -40,8 +40,6 @@ export async function POST(req) {
     business.valuation += parseInt(amount);
     await business.save();
 
-    
-
     return NextResponse.json({ message: "Investment created successfully", investment: newInvestment }, { status: 201 });
   } catch (error) {
     console.error(error);
