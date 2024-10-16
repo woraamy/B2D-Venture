@@ -1,5 +1,5 @@
 
-import InvestorSidenav from "@/components/shared/InvestorSideNav";
+import InvestorSidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header";
 export default function InvestLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   const {id} = params  

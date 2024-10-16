@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 export default function TableCard({className, data, valueClassname}){
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)
@@ -15,13 +15,13 @@ export default function TableCard({className, data, valueClassname}){
                             <h1>{value.value}</h1>
                         ) : value.type === "image" ?  (
                             <div className="relative w-[50px] h-[50px] ">
-                                    <Image 
+                                    {/* <Image 
                                     src={value.value.src} 
                                     style={{objectFit:"cover"}}
                                     alt="Business Image" 
                                     fill={true}
                                     className="rounded-full"
-                                    />
+                                    /> */}
                                     <h1>{value.value.text}</h1>
                             </div>
                         ) :value.type === "button" ? (

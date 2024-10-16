@@ -3,8 +3,8 @@ import connect from "@/lib/connectDB";
 import User from "@/models/user"
 import RaiseCampaign from "@/models/RaiseCampaign";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
-import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'

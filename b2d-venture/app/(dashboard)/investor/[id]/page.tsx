@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { InvestChart } from "@/components/charts/investchart";
-import { promises as fs } from "fs";
-import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { OverviewChart } from "@/components/charts/overviewchart";
-import InvestHistoryCard from "@/components/shared/InvestHistoryCard"
-import RequestStatus from "@/components/shared/RequestStatus";
+import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard"
+import RequestStatus from "@/components/shared/InvestorDashboard/RequestStatus";
 import connect from "@/lib/connectDB"
 import Investment from "@/models/Investment";
-import Investor from "@/models/Investor"
 import mongoose from "mongoose"; 
-import RaiseCampaign from "@/models/RaiseCampaign";
-import Business from "@/models/Business";
-import InvestorRequest from "@/models/InvestorRequest"
-import React, { useEffect, useState } from 'react';
 
 
 const chartData2 = [
@@ -53,8 +46,10 @@ async function getBarChartData({investorObjectId}){
 
 export default async function Page({ params }) {
     const {id} = params;
-    const investor = await Investor.findById(id);
-  
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investor/${id}`);
+    const investors  =  await res.json();
+    const investor = investors.data
+
     const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`);
     const requestData  =  await res1.json();
     const request = requestData.data || []

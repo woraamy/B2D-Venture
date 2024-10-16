@@ -2,8 +2,8 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "../ui/tag";
-import { Button } from "../ui/button";
+import Tag from "@/components/ui/tag";
+import { Button } from "@/components/ui/button";
 const InvestHistoryCard = ({className, businessName, businessImg, link, valuation, raised, equityStake, shared, date}) => {
     return (
     <div className ={className}>

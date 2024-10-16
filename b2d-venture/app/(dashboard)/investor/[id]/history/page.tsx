@@ -1,7 +1,7 @@
 
-import Sidenav from "@/components/shared/InvestorSideNav";
+import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/TableCard";
+import TableCard from "@/components/shared/InvestorDashboard/TableCard";
 import Investment from "@/models/Investment";
 
 
@@ -14,10 +14,10 @@ export default async function Page({params}) {
     const data = investment.map((item,index)=>(
         [
             {value:item.created_at, type:"text"},
-            {value:{src:item.raise_campaign_id.business_id.profile, text:item.raise_campaign_id.business_id.BussinessName},type:"image"},
+            {value:{src:item.raise_campaign_id.business_id.profile, text:item.raise_campaign_id.business_id.BusinessName},type:"image"},
             {value:item.raise_campaign_id.raised.toLocaleString(), type:"text"},
-            {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2), type:"text"},
-            {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2), type:"text"},
+            {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString(), type:"text"},
+            {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type:"text"},
          ]
     ))
     console.log(data)
@@ -33,6 +33,13 @@ export default async function Page({params}) {
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">Invest History</h1>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                <div>
+                    {
+                        data.map((item,index)=>(
+                            <TableCard data={item} className='mt-7' valueClassname='font-semibold'/>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     );
