@@ -10,13 +10,15 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import business from "@/models/Business";
+import Business from "@/models/Business";
 
 
 export default async function Page({params}) {
     const {id} = params; // id = campaign_id
     const data = await RaiseCampaign.findById(id); // data = campaign
-    console.log(data);
-    const business_id = data.busniess_id;
+    const business_data = await Business.findById(data.business_id);
+    const business_id = data.business_id?.toString();
+    const campaign_id = data._id?.toString();
    
     if (!data) {
         return <div>business not found</div>;
@@ -35,7 +37,7 @@ export default async function Page({params}) {
                 <div className="flex">
                     <div className="relative h-[100px] w-[100px]">
                         <Image 
-                        src={data.business_id.profile}
+                        src={business_data.profile}
                         alt="profile"
                         fill={true}
                         style={{objectFit:"cover"}}
@@ -43,17 +45,17 @@ export default async function Page({params}) {
                         />
                     </div>
                     <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">{data.business_id.BusinessName} </h1>
+                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business_data.BuinessName} </h1>
                         {/* <p className="text-[16px]">by {business.company}</p> */}
                     </div>
                 </div>
-                <p className="mt-5">{data.business_id.description}</p>
+                <p className="mt-5">{business_data.description}</p>
                 <div className="flex mt-2">
 
                 </div>
                 <div className="relative mt-5 h-[30rem] w-[45vw]">
                     <Image 
-                    src={data.business_id.coverimg}
+                    src={business_data.coverimg}
                     alt="s"
                     fill={true}
                     style={{objectFit:"cover"}}
@@ -91,7 +93,7 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            <ClientComponent businessId={business_id} campaignId={id} data={data} userEmail={userEmail}/>
+            <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail}/>
             
         </div>
         </>

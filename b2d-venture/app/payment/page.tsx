@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
-import { z } from "zod"; // Import Zod
+import investor from "@/models/investor";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -19,40 +19,9 @@ export default function PaymentPage() {
   const [expiry, setExpiry] = useState("");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
-  const [campaign, setCampaign] = useState(null);
-
-  useEffect(() => {
-    // Fetch the campaign data based on campaignId
-    const fetchCampaign = async () => {
-      const response = await fetch(`/api/campaign/${campaignId}`);
-      const data = await response.json();
-      setCampaign(data);
-    };
-
-    if (campaignId) fetchCampaign();
-  }, [campaignId]);
-
-  // Define Zod schema for validation
-  const investmentSchema = z.object({
-    amount: z
-      .number()
-      .min(campaign?.min_investment || 0, { message: `Investment must be at least ${campaign?.min_investment}` })
-      .max(campaign?.max_investment || Infinity, { message: `Investment cannot exceed ${campaign?.max_investment}` }),
-  });
 
   const handlePayment = async (e) => {
     e.preventDefault();
-
-    // Convert the amount to a number for validation
-    const amountNumber = Number(amount);
-
-    // Perform validation with Zod
-    const validation = investmentSchema.safeParse({ amount: amountNumber });
-    if (!validation.success) {
-      toast.error(validation.error.errors[0].message);
-      return;
-    }
-
     setLoading(true);
 
     setTimeout(async () => {
@@ -65,19 +34,17 @@ export default function PaymentPage() {
         body: JSON.stringify({
           investor_id: investorId,
           raisedcampaign_id: campaignId,
-          amount: amountNumber,
+          amount: amount,
         }),
       });
 
       if (response.ok) {
-        router.push(`/business/${businessId}`);
+        router.push(`/business/${campaignId}`);
       } else {
         toast.error("Failed to create investment.");
       }
     }, 2000);
   };
-
-  if (!campaign) return <div>Loading campaign data...</div>;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

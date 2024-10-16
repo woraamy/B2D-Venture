@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; 
 import { useEffect, useState } from "react";
 import RaiseCampaign from "@/models/RaiseCampaign";
+import connectDB from "@/lib/connectDB";
 
 export default function ClientComponent({
   businessId,
@@ -29,7 +30,6 @@ export default function ClientComponent({
   const fetchUserRoleandInvestor = async () => {
     try {
       const response = await fetch(`/api/fetchingData/getUserbyEmail?email=${userEmail}`);
-      const data = await RaiseCampaign.findById(campaignId); // data = campaign
       const user = await response.json();
 
       if (user) { 
@@ -45,15 +45,16 @@ export default function ClientComponent({
     }
   };
 
-    // Function to fetch campaign data
-    const fetchCampaignData = async () => {
-      try {
-        const campaignData = await RaiseCampaign.findById(campaignId);
-        setCampaignData(campaignData); // Store campaign data in state
-      } catch (error) {
-        console.error("Error fetching campaign data:", error);
-      }
-    };
+  const fetchCampaignData = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${campaignId}`);
+      const campaignData = await response.json(); 
+      console.log('Fetched Campaign Data:', campaignData); 
+      setCampaignData(campaignData); 
+    } catch (error) {
+      console.error("Error fetching campaign data:", error);
+    }
+  };
 
   useEffect(() => {
     if (userEmail) {
@@ -62,7 +63,7 @@ export default function ClientComponent({
     if (campaignId) {
       fetchCampaignData();
     }
-  }, [userEmail]);
+  }, [userEmail, campaignId]);
 
   const handleRedirectToPayment = () => {
     
