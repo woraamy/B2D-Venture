@@ -2,7 +2,7 @@
 
 import AdminSideNav from "@/components/shared/AdminDashboard/AdminSideNav";
 
-export default function AdminLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
+export default function AdminLayout({ children}: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex">

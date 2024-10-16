@@ -6,9 +6,7 @@ import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequ
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
-export default async function Page({ params }) {
-    const {id} = params;
-    const business = await Business.find()
+export default async function Page() {
     const cur = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
     const history = await BusinessRequest.find({status: ['approved','done','rejected']}).sort({createdAt: -1 })
     return(
