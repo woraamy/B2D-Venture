@@ -134,10 +134,10 @@ export default async function Page({ params }) {
                         businessName={item.raise_campaign_id.business_id.BusinessName}
                         businessImg={item.raise_campaign_id.business_id.profile}
                         link={item.raise_campaign_id._id.toString()}
-                        valuation={item.raise_campaign_id.business_id.valuation}
-                        raised={item.amount}
-                        equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2)}
-                        shared={(item.amount/item.raise_campaign_id.shared_price).toFixed(2)}
+                        valuation={item.raise_campaign_id.business_id.valuation.toLocaleString()}
+                        raised={item.amount.toLocaleString()}
+                        equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString()}
+                        shared={(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString()}
                         date={item.created_at}
                         className="relative py-2"
                         />

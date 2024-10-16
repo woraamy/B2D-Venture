@@ -26,19 +26,19 @@ export default function DetailCard({Data}){
                 <table className="text-[16px] mt-5">
                     <tr>
                         <td className="w-[60%] py-2">Valuation cap</td>
-                        <td className="font-semibold px-5">${Data.business_id.valuation}</td>
+                        <td className="font-semibold px-5">${Data.business_id.valuation.toLocaleString()}</td>
                     </tr>
                     <tr>
                         <td>Minimum investment</td>
-                        <td className="font-semibold py-2 px-5">${Data.min_investment}</td>
+                        <td className="font-semibold py-2 px-5">${Data.min_investment.toLocaleString()}</td>
                     </tr>
                     <tr>
                         <td>Maximum investment</td>
-                        <td className="font-semibold py-2 px-5">${Data.max_investment}</td>
+                        <td className="font-semibold py-2 px-5">${Data.max_investment.toLocaleString()}</td>
                     </tr>
                     <tr>
                         <td>Investors</td>
-                        <td className="font-semibold py-2 px-5">"10"</td>
+                        <td className="font-semibold py-2 px-5">10</td>
                     </tr>
                     <tr>
                         <td>Deadline</td>

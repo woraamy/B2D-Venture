@@ -39,10 +39,10 @@ export default async function Page() {
                     profile= {campaign.business_id.profile}
                     name= {campaign.business_id.BusinessName}
                     description={campaign.business_id.description}
-                    raised={campaign.raised}
+                    raised={campaign.raised.toLocaleString()}
                     investors="10"
-                    min={campaign.min_investment}
-                    valuation={campaign.business_id.valuation}
+                    min={campaign.min_investment.toLocaleString()}
+                    valuation={campaign.business_id.valuation.toLocaleString()}
                     link={`/business/${campaign.business_id.BusinessName}`}
                     tag = {campaign.business_id.tag_list}
                   />

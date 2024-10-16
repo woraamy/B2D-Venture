@@ -11,27 +11,29 @@ export default async function Page({params}) {
     const res = await response.json();
 
     const investment = res.data || []
-    console.log(investment)
     const data = investment.map((item,index)=>(
         [
-            {value:item.created_at.toLocaleString(), type:"text"},
-            {value:item.raise_campaign_id.business_id}
+            {value:item.created_at, type:"text"},
+            {value:{src:item.raise_campaign_id.business_id.profile, text:item.raise_campaign_id.business_id.BussinessName},type:"image"},
+            {value:item.raise_campaign_id.raised.toLocaleString(), type:"text"},
+            {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2), type:"text"},
+            {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2), type:"text"},
          ]
     ))
     console.log(data)
-    // const data = [
-    //     {value:"Date", type:"text"}, 
-    //     {value:"Business", type:"text"},
-    //     {value:"Raised", type:"text"},
-    //     {value:"Equity Stake", type:"text"},
-    //     {value:"Shared recieve", type:"text"}
-    //     ]
+    const headData = [
+        {value:"Date", type:"text"}, 
+        {value:"Business", type:"text"},
+        {value:"Raised", type:"text"},
+        {value:"Equity Stake", type:"text"},
+        {value:"Shared recieve", type:"text"}
+        ]
     return(
         <div>
-            {/* <div className="ml-[6%] mt-10">
+            <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">Invest History</h1>
-                <TableCard data={data} className='mt-7' valueClassname='font-semibold'/>
-            </div> */}
+                <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+            </div>
         </div>
     );
 };
