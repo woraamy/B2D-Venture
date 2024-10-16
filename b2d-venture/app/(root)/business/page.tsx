@@ -18,7 +18,6 @@ const getRaisedCampaign = async () => {
 export default async function Page() {
     await connect()
     const data = await getRaisedCampaign()
-      
     return(
         <>
         <div className="max-w-[70%] mx-auto mt-20">

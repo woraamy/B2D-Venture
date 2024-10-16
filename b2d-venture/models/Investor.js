@@ -12,12 +12,14 @@ const InvestorSchema = mongoose.Schema(
       investment_history: [{
         type:mongoose.Schema.Types.ObjectId, ref:"Investment"
         }],
+      email: String,
       firstName: {
         type: String,
       },
       lastName: {
         type: String,
       },
+      contactNumber: String,
       birthDate: {
         type: Date,
       },
@@ -30,5 +32,6 @@ const InvestorSchema = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.Investor || mongoose.model("Investor", InvestorSchema);
+  const data = mongoose.models.Investor || mongoose.model("Investor", InvestorSchema);
+
+  export default data

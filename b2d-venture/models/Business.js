@@ -11,6 +11,7 @@ const BusinessSchema = mongoose.Schema(
       lastName:  String,
       c: String,
       email: String,
+      BusinessName: String,
       contactNumber: String,
       BusinessAddress: String,
       city: String,
