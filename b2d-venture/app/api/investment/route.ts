@@ -3,7 +3,7 @@ import connectDB from "@/lib/connectDB";
 import Investment from "@/models/Investment";
 import User from "@/models/user"; 
 import RaiseCampaign from "@/models/RaiseCampaign";
-import Investor from "@/models/investor";
+import Investor from "@/models/Investor";
 import toast from "react-hot-toast";
 import Business from "@/models/Business";
 

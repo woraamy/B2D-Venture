@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import User from "@/models/user";
-import Investor from "@/models/investor";
+import Investor from "@/models/Investor";
 import bcrypt from "bcryptjs";
 
 const hashPassword = async (password: string) => {

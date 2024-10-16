@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
-import Investor from "@/models/investor";
+import Investor from "@/models/Investor";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

@@ -1,4 +1,3 @@
-import { create } from "domain";
 import mongoose from "mongoose";
 const InvestmentSchema = mongoose.Schema(
     {
