@@ -26,7 +26,9 @@ export default function TableCard({className, data, valueClassname}){
                                 <h1 className="ml-2 whitespace-nowrap">{value.value.text}</h1> 
                             </div>
                         ) : value.type === "button" ? (
-                            <Button>{value.value}</Button>
+                            value.value.isHave === true ?(
+                                <Button>{value.value}</Button>
+                            ): null
                         ) : null}                        
                     </div>
                 ))}

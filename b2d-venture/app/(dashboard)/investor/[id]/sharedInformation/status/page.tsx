@@ -3,17 +3,29 @@ import Header from "@/components/shared/Header"
 import TableCard from "@/components/shared/InvestorDashboard/TableCard";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-export default function Page() {
-    const data = [
+
+export default async function Page({params}) {
+    const {id} = params
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
+    const res = await response.json();
+    const request = res.data || []
+
+    const data = request.map((item,index)=>(
+        [
+            {value: item.createdAt, type:"text"},
+            {value:{src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
+            {value: item.request_status, type:"text"},
+            {value: item.request_status === "approved" ? {isHave: true, value: "View"} : {isHave: false, value: "View"}, type:"button" }
+        ]
+    ))
+    console.log(data)
+    const headData = [
         {value:"Date", type:"text"}, 
-        {value:"Business Profile", type:"text"},
         {value:"Business", type:"text"},
         {value:"Status", type:"text"},
         {value:"View", type:"text"},
     ]
-    const view = [
-        {value:"Business", type:"text"}
-    ]
+
     return(
         <div>
             <div className="ml-[6%] mt-10">
@@ -22,8 +34,16 @@ export default function Page() {
                     <Link href='status' className="text-xl text-[#FF553E] underline">Status</Link>
                     <Link href='file' className="text-xl ml-10 text-gray-400">Allowed file</Link>
                 </div>
-                <TableCard data={data} className='mt-7' valueClassname='font-semibold'/>
+                <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                <div>
+                    {
+                        data.map((item,index)=>(
+                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
+                        ))
+                    }
+                </div>
             </div>
+            
         </div>
     );
 };

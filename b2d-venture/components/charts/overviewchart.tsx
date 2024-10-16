@@ -1,8 +1,6 @@
 "use client"
-
 import * as React from "react"
 import { Label, Pie, PieChart } from "recharts"
-
 import {
   Card,
   CardContent,
@@ -17,7 +15,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
 const chartConfig = {
   // raise: {
   //   label: "Raised",
@@ -43,27 +40,22 @@ const chartConfig = {
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
-
-
 export  function OverviewChart({chartData}) {
   console.log(chartData)
-    // chartData.forEach((item,index)=>{
-    //     const key = item.business.toLowerCase().replace(/\s+/g, '-');
-    //     chartConfig[key] = {
-    //         item:{
-    //             label: item.business,
-    //             color: `hsl(var(--chart-${index%5}))`
-    //         }, 
-    //     };
-    // }
-    // );
-
+    chartData.forEach((item,index)=>{
+        const key = item.business.toLowerCase().replace(/\s+/g, '-');
+        chartConfig[key] = {
+            item:{
+                label: item.business,
+                color: `hsl(var(--chart-${index%5}))`
+            }, 
+        };
+    }
+    );
   const validChartData = Array.isArray(chartData) ? chartData : [];
-
   const totalRaise = React.useMemo(() => {
     return validChartData.reduce((acc, curr) => acc + curr.raised, 0);
   }, [validChartData]);
-
     return (
     <Card className="flex flex-col">
         <CardHeader className="items-center pb-0">

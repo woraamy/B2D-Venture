@@ -27,13 +27,16 @@ function getOverviewData(data){
     return overview
 }
 
+async function fetchInvestmentData(id) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { tags: ['collection'] } });
+    const res = await response.json();
+    return res.data || [];
+}
 export default async function Page({params}) {
     const {id} = params;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`);
-    const res = await response.json();
-    const investment = res.data || []
+    const investment = await fetchInvestmentData(id)
     const overview = getOverviewData(investment)
-
+    
     const data = investment.map((item,index)=>(
         [
             {value:item.created_at, type:"text"},

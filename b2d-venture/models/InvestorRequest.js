@@ -5,9 +5,9 @@ import Investor from "./Investor"
 const InvestorRequestSchema = mongoose.Schema(
     {
       investor_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId,
+        unique: false, 
         required: true, 
-        unique: true, 
         ref: Investor
         },
       business_id: { 

@@ -44,17 +44,35 @@ async function getBarChartData({investorObjectId}){
     return {barChartdata}
 }
 
+function getPieChartData(data){
+    const totalRaised = data.reduce((total, cur)=>{
+        const business = cur.raise_campaign_id.business_id._id;
+        const name = cur.raise_campaign_id.business_id.BusinessName
+        const amount = cur.amount;
+        if(!total[business]){
+            total[business] ={
+                business: name,
+                raised: 0,
+            }
+        };
+        total[business].totalRaised += amount;
+        return total;
+    }, {})
+    const chartData = Object.values(totalRaised)
+    return chartData
+}
+
 export default async function Page({ params }) {
     const {id} = params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investor/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investor/${id}`, { next: { tags: ['collection'] } });
     const investors  =  await res.json();
     const investor = investors.data
 
-    const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`);
+    const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
     const requestData  =  await res1.json();
     const request = requestData.data || []
 
-    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`);
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { tags: ['collection'] } });
     const investmentData  =  await res2.json();
     const investment = investmentData.data || []
 
@@ -62,7 +80,7 @@ export default async function Page({ params }) {
     const { ObjectId } = mongoose.Types;
     const investorObjectId = new ObjectId(id);
     const {barChartdata} = await getBarChartData({investorObjectId});
-
+    const pieChartdata = getPieChartData(investment)
 
     if (!investor) {
         return <div>Investor not found</div>;
@@ -117,7 +135,7 @@ export default async function Page({ params }) {
                 
             </div>
             <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
-                {/* <OverviewChart chartData={chartdata2} /> */}
+                <OverviewChart chartData={pieChartdata} />
             </div>
             <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
                 <div className="ml-10">
