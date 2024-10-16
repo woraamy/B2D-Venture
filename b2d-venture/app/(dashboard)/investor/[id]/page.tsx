@@ -13,6 +13,8 @@ import mongoose from "mongoose";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Business from "@/models/Business";
 import InvestorRequest from "@/models/InvestorRequest"
+import React, { useEffect, useState } from 'react';
+
 
 const chartData2 = [
         {"business":"RAD AI", "raised": 100000},
@@ -22,26 +24,10 @@ const chartData2 = [
         {"business":"The New Shop", "raised": 80000}
     ]
 
-export default async function Page({ params }) {
-    const {id} = params;
+async function getBarChartData({investorObjectId}){
     await connect();
-    const investor = await Investor.findById(id);
-    const request = await InvestorRequest.find({request_status: 'pending'})
-                                                .populate('business_id')
-                                                .sort({createdAt: -1 })
-                                                .limit(3);
-    const investment = await Investment.find({'investor_id': id })
-                                            .populate({
-                                                path: 'raise_campaign_id',
-                                                populate: {path: 'business_id'}
-                                            })
-                                            .sort({ created_at: -1 })
-                                            .limit(3);
-    
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
-    const { ObjectId } = mongoose.Types;
-    const investorObjectId = new ObjectId(id);
     const  barChartdata = await Investment.aggregate([
         {
           $match: {
@@ -62,6 +48,25 @@ export default async function Page({ params }) {
           $sort: { "_id.year": 1, "_id.month": 1 }
         }
       ]);
+    return {barChartdata}
+}
+
+export default async function Page({ params }) {
+    const {id} = params;
+    const investor = await Investor.findById(id);
+  
+    const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`);
+    const requestData  =  await res1.json();
+    const request = requestData.data || []
+
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`);
+    const investmentData  =  await res2.json();
+    const investment = investmentData.data || []
+
+    
+    const { ObjectId } = mongoose.Types;
+    const investorObjectId = new ObjectId(id);
+    const {barChartdata} = await getBarChartData({investorObjectId});
 
 
     if (!investor) {
@@ -122,7 +127,7 @@ export default async function Page({ params }) {
             <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
                 <div className="ml-10">
                     <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
-                    {investment.map((item, index)=>(
+                    {investment.slice(0, 3).map((item, index)=>(
                         
                         <InvestHistoryCard 
                         key = {index}
@@ -133,7 +138,7 @@ export default async function Page({ params }) {
                         raised={item.amount}
                         equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2)}
                         shared={(item.amount/item.raise_campaign_id.shared_price).toFixed(2)}
-                        date={item.created_at.toLocaleDateString()}
+                        date={item.created_at}
                         className="relative py-2"
                         />
                     ))}
@@ -144,11 +149,11 @@ export default async function Page({ params }) {
             <div className="ml-10">
                 <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
                     <div>
-                    {request.map((item, index)=>(
+                    {request.slice(0, 3).map((item, index)=>(
                         <RequestStatus
                         key={index}
                         businessName={item.business_id.BusinessName}
-                        date={item.createdAt.toLocaleDateString()}
+                        date={item.createdAt}
                         status={item.request_status}
                         businessImg={item.business_id.profile}
                         link={item.business_id._id.toString()}
