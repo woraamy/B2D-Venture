@@ -5,6 +5,7 @@ export default function DetailCard({Data}){
     const percent = parseInt(Data.raised)/parseInt(Data.goal)*100;
     const formattedPercent = percent.toFixed(2);
     const mformatt = (parseInt(Data.goal)/1000000).toFixed(2);
+    const formattedDate = new Date(Data.end_date).toLocaleDateString();
     return(
         <Card className="bg-white h-[30rem] w-[30rem] shadow-lg ">
             <CardHeader className="border-b-4 border-[#D9D9D9]">
@@ -41,7 +42,9 @@ export default function DetailCard({Data}){
                     </tr>
                     <tr>
                         <td>Deadline</td>
-                        <td className="font-semibold py-2 px-5">{Data.end_date.slice(0, 10)}</td>
+                        <td className="font-semibold py-2 px-5">
+                            {formattedDate}
+                        </td>
                     </tr>
                     
                 </table>

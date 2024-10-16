@@ -59,7 +59,7 @@ export default async function Page({ params }) {
         }
       ]);
 
-      console.log(barChartdata)
+      console.log(investment)
 
     if (!investor) {
         return <div>Investor not found</div>;
@@ -126,7 +126,7 @@ export default async function Page({ params }) {
                         link={item.raise_campaign_id._id}
                         valuation={item.raise_campaign_id.business_id.valuation}
                         raised={item.amount}
-                        equityStake={((item.amount/item.raise_campaign_id.raised)*100)}
+                        equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2)}
                         shared={item.raise_campaign_id.business_id.valuation/item.raise_campaign_id.shared_price}
                         date={item.created_at}
                         className="relative py-2"
