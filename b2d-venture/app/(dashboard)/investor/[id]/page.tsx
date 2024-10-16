@@ -59,7 +59,6 @@ export default async function Page({ params }) {
         }
       ]);
 
-      console.log(barChartdata)
 
     if (!investor) {
         return <div>Investor not found</div>;
@@ -117,7 +116,7 @@ export default async function Page({ params }) {
                 {/* <OverviewChart chartData={chartdata2} /> */}
             </div>
             <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
-                <div className="ml-10 overflow-auto">
+                <div className="ml-10">
                     <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
                     {investment.map((item, index)=>(
                         
@@ -125,11 +124,11 @@ export default async function Page({ params }) {
                         key = {index}
                         businessName={item.raise_campaign_id.business_id.BusinessName}
                         businessImg={item.raise_campaign_id.business_id.profile}
-                        link={item.raise_campaign_id._id}
+                        link={item.raise_campaign_id._id.toString()}
                         valuation={item.raise_campaign_id.business_id.valuation}
                         raised={item.amount}
                         equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2)}
-                        shared={item.raise_campaign_id.business_id.valuation/item.raise_campaign_id.shared_price}
+                        shared={(item.amount/item.raise_campaign_id.shared_price).toFixed(2)}
                         date={item.created_at.toLocaleDateString()}
                         className="relative py-2"
                         />
