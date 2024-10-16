@@ -34,10 +34,10 @@ export async function POST(req) {
     investor.investment_history.push(newInvestment._id);
     await investor.save();
 
-    campaign.raised += amount;
+    campaign.raised += parseInt(amount);
     await campaign.save();
 
-    business.valuation += amount;
+    business.valuation += parseInt(amount);
     await business.save();
 
     
@@ -45,6 +45,8 @@ export async function POST(req) {
     return NextResponse.json({ message: "Investment created successfully", investment: newInvestment }, { status: 201 });
   } catch (error) {
     console.error(error);
+    // console.log(Business);
+
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -8,13 +8,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import RaiseCampaign from "@/models/RaiseCampaign";
+import business from "@/models/Business";
 
 
 export default async function Page({params}) {
-    const {id} = params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${id}`);
-    const {data}  =  await res.json();
-    const campaign_id = data._id
+    const {id} = params; // id = campaign_id
+    const data = await RaiseCampaign.findById(id); // data = campaign
+    console.log(data);
+    const business_id = data.busniess_id;
    
     if (!data) {
         return <div>business not found</div>;
@@ -89,7 +91,7 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            <ClientComponent businessId={id} campaignId={campaign_id} data={data} userEmail={userEmail}/>
+            <ClientComponent businessId={business_id} campaignId={id} data={data} userEmail={userEmail}/>
             
         </div>
         </>
