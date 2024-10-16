@@ -12,6 +12,7 @@ import Investor from "@/models/Investor"
 import mongoose from "mongoose"; 
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Business from "@/models/Business";
+import InvestorRequest from "@/models/InvestorRequest"
 
 const chartData2 = [
         {"business":"RAD AI", "raised": 100000},
@@ -25,14 +26,17 @@ export default async function Page({ params }) {
     const {id} = params;
     await connect();
     const investor = await Investor.findById(id);
-   
-    const investment = await Investment.find({ 'investor_id': id })
-  .populate({
-    path: 'raise_campaign_id',
-    populate: {path: 'business_id'}
-  })
-  .sort({ created_at: -1 })
-  .limit(3);
+    const request = await InvestorRequest.find({request_status: 'pending'})
+                                                .populate('business_id')
+                                                .sort({createdAt: -1 })
+                                                .limit(3);
+    const investment = await Investment.find({'investor_id': id })
+                                            .populate({
+                                                path: 'raise_campaign_id',
+                                                populate: {path: 'business_id'}
+                                            })
+                                            .sort({ created_at: -1 })
+                                            .limit(3);
     
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
@@ -136,26 +140,20 @@ export default async function Page({ params }) {
                       
                 </div>
             </div>
-            <div id="requestStatus" className="w-[30vw] h-1/2">
-            <div className="ml-16">
+            <div id="requestStatus" className="w-[30vw] h-1/2 overflow-auto">
+            <div className="ml-10">
                 <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
                     <div>
+                    {request.map((item, index)=>(
                         <RequestStatus
-                        businessName="LEXI"
-                        date="1/8/2024"
-                        status="approve"
-                        businessImg="/assets/images/businessprofile/p8.png"
-                        link="1" 
+                        key={index}
+                        businessName={item.business_id.BusinessName}
+                        date={item.createdAt.toLocaleDateString()}
+                        status={item.request_status}
+                        businessImg={item.business_id.profile}
+                        link={item.business_id._id.toString()}
                         />
-                    </div>
-                    <div>
-                        <RequestStatus
-                        businessName="LEXI"
-                        date="1/8/2024"
-                        status="rejected"
-                        businessImg="/assets/images/businessprofile/p10.png"
-                        link="1" 
-                        />
+                    ))}
                     </div>
                 </div>
             </div>
