@@ -45,7 +45,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     const { username, email, password, role } = data;
 
     try {
-      const res = await fetch("http://localhost:3000/api/register", {
+      const res = await fetch("http://localhost:3000/api/register/investor", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

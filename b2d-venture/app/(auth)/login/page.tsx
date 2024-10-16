@@ -26,7 +26,7 @@ function LoginPage() {
   
     try {
       // First, check if the user already exists in the database by email
-      const userRes = await fetch(`/api/register/checkUserRole?email=${email}`);
+      const userRes = await fetch(`/api/fetchingData/getUserbyEmail?email=${email}`);
       const userData = await userRes.json();
       
       // If user exists
@@ -57,7 +57,7 @@ function LoginPage() {
       }
   
       // If no user exists, check the status of the business registration request
-      const businessRequestRes = await fetch(`/api/getBusinessRequestStatus?email=${email}`);
+      const businessRequestRes = await fetch(`/api/fetchingData/getBusinessRequestStatus?email=${email}`);
       const businessRequestData = await businessRequestRes.json();
   
       if (!businessRequestData.businessRequest) {

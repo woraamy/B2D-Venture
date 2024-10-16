@@ -24,7 +24,7 @@ const authOptions: NextAuthOptions = {
 
           if (!user) {
             try {
-                const businessRequestRes = await fetch(`/api/getBusinessRequestStatus?email=${email}`);
+                const businessRequestRes = await fetch(`/api/fetchingData/getBusinessRequestStatus?email=${email}`);
                 const { status } = await businessRequestRes.json();
 
                     // If business request is approved, create the business user and activate it

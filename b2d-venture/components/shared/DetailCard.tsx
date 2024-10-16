@@ -1,15 +1,16 @@
 "use client"
 import { Card, CardContent, CardHeader } from "../ui/card"
 export default function DetailCard({Data}){
-    if (!Data || Data.goal === 0) return null; 
-    const percent = parseInt(Data.raised)/parseInt(Data.goal)*100;
+    console.log(Data);
+    if (!Data || Data.data.goal === 0) return null; 
+    const percent = parseInt(Data.data.raised)/parseInt(Data.data.goal)*100;
     const formattedPercent = percent.toFixed(2);
-    const mformatt = (parseInt(Data.goal)/1000000).toFixed(2);
+    const mformatt = (parseInt(Data.data.goal)/1000000).toFixed(2);
     return(
         <Card className="bg-white h-[30rem] w-[30rem] shadow-lg ">
             <CardHeader className="border-b-4 border-[#D9D9D9]">
                 <h1 className="text-[20px]">Rasied</h1>
-                <h1 className="text-[32px]"><b>${Data.raised}</b> | {formattedPercent}%</h1>
+                <h1 className="text-[32px]"><b>${Data.data.raised}</b> | {formattedPercent}%</h1>
                 <div className="w-full h-4 mb-4 bg-white rounded-full">
                     <div
                         className="h-4 bg-[#45B52A] rounded-full"
@@ -25,15 +26,15 @@ export default function DetailCard({Data}){
                 <table className="text-[16px] mt-5">
                     <tr>
                         <td className="w-[60%] py-2">Valuation cap</td>
-                        <td className="font-semibold px-5">${Data.business_id.valuation}</td>
+                        <td className="font-semibold px-5">${Data.data.business_id.valuation}</td>
                     </tr>
                     <tr>
                         <td>Minimum investment</td>
-                        <td className="font-semibold py-2 px-5">${Data.min_investment}</td>
+                        <td className="font-semibold py-2 px-5">${Data.data.min_investment}</td>
                     </tr>
                     <tr>
                         <td>Maximum investment</td>
-                        <td className="font-semibold py-2 px-5">${Data.max_investment}</td>
+                        <td className="font-semibold py-2 px-5">${Data.data.max_investment}</td>
                     </tr>
                     <tr>
                         <td>Investors</td>
@@ -41,7 +42,7 @@ export default function DetailCard({Data}){
                     </tr>
                     <tr>
                         <td>Deadline</td>
-                        <td className="font-semibold py-2 px-5">{Data.end_date.slice(0, 10)}</td>
+                        <td className="font-semibold py-2 px-5">{Data.data.end_date}</td>
                     </tr>
                     
                 </table>

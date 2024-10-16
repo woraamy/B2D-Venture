@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import BusinessRequest from "@/models/businessRequest";
 import User from "@/models/user";
-import Business from "@/models/business";
+import Business from "@/models/Business";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {

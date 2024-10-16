@@ -41,6 +41,8 @@ function SignUp() {
     }
   };
 
+  
+
 
   return (
     <div className="signUp-bg relative">

@@ -8,6 +8,7 @@
   "devDependencies": {
     "@types/node": "22.5.4",
     "@types/react": "18.3.5",
+    "@types/react-credit-cards": "^0.8.4",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10",
@@ -66,6 +67,7 @@
     "input-otp": "^1.2.4",
     "lucide": "^0.439.0",
     "lucide-react": "^0.439.0",
+    "mdb-react-ui-kit": "^9.0.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.1",
     "next": "^14.2.13",

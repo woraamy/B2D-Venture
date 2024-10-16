@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import User from "@/models/user";
+import Investor from "@/models/Investor";
 import bcrypt from "bcryptjs";
 
 const hashPassword = async (password: string) => {
@@ -31,7 +32,12 @@ export async function POST(req: Request) {
       password: hashedPassword,
     });
 
-    return NextResponse.json({ message: "User registered successfully.", userId: newUser._id }, { status: 201 });
+    const newInvestor = await Investor.create({
+      user_id: newUser._id,
+      investment_history: [],
+    });
+
+    return NextResponse.json({ message: "User registered successfully.", userId: newUser._id, investorId: newInvestor._id }, { status: 201 });
   } catch (error) {
     console.error("Error during user registration:", error);
 

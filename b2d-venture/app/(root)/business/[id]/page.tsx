@@ -1,23 +1,31 @@
-import { promises as fs } from "fs";
+
 import Image from "next/image";
-import Tag from "@/components/ui/tag";
-import DetailCard from "@/components/shared/DetailCard";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/ui/popup";
-import Business from "@/models/Business"
-import connect from "@/lib/connectDB"
+import ClientComponent from "./ClientComponent";
+import { getServerSession } from "next-auth"; 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 import RaiseCampaign from "@/models/RaiseCampaign";
+import business from "@/models/Business";
+import Business from "@/models/Business";
+
 
 export default async function Page({params}) {
-    const {id} = params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${id}`);
-    const {data}  =  await res.json();
+    const {id} = params; // id = campaign_id
+    const data = await RaiseCampaign.findById(id); // data = campaign
+    const business_data = await Business.findById(data.business_id);
+    const business_id = data.business_id?.toString();
+    const campaign_id = data._id?.toString();
    
     if (!data) {
         return <div>business not found</div>;
     }
+
+    const session = await getServerSession(authOptions);
+    const userEmail = session?.user?.email || "";
   
     return(
         <>
@@ -29,7 +37,7 @@ export default async function Page({params}) {
                 <div className="flex">
                     <div className="relative h-[100px] w-[100px]">
                         <Image 
-                        src={data.business_id.profile}
+                        src={business_data.profile}
                         alt="profile"
                         fill={true}
                         style={{objectFit:"cover"}}
@@ -37,17 +45,17 @@ export default async function Page({params}) {
                         />
                     </div>
                     <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">{data.business_id.BusinessName} </h1>
+                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business_data.BuinessName} </h1>
                         {/* <p className="text-[16px]">by {business.company}</p> */}
                     </div>
                 </div>
-                <p className="mt-5">{data.business_id.description}</p>
+                <p className="mt-5">{business_data.description}</p>
                 <div className="flex mt-2">
 
                 </div>
                 <div className="relative mt-5 h-[30rem] w-[45vw]">
                     <Image 
-                    src={data.business_id.coverimg}
+                    src={business_data.coverimg}
                     alt="s"
                     fill={true}
                     style={{objectFit:"cover"}}
@@ -85,13 +93,7 @@ export default async function Page({params}) {
                 </div>
 
             </div>
-            <div className="fixed flex flex-col top-[15%] left-[65%]"> 
-                <DetailCard Data={data}/>
-                <Button className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"> Invest </Button>
-                <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
-                    <Link href={`${id}?showDialog=y`} >Ask for more information</Link>
-                </Button>
-            </div>
+            <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail}/>
             
         </div>
         </>
