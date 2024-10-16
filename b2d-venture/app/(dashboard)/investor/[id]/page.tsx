@@ -31,7 +31,7 @@ export default async function Page({ params }) {
     path: 'raise_campaign_id',
     populate: {path: 'business_id'}
   })
-  .sort({ createdAt: -1 })
+  .sort({ created_at: -1 })
   .limit(3);
     
     const now = new Date();
@@ -59,11 +59,12 @@ export default async function Page({ params }) {
         }
       ]);
 
-      console.log(investment)
+      console.log(barChartdata)
 
     if (!investor) {
         return <div>Investor not found</div>;
     }
+
     return(
         <>
         <div className=" flex flex-wrap w-[85vw] h-[100%]">
@@ -119,6 +120,7 @@ export default async function Page({ params }) {
                 <div className="ml-10 overflow-auto">
                     <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
                     {investment.map((item, index)=>(
+                        
                         <InvestHistoryCard 
                         key = {index}
                         businessName={item.raise_campaign_id.business_id.BusinessName}
@@ -128,7 +130,7 @@ export default async function Page({ params }) {
                         raised={item.amount}
                         equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2)}
                         shared={item.raise_campaign_id.business_id.valuation/item.raise_campaign_id.shared_price}
-                        date={item.created_at}
+                        date={item.created_at.toLocaleDateString()}
                         className="relative py-2"
                         />
                     ))}

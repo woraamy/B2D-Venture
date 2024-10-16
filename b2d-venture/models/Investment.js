@@ -23,7 +23,7 @@ const InvestmentSchema = mongoose.Schema(
         type: Number,
         require: true
       },
-      createdAt: { type: Date, default: Date.now },
+      created_at: { type: Date, default: Date.now },
     },
   );
 
