@@ -16,6 +16,12 @@ const InvestorRequestCard = ({className, key, email, contact, name, description,
         request.status = "approved";
     }
 
+    async function handleReject() {
+        await connectDB();
+        const request = await InvestorRequest.findById(key);
+        request.status = "declined";
+    }
+
  return (
     <div className ={className}>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl ">
@@ -50,7 +56,7 @@ const InvestorRequestCard = ({className, key, email, contact, name, description,
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
                                     <Button onClick={handleAllow} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
-                                    <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    <Button onClick={handleReject} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status === "approved"|| "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>
