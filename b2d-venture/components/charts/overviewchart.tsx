@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Label, Pie, PieChart, Sector } from "recharts"
-import { PieSectorDataItem } from "recharts/types/polar/Pie"
 
 import {
   Card,
@@ -63,13 +62,6 @@ const chartConfig = {
 
 export function OverviewChart({ chartData }) {
   const id = "pie-interactive"
-  const [activeBusiness, setActiveBusiness] = React.useState(Data[0].business)
-
-  const activeIndex = React.useMemo(
-    () => chartData.findIndex((item) => item.business === activeBusiness),
-    [activeBusiness]
-  )
-  const businesses = React.useMemo(() => chartData.map((item) => item.business), [])
 
   // Calculate the total raised amount
   const totalRaised = React.useMemo(
@@ -78,7 +70,7 @@ export function OverviewChart({ chartData }) {
   )
 
   return (
-    <Card data-chart={id} className="flex flex-col">
+    <Card data-chart={id} className="flex flex-col h-full">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
@@ -95,7 +87,7 @@ export function OverviewChart({ chartData }) {
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent hideLabel className="bg-white p-2"/>}
             />
             <Pie
               data={chartData}
@@ -103,21 +95,7 @@ export function OverviewChart({ chartData }) {
               nameKey="business"
               innerRadius={60}
               strokeWidth={5}
-              activeIndex={activeIndex}
-              activeShape={({
-                outerRadius = 0,
-                ...props
-              }: PieSectorDataItem) => (
-                <g>
-                  <Sector {...props} outerRadius={outerRadius + 10} />
-                  <Sector
-                    {...props}
-                    outerRadius={outerRadius + 25}
-                    innerRadius={outerRadius + 12}
-                  />
-                </g>
-              )}
-            >
+                          >
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -133,7 +111,7 @@ export function OverviewChart({ chartData }) {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalRaised.toLocaleString()} {/* Display the total */}
+                          {totalRaised.toLocaleString()} 
                         </tspan>
                         <tspan
                           x={viewBox.cx}

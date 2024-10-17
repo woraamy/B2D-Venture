@@ -20,7 +20,6 @@ export default async function Page({params}) {
             {value: {isHave: (item.request_status === "approved"),text: "View"}, type: "button"}
         ]
     ))
-    console.log(data)
     const headData = [
         {value:"Date", type:"text"}, 
         {value:"Business", type:"text"},
