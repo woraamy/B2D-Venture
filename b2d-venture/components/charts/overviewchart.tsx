@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export const description = "An interactive pie chart"
+export const description = "Showing all invest money for each business"
 
 const Data = [
   { business: "RadAi", raised: 186, fill: "var(--color-chart1)" },
@@ -83,7 +83,7 @@ export function OverviewChart({ chartData }) {
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
           <CardTitle>Overview Chart</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardDescription>{description}</CardDescription>
         </div>
       </CardHeader>
       <CardContent className="flex flex-1 justify-center pb-0">
