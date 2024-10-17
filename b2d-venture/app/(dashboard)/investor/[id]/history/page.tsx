@@ -1,4 +1,4 @@
-
+import useSWR from 'swr';
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
 import TableCard from "@/components/shared/InvestorDashboard/TableCard";
@@ -28,7 +28,7 @@ function getOverviewData(data){
 }
 
 async function fetchInvestmentData(id) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { tags: ['collection'] } });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { revalidate: 100 }});
     const res = await response.json();
     return res.data || [];
 }
@@ -41,11 +41,12 @@ export default async function Page({params}) {
         [
             {value:item.created_at, type:"text"},
             {value:{src:item.raise_campaign_id.business_id.profile, text:item.raise_campaign_id.business_id.BusinessName},type:"image"},
-            {value:item.raise_campaign_id.raised.toLocaleString(), type:"text"},
+            {value:item.amount.toLocaleString(), type:"text"},
             {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString(), type:"text"},
             {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type:"text"},
          ]
     ))
+    console.log(data)
     const headData = [
         {value:"Date", type:"text"}, 
         {value:"Business", type:"text"},

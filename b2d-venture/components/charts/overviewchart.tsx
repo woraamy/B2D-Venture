@@ -1,121 +1,156 @@
 "use client"
+
 import * as React from "react"
-import { Label, Pie, PieChart } from "recharts"
+import { Label, Pie, PieChart, Sector } from "recharts"
+import { PieSectorDataItem } from "recharts/types/polar/Pie"
+
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
+  ChartStyle,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export const description = "An interactive pie chart"
+
+const Data = [
+  { business: "RadAi", raised: 186, fill: "var(--color-chart1)" },
+  { business: "NewShop", raised: 305, fill: "var(--color-chart2)" },
+  { business: "RadAi", raised: 186, fill: "var(--color-chart3)" },
+  { business: "NewShop", raised: 305, fill: "var(--color-chart4)" },
+  { business: "RadAi", raised: 186, fill: "var(--color-chart5)" },
+  { business: "NewShop", raised: 305, fill: "var(--color-chart1)" },
+]
+
 const chartConfig = {
-  // raise: {
-  //   label: "Raised",
-  // },
-  radai: {
-    label: "RAD AI",
+  business: {
+    label: "business",
+  },
+  raised: {
+    label: "raised",
+  },
+  chart1: {
     color: "hsl(var(--chart-1))",
   },
-  pressmanfilm: {
-    label: "Pressman Film",
+  chart2: {
     color: "hsl(var(--chart-2))",
   },
-  wolfpack: {
-    label: "WolfPack",
+  chart3: {
     color: "hsl(var(--chart-3))",
   },
-  zephyraerospace: {
-    label: "Zephyr Aerospace",
+  chart4: {
     color: "hsl(var(--chart-4))",
   },
-  thenewshop: {
-    label: "The New Shop",
+  chart5: {
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
-export  function OverviewChart({chartData}) {
-  console.log(chartData)
-    chartData.forEach((item,index)=>{
-        const key = item.business.toLowerCase().replace(/\s+/g, '-');
-        chartConfig[key] = {
-            item:{
-                label: item.business,
-                color: `hsl(var(--chart-${index%5}))`
-            }, 
-        };
-    }
-    );
-  const validChartData = Array.isArray(chartData) ? chartData : [];
-  const totalRaise = React.useMemo(() => {
-    return validChartData.reduce((acc, curr) => acc + curr.raised, 0);
-  }, [validChartData]);
-    return (
-    <Card className="flex flex-col">
-        <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-1 pb-0">
+
+export function OverviewChart({ chartData }) {
+  const id = "pie-interactive"
+  const [activeBusiness, setActiveBusiness] = React.useState(Data[0].business)
+
+  const activeIndex = React.useMemo(
+    () => chartData.findIndex((item) => item.business === activeBusiness),
+    [activeBusiness]
+  )
+  const businesses = React.useMemo(() => chartData.map((item) => item.business), [])
+
+  // Calculate the total raised amount
+  const totalRaised = React.useMemo(
+    () => chartData.reduce((sum, item) => sum + item.raised, 0),
+    []
+  )
+
+  return (
+    <Card data-chart={id} className="flex flex-col">
+      <ChartStyle id={id} config={chartConfig} />
+      <CardHeader className="flex-row items-start space-y-0 pb-0">
+        <div className="grid gap-1">
+          <CardTitle>Overview Chart</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent className="flex flex-1 justify-center pb-0">
         <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
+          id={id}
+          config={chartConfig}
+          className="mx-auto aspect-square w-full max-w-[300px]"
         >
-            <PieChart>
+          <PieChart>
             <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-                data={chartData}
-                dataKey="raised"
-                nameKey="business"
-                innerRadius={60}
-                strokeWidth={5}
+              data={chartData}
+              dataKey="raised"
+              nameKey="business"
+              innerRadius={60}
+              strokeWidth={5}
+              activeIndex={activeIndex}
+              activeShape={({
+                outerRadius = 0,
+                ...props
+              }: PieSectorDataItem) => (
+                <g>
+                  <Sector {...props} outerRadius={outerRadius + 10} />
+                  <Sector
+                    {...props}
+                    outerRadius={outerRadius + 25}
+                    innerRadius={outerRadius + 12}
+                  />
+                </g>
+              )}
             >
-                <Label
+              <Label
                 content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
-                        <text
+                      <text
                         x={viewBox.cx}
                         y={viewBox.cy}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        >
+                      >
                         <tspan
-                            x={viewBox.cx}
-                            y={viewBox.cy}
-                            className="fill-foreground text-3xl font-bold"
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-foreground text-3xl font-bold"
                         >
-                            {totalRaise.toLocaleString()}
+                          {totalRaised.toLocaleString()} {/* Display the total */}
                         </tspan>
                         <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 24}
-                            className="fill-muted-foreground"
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 24}
+                          className="fill-muted-foreground"
                         >
-                            Raised
+                          Raised
                         </tspan>
-                        </text>
+                      </text>
                     )
-                    }
+                  }
                 }}
-                />
+              />
             </Pie>
-            </PieChart>
+          </PieChart>
         </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col gap-2 text-sm">
-        <div className="leading-none text-muted-foreground">
-            Showing Portfolio's Overview
-        </div>
-        </CardFooter>
+      </CardContent>
     </Card>
-    );
-};
+  )
+}

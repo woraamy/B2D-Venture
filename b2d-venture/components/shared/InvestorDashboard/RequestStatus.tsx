@@ -16,7 +16,7 @@ const RequestStatus = ({className, businessName, status, date, link, businessImg
                                     className="rounded-full"
                                     />
             </div>
-            <Link href={`/business/${link}`} className="pl-10 mt-3 text-[#144583] font-semibold text-s underline">{businessName}</Link>
+            <h1 className="pl-10 mt-3 text-[#144583] font-semibold text-s underline">{businessName}</h1>
             <h1 className="pl-10 mt-3">{date}</h1>
             { status === 'approve' ? (
                 <div className=" flex">

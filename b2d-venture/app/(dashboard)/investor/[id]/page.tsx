@@ -44,22 +44,29 @@ async function getBarChartData({investorObjectId}){
     return {barChartdata}
 }
 
-function getPieChartData(data){
-    const totalRaised = data.reduce((total, cur)=>{
+function getPieChartData(data) {
+    const totalRaised = data.reduce((total, cur) => {
         const business = cur.raise_campaign_id.business_id._id;
-        const name = cur.raise_campaign_id.business_id.BusinessName
+        const name = cur.raise_campaign_id.business_id.BusinessName;
         const amount = cur.amount;
-        if(!total[business]){
-            total[business] ={
+
+        if (!total[business]) {
+            total[business] = {
                 business: name,
                 raised: 0,
-            }
-        };
-        total[business].totalRaised += amount;
+            };
+        }
+        total[business].raised += amount;   
         return total;
-    }, {})
-    const chartData = Object.values(totalRaised)
-    return chartData
+
+    }, {});
+
+    const chartData = Object.values(totalRaised);
+    const pieData = chartData.map((item, index) => ({
+        ...item,  
+        fill: `var(--color-chart${index % 5 + 1})` 
+    }));
+    return pieData;
 }
 
 export default async function Page({ params }) {
@@ -81,7 +88,6 @@ export default async function Page({ params }) {
     const investorObjectId = new ObjectId(id);
     const {barChartdata} = await getBarChartData({investorObjectId});
     const pieChartdata = getPieChartData(investment)
-
     if (!investor) {
         return <div>Investor not found</div>;
     }
@@ -137,11 +143,10 @@ export default async function Page({ params }) {
             <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
                 <OverviewChart chartData={pieChartdata} />
             </div>
-            <div id="history" className="w-[27.5vw] flex-col h-1/2 border-r-2 overflow-auto">
-                <div className="ml-10">
+            <div id="history" className="w-[27.5vw] flex-col  items-center h-1/2 border-r-2 overflow-auto">
+                <div className="mx-5">
                     <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
                     {investment.slice(0, 3).map((item, index)=>(
-                        
                         <InvestHistoryCard 
                         key = {index}
                         businessName={item.raise_campaign_id.business_id.BusinessName}
@@ -159,7 +164,7 @@ export default async function Page({ params }) {
                 </div>
             </div>
             <div id="requestStatus" className="w-[30vw] h-1/2 overflow-auto">
-            <div className="ml-10">
+            <div className="mx-5">
                 <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
                     <div>
                     {request.slice(0, 3).map((item, index)=>(
@@ -169,7 +174,6 @@ export default async function Page({ params }) {
                         date={item.createdAt}
                         status={item.request_status}
                         businessImg={item.business_id.profile}
-                        link={item.business_id._id.toString()}
                         />
                     ))}
                     </div>
