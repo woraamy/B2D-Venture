@@ -4,7 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
 import { Button } from "../ui/button";
-const InvestorRequestCard = ({className, email, contact, name, description, business, link, reason, status}) => {
+import connectDB from "@/lib/connectDB";
+import { Key } from "lucide-react";
+import InvestorRequest from "@/models/InvestorRequest";
+
+
+const InvestorRequestCard = ({className, key, email, contact, name, description, business, link, reason, status}) => {
+    async function handleAllow() {
+        await connectDB();
+        const request = await InvestorRequest.findById(key);
+        request.status = "approved";
+    }
+
  return (
     <div className ={className}>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl ">
@@ -38,7 +49,7 @@ const InvestorRequestCard = ({className, email, contact, name, description, busi
                                 
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
-                                    <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button onClick={handleAllow} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
                                     <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status === "approved"|| "done" ? (
