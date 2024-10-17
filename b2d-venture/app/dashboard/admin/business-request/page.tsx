@@ -45,7 +45,7 @@ export default async function Page({ params }) {
                     </div>
                     <div className="flex px-5 py-5 mt-5  flex-wrap gap-4">
                         {history.map((req)=>(
-                            <BusinessRequestCard 
+                            <BusinessRequestCard className=""
                             key={req._id}
                             contact={req.contactNumber}
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
