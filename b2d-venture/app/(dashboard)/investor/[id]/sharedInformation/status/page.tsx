@@ -2,20 +2,22 @@ import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
 import TableCard from "@/components/shared/InvestorDashboard/TableCard";
 import Link from "next/link";
+import connect from "@/lib/connectDB"
 import { usePathname } from 'next/navigation';
+import InvestorRequest from "@/models/InvestorRequest"
 
 export default async function Page({params}) {
     const {id} = params
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
     const res = await response.json();
     const request = res.data || []
-
+  
     const data = request.map((item,index)=>(
         [
-            {value: item.createdAt, type:"text"},
-            {value:{src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
+            {value: item.createdAt.toLocaleString(), type:"text"},
+            {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
             {value: item.request_status, type:"text"},
-            {value: item.request_status === "approved" ? {isHave: true, value: "View"} : {isHave: false, value: "View"}, type:"button" }
+            {value: {isHave: (item.request_status === "approved"),text: "View"}, type: "button"}
         ]
     ))
     console.log(data)

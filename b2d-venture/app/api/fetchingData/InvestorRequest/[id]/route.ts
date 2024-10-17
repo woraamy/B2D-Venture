@@ -8,10 +8,9 @@ export async function GET(req: Request, { params }) {
     const { id } = params;
     try{
         await connect();
-        const data =await InvestorRequest.find({request_status: 'pending'})
+        const data =await InvestorRequest.find()
         .populate('business_id')
         .sort({createdAt: -1 })
-        .limit(3);
 
         if (data) {
             // Format the created_at date before sending

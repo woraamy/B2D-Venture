@@ -8,15 +8,6 @@ import connect from "@/lib/connectDB"
 import Investment from "@/models/Investment";
 import mongoose from "mongoose"; 
 
-
-const chartData2 = [
-        {"business":"RAD AI", "raised": 100000},
-        {"business":"Pressman Film", "raised": 50000},
-        {"business":"WolfPack", "raised": 200000},
-        {"business":"Zephyr Aerospace", "raised": 575000},
-        {"business":"The New Shop", "raised": 80000}
-    ]
-
 async function getBarChartData({investorObjectId}){
     await connect();
     const now = new Date();
@@ -164,7 +155,7 @@ export default async function Page({ params }) {
                 </div>
             </div>
             <div id="requestStatus" className="w-[30vw] h-1/2 overflow-auto">
-            <div className="mx-5">
+            <div className="ml-10">
                 <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
                     <div>
                     {request.slice(0, 3).map((item, index)=>(
