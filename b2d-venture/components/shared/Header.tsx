@@ -73,11 +73,34 @@ const UnauthenticatedHeader = () => {
 
 // Main Header Component
 const Header = async () => {
-  const session = await getServerSession(authOptions)
-  const email = session.user.email
-  const user = await User.findOne({email:email})
-  const investor = await Investor.findOne({user_id:user._id})
-  return session ? <AuthenticatedHeader id={investor._id}/> : <UnauthenticatedHeader />;
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+      return <UnauthenticatedHeader />;
+    }
+
+    const email = session.user.email;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      console.error(`User not found for email: ${email}`);
+      return <UnauthenticatedHeader />;
+    }
+
+    const investor = await Investor.findOne({ user_id: user._id });
+
+    if (!investor) {
+      console.error(`Investor not found for user_id: ${user._id}`);
+      return <UnauthenticatedHeader />;
+    }
+
+    // If session, user, and investor exist, render AuthenticatedHeader
+    return <AuthenticatedHeader id={investor._id} />;
+  } catch (error) {
+    console.error("Error in Header component:", error);
+    return <UnauthenticatedHeader />;
+  }
 };
 
 export default Header;
