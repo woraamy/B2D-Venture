@@ -5,15 +5,13 @@ const InvestmentSchema = mongoose.Schema(
     {
       investor_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
-        ref: Investor
+        required: true,
+        ref:'Investor' 
         },
       raise_campaign_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
-        ref: RaiseCampaign 
+        required: true,
+        ref:'RaisedCampaign' 
         },
       amount: {
         type: Number,
@@ -21,9 +19,12 @@ const InvestmentSchema = mongoose.Schema(
         },
       fee: {
         type: Number,
-        require: true
+        required: true
+        },
+      created_at: {
+        type: Date,
+        default: Date.now
       },
-      created_at: { type: Date, default: Date.now },
     },
   );
 

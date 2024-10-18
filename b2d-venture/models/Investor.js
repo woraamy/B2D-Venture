@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import User from "./user";
 const InvestorSchema = mongoose.Schema(
     {
-      name: String,
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
@@ -11,6 +10,9 @@ const InvestorSchema = mongoose.Schema(
         },
       investor_description: String,
       profile_picture: String,
+      investment_history: [{
+        type:mongoose.Schema.Types.ObjectId, ref:"Investment"
+        }],
       email: String,
       firstName: {
         type: String,
