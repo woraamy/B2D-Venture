@@ -43,8 +43,6 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function AdminChart({className, data}) {
-    // dummy data have to change later
-
     const months = getLastSixMonth();
     months.forEach((month, i) => {
         if (!data.some(item => item._id.month === month.monthNum)) {

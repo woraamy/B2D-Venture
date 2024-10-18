@@ -7,9 +7,10 @@ import SignOutButton from "./signOutButton";
 import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-
+import User from "@/models/user";
+import Investor from "@/models/Investor"
 // Authenticated Header
-const AuthenticatedHeader = () => {
+const AuthenticatedHeader = ({id}) => {
   return (
     <header className="w-full border-b bg-white">
       <div className="wrapper flex items-center justify-between">
@@ -25,7 +26,7 @@ const AuthenticatedHeader = () => {
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">
-            <Link href="/settings/account" className="hover:text-blue-500">
+            <Link href={`/investor/${id}`} className="hover:text-blue-500">
               Profile
             </Link>
             <SignOutButton/>
@@ -72,8 +73,34 @@ const UnauthenticatedHeader = () => {
 
 // Main Header Component
 const Header = async () => {
-  const session = await getServerSession(authOptions)
-  return session ? <AuthenticatedHeader /> : <UnauthenticatedHeader />;
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+      return <UnauthenticatedHeader />;
+    }
+
+    const email = session.user.email;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      console.error(`User not found for email: ${email}`);
+      return <UnauthenticatedHeader />;
+    }
+
+    const investor = await Investor.findOne({ user_id: user._id });
+
+    if (!investor) {
+      console.error(`Investor not found for user_id: ${user._id}`);
+      return <UnauthenticatedHeader />;
+    }
+
+    // If session, user, and investor exist, render AuthenticatedHeader
+    return <AuthenticatedHeader id={investor._id} />;
+  } catch (error) {
+    console.error("Error in Header component:", error);
+    return <UnauthenticatedHeader />;
+  }
 };
 
 export default Header;

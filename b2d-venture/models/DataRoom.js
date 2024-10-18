@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import File from "./file"
+
 const DataRoomSchema = mongoose.Schema(
     {
       name: String,

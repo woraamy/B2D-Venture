@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import User from "./user";
 const InvestorSchema = mongoose.Schema(
     {
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         unique: true, 
-        ref:'User'
+        ref: User
         },
       investor_description: String,
       profile_picture: String,

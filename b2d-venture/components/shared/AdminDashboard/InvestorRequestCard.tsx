@@ -2,8 +2,8 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "../ui/tag";
-import { Button } from "../ui/button";
+import Tag from "@/components/ui/tag";
+import { Button } from "../../ui/button";
 const InvestorRequestCard = ({className, email, contact, name, description, business, link, reason, status}) => {
  return (
     <div className ={className}>

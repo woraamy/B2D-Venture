@@ -2,15 +2,12 @@ import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
 import Business from '@/models/Business'
-import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
-import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
 
-export default async function Page({ params }) {
-    const {id} = params;
-    const investor = await Investor.find()
-    const business = await Business.find()
+export default async function Page() {
     const cur = await InvestorRequest.find({request_status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const history = await InvestorRequest.find({status: ['approved','done','rejected']}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     return(
