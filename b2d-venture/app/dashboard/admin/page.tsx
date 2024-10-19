@@ -89,6 +89,7 @@ export default async function Page({ params }) {
                             {businessRequest.map((req)=>(
                                 <BusinessRequestCard 
                                 key={req._id}
+                                id={req._id.toString()}
                                 contact={req.contactNumber}
                                 address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                                 name={req.BusinessName} 
