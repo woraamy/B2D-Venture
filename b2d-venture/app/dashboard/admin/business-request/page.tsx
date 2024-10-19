@@ -6,7 +6,11 @@ import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
 import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
+import connectDB from "@/lib/connectDB";
 export default async function Page({ params }) {
+
+    await connectDB();
+    console.log("DB connected")
     const {id} = params;
     // const business = await Business.find()
     const cur = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })

@@ -12,17 +12,17 @@ import { toast } from "react-toastify";
 
 const InvestorRequestCard = ({className, key, email, contact, name, description, business, link, reason, status}) => {
     async function handleAllow() {
-        await connectDB();
-        const request = await InvestorRequest.findById(key);
-        request.status = "approved";
-        toast.success("Request approved");
+        // await connectDB();
+        // const request = await InvestorRequest.findById(key);
+        // request.status = "approved";
+        // toast.success("Request approved");
     }
 
     async function handleReject() {
-        await connectDB();
-        const request = await InvestorRequest.findById(key);
-        request.status = "declined";
-        toast.error("Request declined");
+        // await connectDB();
+        // const request = await InvestorRequest.findById(key);
+        // request.status = "declined";
+        // toast.error("Request declined");
     }
 
  return (

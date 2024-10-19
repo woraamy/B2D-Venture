@@ -6,8 +6,8 @@ export default function Custom403() {
       <h1 className="text-6xl font-bold text-red-600">403</h1>
       <h2 className="text-3xl mt-4">Access Forbidden</h2>
       <p className="mt-2 text-gray-600">You do not have permission to access this page.</p>
-      <Link href="/">
-        <a className="mt-5 text-blue-500 hover:underline">Go back to Home</a>
+      <Link href="/" className="mt-5 text-blue-500 hover:underline">
+        Go back to Home
       </Link>
     </div>
   );

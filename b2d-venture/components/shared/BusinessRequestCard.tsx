@@ -10,17 +10,17 @@ import toast from "react-hot-toast";
 
 const BusinessRequestCard = ({className, key, email, contact, address, name, description, tag, status}) => {
     async function handleAllow() {
-        await connectDB();
-        const request = await BusinessRequest.findById(key);
-        request.status = "approved";
-        toast.success("Request approved");
+        // await connectDB();
+        // const request = await BusinessRequest.findById(key);
+        // request.status = "approved";
+        // toast.success("Request approved");
     }
 
     async function handleReject() {
-        await connectDB();
-        const request = await BusinessRequest.findById(key);
-        request.status = "declined";
-        toast.error("Request declined");
+        // await connectDB();
+        // const request = await BusinessRequest.findById(key);
+        // request.status = "declined";
+        // toast.error("Request declined");
     }
 
  return (
