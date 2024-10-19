@@ -65,7 +65,6 @@ export default async function Page({ params }) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investor/${id}`, { next: { tags: ['collection'] } });
     const investors  =  await res.json();
     const investor = investors.data
-    console.log(investors)
 
     const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
     const requestData  =  await res1.json();
@@ -75,9 +74,6 @@ export default async function Page({ params }) {
     const investmentData  =  await res2.json();
     const investment = investmentData.data || []
 
-    console.log("yeee")
-    console.log(id)
-    console.log("rttt")
     const { ObjectId } = mongoose.Types;
     const investorObjectId = new ObjectId(id);
     const {barChartdata} = await getBarChartData({investorObjectId});

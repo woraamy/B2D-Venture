@@ -11,14 +11,13 @@ import User from "@/models/user";
 import Investor from "@/models/Investor";
 
 // Authenticated Header
-const AuthenticatedHeader = ({ role, id }) => {
-  
-  // Use backticks to construct the profile link
-  let profileLink = `/dashboard/investor/${id}`; 
+const AuthenticatedHeader = ({ role, userId, investorId, businessId }) => {
+
+  let profileLink = `/dashboard/investor/${investorId}`;
   if (role === "admin") {
     profileLink = "/dashboard/admin";
   } else if (role === "business") {
-    profileLink = `/dashboard/business/${id}`;
+    profileLink = `/dashboard/business/${businessId}`; 
   }
 
   return (
@@ -99,8 +98,32 @@ const Header = async () => {
       return <UnauthenticatedHeader />;
     }
 
-    // Pass the user role to AuthenticatedHeader
-    return <AuthenticatedHeader role={user.role} id={user._id} />;
+    let investorId = null;
+    let businessId = null;
+
+    if (user.role === "investor") {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getInvestorbyUserId?userId=${user._id}`);
+      const investorData = await res.json();
+
+      if (investorData) {
+        investorId = investorData.investor._id;
+      } else {
+        console.error(`Investor not found for user ID: ${user._id}`);
+      }
+    }
+
+    if (user.role === "business") {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getBusinessbyUserId?userId=${user._id}`);
+      const businessData = await res.json();
+
+      if (businessData.business) {
+        businessId = businessData.business._id; 
+      } else {
+        console.error(`Business not found for user ID: ${user._id}`);
+      }
+    }
+
+    return <AuthenticatedHeader role={user.role} userId={user._id} investorId={investorId} businessId={businessId} />;
   } catch (error) {
     console.error("Error in Header component:", error);
     return <UnauthenticatedHeader />;
