@@ -18,7 +18,7 @@ export default async function Page({ params }) {
     const investor = await Investor.find()
     const business = await Business.find()
     const businessRequest = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
-    const investorRequest = await InvestorRequest.find({request_status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
+    const investorRequest = await InvestorRequest.find({status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const activeInvestor = await User.countDocuments({role:'investor'})
     const activeBusiness = await User.countDocuments({role:'business'})
     const activeCampaign = await RaiseCampaign.countDocuments()
@@ -107,6 +107,7 @@ export default async function Page({ params }) {
                             {investorRequest.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
+                                id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
@@ -114,7 +115,7 @@ export default async function Page({ params }) {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
-                                status={req.request_status}
+                                status={req.status}
                                 className='mr-5'
                                 />
                             ))}

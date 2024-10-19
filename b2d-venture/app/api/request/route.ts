@@ -34,6 +34,7 @@ export async function POST(req: Request) {
         } else {
             return NextResponse.json({ message: 'Invalid action' }, { status: 400 });
         }
+
     } catch (error) {
         console.error('Error processing request:', error);
         return NextResponse.json({ message: 'Server error' }, { status: 500 });
