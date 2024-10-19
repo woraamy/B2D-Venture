@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Investor from "@/models/Investor"
+import RaiseCampaign from "./RaiseCampaign";
 const InvestmentSchema = mongoose.Schema(
     {
       investor_id: { 

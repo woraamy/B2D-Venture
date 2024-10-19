@@ -3,8 +3,8 @@ import connect from "@/lib/connectDB";
 import User from "@/models/user"
 import RaiseCampaign from "@/models/RaiseCampaign";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
-import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
@@ -12,11 +12,8 @@ import Business from '@/models/Business'
 import Investment from '@/models/Investment'
 import { AdminChart } from "@/components/charts/AdminChart";
 
-export default async function Page({ params }) {
+export default async function Page() {
     await connect();
-    const {id} = params;
-    const investor = await Investor.find()
-    const business = await Business.find()
     const businessRequest = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
     const investorRequest = await InvestorRequest.find({status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const activeInvestor = await User.countDocuments({role:'investor'})
@@ -104,7 +101,7 @@ export default async function Page({ params }) {
                     </div>
                     <div className="ml-7">
                         <h1 className="text-[32px] mt-5 font-bold">Investor request</h1>    
-                        <div className="flex px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md overflow-auto">
+                        <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
                             {investorRequest.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 

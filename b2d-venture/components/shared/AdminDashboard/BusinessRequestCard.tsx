@@ -1,16 +1,14 @@
 "use client";
-
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "../ui/tag";
-import { Button } from "../ui/button";
+import Tag from "../../ui/tag";
 import connectDB from "@/lib/connectDB";
-import { Key } from "lucide-react";
-import InvestorRequest from "@/models/InvestorRequest";
-import { toast } from "react-toastify";
+import { Button } from "../../ui/button";
+import BusinessRequest from "@/models/businessRequest";
+import toast from "react-hot-toast";
 
-const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status }) => {
+const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status}) => {
     async function handleAllow(id: string, type: 'business' | 'investor') {
         try {
             const response = await fetch('/api/request', {
@@ -53,27 +51,28 @@ const InvestorRequestCard = ({ className, key, id, email, contact, name, descrip
         }
     }
 
-    return (
-        <div className={className}>
-            <Card className="shadow-md overflow-hidden relative w-[300px] h-[360px] bg-white rounded-xl">
-                <CardHeader className='flex bg-[#FF553E] w-full text-white h-[7%] inline-block'>
-                    <b>Request to:</b>
-                    <Link href={`/business/${link}`} className="ml-2 underline hover:text-blue-700">{business}</Link>
-                </CardHeader>
+ return (
+    <div className ={className}>
+            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
+            
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px]">
-                        <div className="relative">
-                            <div className="overflow-auto relative ml-2 h-[100px]">
-                                <h2 className="mt-2 font-semibold">{name}</h2>
+                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] .text-[24px] ">
+                        <div className="relative -top-7">
+                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                                <h2 className="mt-10 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="overflow-auto relative ml-2 h-[80px]">
-                                <h2 className="mt-2 font-semibold">Reason</h2>
-                                <p className="text-[15px] font-normal">{reason}</p>
+                            
+                            <div className="ml-2 mt-2 flex">
+                               {Array.isArray(tag) && tag.map((tag, index) => (
+                                    <Tag className="pr-2"
+                                    key={index}
+                                    tagName={tag} 
+                                    />
+                                ))}
                             </div>
-
                             <div className="relative block flex-col mt-4 overflow-hidden">
-                                <hr className="mb-2 border-t border-gray-300" />
+                                <hr className="mb-2  border-t border-gray-300" />
                                 <div className="flex">
                                     <p className="ml-2">Email</p>
                                     <p className="ml-2 text-[15px] font-semibold">{email}</p>
@@ -82,25 +81,30 @@ const InvestorRequestCard = ({ className, key, id, email, contact, name, descrip
                                     <p className="ml-2">Tel.</p>
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
-
+                                <div className="mr-2 flex relative">
+                                    <p className="ml-2">Address</p>
+                                    <p className="ml-2 block text-[15px] font-semibold">{address}</p>
+                                </div>
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
-                                        <Button onClick={() => handleAllow(id, 'investor')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
-                                        <Button onClick={() => handleReject(id, 'investor')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
-                                ) : status === "approved" || status === "done" ? (
+                                ) : status === "approved"|| "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>
                                 ) : (
                                     <p className="mt-2 text-red-600">Request rejected</p>
-                                )}
-                            </div>
+                                 )}
 
+                            </div>
+                            
                         </div>
                     </CardContent>
+                
                 </div>
             </Card>
-        </div>
-    );
+    </div>
+ );
 };
 
-export default InvestorRequestCard;
+export default BusinessRequestCard;

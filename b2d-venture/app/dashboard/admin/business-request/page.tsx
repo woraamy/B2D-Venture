@@ -2,17 +2,13 @@ import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
 import Business from '@/models/Business'
-import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
-import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
-import connectDB from "@/lib/connectDB";
 export default async function Page({ params }) {
-
-    await connectDB();
-    console.log("DB connected")
     const {id} = params;
-    // const business = await Business.find()
+    const business = await Business.find()
     const cur = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
     const history = await BusinessRequest.find({status: ['approved','done','rejected']}).sort({createdAt: -1 })
     return(
@@ -50,7 +46,7 @@ export default async function Page({ params }) {
                     </div>
                     <div className="flex px-5 py-5 mt-5  flex-wrap gap-4">
                         {history.map((req)=>(
-                            <BusinessRequestCard className=""
+                            <BusinessRequestCard 
                             key={req._id}
                             id={req._id.toString()}
                             contact={req.contactNumber}
@@ -60,7 +56,7 @@ export default async function Page({ params }) {
                             tag={req.typeOfBusiness} 
                             email={req.email}
                             status={req.status}
-                            
+                            className='mr-5\'
                             />
                         ))}
                     </div> 

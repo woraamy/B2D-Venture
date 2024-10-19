@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
+import Business from "./Business"
+import Investor from "./Investor"
+
 const InvestorRequestSchema = mongoose.Schema(
     {
       investor_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId,
+        unique: false, 
         required: true, 
-        unique: true, 
-        ref:'Investor' 
+        ref: Investor
         },
       business_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         unique: true, 
-        ref:'Business' 
+        ref: Business 
         },
       status: {
         type: String,

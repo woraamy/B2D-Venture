@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import Business from "./Business"
 const RaisedCampaignSchema = mongoose.Schema(
     {
       business_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         unique: true, 
-        ref:'Business'
+        ref: Business
         },
       target_raise: String,
       min_investment: Number,

@@ -2,8 +2,8 @@ import BusinessRequest from "@/models/businessRequest";
 import InvestorRequest from "@/models/InvestorRequest"
 import Investor from '@/models/Investor'
 import Business from '@/models/Business'
-import BusinessRequestCard from "@/components/shared/BusinessRequestCard";
-import InvestorRequestCard from "@/components/shared/InvestorRequestCard";
+import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
 
@@ -27,7 +27,7 @@ export default async function Page({ params }) {
                         {cur.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
-                                id={req._id.toString()}
+                                id={req._id.toString()} 
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
