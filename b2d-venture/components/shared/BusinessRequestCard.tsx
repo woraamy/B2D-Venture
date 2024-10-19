@@ -3,8 +3,19 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
+import connectDB from "@/lib/connectDB";
 import { Button } from "../ui/button";
-const BusinessRequestCard = ({className, email, contact, address, name, description, tag, status}) => {
+import BusinessRequest from "@/models/businessRequest";
+import toast from "react-hot-toast";
+
+const BusinessRequestCard = ({className, key, email, contact, address, name, description, tag, status}) => {
+    async function handleAllow() {
+        await connectDB();
+        const request = await BusinessRequest.findById(key);
+        request.status = "approved";
+        toast.success("Request approved");
+    }
+
  return (
     <div className ={className}>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
@@ -41,7 +52,7 @@ const BusinessRequestCard = ({className, email, contact, address, name, descript
                                 </div>
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
-                                    <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button onClick={handleAllow} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
                                     <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status === "approved"|| "done" ? (
