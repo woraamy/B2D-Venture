@@ -7,8 +7,11 @@ import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequ
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
 
-export default async function Page() {
-    const cur = await InvestorRequest.find({request_status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
+export default async function Page({ params }) {
+    const {id} = params;
+    const investor = await Investor.find()
+    const business = await Business.find()
+    const cur = await InvestorRequest.find({status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const history = await InvestorRequest.find({status: ['approved','done','rejected']}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     return(
         <div>
@@ -24,6 +27,7 @@ export default async function Page() {
                         {cur.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
+                                id={req._id.toString()} 
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
@@ -31,7 +35,7 @@ export default async function Page() {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
-                                status={req.request_status}
+                                status={req.status}
                                 className='mr-5'
                                 />
                             ))}
@@ -47,6 +51,7 @@ export default async function Page() {
                         {history.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
+                                id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
@@ -54,7 +59,7 @@ export default async function Page() {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
-                                status={req.request_status}
+                                status={req.status}
                                 className='mr-5'
                                 />
                             ))}

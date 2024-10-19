@@ -8,9 +8,18 @@ import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import User from "@/models/user";
-import Investor from "@/models/Investor"
+import Investor from "@/models/Investor";
+
 // Authenticated Header
-const AuthenticatedHeader = ({id}) => {
+const AuthenticatedHeader = ({ role, userId, investorId, businessId }) => {
+
+  let profileLink = `/dashboard/investor/${investorId}`;
+  if (role === "admin") {
+    profileLink = "/dashboard/admin";
+  } else if (role === "business") {
+    profileLink = `/dashboard/business/${businessId}`; 
+  }
+
   return (
     <header className="w-full border-b bg-white">
       <div className="wrapper flex items-center justify-between">
@@ -26,10 +35,11 @@ const AuthenticatedHeader = ({id}) => {
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">
-            <Link href={`/investor/${id}`} className="hover:text-blue-500">
+            {/* Redirect user to the appropriate dashboard based on their role */}
+            <Link href={profileLink} className="hover:text-blue-500">
               Profile
             </Link>
-            <SignOutButton/>
+            <SignOutButton />
           </div>
 
           {/* Mobile nav (hamburger menu) */}
@@ -88,15 +98,32 @@ const Header = async () => {
       return <UnauthenticatedHeader />;
     }
 
-    const investor = await Investor.findOne({ user_id: user._id });
+    let investorId = null;
+    let businessId = null;
 
-    if (!investor) {
-      console.error(`Investor not found for user_id: ${user._id}`);
-      return <UnauthenticatedHeader />;
+    if (user.role === "investor") {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getInvestorbyUserId?userId=${user._id}`);
+      const investorData = await res.json();
+
+      if (investorData) {
+        investorId = investorData.investor._id;
+      } else {
+        console.error(`Investor not found for user ID: ${user._id}`);
+      }
     }
 
-    // If session, user, and investor exist, render AuthenticatedHeader
-    return <AuthenticatedHeader id={investor._id} />;
+    if (user.role === "business") {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getBusinessbyUserId?userId=${user._id}`);
+      const businessData = await res.json();
+
+      if (businessData.business) {
+        businessId = businessData.business._id; 
+      } else {
+        console.error(`Business not found for user ID: ${user._id}`);
+      }
+    }
+
+    return <AuthenticatedHeader role={user.role} userId={user._id} investorId={investorId} businessId={businessId} />;
   } catch (error) {
     console.error("Error in Header component:", error);
     return <UnauthenticatedHeader />;

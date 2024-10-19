@@ -74,7 +74,6 @@ export default async function Page({ params }) {
     const investmentData  =  await res2.json();
     const investment = investmentData.data || []
 
-    
     const { ObjectId } = mongoose.Types;
     const investorObjectId = new ObjectId(id);
     const {barChartdata} = await getBarChartData({investorObjectId});
@@ -163,7 +162,7 @@ export default async function Page({ params }) {
                         key={index}
                         businessName={item.business_id.BusinessName}
                         date={item.createdAt}
-                        status={item.request_status}
+                        status={item.status}
                         businessImg={item.business_id.profile}
                         />
                     ))}

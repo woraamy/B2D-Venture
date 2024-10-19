@@ -16,7 +16,7 @@ const InvestorRequestSchema = mongoose.Schema(
         unique: true, 
         ref: Business 
         },
-      request_status: {
+      status: {
         type: String,
         enum: ["approved", "pending", "declined"]
         },

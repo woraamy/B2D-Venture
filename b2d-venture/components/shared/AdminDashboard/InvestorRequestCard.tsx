@@ -1,19 +1,66 @@
 "use client";
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "@/components/ui/tag";
 import { Button } from "../../ui/button";
-const InvestorRequestCard = ({className, email, contact, name, description, business, link, reason, status}) => {
- return (
-    <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl ">
+import connectDB from "@/lib/connectDB";
+import { Key } from "lucide-react";
+import InvestorRequest from "@/models/InvestorRequest";
+import { toast } from "react-toastify";
+
+const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status }) => {
+    async function handleAllow(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'allow' }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to approve request');
+            }
+
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    async function handleReject(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'reject' }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to reject request');
+            }
+
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    return (
+        <div className={className}>
+            <Card className="shadow-md overflow-hidden relative w-[300px] h-[360px] bg-white rounded-xl">
                 <CardHeader className='flex bg-[#FF553E] w-full text-white h-[7%] inline-block'>
-                    <b>Request to:</b> 
+                    <b>Request to:</b>
                     <Link href={`/business/${link}`} className="ml-2 underline hover:text-blue-700">{business}</Link>
                 </CardHeader>
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] ">
+                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px]">
                         <div className="relative">
                             <div className="overflow-auto relative ml-2 h-[100px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>
@@ -22,11 +69,10 @@ const InvestorRequestCard = ({className, email, contact, name, description, busi
                             <div className="overflow-auto relative ml-2 h-[80px]">
                                 <h2 className="mt-2 font-semibold">Reason</h2>
                                 <p className="text-[15px] font-normal">{reason}</p>
-
                             </div>
-                            
+
                             <div className="relative block flex-col mt-4 overflow-hidden">
-                                <hr className="mb-2  border-t border-gray-300" />
+                                <hr className="mb-2 border-t border-gray-300" />
                                 <div className="flex">
                                     <p className="ml-2">Email</p>
                                     <p className="ml-2 text-[15px] font-semibold">{email}</p>
@@ -35,26 +81,25 @@ const InvestorRequestCard = ({className, email, contact, name, description, busi
                                     <p className="ml-2">Tel.</p>
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
-                                
+
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
-                                    <Button className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
-                                    <Button className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                        <Button onClick={() => handleAllow(id, 'investor')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                        <Button onClick={() => handleReject(id, 'investor')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
-                                ) : status === "approved"|| "done" ? (
+                                ) : status === "approved" || status === "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>
                                 ) : (
                                     <p className="mt-2 text-red-600">Request rejected</p>
-                                 )}
+                                )}
                             </div>
-                            
+
                         </div>
                     </CardContent>
-                
                 </div>
             </Card>
         </div>
- );
+    );
 };
 
 export default InvestorRequestCard;

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const authOptions: NextAuthOptions = {
   providers: [
-    // Credentials provider for username/password login
+
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -27,7 +27,7 @@ const authOptions: NextAuthOptions = {
                 const businessRequestRes = await fetch(`/api/fetchingData/getBusinessRequestStatus?email=${email}`);
                 const { status } = await businessRequestRes.json();
 
-                    // If business request is approved, create the business user and activate it
+                // If business request is approved, create the business user and activate it
                 if (status === "approved") {
                     const activateBusinessRes = await fetch("/api/register/businessRequest", {
                     method: "POST",
@@ -39,8 +39,6 @@ const authOptions: NextAuthOptions = {
                     toast.error("Error activating business account");
                     return;
                     }
-
-                    // // Optionally, display success message
                     // toast.success("Your business account has been activated!");
                 }
             }
@@ -48,33 +46,34 @@ const authOptions: NextAuthOptions = {
             return null;
           }
 
-
-          // Compare provided password with hashed password in DB
           const passwordMatch = await bcrypt.compare(password, user.password);
           if (!passwordMatch) {
             console.log("Invalid password");
             return null;
           }
 
-          return user; // Successfully authenticated
+
+          return {
+            ...user._doc, 
+            role: user.role, 
+          }; 
         } catch (error) {
           console.log("Error in authorization: ", error);
-          return null; // Fail authorization on error
+          return null; 
         }
       },
     }),
-    // Google OAuth provider for Google login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   session: {
-    strategy: "jwt", // Use JSON Web Tokens (JWT) for session handling
+    strategy: "jwt", 
   },
-  secret: process.env.NEXTAUTH_SECRET, // Set the secret for session signing
+  secret: process.env.NEXTAUTH_SECRET, 
   pages: {
-    signIn: "/login", // Custom login page
+    signIn: "/login", 
   },
   callbacks: {
     // Callback when the user signs in
@@ -82,53 +81,53 @@ const authOptions: NextAuthOptions = {
       if (account.provider === "google") {
         try {
           const { name, email } = user;
-          await connectDB(); // Ensure connection is established
+          await connectDB(); 
           const existingUser = await User.findOne({ email });
 
-          // If the user exists, return the user data
           if (existingUser) {
             return true;
           }
 
-          // If the user doesn't exist, create a new user
           const newUser = new User({
             name,
             email,
-            // You could add other fields if needed
+            role: "investor",
           });
 
-          await newUser.save(); // Save new user to the database
-          return true; // Sign in successful
+          await newUser.save(); 
+          return true; 
         } catch (err) {
           console.log("Error during Google sign-in:", err);
-          return false; // Sign in failed
+          return false; 
         }
       }
-      return true; // For other providers (like credentials), allow sign-in
+      return true;
     },
 
-    // JWT callback to update the JWT token with additional user information
     async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.email = user.email;
         token.name = user.name;
+        token.role = user.role; 
       }
-      return token; // Return the updated token
+      return token; 
     },
 
-    // Session callback to include custom fields in the session object
     async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
         session.user.email = token.email;
         session.user.name = token.name;
+        session.user.role = token.role; 
       }
-      return session; // Return the modified session
+      return session; 
     },
 
     async redirect({ url, baseUrl }) {
-        // If the user signed in with Google, redirect to the homepage
-        return baseUrl; // Redirect to "/"
-      },
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      return baseUrl; 
+    },
   },
 };
 

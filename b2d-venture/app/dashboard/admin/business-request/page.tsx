@@ -6,7 +6,9 @@ import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequ
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/ui/filter";
-export default async function Page() {
+export default async function Page({ params }) {
+    const {id} = params;
+    const business = await Business.find()
     const cur = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
     const history = await BusinessRequest.find({status: ['approved','done','rejected']}).sort({createdAt: -1 })
     return(
@@ -23,6 +25,7 @@ export default async function Page() {
                         {cur.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
+                            id={req._id.toString()}
                             contact={req.contactNumber}
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
@@ -45,6 +48,7 @@ export default async function Page() {
                         {history.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
+                            id={req._id.toString()}
                             contact={req.contactNumber}
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
@@ -52,7 +56,7 @@ export default async function Page() {
                             tag={req.typeOfBusiness} 
                             email={req.email}
                             status={req.status}
-                            
+                            className='mr-5\'
                             />
                         ))}
                     </div> 

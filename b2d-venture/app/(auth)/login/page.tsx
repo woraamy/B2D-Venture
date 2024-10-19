@@ -20,6 +20,7 @@ function LoginPage() {
 
   const { data: session } = useSession();
   console.log(session);
+  console.log("Hello");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function LoginPage() {
       // If user exists
       if (userData.user) {
         const userRole = userData.user.role;
-        if (userRole === "investor" || userRole === "business") {
+        if (userRole) {
           // Log in the existing user without creating a new business
           const res = await signIn("credentials", {
             email, 
@@ -48,10 +49,6 @@ function LoginPage() {
           }
   
           router.push("/");
-          return;
-        } else {
-          setError("Invalid role");
-          toast.error("Only investors or business users can log in.");
           return;
         }
       }
