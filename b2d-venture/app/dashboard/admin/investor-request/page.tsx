@@ -27,6 +27,7 @@ export default async function Page({ params }) {
                         {cur.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
+                                id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
@@ -50,6 +51,7 @@ export default async function Page({ params }) {
                         {history.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
+                                id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  

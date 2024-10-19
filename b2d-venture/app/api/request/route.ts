@@ -1,54 +1,41 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import connectDB from '@/lib/connectDB'; // Make sure to adjust the import according to your structure
-import BusinessRequest from '@/models/businessRequest';
-import InvestorRequest from '@/models/InvestorRequest';
-import { toast } from 'react-toastify'; 
+import { NextResponse } from 'next/server';
+import connectDB from "@/lib/connectDB"; // Import your connectDB function
+import InvestorRequest from "@/models/InvestorRequest"; // Import your InvestorRequest model
+import BusinessRequest from "@/models/businessRequest"; // Import your BusinessRequest model
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await connectDB(); 
+export async function POST(req: Request) {
+    try {
+        const { id, type, action } = await req.json();
 
-  const { method } = req;
+        await connectDB();
 
-  switch (method) {
-    case 'POST':
-      try {
-        const { id, type, action } = req.body; 
-        
         let request;
 
-        if (type === 'business') {
-          request = await BusinessRequest.findById(id);
-        } else if (type === 'investor') {
-          request = await InvestorRequest.findById(id);
-        } else {
-          return res.status(400).json({ message: 'Invalid request type' });
+        if (type === 'investor') {
+            request = await InvestorRequest.findById(id);
+        } else if (type === 'business') {
+            request = await BusinessRequest.findById(id);
         }
 
         if (!request) {
-          return res.status(404).json({ message: 'Request not found' });
+            console.log('Request not found');
+            return NextResponse.json({ message: 'Request not found' }, { status: 404 });
         }
 
         if (action === 'allow') {
-          request.status = 'approved';
-          await request.save();
-          toast.success("Request approved");
-          return res.status(200).json({ message: 'Request approved' });
+            request.status = 'approved';
+            await request.save(); 
+            console.log('Request approved');
+            return NextResponse.json({ message: 'Request approved' }, { status: 200 });
         } else if (action === 'reject') {
-          request.status = 'declined';
-          await request.save();
-          toast.error("Request declined");
-          return res.status(200).json({ message: 'Request declined' });
+            request.status = 'declined';
+            await request.save(); 
+            return NextResponse.json({ message: 'Request declined' }, { status: 200 });
         } else {
-          return res.status(400).json({ message: 'Invalid action' });
+            return NextResponse.json({ message: 'Invalid action' }, { status: 400 });
         }
-      } catch (error) {
-        console.error('Error handling request:', error);
-        return res.status(500).json({ message: 'Internal server error' });
-      }
-    default:
-      res.setHeader('Allow', ['POST']);
-      return res.status(405).end(`Method ${method} Not Allowed`);
-  }
-};
-
-export default handler;
+    } catch (error) {
+        console.error('Error processing request:', error);
+        return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    }
+}
