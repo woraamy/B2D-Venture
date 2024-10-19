@@ -9,18 +9,46 @@ import BusinessRequest from "@/models/businessRequest";
 import toast from "react-hot-toast";
 
 const BusinessRequestCard = ({className, key, email, contact, address, name, description, tag, status}) => {
-    async function handleAllow() {
-        // await connectDB();
-        // const request = await BusinessRequest.findById(key);
-        // request.status = "approved";
-        // toast.success("Request approved");
+    async function handleAllow(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'allow' }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to approve request');
+            }
+
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
 
-    async function handleReject() {
-        // await connectDB();
-        // const request = await BusinessRequest.findById(key);
-        // request.status = "declined";
-        // toast.error("Request declined");
+    async function handleReject(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'reject' }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to reject request');
+            }
+
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
 
  return (
