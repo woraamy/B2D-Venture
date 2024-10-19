@@ -11,13 +11,14 @@ import User from "@/models/user";
 import Investor from "@/models/Investor";
 
 // Authenticated Header
-const AuthenticatedHeader = ({ role }) => {
+const AuthenticatedHeader = ({ role, id }) => {
   
-  let profileLink = "/dashboard/investor"; 
+  // Use backticks to construct the profile link
+  let profileLink = `/dashboard/investor/${id}`; 
   if (role === "admin") {
     profileLink = "/dashboard/admin";
   } else if (role === "business") {
-    profileLink = "/dashboard/business";
+    profileLink = `/dashboard/business/${id}`;
   }
 
   return (
@@ -99,7 +100,7 @@ const Header = async () => {
     }
 
     // Pass the user role to AuthenticatedHeader
-    return <AuthenticatedHeader role={user.role} />;
+    return <AuthenticatedHeader role={user.role} id={user._id} />;
   } catch (error) {
     console.error("Error in Header component:", error);
     return <UnauthenticatedHeader />;
