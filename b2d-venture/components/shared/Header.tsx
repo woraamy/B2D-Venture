@@ -12,8 +12,8 @@ import Investor from "@/models/Investor";
 
 // Authenticated Header
 const AuthenticatedHeader = ({ role }) => {
-  // Determine the correct dashboard route based on the user's role
-  let profileLink = "/dashboard/investor"; // default to investor dashboard
+  
+  let profileLink = "/dashboard/investor"; 
   if (role === "admin") {
     profileLink = "/dashboard/admin";
   } else if (role === "business") {
