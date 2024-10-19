@@ -52,6 +52,7 @@ export default async function Page({ params }) {
                         {history.map((req)=>(
                             <BusinessRequestCard className=""
                             key={req._id}
+                            id={req._id.toString()}
                             contact={req.contactNumber}
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
