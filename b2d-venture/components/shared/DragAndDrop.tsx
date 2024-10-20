@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 
-export default function DragAndDrop(type) {
+export default function DragAndDrop({type}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
@@ -20,12 +20,33 @@ export default function DragAndDrop(type) {
     }
   }
 
-  function handleSubmitFile(e: any) {
+  async function handleSubmitFile(e: any) {
+    e.preventDefault();
     if (files.length === 0) {
-      // no file has been submitted
-    } else {
-      // write submit logic here
+      console.log("No files selected for upload.");
+      return; // No file has been submitted
+    } 
+    console.log(type)
+    const formData = new FormData();
+    files.forEach((file: File) => {
+      formData.append('files', file);
+    });
+    try{
+      const res = await fetch(`/api/upload/${type}`, {
+        method: 'POST',
+        body: formData,
+      })
+      if (!res.ok){
+        throw new Error('Upload failed.');
+      }
+      const result = await res.json();
+      console.log('Upload successful:', result);
+      // reset after successful
+      setFiles([]);
+    } catch(error){
+      console.error('Error uploading files:', error);
     }
+
   }
 
   function handleDrop(e: any) {

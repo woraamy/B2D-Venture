@@ -8,7 +8,7 @@ export default function Page({params}) {
 
     <div className="flex">
         <div className="flex w-[40vw] h-screen">
-        <DragAndDrop />
+        <DragAndDrop type="dataroom"/>
         </div>
 
         <div className="flex w-[40vw] h-screen justify-center items-center">
