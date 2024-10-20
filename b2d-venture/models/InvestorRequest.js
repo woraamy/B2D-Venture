@@ -1,29 +1,37 @@
 import mongoose from "mongoose";
-import Business from "./Business"
-import Investor from "./Investor"
 
-const InvestorRequestSchema = mongoose.Schema(
-    {
-      investor_id: { 
-        type: mongoose.Schema.Types.ObjectId,
-        unique: false, 
-        required: true, 
-        ref: Investor
-        },
-      business_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
-        ref: Business 
-        },
-      status: {
-        type: String,
-        enum: ["approved", "pending", "declined"]
-        },
-      reason: String,
-      createdAt: { type: Date, default: Date.now },
+const InvestorRequestSchema = new mongoose.Schema(
+  {
+    investor_id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      required: true, 
+      unique: false,
+      ref: "Investor" 
     },
-  );
+    business_id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      required: true,
+      unique: false,
+      ref: "Business" 
+    },
+    status: {
+      type: String,
+      enum: ["approved", "pending", "declined"],
+      default: "pending"  
+    },
+    reason: {
+      type: String,
+      required: true,  
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now 
+    },
+  },
+  {
+    timestamps: true,  
+  }
+);
 
-  const data = mongoose.models.InvestorRequest || mongoose.model("InvestorRequest", InvestorRequestSchema);
-  export default data
+const InvestorRequest = mongoose.models.InvestorRequest || mongoose.model("InvestorRequest", InvestorRequestSchema);
+export default InvestorRequest;
