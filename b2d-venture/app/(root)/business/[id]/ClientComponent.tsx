@@ -76,7 +76,7 @@ export default function ClientComponent({
   };
 
   return (
-    <><Dialog title="Shared profile permission" link={`/business/${campaignId}`} oktext='Allow' successmessage='Send request successed'>
+    <><Dialog title="Shared profile permission" link={`/business/${campaignId}`} oktext='Allow' successmessage='Send request successed' investorId={investorId} businessId={businessId}>
       <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
     </Dialog><div className="fixed flex flex-col top-[15%] left-[65%]">
         <DetailCard Data={campaignData} />

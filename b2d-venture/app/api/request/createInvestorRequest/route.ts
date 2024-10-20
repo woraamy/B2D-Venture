@@ -1,33 +1,36 @@
-
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
-import InvestorRequest from "@/models/InvestorRequest";  
+import InvestorRequest from "@/models/InvestorRequest";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === "POST") {
-        try {
-            await connectDB();  
+// Named export for the POST method
+export async function POST(req: NextRequest) {
+    try {
+        await connectDB();  // Connect to the database
 
-            const { investor_id, business_id, status, reason } = req.body;
+        const body = await req.json();  // Parse the JSON body
+        const { investor_id, business_id, reason } = body;
+        console.log('Request body:', body);
 
-            if (!investor_id || !business_id || !status || !reason) {
-                return res.status(400).json({ message: "Missing required fields" });
-            }
-
-            const newRequest = new InvestorRequest({
-                investor_id,
-                business_id,
-                status,
-                reason,
-            });
-
-            await newRequest.save();
-
-            res.status(201).json({ message: "Request created successfully" });
-        } catch (error) {
-            res.status(500).json({ message: "Failed to create request", error: error.message });
+        // Validate request body
+        if (!investor_id || !business_id || !reason) {
+            return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
         }
-    } else {
-        res.status(405).json({ message: "Method not allowed" });
+
+        // Create a new investor request
+        const newRequest = new InvestorRequest({
+            investor_id,
+            business_id,
+            status: "pending",  // Set status to pending
+            reason,
+        });
+
+        await newRequest.save();
+
+        // Return a success response
+        return NextResponse.json({ message: "Request created successfully" }, { status: 201 });
+    } catch (error) {
+        console.log(error);
+        // Handle any errors during request creation
+        return NextResponse.json({ message: "Failed to create request", error: error.message }, { status: 500 });
     }
 }

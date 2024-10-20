@@ -5,15 +5,13 @@ import Investor from "./Investor"
 const InvestorRequestSchema = mongoose.Schema(
     {
       investor_id: { 
-        type: mongoose.Schema.Types.ObjectId,
-        unique: false, 
+        type: mongoose.Schema.Types.ObjectId, 
         required: true, 
         ref: Investor
         },
       business_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        required: true, 
-        unique: true, 
+        required: true,
         ref: Business 
         },
       status: {
