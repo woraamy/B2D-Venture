@@ -29,9 +29,9 @@ export default async function Page({params}) {
   
     return(
         <>
-        <Dialog title="Shared profile permission" link={`/business/${id}`} oktext='Allow' successmessage='Send request successed' >
+        {/* <Dialog title="Shared profile permission" link={`/business/${id}`} oktext='Allow' successmessage='Send request successed' >
             <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
-        </Dialog>
+        </Dialog> */}
         <div  className="pb-[10%]">
             <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
                 <div className="flex">
