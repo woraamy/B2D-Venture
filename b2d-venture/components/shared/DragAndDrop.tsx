@@ -3,13 +3,16 @@ import { MdDriveFolderUpload } from "react-icons/md";
 import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
+import { usePathname } from 'next/navigation';
 
 export default function DragAndDrop({type}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const pathname = usePathname();
+  const pathParts = pathname.split('/');
+  const businessId = pathParts[3];
 
   function handleChange(e: any) {
     e.preventDefault();
@@ -24,6 +27,7 @@ export default function DragAndDrop({type}) {
 
   async function handleSubmitFile(e: any) {
     e.preventDefault();
+
     if (files.length === 0) {
       console.log("No files selected for upload.");
       return; // No file has been submitted
@@ -35,7 +39,8 @@ export default function DragAndDrop({type}) {
     });
     setIsLoading(true);
     try{
-      const res = await fetch(`/api/upload/${type}`, {
+
+      const res = await fetch(`/api/upload/${businessId}/${type}`, {
         method: 'POST',
         body: formData,
       })

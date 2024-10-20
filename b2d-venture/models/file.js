@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
+import DataRoom from "./DataRoom";
+
 const FileSchema = mongoose.Schema(
     {
+      dataroom_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true, 
+        ref:'DataRoom'
+        },
       name: String,
       file_path: String,
     },
@@ -9,5 +16,6 @@ const FileSchema = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.FileSchema || mongoose.model("File", FileSchema);
+const File = mongoose.models.File || mongoose.model('File', FileSchema);
+
+export default File;

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import File from "./file"
-
+import Business from "./Business"
 const DataRoomSchema = mongoose.Schema(
     {
       name: String,
@@ -12,7 +12,7 @@ const DataRoomSchema = mongoose.Schema(
         },
       files: [{
         type:mongoose.Schema.Types.ObjectId, 
-        ref:File,
+        ref:"File",
         }]
     },
     {
@@ -20,5 +20,6 @@ const DataRoomSchema = mongoose.Schema(
       }
   );
 
-  
-  export default mongoose.models.DataRoom || mongoose.model("DataRoom", DataRoomSchema);
+const DataRoom = mongoose.models.DataRoom || mongoose.model('DataRoom', DataRoomSchema);
+
+export default DataRoom;  
