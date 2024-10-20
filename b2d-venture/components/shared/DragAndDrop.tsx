@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 
-export default function DragAndDrop() {
+export default function DragAndDrop(type) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
@@ -70,7 +70,7 @@ export default function DragAndDrop() {
   }
 
   return (
-    <div className="flex items-center bg-transparent justify-center h-screen w-screen">
+    <div className="flex mt-44 bg-transparent justify-center h-screen w-screen">
       <div className="flex bg-white items-center h-[50%] w-[80%] rounded-xl shadow-lg border-2">
       <form
         className={`${
@@ -107,16 +107,10 @@ export default function DragAndDrop() {
           to upload
         </p>
 
-{/* 
-        <button
-          className="bg-orange-500 rounded-lg p-2 mt-3 w-auto"
-          onClick={handleSubmitFile}
-        >
-          <span className="p-2 text-white">Submit</span>
-        </button> */}
         </div>
       </form>
-      <div className="flex flex-col p-3 ml-10 self-stretch mt-20">
+      <div className="relative flex flex-col p-3 ml-10 self-stretch mt-16 h-[70%] w-[50%] ">
+        
         <h1 className="text-xl font-semibold mb-5">Uploaded File</h1>
           {files.map((file: any, idx: any) => (
             <div key={idx} className="flex flex-row items-center space-x-5">
@@ -132,7 +126,15 @@ export default function DragAndDrop() {
               </span>
             </div>
           ))}
+          <button
+          className="absolute bottom-0 bg-orange-500 rounded-lg p-2 mt-3 w-auto"
+          onClick={handleSubmitFile}
+          >
+          <span className="p-2 text-white">Submit</span>
+        </button>
         </div>
+        
+    
       </div>
 
     </div>
