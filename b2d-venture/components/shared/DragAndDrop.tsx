@@ -8,6 +8,8 @@ export default function DragAndDrop({type}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   function handleChange(e: any) {
     e.preventDefault();
@@ -31,6 +33,7 @@ export default function DragAndDrop({type}) {
     files.forEach((file: File) => {
       formData.append('files', file);
     });
+    setIsLoading(true);
     try{
       const res = await fetch(`/api/upload/${type}`, {
         method: 'POST',
@@ -45,6 +48,8 @@ export default function DragAndDrop({type}) {
       setFiles([]);
     } catch(error){
       console.error('Error uploading files:', error);
+    } finally{
+      setIsLoading(false);
     }
 
   }
@@ -147,12 +152,23 @@ export default function DragAndDrop({type}) {
               </span>
             </div>
           ))}
+          {isLoading && (
+          <div className=" absolute bottom-0  w-full flex items-center justify-center">
+            <img
+                src="/assets/icons/icons-loading.gif"
+                alt="loading"
+                className="object-contain"
+              />
+            <div className="loader">Loading...</div> {/* You can replace this with a spinner component */}
+          </div>
+          )}
           <button
           className="absolute bottom-0 bg-orange-500 rounded-lg p-2 mt-3 w-auto"
           onClick={handleSubmitFile}
           >
           <span className="p-2 text-white">Submit</span>
         </button>
+        {/* Loading Indicator */}
         </div>
         
     
