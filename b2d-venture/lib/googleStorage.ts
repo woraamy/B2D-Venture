@@ -41,8 +41,8 @@ class GoogleStorage {
       return false 
     }
   }
-  async getSignedUrl(file:string){
-    var filedata = this.bucket.file(file);
+  async getSignedUrl(filePath:string){
+    var filedata = this.bucket.file(filePath);
     const [readUrl] = await filedata.getSignedUrl({
       version: 'v4',
       action: 'read',
@@ -50,6 +50,15 @@ class GoogleStorage {
     });
     
     return readUrl;
+  }
+  async deleteFile(filePath:string){
+    try {
+      await this.bucket.file(filePath).delete();
+      return true; 
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      return false; 
+    }
   }
 }
 

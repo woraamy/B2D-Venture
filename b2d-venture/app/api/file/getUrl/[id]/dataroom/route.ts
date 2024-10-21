@@ -10,6 +10,7 @@ const dataroomBucket = process.env.DATAROOM_BUCKET_NAME;
 const dataroom = new GoogleStorage(dataroomBucket);
 
 export async function POST(req, {params}) { 
+  // id is user id
   const {id} = params;
   await connect();
     // authentication check
@@ -30,16 +31,16 @@ export async function POST(req, {params}) {
         return NextResponse.json({ error: 'User not have permission to view this file' }, { status: 401 });
     }
     
-    const { fileName } = await req.json();
-    console.log(fileName)
-    if (!fileName) {
-        console.log(fileName)
+    const { filePath } = await req.json();
+    console.log(filePath)
+    if (!filePath) {
+        console.log(filePath)
        return NextResponse.json({ error: 'missing file name' }, { status: 400 });
     }
     console.log('Authen success')
 
     try {
-        const signedUrl = await dataroom.getSignedUrl(fileName);
+        const signedUrl = await dataroom.getSignedUrl(filePath);
         return NextResponse.json({ signedUrl }); 
     
     } catch (error) {

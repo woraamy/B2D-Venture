@@ -11,6 +11,7 @@ const dataroom = new GoogleStorage(dataroomBucket);
 
 export async function POST(req: Request, { params }) {
     const form = await req.formData();
+    // id is business
     const { id } = params;
     await connect();
 

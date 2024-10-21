@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function DragAndDrop({type}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -40,7 +41,7 @@ export default function DragAndDrop({type}) {
     setIsLoading(true);
     try{
 
-      const res = await fetch(`/api/upload/${businessId}/${type}`, {
+      const res = await fetch(`/api/file/upload/${businessId}/${type}`, {
         method: 'POST',
         body: formData,
       })

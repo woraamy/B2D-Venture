@@ -1,8 +1,8 @@
 import { useState } from "react";
-import DragAndDrop from "@/components/shared/FileBased/DragAndDrop";
+import DragAndDrop from "@/components/shared/BusinessDashboard/DragAndDrop";
 import Header from "@/components/shared/Header";
 import InvestorSidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
-import FileContainer from "@/components/shared/FileBased/FileContainer";
+import FileContainer from "@/components/shared/BusinessDashboard/FileContainer";
 import File from "@/models/file";
 import DataRoom from "@/models/DataRoom";
 import Business from "@/models/Business";
