@@ -44,7 +44,7 @@ export async function POST(req: Request, { params }) {
             });
             await fileData.save();
     
-            const success = await dataroom.uploadFile(i as File);
+            const success = await dataroom.uploadFile(i as File,id);
             uploadResult.push(success)
         }
        
