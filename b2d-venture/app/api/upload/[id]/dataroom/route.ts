@@ -5,6 +5,7 @@ import File from '@/models/file';
 import DataRoom from '@/models/DataRoom';
 import connect from '@/lib/connectDB';
 
+
 const dataroomBucket = process.env.DATAROOM_BUCKET_NAME;
 const dataroom = new GoogleStorage(dataroomBucket);
 
@@ -39,7 +40,7 @@ export async function POST(req: Request, { params }) {
             }
             const fileData = new File({
                 name: i.name,
-                file_path: "", // Set this based on your upload logic
+                file_path: `${id}/${file.name}`, // Set this based on your upload logic
                 dataroom_id: dataroomData._id.toString()
             });
             await fileData.save();

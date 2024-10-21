@@ -41,7 +41,16 @@ class GoogleStorage {
       return false 
     }
   }
-
+  async getSignedUrl(file:File){
+    var filedata = this.bucket.file(file.name);
+    const [readUrl] = await filedata.getSignedUrl({
+      version: 'v4',
+      action: 'read',
+      expires: Date.now() + 24 * 60 * 60 * 1000, // 24 hour expiration
+    });
+    
+    return readUrl;
+  }
 }
 
 export default GoogleStorage;
