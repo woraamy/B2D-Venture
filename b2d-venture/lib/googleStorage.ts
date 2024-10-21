@@ -4,10 +4,8 @@ import { Storage, Bucket} from '@google-cloud/storage';
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const port = process.env.PORT;
 const keyFile = JSON.parse(process.env.KEY_FILE);
 const projectId = process.env.PROJECT_ID;
-const bucketName = process.env.DATAROOM_BUCKET_NAME;
 
 class GoogleStorage {
     storage: Storage;

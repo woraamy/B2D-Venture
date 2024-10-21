@@ -14,7 +14,7 @@ export async function POST(req: Request, { params }) {
     await connect();
 
     try {
-        const file = form.get('files');
+        const file = form.getAll('files');
         if (!file) {
             return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
         }
@@ -28,26 +28,27 @@ export async function POST(req: Request, { params }) {
             });
             await dataroomData.save();
         }
-
-        // Check for existing file with the same dataroom_id and file name
-        const existingFile = await File.findOne({
-            dataroom_id: dataroomData._id.toString(),
-            name: file.name
-        });
-
-        if (existingFile) {
-            return NextResponse.json({ error: 'File with this name already exists in the dataroom.' }, { status: 400 });
+        const uploadResult = [];
+        for (const i of file){
+            const existingFile = await File.findOne({
+                dataroom_id: dataroomData._id.toString(),
+                name: i.name
+            });
+            if (existingFile) {
+                return NextResponse.json({ error: `File ${i.name} already exists in the dataroom.` }, { status: 400 });
+            }
+            const fileData = new File({
+                name: i.name,
+                file_path: "", // Set this based on your upload logic
+                dataroom_id: dataroomData._id.toString()
+            });
+            await fileData.save();
+    
+            const success = await dataroom.uploadFile(i as File);
+            uploadResult.push(success)
         }
-
-        const fileData = new File({
-            name: file.name,
-            file_path: "", // Set this based on your upload logic
-            dataroom_id: dataroomData._id.toString()
-        });
-        await fileData.save();
-
-        const success = await dataroom.uploadFile(file as File);
-        return NextResponse.json({ success });
+       
+        return NextResponse.json({ uploadResult });
     } catch (error) {
         console.error('Error parsing the file:', error);
         return NextResponse.json({ error: 'Error parsing the file' }, { status: 500 });
