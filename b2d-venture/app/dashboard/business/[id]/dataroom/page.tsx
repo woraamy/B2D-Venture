@@ -24,7 +24,12 @@ export default async function Page({ params }) {
                 <div className="ml-16 mt-5">
                     <h1 className="mb-3 text-2xl font-semibold">Data Room</h1>
                       {files.map((file,index)=>(
-                        <FileContainer key={index} name={file.name} />
+                        <FileContainer 
+                          key={index} 
+                          name={file.name} 
+                          business_id={id}
+                          file_path={file.file_path}
+                          />
                       ))
                       }
                 </div>

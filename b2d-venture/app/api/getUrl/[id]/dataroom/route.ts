@@ -1,3 +1,4 @@
+"use server"
 import { UploadFile } from '@/lib/googleStorageAction';
 import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
@@ -12,15 +13,12 @@ import User from "@/models/user";
 const dataroomBucket = process.env.DATAROOM_BUCKET_NAME;
 const dataroom = new GoogleStorage(dataroomBucket);
 
-export async function POST(req: NextApiRequest, res: NextApiResponse, {params}) {
-    const {user_id} = params
-
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed' });
-      }
+export async function POST(req, {params}) { 
+  const {id} = params;
+  await connect();
     // authentication check
     const session = await getServerSession(authOptions);
-
+      
     if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthentication' }, { status: 405 });
     }
@@ -32,21 +30,25 @@ export async function POST(req: NextApiRequest, res: NextApiResponse, {params}) 
       return NextResponse.json({ error: 'User not found' }, { status: 405 });
     }
 
-    if (user._id !== user_id){
+    if (user._id.toString() !== id){
         return NextResponse.json({ error: 'User not have permission to view this file' }, { status: 401 });
     }
     
-    const { fileName } = req.body;
+    const { fileName } = await req.json();
+    console.log(fileName)
     if (!fileName) {
-       return res.status(400).json({ error: 'Missing fileName' });
+        console.log(fileName)
+       return NextResponse.json({ error: 'missing file name' }, { status: 400 });
     }
+    console.log('Authen success')
 
     try {
         const signedUrl = await dataroom.getSignedUrl(fileName);
-        res.status(200).json({ url: signedUrl });
+        return NextResponse.json({ signedUrl }); 
+    
     } catch (error) {
         console.error('Error generating signed URL:', error);
-        res.status(500).json({ error: 'Failed to generate signed URL' });
+        return NextResponse.error()
     }
     }
 

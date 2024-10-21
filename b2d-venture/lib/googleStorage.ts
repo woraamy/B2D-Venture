@@ -41,8 +41,8 @@ class GoogleStorage {
       return false 
     }
   }
-  async getSignedUrl(file:File){
-    var filedata = this.bucket.file(file.name);
+  async getSignedUrl(file:string){
+    var filedata = this.bucket.file(file);
     const [readUrl] = await filedata.getSignedUrl({
       version: 'v4',
       action: 'read',
