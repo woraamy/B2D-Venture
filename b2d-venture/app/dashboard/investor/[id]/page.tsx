@@ -159,6 +159,7 @@ export default async function Page({ params }) {
                     <div>
                     {request.slice(0, 3).map((item, index)=>(
                         <RequestStatus
+                        className=""
                         key={index}
                         businessName={item.business_id.BusinessName}
                         date={item.createdAt}
