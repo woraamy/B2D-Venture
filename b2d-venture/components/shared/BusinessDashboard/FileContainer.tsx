@@ -42,12 +42,6 @@ export default function FileContainer({name,business_id,file_path}) {
                          <h1 className="ml-5">{name}</h1>
                     </Link>
                 </div>
-                // <div>
-                //     <h3>Signed URL:</h3>
-                //     <a href={signedUrl} target="_blank" rel="noopener noreferrer">
-                //         {signedUrl}
-                //     </a>
-                // </div>
             )}
         </div>
     )
