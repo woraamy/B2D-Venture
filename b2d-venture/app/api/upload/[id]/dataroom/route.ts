@@ -24,7 +24,7 @@ export async function POST(req: Request, { params }) {
         if (!dataroomData) {
             // Create a new DataRoom if none exists
             dataroomData = new DataRoom({
-                business_id: id,NEXT_PUBLIC_API_URL
+                business_id: id,
                 files: []
             });
             await dataroomData.save();
@@ -40,7 +40,7 @@ export async function POST(req: Request, { params }) {
             }
             const fileData = new File({
                 name: i.name,
-                file_path: `${id}/${i.name}`, // Set this based on your upload logic
+                file_path: `${id}/${i.name}`, 
                 dataroom_id: dataroomData._id.toString()
             });
             await fileData.save();

@@ -7,13 +7,13 @@ import { usePathname } from 'next/navigation';
 import Business from "@/models/Business";
 import User from "@/models/user";
 import Link from "next/link";
-export default function FileContainer({name,business_id,file_path}) {
+export default function FileContainer({name,user_id,file_path}) {
     console.log(file_path)
     const [signedUrl, setSignedUrl] = useState(null);
     useEffect(() => {
         async function handleFetchUrl() {
             try {
-              const response = await fetch(`/api/getUrl/670f5c99973784d0bbbc722f/dataroom`, {
+              const response = await fetch(`/api/getUrl/${user_id}/dataroom`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Ensure you're setting this header
