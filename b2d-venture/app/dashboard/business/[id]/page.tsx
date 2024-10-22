@@ -10,6 +10,34 @@ import Investment from "@/models/Investment";
 import mongoose from "mongoose"; 
 import React from "react";
 import User from "@/models/user";
+import { BusinessChart } from "@/components/charts/BusinessChart";
+
+async function getBarChartData({businessObjectId}){
+    await connect();
+    const now = new Date();
+    const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
+    const  barChartdata = await Investment.aggregate([
+        {
+          $match: {
+            business_id: businessObjectId,
+            created_at: { $gte: twelthMonthsAgo }
+          }
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: "$created_at" },
+              month: { $month: "$created_at" }
+            },
+            raised: { $sum: "$amount" }
+          }
+        },
+        {
+          $sort: { "_id.year": 1, "_id.month": 1 }
+        }
+      ]);
+    return {barChartdata}
+}
 
 export default async function BusinessPage({ params }) {
     const {id} = params;
@@ -19,17 +47,21 @@ export default async function BusinessPage({ params }) {
 
     const user = await User.findById({id});
 
+    const { ObjectId } = mongoose.Types;
+    const businessObjectId = new ObjectId(id);
+    const {barChartdata} = await getBarChartData({businessObjectId});
+
     return(
         <>
         <div className=" flex flex-wrap w-[85vw] h-[100%]">
-            {/* <div id="bar graph" className=" overflow-auto flex w-[55vw] h-1/2 border-r-2 border-b-2">
+            <div id="bar graph" className=" overflow-auto flex w-[55vw] h-1/2 border-r-2 border-b-2">
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
-                        <InvestChart data={barChartdata} />
+                        <BusinessChart data={barChartdata} />
                     </div>
                 </div>
-            </div> */}
+            </div>
             <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2 ">
                 <div className="relative ml-[15%] mt-10 flex"> 
                     <div className="relative h-[80px] w-[80px] rounded-full">

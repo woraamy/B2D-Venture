@@ -31,7 +31,7 @@ const chartConfig = {
     },
   } satisfies ChartConfig
 
-export function InvestChart({data}) {
+export function BusinessChart({data}) {
   const months = getLastTwelthMonth();
   
   months.forEach((month, i) => {
