@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import DataRoom from "./DataRoom";
+import Business from "./Business"
 import { Fascinate } from "next/font/google";
 
 const FileSchema = mongoose.Schema(
@@ -8,6 +9,11 @@ const FileSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId, 
         required: false, 
         ref:'DataRoom'
+        },
+      business_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: false, 
+        ref:'Business'
         },
       name: String,
       file_path: String,

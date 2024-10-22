@@ -20,9 +20,6 @@ export async function POST(req: Request, { params }) {
         if (!file) {
             return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
         }
-
-        
-        
         const uploadResult = [];
         for (const i of file){
             const existingFile = await File.findOne({
