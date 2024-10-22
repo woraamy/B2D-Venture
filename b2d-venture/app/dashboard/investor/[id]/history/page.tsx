@@ -76,7 +76,7 @@ export default async function Page({params}) {
     const headData = [
         {value:"Date", type:"text"}, 
         {value:"Business", type:"text"},
-        {value:"Raised", type:"text"},
+        {value:"Investment Money", type:"text"},
         {value:"Equity Stake", type:"text"},
         {value:"Shared recieve", type:"text"}
         ]

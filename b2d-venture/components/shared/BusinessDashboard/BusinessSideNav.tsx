@@ -14,6 +14,7 @@ export default function InvestorSidenav({id}) {
     // dashboard (/dashboard)
     // create and edit raise campaign (/manage-raise-campaign)
     // investment history (/investment-history)
+    // settings (/settings)
     const pathname = usePathname();
     const businesspage = pathname === `dashboard/business/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const historypage = pathname.startsWith(`dashboard/business/${id}/investment-history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";

@@ -16,14 +16,14 @@ export async function middleware(req) {
     }
   }
 
-  if (pathname.startsWith('/dashboard/business')) {
-    const pathParts = pathname.split('/');
-    const businessId = pathParts[pathParts.length - 1];
+  // if (pathname.startsWith('/dashboard/business')) {
+  //   const pathParts = pathname.split('/');
+  //   const businessId = pathParts[pathParts.length - 1];
 
-    if (token.role !== 'business' || token.businessId !== businessId) {
-      return NextResponse.redirect(new URL('/403', req.url));
-    }
-  }
+  //   if (token.role !== 'business' || token.businessId !== businessId) {
+  //     return NextResponse.redirect(new URL('/403', req.url));
+  //   }
+  // }
 
   if (pathname.startsWith('/dashboard/investor')) {
     if (token.role !== 'investor') {
