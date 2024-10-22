@@ -6,7 +6,7 @@ import DataRoom from '@/models/DataRoom';
 import connect from '@/lib/connectDB';
 
 
-const dataroomBucket = process.env.DATAROOM_BUCKET_NAME;
+const dataroomBucket = process.env.ASSET_BUCKET_NAME;
 const dataroom = new GoogleStorage(dataroomBucket);
 
 export async function POST(req: Request, { params }) {
@@ -21,21 +21,13 @@ export async function POST(req: Request, { params }) {
             return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
         }
 
-        let dataroomData = await DataRoom.findOne({ business_id: id });
-        if (!dataroomData) {
-            // Create a new DataRoom if none exists
-            dataroomData = new DataRoom({
-                business_id: id,
-                files: []
-            });
-            await dataroomData.save();
-        }
+        
+        
         const uploadResult = [];
         for (const i of file){
             const existingFile = await File.findOne({
                 dataroom_id: dataroomData._id.toString(),
-                name: i.name,
-                type: 'dataroom'
+                name: i.name
             });
             if (existingFile) {
                 return NextResponse.json({ error: `File ${i.name} already exists in the dataroom.` }, { status: 400 });
@@ -43,8 +35,7 @@ export async function POST(req: Request, { params }) {
             const fileData = new File({
                 name: i.name,
                 file_path: `${id}/${i.name}`, 
-                dataroom_id: dataroomData._id.toString(),
-                type: 'dataroom'
+                dataroom_id: dataroomData._id.toString()
             });
             await fileData.save();
             dataroomData.files.push(fileData)

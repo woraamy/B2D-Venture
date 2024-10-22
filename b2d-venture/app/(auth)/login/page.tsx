@@ -146,12 +146,11 @@ function LoginPage() {
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
-      <Toaster /> {/* Add this to render toasts */}
+      <Toaster /> 
       {/* Left side */}
       <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center p-8 relative">
         <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</a>
 
-        {/* Placeholder for the image */}
         <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
             <img
               src="/assets/images/rocket-gif.gif"

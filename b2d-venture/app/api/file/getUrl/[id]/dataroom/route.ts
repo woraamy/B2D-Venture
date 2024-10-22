@@ -19,7 +19,6 @@ export async function POST(req, {params}) {
     if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthentication' }, { status: 405 });
     }
-
     const email = session.user.email;
     const user = await User.findOne({ email: email });
 

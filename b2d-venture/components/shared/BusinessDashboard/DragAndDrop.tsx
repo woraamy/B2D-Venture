@@ -5,6 +5,8 @@ import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import toast from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 
 export default function DragAndDrop({type}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -45,10 +47,16 @@ export default function DragAndDrop({type}) {
         method: 'POST',
         body: formData,
       })
+      if (res.status === 400) {
+        toast.error("Already upload this file");
+      }
       if (!res.ok){
         throw new Error('Upload failed.');
       }
+
       const result = await res.json();
+      toast.success('File uploaded successfully!');
+      
       console.log('Upload successful:', result);
       // reset after successful
       setFiles([]);
@@ -103,6 +111,7 @@ export default function DragAndDrop({type}) {
 
   return (
     <div className="flex mt-44 bg-transparent justify-center h-screen w-screen">
+      <Toaster />
       <div className="flex bg-white items-center h-[50%] w-[80%] rounded-xl shadow-lg border-2">
       <form
         className={`${
@@ -165,7 +174,7 @@ export default function DragAndDrop({type}) {
                 alt="loading"
                 className="object-contain"
               />
-            <div className="loader">Loading...</div> {/* You can replace this with a spinner component */}
+            <div className="loader">Loading...</div> 
           </div>
           )}
           <button
@@ -174,9 +183,8 @@ export default function DragAndDrop({type}) {
           >
           <span className="p-2 text-white">Submit</span>
         </button>
-        {/* Loading Indicator */}
         </div>
-        
+     
     
       </div>
 
