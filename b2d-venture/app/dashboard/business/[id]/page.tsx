@@ -12,6 +12,7 @@ import React from "react";
 import User from "@/models/user";
 import { BusinessChart } from "@/components/charts/BusinessChart";
 import ReportCard from "@/components/shared/ReportCard";
+import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 
 async function getBarChartData({businessObjectId}){
     await connect();
@@ -133,6 +134,26 @@ export default async function BusinessPage({ params }) {
                 <ReportCard className="" name='Total Investors' amout={totalInvestor}/>
                 <ReportCard className="" name='Total Investments Count' amout={totalInvestment}/>
                 <ReportCard className="" name='Total Raised' amout={totalRaised}/>
+            </div>
+            <div className="ml-7">
+                <h1 className="text-[32px] mt-5 font-bold">Investor requests</h1>    
+                <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
+                    {/* {investorRequest.map((req)=>(
+                        <InvestorRequestCard
+                        key={req.id} 
+                        id={req._id.toString()}
+                        contact={req.investor_id.contactNumber} 
+                        name={req.investor_id.name}  
+                        description={req.investor_id.investor_description}  
+                        email={req.investor_id.email}
+                        link={req.business_id.toString()}
+                        business={req.business_id.BusinessName}
+                        reason={req.reason}
+                        status={req.status}
+                        className='mr-5'
+                        />
+                    ))} */}
+                </div>    
             </div>
             {/* <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
                 <OverviewChart chartData={pieChartdata} />
