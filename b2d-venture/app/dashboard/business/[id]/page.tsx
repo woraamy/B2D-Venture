@@ -11,6 +11,7 @@ import mongoose from "mongoose";
 import React from "react";
 import User from "@/models/user";
 import { BusinessChart } from "@/components/charts/BusinessChart";
+import ReportCard from "@/components/shared/ReportCard";
 
 async function getBarChartData({businessObjectId}){
     await connect();
@@ -39,6 +40,33 @@ async function getBarChartData({businessObjectId}){
     return {barChartdata}
 }
 
+// Aggregation logic for total investors, total investments, and total raised
+async function getBusinessData(businessObjectId) {
+    // Total investors (unique investor count)
+    const totalInvestor = await Investment.aggregate([
+      { $match: { business_id: businessObjectId } },
+      { $group: { _id: "$investor_id" } },  // Unique investors
+      { $count: "totalInvestor" }
+    ]);
+  
+    // Total investments (count of investments)
+    const totalInvestment = await Investment.countDocuments({
+      business_id: businessObjectId,
+    });
+  
+    // Total raised (sum of amounts raised)
+    const totalRaised = await Investment.aggregate([
+      { $match: { business_id: businessObjectId } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+  
+    return {
+      totalInvestor: totalInvestor[0]?.totalInvestor || 0,
+      totalInvestment,
+      totalRaised: totalRaised[0]?.total || 0,
+    };
+  }
+
 export default async function BusinessPage({ params }) {
     const {id} = params;
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, { next: { tags: ['collection'] } });
@@ -49,7 +77,10 @@ export default async function BusinessPage({ params }) {
 
     const { ObjectId } = mongoose.Types;
     const businessObjectId = new ObjectId(id);
+
     const {barChartdata} = await getBarChartData({businessObjectId});
+    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
+
 
     return(
         <>
@@ -96,8 +127,12 @@ export default async function BusinessPage({ params }) {
                             <td>{investor.contactNumber || "-"}</td>
                         </tr> */}
                     </table>
-                </div>
-                
+                </div>    
+            </div>
+            <div className="flex ml-3">
+                <ReportCard className="" name='Total Investors' amout={totalInvestor}/>
+                <ReportCard className="" name='Total Investments Count' amout={totalInvestment}/>
+                <ReportCard className="" name='Total Raised' amout={totalRaised}/>
             </div>
             {/* <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
                 <OverviewChart chartData={pieChartdata} />
