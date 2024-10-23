@@ -11,7 +11,7 @@ const assetBucket = process.env.ASSET_BUCKET_NAME;
 const asset = new GoogleStorage(assetBucket);
 
 export async function POST(req, {params}) { 
-  // id is user id
+  // id is userid
   const {id} = params;
   await connect();
     // authentication check
