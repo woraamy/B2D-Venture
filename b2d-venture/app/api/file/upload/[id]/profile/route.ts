@@ -23,24 +23,29 @@ export async function POST(req: Request, { params }) {
             return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
         }
         if (role == 'investor'){
-            const investor = Investor.findById(id)
-            const oldUrl = investor.profile
-            const oldUrlArray = oldUrl.split("/");
-            const oldName = oldUrlArray[oldUrlArray.lenght() - 1]
-            const result = await asset.deleteFile(`investor/${id}/${oldName}`);
+            const investor = await Investor.findById(id)
+            const oldUrl = investor.profile_picture || null;
+            if (oldUrl){
+                const oldUrlArray = oldUrl.split("/");
+                const oldName = oldUrlArray[oldUrlArray.length - 1]
+                console.log(oldName)
+                const result = await asset.deleteFile(`investor/${id}/${oldName}`);
+            }
             const filePath = `investor/${id}/${file.name}`
             const url = await asset.getPublicUrl(filePath)
-            investor.profile = url
+            investor.profile_picture = url
             await investor.save();
             const uploadResult = await asset.uploadFile(file as File,filePath);
             return NextResponse.json({ uploadResult });
 
         }else if(role == 'business'){
-            const business = Business.findById(id)
-            const oldUrl = business.profile
-            const oldUrlArray = oldUrl.split("/");
-            const oldName = oldUrlArray[oldUrlArray.lenght() - 1]
-            const result = await asset.deleteFile(`business/${id}/${oldName}`);
+            const business = await Business.findById(id)
+            const oldUrl =  business.profile || null
+            if (oldUrl){
+                const oldUrlArray = oldUrl.split("/");
+                const oldName = oldUrlArray[oldUrlArray.length - 1]
+                const result = await asset.deleteFile(`business/${id}/${oldName}`);
+            }
             const filePath = `business/${id}/${file.name}`
             const url = await asset.getPublicUrl(filePath)
             business.profile = url
@@ -49,7 +54,7 @@ export async function POST(req: Request, { params }) {
             return NextResponse.json({ uploadResult });
 
         } else {
-            return NextResponse.json({ error: 'Wrong Role' }, { status: 500 });
+            return NextResponse.json({ error: 'Invalid Role' }, { status: 500 });
         }
         
     } catch (error) {
