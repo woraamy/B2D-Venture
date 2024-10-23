@@ -10,9 +10,9 @@ import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
 const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status }) => {
-    async function handleAllow(id: string, type: 'business' | 'investor') {
+    async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
-            const response = await fetch('/api/request', {
+            const response = await fetch('/api/request/investorRequestAction', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,9 +31,9 @@ const InvestorRequestCard = ({ className, key, id, email, contact, name, descrip
         }
     }
 
-    async function handleReject(id: string, type: 'business' | 'investor') {
+    async function handleReject(id: string, type: 'business' | 'admin') {
         try {
-            const response = await fetch('/api/request', {
+            const response = await fetch('/api/request/investorRequestAction', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,8 +84,8 @@ const InvestorRequestCard = ({ className, key, id, email, contact, name, descrip
 
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
-                                        <Button onClick={() => handleAllow(id, 'investor')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
-                                        <Button onClick={() => handleReject(id, 'investor')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                        <Button onClick={() => handleAllow(id, 'admin')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                        <Button onClick={() => handleReject(id, 'admin')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status === "approved" || status === "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>

@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status}) => {
     async function handleAllow(id: string, type: 'business' | 'investor') {
         try {
-            const response = await fetch('/api/request', {
+            const response = await fetch('/api/request/businessRequestAction', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
 
     async function handleReject(id: string, type: 'business' | 'investor') {
         try {
-            const response = await fetch('/api/request', {
+            const response = await fetch('/api/request/businessRequestAction', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

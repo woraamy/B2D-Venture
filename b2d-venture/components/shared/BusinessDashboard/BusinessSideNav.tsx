@@ -36,7 +36,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${raisecampaignmanagementpage}`}>
                     <MdCampaign />
-                    <Link href={`/dashboard/investor/${id}/sharedInformation/status`} className="ml-2">Raise Campaign Management</Link>
+                    <Link href={`/dashboard/investor/${id}/sharedInformation/status`} className="ml-2">Manage Raise Campaign</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />

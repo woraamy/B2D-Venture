@@ -1,31 +1,31 @@
 import useSWR from 'swr';
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/InvestorDashboard/TableCard";
+import TableCard from "@/components/shared/BusinessDashboard/TableCard";
 import Investment from "@/models/Investment";
 import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";
-function getOverviewData(data){
-    const totalRaised = data.reduce((total, cur)=>{
-        const business = cur.raise_campaign_id.business_id._id;
-        const name = cur.raise_campaign_id.business_id.BusinessName
-        const amount = cur.amount;
-        if(!total[business]){
-            total[business] ={
-                name: name,
-                totalRaised: 0,
-                link: business,
-                profile: cur.raise_campaign_id.business_id.profile,
-                shared: cur.raise_campaign_id.shared_price,
-                valuation: cur.raise_campaign_id.business_id.valuation
-            }
-        };
-        total[business].totalRaised += amount;
-        return total;
-    }, {})
-    const overview = Object.values(totalRaised)
-    return overview
-}
+// function getOverviewData(data){
+//     const totalRaised = data.reduce((total, cur)=>{
+//         const business = cur.raise_campaign_id.business_id._id;
+//         const name = cur.raise_campaign_id.business_id.BusinessName
+//         const amount = cur.amount;
+//         if(!total[business]){
+//             total[business] ={
+//                 name: name,
+//                 totalRaised: 0,
+//                 link: business,
+//                 profile: cur.raise_campaign_id.business_id.profile,
+//                 shared: cur.raise_campaign_id.shared_price,
+//                 valuation: cur.raise_campaign_id.business_id.valuation
+//             }
+//         };
+//         total[business].totalRaised += amount;
+//         return total;
+//     }, {})
+//     const overview = Object.values(totalRaised)
+//     return overview
+// }
 
 async function fetchInvestmentData(id) {
     // fetch investment data 
@@ -52,8 +52,6 @@ export default async function Page({params}) {
     const raise_campaign = raise_campaign_json.data[0];
 
     const investment = await fetchInvestmentData(raise_campaign._id);
-    console.log(investment);
-    // const overview = getOverviewData(investment)
     
     const data = investment.map((item, index) => (
         [
