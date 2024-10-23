@@ -16,11 +16,11 @@ export default function InvestorSidenav({id}) {
     // investment history (/investment-history)
     // settings (/settings)
     const pathname = usePathname();
-    const businesspage = pathname === `dashboard/business/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
-    const historypage = pathname.startsWith(`dashboard/business/${id}/investment-history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const raisecampaignmanagementpage = pathname.startsWith(`dashboard/business/${id}/manage-raise-campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const setting = pathname.startsWith(`dashboard/settings/account`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const dataroom = pathname.startsWith(`dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const businesspage = pathname === `/dashboard/business/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
+    const historypage = pathname.startsWith(`/dashboard/business/${id}/investment-history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const raisecampaignmanagementpage = pathname.startsWith(`/dashboard/business/${id}/manage-raise-campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const setting = pathname.startsWith(`/dashboard/settings/account`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const dataroom = pathname.startsWith(`/dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[100vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">

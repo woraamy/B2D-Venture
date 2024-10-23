@@ -9,7 +9,7 @@ import { Key } from "lucide-react";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status }) => {
+const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status_from_admin }) => {
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
             const response = await fetch('/api/request/investorRequestAction', {
@@ -82,16 +82,16 @@ const InvestorRequestCard = ({ className, key, id, email, contact, name, descrip
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
 
-                                {status === "pending" ? (
+                                {status_from_admin === "pending" ? (
                                     <div className="flex justify-start mt-2">
                                         <Button onClick={() => handleAllow(id, 'admin')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
                                         <Button onClick={() => handleReject(id, 'admin')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
-                                ) : status === "approved" || status === "done" ? (
+                                ) : status_from_admin === "approved" || status_from_admin === "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>
-                                ) : (
+                                ) : status_from_admin === "declined" ? (
                                     <p className="mt-2 text-red-600">Request rejected</p>
-                                )}
+                                ) : null}
                             </div>
 
                         </div>

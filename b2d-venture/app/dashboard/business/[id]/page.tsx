@@ -69,9 +69,7 @@ async function getBusinessData(raiseCampaignObjectId) {
   }
 
   export default async function BusinessPage({ params }) {
-    const { id } = params;
-    const investorRequest = await InvestorRequest.find({status_from_business: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
-    
+    const { id } = params;    
     const { ObjectId } = mongoose.Types;
     let userObjectId;
     
@@ -89,6 +87,17 @@ async function getBusinessData(raiseCampaignObjectId) {
     });
     const business_json = await res.json();
     const business = business_json.data;
+
+    // Fetch Investor Request data
+    const investorRequests = await InvestorRequest.find({
+        status_from_business: 'pending',
+        business_id: business._id // Assuming `businessId` is provided
+    })
+    .populate('investor_id')
+    .populate('business_id')
+    .sort({ createdAt: -1 });
+    console.log(investorRequests);
+    
 
     //Fetch Raise Campaign data
     const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
@@ -112,13 +121,11 @@ async function getBusinessData(raiseCampaignObjectId) {
     } else {
         return { notFound: true };  
     }
-    console.log(raiseCampaignObjectId);
 
     const user = await User.findById(userObjectId);  
     
     const { barChartdata } = await getBarChartData({ raiseCampaignObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectId);
-    // console.log(totalInvestor, totalInvestment, totalRaised);
 
     return(
         <>
@@ -185,7 +192,7 @@ async function getBusinessData(raiseCampaignObjectId) {
             <div className="ml-7 w-full">
                 <h1 className="text-[32px] mt-5 font-bold">Investor requests</h1>    
                 <div className="flex overflow-auto px-5 py-5 w-[85%] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
-                    {investorRequest.map((req)=>(
+                    {investorRequests.map((req)=>(
                         <InvestorRequestCard
                         key={req.id} 
                         id={req._id.toString()}
@@ -196,7 +203,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                         link={req.business_id.toString()}
                         business={req.business_id.BusinessName}
                         reason={req.reason}
-                        status={req.status}
+                        status_from_business={req.status_from_business}
                         className='mr-5'
                         />
                     ))}
