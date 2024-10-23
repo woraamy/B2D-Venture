@@ -24,7 +24,7 @@ class GoogleStorage {
     return `https://storage.googleapis.com/${this.bucketName}/${fileName}`
   }
 
-  async uploadFile(file:File,businessId:string){
+  async uploadFile(file:File,path:string){
     if (!file){
       throw new Error('No file provieded'); 
     }
@@ -32,9 +32,8 @@ class GoogleStorage {
       throw new Error('File is empty');
     }
     try {
-      const filePath = `${businessId}/${file.name}`;
       const buffer = await file.arrayBuffer();
-      await this.bucket.file(filePath).save(Buffer.from(buffer))
+      await this.bucket.file(path).save(Buffer.from(buffer))
       return true
     } catch (error) {
       console.log(error)

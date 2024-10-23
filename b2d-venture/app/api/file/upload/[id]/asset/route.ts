@@ -6,8 +6,8 @@ import DataRoom from '@/models/DataRoom';
 import connect from '@/lib/connectDB';
 
 
-const dataroomBucket = process.env.ASSET_BUCKET_NAME;
-const dataroom = new GoogleStorage(dataroomBucket);
+const assetBucket = process.env.ASSET_BUCKET_NAME;
+const asset = new GoogleStorage(assetBucket);
 
 export async function POST(req: Request, { params }) {
     const form = await req.formData();
@@ -20,25 +20,28 @@ export async function POST(req: Request, { params }) {
         if (!file) {
             return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
         }
+
         const uploadResult = [];
         for (const i of file){
             const existingFile = await File.findOne({
-                dataroom_id: dataroomData._id.toString(),
-                name: i.name
+                business_id: id.toString(),
+                name: i.name,
+                type: 'asset'
             });
             if (existingFile) {
-                return NextResponse.json({ error: `File ${i.name} already exists in the dataroom.` }, { status: 400 });
+                return NextResponse.json({ error: `File ${i.name} already exists in the asset.` }, { status: 400 });
             }
+            const filePath = `business/${id}/post/${i.name}`
+            const url = await asset.getPublicUrl(filePath)
             const fileData = new File({
                 name: i.name,
-                file_path: `${id}/${i.name}`, 
-                dataroom_id: dataroomData._id.toString()
+                file_path: url, 
+                business_id: id.toString(),
+                type: 'asset'
             });
             await fileData.save();
-            dataroomData.files.push(fileData)
-            await dataroomData.save();
     
-            const success = await dataroom.uploadFile(i as File,id);
+            const success = await asset.uploadFile(i as File,filePath);
             uploadResult.push(success)
         }
        

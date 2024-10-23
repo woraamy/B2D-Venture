@@ -40,9 +40,10 @@ export async function POST(req: Request, { params }) {
             if (existingFile) {
                 return NextResponse.json({ error: `File ${i.name} already exists in the dataroom.` }, { status: 400 });
             }
+            const filePath = `${id}/${i.name}`
             const fileData = new File({
                 name: i.name,
-                file_path: `${id}/${i.name}`, 
+                file_path: filePath, 
                 dataroom_id: dataroomData._id.toString(),
                 type: 'dataroom'
             });
@@ -50,7 +51,7 @@ export async function POST(req: Request, { params }) {
             dataroomData.files.push(fileData)
             await dataroomData.save();
     
-            const success = await dataroom.uploadFile(i as File,id);
+            const success = await dataroom.uploadFile(i as File,filePath);
             uploadResult.push(success)
         }
        
