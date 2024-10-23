@@ -12,7 +12,8 @@ import React from "react";
 import User from "@/models/user";
 import { BusinessChart } from "@/components/charts/BusinessChart";
 import ReportCard from "@/components/shared/ReportCard";
-import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
+import InvestorRequestCard from "@/components/shared/BusinessDashboard/InvestorRequestCard";
+import InvestorRequest from "@/models/InvestorRequest";
 
 async function getBarChartData({raiseCampaignObjectId}){
     await connect();
@@ -69,6 +70,7 @@ async function getBusinessData(raiseCampaignObjectId) {
 
   export default async function BusinessPage({ params }) {
     const { id } = params;
+    const investorRequest = await InvestorRequest.find({status_from_business: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     
     const { ObjectId } = mongoose.Types;
     let userObjectId;
@@ -183,7 +185,7 @@ async function getBusinessData(raiseCampaignObjectId) {
             <div className="ml-7 w-full">
                 <h1 className="text-[32px] mt-5 font-bold">Investor requests</h1>    
                 <div className="flex overflow-auto px-5 py-5 w-[85%] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
-                    {/* {investorRequest.map((req)=>(
+                    {investorRequest.map((req)=>(
                         <InvestorRequestCard
                         key={req.id} 
                         id={req._id.toString()}
@@ -197,7 +199,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                         status={req.status}
                         className='mr-5'
                         />
-                    ))} */}
+                    ))}
                 </div>    
             </div>
         </div>

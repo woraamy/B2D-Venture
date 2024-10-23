@@ -15,7 +15,7 @@ import { AdminChart } from "@/components/charts/AdminChart";
 export default async function Page() {
     await connect();
     const businessRequest = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
-    const investorRequest = await InvestorRequest.find({status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
+    const investorRequest = await InvestorRequest.find({status_from_admin: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const activeInvestor = await User.countDocuments({role:'investor'})
     const activeBusiness = await User.countDocuments({role:'business'})
     const activeCampaign = await RaiseCampaign.countDocuments()
