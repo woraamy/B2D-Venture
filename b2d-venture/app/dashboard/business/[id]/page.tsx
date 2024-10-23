@@ -69,17 +69,34 @@ async function getBusinessData(businessObjectId) {
   }
 
 export default async function BusinessPage({ params }) {
-    const {id} = params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, { next: { tags: ['collection'] } });
-    const business_json  =  await res.json();
-    const business = business_json.data
-
-    const user = await User.findById({id});
-
+    const { id } = params;
+    
+    // Ensure a valid ObjectId is used
     const { ObjectId } = mongoose.Types;
-    const businessObjectId = new ObjectId(id);
+    let businessObjectId;
+    
+    // Validate if `id` is a valid ObjectId
+    if (ObjectId.isValid(id)) {
+        businessObjectId = new ObjectId(id);
+    } else {
+        // Handle invalid ObjectId (e.g., return 404 or some error)
+        return { notFound: true };  // You can change this based on how you handle errors
+    }
+    
+    await connect();  // Ensure DB connection
 
-    const {barChartdata} = await getBarChartData({businessObjectId});
+    // Fetching business data from API
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
+        next: { tags: ['collection'] },
+    });
+    const business_json = await res.json();
+    const business = business_json.data;
+
+    // Find user by businessObjectId
+    const user = await User.findById(businessObjectId);  // Correctly passing ObjectId here
+    
+    // Proceed to fetch barChartData and businessData
+    const { barChartdata } = await getBarChartData({ businessObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
 
 
@@ -97,14 +114,13 @@ export default async function BusinessPage({ params }) {
             <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2 ">
                 <div className="relative ml-[15%] mt-10 flex"> 
                     <div className="relative h-[80px] w-[80px] rounded-full">
-                    {/* <Image
-                        src={investor.profile_picture || "/assets/images/profile-user.png"}
+                    <Image
+                        src={business.profile || "/assets/images/profile-user.png"}
                         style={{ objectFit: "cover" }}
                         alt="Business Image"
                         fill={true}
                         className="rounded-full"
-                        /> */}
-
+                        />
                        
                     </div>
                     <div className="ml-2">
@@ -115,19 +131,28 @@ export default async function BusinessPage({ params }) {
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
                     <p className="font-light text-[12px] mb-3 max-w-[80%]">
                         {business.description || "No bio "}</p>
-                    <Button className=" shadow hover:text-white min-w-[80%]">
+                    {/* <Button className=" shadow hover:text-white min-w-[80%]">
                         Contact Investor
-                    </Button>
+                    </Button> */}
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
-                            <td className="w-[150px]">Email </td>
-                            <td >{user.email || "-"}</td>
+                            <td className="w-[150px]">Email</td>
+                            <td>{user.email || "-"}</td>
                         </tr>
-                        {/* <tr>
-                            <td>Tel.</td>
-                            <td>{investor.contactNumber || "-"}</td>
-                        </tr> */}
+                        <tr>
+                            <td>Tags</td>
+                            <td>
+                                {business.tag_list && business.tag_list.length > 0 ? (
+                                    business.tag_list.map((tag, index) => (
+                                        <div key={index}>{tag}</div>
+                                    ))
+                                ) : (
+                                    "-"
+                                )}
+                            </td>
+                        </tr>
                     </table>
+
                 </div>    
             </div>
             <div className="flex ml-3">

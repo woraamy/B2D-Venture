@@ -2,22 +2,13 @@ import useSWR from 'swr';
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header";
 import TableCard from "@/components/shared/InvestorDashboard/TableCard";
-import InvestmentHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
+import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";
 
 // Fetcher function using the Fetch API
 const fetcher = (url) => fetch(url).then(res => res.json());
 
-interface OverviewItem {
-  name: string;
-  totalRaised: number;
-  link: string;
-  profile: string;
-  shared: number;
-  valuation: number;
-}
-
-function getOverviewData(data): OverviewItem[] {
+function getOverviewData(data) {
   const totalRaised = data.reduce((total, cur) => {
     const business = cur.raise_campaign_id.business_id._id;
     const name = cur.raise_campaign_id.business_id.BusinessName;
@@ -60,7 +51,7 @@ function getPieChartData(data) {
     ...item,
     fill: `var(--color-chart${index % 5 + 1})`,
   }));
-  const overview: OverviewItem[] = getOverviewData(investment.data);
+}
 
 export default function Page({ params }) {
   const { id } = params;  // Extract business ID from params
@@ -100,7 +91,7 @@ export default function Page({ params }) {
             <div><OverviewChart chartData={pieChartdata} /></div>
             <div className='ml-5'>
               {overview.map((item, index) => (
-                <InvestmentHistoryCard
+                <InvestHistoryCard
                   key={index}
                   businessName={item.name}
                   businessImg={item.profile}

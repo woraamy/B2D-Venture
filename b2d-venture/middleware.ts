@@ -2,7 +2,17 @@ import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(req) {
+  // console.log(req)
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  // console.log('Token:', token);
+  // token gives
+  // Token: {
+  //   email: 'mark@gmail.com',
+  //   role: 'business',
+  //   iat: 1729653881,
+  //   exp: 1732245881,
+  //   jti: 'f4cd23d8-1575-4272-a201-26a40f934870'
+  // }
 
   const { pathname } = req.nextUrl;
 
