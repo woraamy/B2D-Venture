@@ -68,7 +68,7 @@ async function getBusinessData(businessObjectId) {
     };
   }
 
-export default async function BusinessPage({ params }) {
+  export default async function BusinessPage({ params }) {
     const { id } = params;
     
     // Ensure a valid ObjectId is used
@@ -99,11 +99,10 @@ export default async function BusinessPage({ params }) {
     const { barChartdata } = await getBarChartData({ businessObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
 
-
     return(
         <>
-        <div className=" flex flex-wrap w-[85vw] h-[100%]">
-            <div id="bar graph" className=" overflow-auto flex w-[55vw] h-1/2 border-r-2 border-b-2">
+        <div className="flex flex-wrap w-[85vw] h-[100%]">
+            <div id="bar graph" className="overflow-auto flex w-[55vw] h-1/2 border-r-2 border-b-2">
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
@@ -111,7 +110,8 @@ export default async function BusinessPage({ params }) {
                     </div>
                 </div>
             </div>
-            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2 ">
+
+            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2">
                 <div className="relative ml-[15%] mt-10 flex"> 
                     <div className="relative h-[80px] w-[80px] rounded-full">
                     <Image
@@ -120,20 +120,18 @@ export default async function BusinessPage({ params }) {
                         alt="Business Image"
                         fill={true}
                         className="rounded-full"
-                        />
-                       
+                    />
                     </div>
                     <div className="ml-2">
                         <h1 className="text-[32px] font-bold">{business.BusinessName}</h1>
-                        {/* <span className="font-thin">{investor.name}</span>    */}
                     </div>
                 </div>
+
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
                     <p className="font-light text-[12px] mb-3 max-w-[80%]">
-                        {business.description || "No bio "}</p>
-                    {/* <Button className=" shadow hover:text-white min-w-[80%]">
-                        Contact Investor
-                    </Button> */}
+                        {business.description || "No bio"}
+                    </p>
+
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
                             <td className="w-[150px]">Email</td>
@@ -152,17 +150,20 @@ export default async function BusinessPage({ params }) {
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
 
-                </div>    
+            {/* Report Cards Section */}
+            <div className="flex ml-3 w-full">
+                <ReportCard className="" name='Total Investors' amount={totalInvestor}/>
+                <ReportCard className="" name='Total Investments Count' amount={totalInvestment}/>
+                <ReportCard className="" name='Total Raised' amount={totalRaised}/>
             </div>
-            <div className="flex ml-3">
-                <ReportCard className="" name='Total Investors' amout={totalInvestor}/>
-                <ReportCard className="" name='Total Investments Count' amout={totalInvestment}/>
-                <ReportCard className="" name='Total Raised' amout={totalRaised}/>
-            </div>
-            <div className="ml-7">
+
+            {/* Investor Requests Section (moved below Report Cards) */}
+            <div className="ml-7 w-full">
                 <h1 className="text-[32px] mt-5 font-bold">Investor requests</h1>    
-                <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
+                <div className="flex overflow-auto px-5 py-5 w-[85%] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
                     {/* {investorRequest.map((req)=>(
                         <InvestorRequestCard
                         key={req.id} 
@@ -180,48 +181,7 @@ export default async function BusinessPage({ params }) {
                     ))} */}
                 </div>    
             </div>
-            {/* <div id="overview" className="w-[27.5vw] h-1/2 border-r-2">
-                <OverviewChart chartData={pieChartdata} />
-            </div>
-            <div id="history" className="w-[27.5vw] flex-col  items-center h-1/2 border-r-2 overflow-auto">
-                <div className="mx-5">
-                    <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
-                    {investment.slice(0, 3).map((item, index)=>(
-                        <InvestHistoryCard 
-                        key = {index}
-                        businessName={item.raise_campaign_id.business_id.BusinessName}
-                        businessImg={item.raise_campaign_id.business_id.profile}
-                        link={item.raise_campaign_id._id.toString()}
-                        valuation={item.raise_campaign_id.business_id.valuation.toLocaleString()}
-                        raised={item.amount.toLocaleString()}
-                        equityStake={((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString()}
-                        shared={(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString()}
-                        date={item.created_at}
-                        className="relative py-2"
-                        />
-                    ))}
-                      
-                </div>
-            </div>
-            <div id="requestStatus" className="w-[30vw] h-1/2 overflow-auto">
-            <div className="ml-10">
-                <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
-                    <div>
-                    {request.slice(0, 3).map((item, index)=>(
-                        <RequestStatus
-                        className=""
-                        key={index}
-                        businessName={item.business_id.BusinessName}
-                        date={item.createdAt}
-                        status={item.status}
-                        businessImg={item.business_id.profile}
-                        />
-                    ))}
-                    </div>
-                </div>
-            </div> */}
-
         </div>
-    </>
+        </>
     );
 };
