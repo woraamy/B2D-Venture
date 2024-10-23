@@ -55,15 +55,22 @@ export default async function Page({params}) {
     console.log(investment);
     // const overview = getOverviewData(investment)
     
-    const data = investment.map((item,index)=>(
+    const data = investment.map((item, index) => (
         [
-            {value:item.created_at, type:"text"},
-            {value:{src:item.investor_id.profile_picture, text:item.investor_id.user_id.username},type:"image"},
-            {value:item.amount.toLocaleString(), type:"text"},
-            {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString(), type:"text"},
-            {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type:"text"},
-         ]
-    ))
+            { value: item.created_at, type: "text" },
+            {
+                value: {
+                    src: item.investor_id.profile_picture,  // Access profile picture from populated investor_id
+                    text: item.investor_id.user_id.username // Access username from populated investor_id
+                },
+                type: "image"
+            },
+            { value: item.amount.toLocaleString(), type: "text" },
+            { value: ((item.amount / item.raise_campaign_id.raised) * 100).toFixed(2).toLocaleString(), type: "text" },
+            { value: (item.amount / item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type: "text" },
+        ]
+    ));
+    
     const headData = [
         {value:"Date", type:"text"}, 
         {value:"Investor", type:"text"},

@@ -19,7 +19,10 @@ export async function GET(req: Request, { params }) {
             path: 'raise_campaign_id',
             populate: { path: 'business_id' }
         })
-        .populate('investor_id')  // Populate investor_id to get full investor details
+        .populate({
+            path: 'investor_id',  // Populate investor_id
+            populate: { path: 'user_id' }  // Also populate the user_id inside investor_id
+        })
         .sort({ created_at: -1 });
 
         if (data && data.length > 0) {
