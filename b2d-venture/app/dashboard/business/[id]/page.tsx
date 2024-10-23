@@ -14,14 +14,15 @@ import { BusinessChart } from "@/components/charts/BusinessChart";
 import ReportCard from "@/components/shared/ReportCard";
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 
-async function getBarChartData({businessObjectId}){
+async function getBarChartData({raiseCampaignObjectId}){
     await connect();
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
+    // console.log(raiseCampaignObjectId);
     const  barChartdata = await Investment.aggregate([
         {
           $match: {
-            business_id: businessObjectId,
+            raise_campaign_id: raiseCampaignObjectId,
             created_at: { $gte: twelthMonthsAgo }
           }
         },
@@ -41,9 +42,7 @@ async function getBarChartData({businessObjectId}){
     return {barChartdata}
 }
 
-// Aggregation logic for total investors, total investments, and total raised
 async function getBusinessData(businessObjectId) {
-    // Total investors (unique investor count)
     const totalInvestor = await Investment.aggregate([
       { $match: { business_id: businessObjectId } },
       { $group: { _id: "$investor_id" } },  // Unique investors
@@ -82,23 +81,40 @@ async function getBusinessData(businessObjectId) {
     
     await connect();  
 
+    // Fetch business data
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
         next: { tags: ['collection'] },
     });
     const business_json = await res.json();
     const business = business_json.data;
 
+    //Fetch Raise Campaign data
+    const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
+        next: { tags: ['collection'] },
+    });    
+    const raise_campaign_json = await response_raise_campaign.json();
+    const raise_campaign = raise_campaign_json.data[0];
+
     let businessObjectId;
-    
+    // Make business object id
     if (ObjectId.isValid(id)) {
         businessObjectId = new ObjectId(business._id);
     } else {
         return { notFound: true };  
     }
 
+    // Make raise campaign object id
+    let raiseCampaignObjectId;
+    if (ObjectId.isValid(id)) {
+        raiseCampaignObjectId = new ObjectId(raise_campaign._id);
+    } else {
+        return { notFound: true };  
+    }
+    console.log(raiseCampaignObjectId);
+
     const user = await User.findById(userObjectId);  
     
-    const { barChartdata } = await getBarChartData({ businessObjectId });
+    const { barChartdata } = await getBarChartData({ raiseCampaignObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
 
     return(
