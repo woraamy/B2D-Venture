@@ -71,31 +71,33 @@ async function getBusinessData(businessObjectId) {
   export default async function BusinessPage({ params }) {
     const { id } = params;
     
-    // Ensure a valid ObjectId is used
     const { ObjectId } = mongoose.Types;
-    let businessObjectId;
+    let userObjectId;
     
-    // Validate if `id` is a valid ObjectId
     if (ObjectId.isValid(id)) {
-        businessObjectId = new ObjectId(id);
+        userObjectId = new ObjectId(id);
     } else {
-        // Handle invalid ObjectId (e.g., return 404 or some error)
-        return { notFound: true };  // You can change this based on how you handle errors
+        return { notFound: true };  
     }
     
-    await connect();  // Ensure DB connection
+    await connect();  
 
-    // Fetching business data from API
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
         next: { tags: ['collection'] },
     });
     const business_json = await res.json();
     const business = business_json.data;
 
-    // Find user by businessObjectId
-    const user = await User.findById(businessObjectId);  // Correctly passing ObjectId here
+    let businessObjectId;
     
-    // Proceed to fetch barChartData and businessData
+    if (ObjectId.isValid(id)) {
+        businessObjectId = new ObjectId(business._id);
+    } else {
+        return { notFound: true };  
+    }
+
+    const user = await User.findById(userObjectId);  
+    
     const { barChartdata } = await getBarChartData({ businessObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
 

@@ -28,15 +28,15 @@ export default function InvestorSidenav({id}) {
                 <span className="p-3">MENU</span>
                 <div className={`flex p-3 mt-2 ${businesspage}`}>
                     < BsFileBarGraphFill />
-                    <Link href={`dashboard/business/${id}`} className="ml-2">Dashboard</Link>
+                    <Link href={`/dashboard/business/${id}`} className="ml-2">Dashboard</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${historypage}`}>
                     <MdOutlineWorkHistory />
-                    <Link href={`dashboard/business/${id}/investment-history`} className="ml-2">Investment History</Link>
+                    <Link href={`/dashboard/business/${id}/investment-history`} className="ml-2">Investment History</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${raisecampaignmanagementpage}`}>
                     <MdCampaign />
-                    <Link href={`dashboard/investor/${id}/sharedInformation/status`} className="ml-2">Raise Campaign Management</Link>
+                    <Link href={`/dashboard/investor/${id}/sharedInformation/status`} className="ml-2">Raise Campaign Management</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
@@ -44,7 +44,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${dataroom}`}>
                     <BsDatabaseFillAdd />
-                    <Link href={`dashboard/business/${id}/dataroom`} className="ml-2">Dataroom</Link>
+                    <Link href={`/dashboard/business/${id}/dataroom`} className="ml-2">Dataroom</Link>
                 </div>
 
             </div>
