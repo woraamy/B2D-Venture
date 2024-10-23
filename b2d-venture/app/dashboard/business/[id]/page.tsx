@@ -14,6 +14,7 @@ import { BusinessChart } from "@/components/charts/BusinessChart";
 import ReportCard from "@/components/shared/ReportCard";
 import InvestorRequestCard from "@/components/shared/BusinessDashboard/InvestorRequestCard";
 import InvestorRequest from "@/models/InvestorRequest";
+import Business from "@/models/Business";
 
 async function getBarChartData({raiseCampaignObjectId}){
     await connect();
@@ -71,22 +72,7 @@ async function getBusinessData(raiseCampaignObjectId) {
   export default async function BusinessPage({ params }) {
     const { id } = params;    
     const { ObjectId } = mongoose.Types;
-    let userObjectId;
-    
-    if (ObjectId.isValid(id)) {
-        userObjectId = new ObjectId(id);
-    } else {
-        return { notFound: true };  
-    }
-    
-    await connect();  
-
-    // Fetch business data
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
-        next: { tags: ['collection'] },
-    });
-    const business_json = await res.json();
-    const business = business_json.data;
+    const business = await Business.findById(id)
 
     // Fetch Investor Request data
     const investorRequests = await InvestorRequest.find({
@@ -122,7 +108,7 @@ async function getBusinessData(raiseCampaignObjectId) {
         return { notFound: true };  
     }
 
-    const user = await User.findById(userObjectId);  
+    // const user = await User.findById(userObjectId);  
     
     const { barChartdata } = await getBarChartData({ raiseCampaignObjectId });
     const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectId);
@@ -163,7 +149,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
                             <td className="w-[150px]">Email</td>
-                            <td>{user.email || "-"}</td>
+                            <td>{business.user_id.email || "-"}</td>
                         </tr>
                         <tr>
                             <td>Tags</td>

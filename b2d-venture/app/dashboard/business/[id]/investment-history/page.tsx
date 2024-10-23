@@ -5,27 +5,7 @@ import TableCard from "@/components/shared/BusinessDashboard/TableCard";
 import Investment from "@/models/Investment";
 import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";
-// function getOverviewData(data){
-//     const totalRaised = data.reduce((total, cur)=>{
-//         const business = cur.raise_campaign_id.business_id._id;
-//         const name = cur.raise_campaign_id.business_id.BusinessName
-//         const amount = cur.amount;
-//         if(!total[business]){
-//             total[business] ={
-//                 name: name,
-//                 totalRaised: 0,
-//                 link: business,
-//                 profile: cur.raise_campaign_id.business_id.profile,
-//                 shared: cur.raise_campaign_id.shared_price,
-//                 valuation: cur.raise_campaign_id.business_id.valuation
-//             }
-//         };
-//         total[business].totalRaised += amount;
-//         return total;
-//     }, {})
-//     const overview = Object.values(totalRaised)
-//     return overview
-// }
+import Business from "@/models/Business";
 
 async function fetchInvestmentData(id) {
     // fetch investment data 
@@ -37,12 +17,8 @@ async function fetchInvestmentData(id) {
 export default async function Page({params}) {
     const {id} = params;
 
-    // Fetch business data
-    const response_business = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
-        next: { tags: ['collection'] },
-    });
-    const business_json = await response_business.json();
-    const business = business_json.data;
+    const business = await Business.findById(id);
+    console.log(business);
 
     //Fetch Raise Campaign data
     const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
