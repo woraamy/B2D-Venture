@@ -42,21 +42,21 @@ async function getBarChartData({raiseCampaignObjectId}){
     return {barChartdata}
 }
 
-async function getBusinessData(businessObjectId) {
+async function getBusinessData(raiseCampaignObjectId) {
     const totalInvestor = await Investment.aggregate([
-      { $match: { business_id: businessObjectId } },
+      { $match: { raise_campaign_id: raiseCampaignObjectId } },
       { $group: { _id: "$investor_id" } },  // Unique investors
       { $count: "totalInvestor" }
     ]);
   
     // Total investments (count of investments)
     const totalInvestment = await Investment.countDocuments({
-      business_id: businessObjectId,
+        raise_campaign_id: raiseCampaignObjectId,
     });
   
     // Total raised (sum of amounts raised)
     const totalRaised = await Investment.aggregate([
-      { $match: { business_id: businessObjectId } },
+      { $match: { raise_campaign_id: raiseCampaignObjectId } },
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
   
@@ -115,7 +115,8 @@ async function getBusinessData(businessObjectId) {
     const user = await User.findById(userObjectId);  
     
     const { barChartdata } = await getBarChartData({ raiseCampaignObjectId });
-    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(businessObjectId);
+    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectId);
+    // console.log(totalInvestor, totalInvestment, totalRaised);
 
     return(
         <>
@@ -174,7 +175,7 @@ async function getBusinessData(businessObjectId) {
             {/* Report Cards Section */}
             <div className="flex ml-3 w-full">
                 <ReportCard className="" name='Total Investors' amount={totalInvestor}/>
-                <ReportCard className="" name='Total Investments Count' amount={totalInvestment}/>
+                <ReportCard className="" name='Total Investments' amount={totalInvestment}/>
                 <ReportCard className="" name='Total Raised' amount={totalRaised}/>
             </div>
 
