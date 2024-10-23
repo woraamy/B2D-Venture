@@ -2,6 +2,7 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import { Button } from "../../ui/button"
+
 export default function TableCard({className, data, valueClassname}){
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)
@@ -18,7 +19,7 @@ export default function TableCard({className, data, valueClassname}){
                                 <Image 
                                     src={value.value.src} 
                                     style={{ objectFit: "cover" }}
-                                    alt="Business Image" 
+                                    alt="Investor Image" 
                                     width={40} 
                                     height={40}
                                     className="rounded-full"

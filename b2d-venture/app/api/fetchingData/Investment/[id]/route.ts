@@ -1,26 +1,25 @@
-import Business from "@/models/Business";
-import RaiseCampaign from "@/models/RaiseCampaign";
 import Investment from "@/models/Investment";
 import connect from "@/lib/connectDB";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }) {
-    const { id } = params;  // Extract the ID (could be either investor_id or raise_campaign_id)
+    const { id } = params;  // Extract the ID
 
     try {
         await connect();  // Connect to the database
 
-        // Fetch investments either by investor_id or raise_campaign_id
+        // Fetch investments by raise_campaign_id or investor_id
         const data = await Investment.find({
             $or: [
-                { 'investor_id': id },  // Match by investor_id
-                { 'raise_campaign_id': id }  // Match by raise_campaign_id
+                { 'investor_id': id },
+                { 'raise_campaign_id': id }
             ]
         })
         .populate({
             path: 'raise_campaign_id',
             populate: { path: 'business_id' }
         })
+        .populate('investor_id')  // Populate investor_id to get full investor details
         .sort({ created_at: -1 });
 
         if (data && data.length > 0) {

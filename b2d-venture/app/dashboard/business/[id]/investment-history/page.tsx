@@ -31,19 +31,34 @@ async function fetchInvestmentData(id) {
     // fetch investment data 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { revalidate: 100 }});
     const res = await response.json();
-    console.log("res" + res);
     return res.data || [];
 }
 
 export default async function Page({params}) {
     const {id} = params;
-    const investment = await fetchInvestmentData(id)
-    const overview = getOverviewData(investment)
+
+    // Fetch business data
+    const response_business = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Business/${id}`, {
+        next: { tags: ['collection'] },
+    });
+    const business_json = await response_business.json();
+    const business = business_json.data;
+
+    //Fetch Raise Campaign data
+    const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
+        next: { tags: ['collection'] },
+    });    
+    const raise_campaign_json = await response_raise_campaign.json();
+    const raise_campaign = raise_campaign_json.data[0];
+
+    const investment = await fetchInvestmentData(raise_campaign._id);
+    console.log(investment);
+    // const overview = getOverviewData(investment)
     
     const data = investment.map((item,index)=>(
         [
             {value:item.created_at, type:"text"},
-            {value:{src:item.raise_campaign_id.business_id.profile, text:item.raise_campaign_id.business_id.BusinessName},type:"image"},
+            {value:{src:item.investor_id.profile_picture, text:item.investor_id.user_id.username},type:"image"},
             {value:item.amount.toLocaleString(), type:"text"},
             {value:((item.amount/item.raise_campaign_id.raised)*100).toFixed(2).toLocaleString(), type:"text"},
             {value:(item.amount/item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type:"text"},
@@ -51,7 +66,7 @@ export default async function Page({params}) {
     ))
     const headData = [
         {value:"Date", type:"text"}, 
-        {value:"Business", type:"text"},
+        {value:"Investor", type:"text"},
         {value:"Investment Money", type:"text"},
         {value:"Equity Stake", type:"text"},
         {value:"Shared recieve", type:"text"}
