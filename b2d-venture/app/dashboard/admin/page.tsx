@@ -113,7 +113,7 @@ export default async function Page() {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
-                                status={req.status}
+                                status_from_admin={req.status_from_admin}
                                 className='mr-5'
                                 />
                             ))}

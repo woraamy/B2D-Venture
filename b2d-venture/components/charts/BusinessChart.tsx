@@ -85,7 +85,7 @@ export function BusinessChart({data}) {
                 axisLine={false}
                 tickFormatter={(value) => value.slice(0, 3)}
                 />
-                <Bar dataKey="investment" fill="var(--color-invest)" radius={2} />
+                <Bar dataKey="investment" fill="var(--color-investment)" radius={2} />
             </BarChart>
             </ChartContainer>
         </CardContent>

@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
         const newRequest = new InvestorRequest({
             investor_id,
             business_id,
-            status_for_business: "pending",  // Set business status to pending
-            status_for_admin: "pending",     // Set admin status to pending
+            status_from_business: "pending",  // Set business status to pending
+            status_from_admin: "pending",     // Set admin status to pending
             reason,
         });
 

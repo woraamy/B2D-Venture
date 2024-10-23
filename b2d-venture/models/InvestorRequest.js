@@ -14,12 +14,12 @@ const InvestorRequestSchema = new mongoose.Schema(
       unique: false,
       ref: "Business" 
     },
-    status_for_business: {
+    status_from_business: {
       type: String,
       enum: ["approved", "pending", "declined"],
       default: "pending"  
     },
-    status_for_admin: {
+    status_from_admin: {
       type: String,
       enum: ["approved", "pending", "declined"],
       default: "pending"  

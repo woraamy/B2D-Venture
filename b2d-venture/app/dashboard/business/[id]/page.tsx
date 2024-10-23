@@ -130,7 +130,7 @@ async function getBusinessData(raiseCampaignObjectId) {
     return(
         <>
         <div className="flex flex-wrap w-[85vw] h-[100%]">
-            <div id="bar graph" className="overflow-auto flex w-[55vw] h-1/2 border-r-2 border-b-2">
+            <div id="bar graph" className="overflow-auto flex w-[55vw] h-[48vh] border-r-2 border-b-2">
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
@@ -139,7 +139,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                 </div>
             </div>
 
-            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-1/2 border-b-2">
+            <div id="profile" className="overflow-auto flex flex-wrap w-[30vw] h-[48vh] border-b-2">
                 <div className="relative ml-[15%] mt-10 flex"> 
                     <div className="relative h-[80px] w-[80px] rounded-full">
                     <Image
@@ -186,6 +186,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                 <ReportCard className="" name='Total Investors' amount={totalInvestor}/>
                 <ReportCard className="" name='Total Investments' amount={totalInvestment}/>
                 <ReportCard className="" name='Total Raised' amount={totalRaised}/>
+                <ReportCard className="" name='Valuation' amount={business.valuation}/>
             </div>
 
             {/* Investor Requests Section (moved below Report Cards) */}
