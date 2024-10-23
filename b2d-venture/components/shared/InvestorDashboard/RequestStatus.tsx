@@ -3,7 +3,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-const RequestStatus = ({className, businessName, status, date, link, businessImg}) => {
+const RequestStatus = ({className, businessName, status, date, businessImg}) => {
     return (
     <div className ={className}>
         <div className="flex mt-5 ">

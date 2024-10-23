@@ -15,7 +15,7 @@ import { AdminChart } from "@/components/charts/AdminChart";
 export default async function Page() {
     await connect();
     const businessRequest = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
-    const investorRequest = await InvestorRequest.find({status: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
+    const investorRequest = await InvestorRequest.find({status_from_admin: 'pending'}).populate('investor_id').populate('business_id').sort({createdAt: -1 })
     const activeInvestor = await User.countDocuments({role:'investor'})
     const activeBusiness = await User.countDocuments({role:'business'})
     const activeCampaign = await RaiseCampaign.countDocuments()
@@ -66,11 +66,11 @@ export default async function Page() {
             <div className="flex-col ml-10 mt-5">
                 <h1 className="text-[32px] font-bold ml-5">Dashboard</h1>      
                     <div className="flex ml-3">
-                        <ReportCard className="" name='Active Investor' amout={activeInvestor}/>
-                        <ReportCard className="" name='Active Business' amout={activeBusiness}/>
-                        <ReportCard className="" name='Active Raise Campaign' amout={activeCampaign}/>
-                        <ReportCard className="" name='Total Raised' amout={totalRaised.total}/>
-                        <ReportCard className="" name='Total Profit' amout={profit.total}/>
+                        <ReportCard className="" name='Active Investor' amount={activeInvestor}/>
+                        <ReportCard className="" name='Active Business' amount={activeBusiness}/>
+                        <ReportCard className="" name='Active Raise Campaign' amount={activeCampaign}/>
+                        <ReportCard className="" name='Total Raised' amount={totalRaised.total}/>
+                        <ReportCard className="" name='Total Profit' amount={profit.total}/>
                     </div>
                 <div className="px-2">
                     <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">
@@ -113,7 +113,7 @@ export default async function Page() {
                                 link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
-                                status={req.status}
+                                status_from_admin={req.status_from_admin}
                                 className='mr-5'
                                 />
                             ))}

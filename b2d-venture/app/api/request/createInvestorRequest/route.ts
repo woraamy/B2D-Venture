@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
         const newRequest = new InvestorRequest({
             investor_id,
             business_id,
-            status: "pending",  // Set status to pending
+            status_from_business: "pending",  // Set business status to pending
+            status_from_admin: "pending",     // Set admin status to pending
             reason,
         });
 
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: "Request created successfully" }, { status: 201 });
     } catch (error) {
         console.log(error);
+        // Handle any errors during request creation
         return NextResponse.json({ message: "Failed to create request", error: error.message }, { status: 500 });
     }
 }

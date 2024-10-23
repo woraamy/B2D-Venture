@@ -55,7 +55,8 @@ export default function Dialog({ title, children, link, oktext, successmessage, 
                 body: JSON.stringify({
                     investor_id: investorId,  
                     business_id: businessId,  
-                    status: "pending",        
+                    status_from_admin: "pending", 
+                    status_from_business: "pending",       
                     reason,                   
                 }),
             });
