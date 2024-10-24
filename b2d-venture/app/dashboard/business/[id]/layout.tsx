@@ -2,7 +2,6 @@ import BusinessSideNav from "@/components/shared/BusinessDashboard/BusinessSideN
 import Header from "@/components/shared/Header";
 
 export default function BusinessLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
-    
   const {id} = params  
   return (
         <>

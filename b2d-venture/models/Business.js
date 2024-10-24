@@ -1,5 +1,5 @@
-import { User } from "lucide-react";
 import mongoose from "mongoose";
+import User from "./user"
 
 const BusinessSchema = mongoose.Schema(
     { 

@@ -45,8 +45,7 @@ export default async function Page({params}) {
                         />
                     </div>
                     <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business_data.BuinessName} </h1>
-                        {/* <p className="text-[16px]">by {business.company}</p> */}
+                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business_data.BusinessName}</h1>
                     </div>
                 </div>
                 <p className="mt-5">{business_data.description}</p>
