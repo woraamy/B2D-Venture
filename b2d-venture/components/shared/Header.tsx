@@ -9,6 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import User from "@/models/user";
 import Investor from "@/models/Investor";
+import connectDB from "@/lib/connectDB";
 
 // Authenticated Header
 const AuthenticatedHeader = ({ role, userId, investorId, businessId }) => {
@@ -89,6 +90,9 @@ const Header = async () => {
     if (!session || !session.user) {
       return <UnauthenticatedHeader />;
     }
+
+    await connectDB()
+    console.log("Header DB connected")
 
     const email = session.user.email;
     const user = await User.findOne({ email });

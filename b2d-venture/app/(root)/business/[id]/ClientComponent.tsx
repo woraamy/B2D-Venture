@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import connectDB from "@/lib/connectDB";
+import Dialog from "@/components/ui/popup";
 
 export default function ClientComponent({
   businessId,
@@ -75,17 +76,19 @@ export default function ClientComponent({
   };
 
   return (
-    <div className="fixed flex flex-col top-[15%] left-[65%]">
-      <DetailCard Data={campaignData}/>
-      <Button
-        className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"
-        onClick={handleRedirectToPayment}
-      >
-        Invest
-      </Button>
-      <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">  
-        <Link href={`${businessId}?showDialog=y`} >Ask for more information</Link>
-      </Button>
-    </div>
+    <><Dialog title="Shared profile permission" link={`/business/${campaignId}`} oktext='Allow' successmessage='Send request successed' investorId={investorId} businessId={businessId}>
+      <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
+    </Dialog><div className="fixed flex flex-col top-[15%] left-[65%]">
+        <DetailCard Data={campaignData} />
+        <Button
+          className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"
+          onClick={handleRedirectToPayment}
+        >
+          Invest
+        </Button>
+        <Button className="bg-[#D9D9D9] w-[30rem] h-[3rem] rounded-3xl mt-3 hover:text-white">
+          <Link href={`${campaignId}?showDialog=y`}>Ask for more information</Link>
+        </Button>
+      </div></>
   );
 }
