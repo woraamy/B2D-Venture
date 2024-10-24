@@ -12,7 +12,7 @@ export default async function Page({ params }) {
   const {id} = params;
   await connect();
   const dataroom = await DataRoom.findOne({'business_id':id}).populate('files')
-  const files = dataroom.files || []
+  const files = dataroom ? dataroom.files || [] : [];
   const business = await Business.findById(id)
   const user_id = business.user_id.toString()
   
