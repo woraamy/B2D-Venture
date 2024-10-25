@@ -1,13 +1,8 @@
 "use client"
 import { useState } from "react";
 import TableCard from "@/components/shared/TableCard";
-import Link from "next/link";
-import connect from "@/lib/connectDB";
-import { usePathname } from 'next/navigation';
-import InvestorRequest from "@/models/InvestorRequest";
 import { Button } from "@/components/ui/button";
-import Filter from "@/components/ui/filter";
-import SearchBar from "@/components/ui/searchbar";
+
 
 export default function PaginationTable({data,itemsPerPage}) {
     
