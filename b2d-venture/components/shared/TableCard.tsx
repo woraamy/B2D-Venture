@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import { Button } from "../../ui/button"
+import { Button } from "../ui/button"
 export default function TableCard({className, data, valueClassname}){
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)

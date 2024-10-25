@@ -1,8 +1,4 @@
-import useSWR from 'swr';
-import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
-import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/InvestorDashboard/TableCard";
-import Investment from "@/models/Investment";
+import TableCard from "@/components/shared/TableCard";
 import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";
 function getOverviewData(data){

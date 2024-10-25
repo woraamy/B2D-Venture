@@ -1,6 +1,6 @@
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/InvestorDashboard/TableCard";
+import TableCard from "@/components/shared/TableCard";
 import Link from "next/link";
 export default function Page() {
     const view = [
