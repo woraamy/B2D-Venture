@@ -6,6 +6,7 @@ import InvestorRequest from "@/models/InvestorRequest"
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
+import PaginationTable from "@/components/shared/PaginationTable";
 export default async function Page() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/User`, { next: { tags: ['collection'] } });
     const res = await response.json();
@@ -35,16 +36,13 @@ export default async function Page() {
                 <div className="flex mt-5 gap-5">
                     <Button>+ Add new user</Button>
                     <SearchBar text='Search user'/>
-                    <Filter />
+                    <Filter className="" />
                 </div>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
-                <div>
-                    {
-                        data.map((item,index)=>(
-                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
-                        ))
-                    }
-                </div>
+                <PaginationTable 
+                    data={data}
+                    itemsPerPage={10}
+                />
             </div>
             
         </div>

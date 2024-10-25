@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 
-export default async function PaginationTable({data,itemsPerPage}) {
+export default function PaginationTable({data,itemsPerPage}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
