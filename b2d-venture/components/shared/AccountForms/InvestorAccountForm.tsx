@@ -18,35 +18,56 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
 // Schema for form validation
-const accountFormSchema = z.object({
-  profilePicture: z.any().optional(), // Profile picture is optional
-  username: z
+const investorAccountFormSchema = z.object({
+    profilePicture: z.any().optional(), // Profile picture is optional
+    username: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+        message: "Username must be at least 2 characters.",
     })
     .max(30, {
-      message: "Username must not be longer than 30 characters.",
+        message: "Username must not be longer than 30 characters.",
     }),
-  email: z
+    email: z
     .string()
     .email({
-      message: "Please enter a valid email address.",
-    }),
-  bio: z.string().max(160).optional(),
+        message: "Please enter a valid email address.",
+    })
+    .optional(),
+    investor_description: z.string().max(160).optional(),
+    first_name: z
+    .string()
+    .max(160)
+    .optional(),
+    last_name: z
+    .string()
+    .max(160)
+    .optional(),
+    contact_number: z
+    .string()
+    .max(160)
+    .optional(),
+    birthday: z
+    .string()
+    .max(160)
+    .optional(),
+    nationality: z
+    .string()
+    .max(160)
+    .optional(),
 })
 
-type AccountFormValues = z.infer<typeof accountFormSchema>
+type AccountFormValues = z.infer<typeof investorAccountFormSchema>
 
 // Default values
 const defaultValues: Partial<AccountFormValues> = {
 }
 
-export function AccountForm() {
+export function InvestorAccountForm() {
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+    resolver: zodResolver(investorAccountFormSchema),
     defaultValues,
   })
 
@@ -140,7 +161,7 @@ export function AccountForm() {
         />
         <FormField
           control={form.control}
-          name="bio"
+          name="investor_description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Bio (optional)</FormLabel>
