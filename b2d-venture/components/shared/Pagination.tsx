@@ -9,11 +9,10 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 
-export default async function PaginationTable({data}) {
+export default async function PaginationTable({data,itemsPerPage}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
     // Get data for the current page
@@ -21,37 +20,28 @@ export default async function PaginationTable({data}) {
 
     return (
         <div>
-            <div className="ml-[6%] mt-10">
-                <h1 className="font-bold text-3xl">User Management</h1>
-                <div className="flex mt-5 gap-5">
-                    <Button>+ Add new user</Button>
-                    <SearchBar text='Search user' />
-                    <Filter />
-                </div>
-                <TableCard data={headData} className='mt-7' valueClassname='font-semibold' />
-                <div>
-                    {paginatedData.map((item, index) => (
-                        <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold' />
-                    ))}
-                </div>
+            <div>
+                {paginatedData.map((item, index) => (
+                    <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold' />
+                ))}
+            </div>
 
-                {/* Pagination controls */}
-                <div className="flex justify-between mt-5">
-                    <Button
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                        Previous
-                    </Button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <Button
-                        disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                        Next
-                    </Button>
-                </div>
+            {/* Pagination controls */}
+            <div className="flex justify-between mt-5">
+                <Button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                    Previous
+                </Button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <Button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                    Next
+                </Button>
             </div>
         </div>
-    );
+);
 }
