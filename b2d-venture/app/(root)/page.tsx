@@ -79,41 +79,37 @@ export default async function Home() {
                 <h1 className="font-semibold text-3xl">Trending Businesses</h1>
                 <div className="flex flex-wrap gap-3 justify-center">
                 {trendData.map((campaign,index) =>(
-                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                     <BusinessCard
-                    className="mt-10"
-                    coverimg = {campaign.business_id.coverimg}
-                    profile= {campaign.business_id.profile}
-                    name= {campaign.business_id.BusinessName}
-                    description={campaign.business_id.description}
-                    raised={campaign.raised.toLocaleString()}
-                    investors="10"
-                    min={campaign.min_investment.toLocaleString()}
-                    valuation={campaign.business_id.valuation.toLocaleString()}
-                    link={`/business/${campaign.business_id.BusinessName}`}
-                    tag = {campaign.business_id.tag_list}
-                  />
-                  </Link>
-                ))}
-            </div>
-            <h1 className="mt-10 font-semibold text-3xl ">Just launched</h1>
-            <div className="flex flex-wrap gap-3 justify-center ">
-            {latestData.map((campaign,index) =>(
-                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
-                    <BusinessCard
+                    key={index}
                     className="mt-10"
                     coverimg = {campaign.business_id.coverimg}
                     profile= {campaign.business_id.profile}
                     name= {campaign.business_id.BusinessName}
                     description={campaign.business_id.description}
                     raised={campaign.raised}
-                    investors="10"
                     min={campaign.min_investment}
                     valuation={campaign.business_id.valuation}
-                    link={`/business/${campaign.business_id.BusinessName}`}
+                    link={`/business/${campaign._id}`}
                     tag = {campaign.business_id.tag_list}
-                  />
-                  </Link>
+                />
+                ))}
+            </div>
+            <h1 className="mt-10 font-semibold text-3xl ">Just launched</h1>
+            <div className="flex flex-wrap gap-3 justify-center ">
+            {latestData.map((campaign,index) =>(
+                     <BusinessCard
+                     key={index}
+                     className="mt-10"
+                     coverimg = {campaign.business_id.coverimg}
+                     profile= {campaign.business_id.profile}
+                     name= {campaign.business_id.BusinessName}
+                     description={campaign.business_id.description}
+                     raised={campaign.raised}
+                     min={campaign.min_investment}
+                     valuation={campaign.business_id.valuation}
+                     link={`/business/${campaign._id}`}
+                     tag = {campaign.business_id.tag_list}
+                 />
                 ))}
             </div>
             </div>

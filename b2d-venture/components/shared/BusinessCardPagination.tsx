@@ -12,8 +12,8 @@ export default function BusinessCardPagination({data,itemsPerPage}){
         <div>
              <div className="flex flex-wrap gap-4 justify-center ">
                 {paginationData.map((campaign,index) =>(
-                        <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
                         <BusinessCard
+                        key={index}
                         className="mt-10"
                         coverimg = {campaign.business_id.coverimg}
                         profile= {campaign.business_id.profile}
@@ -22,10 +22,9 @@ export default function BusinessCardPagination({data,itemsPerPage}){
                         raised={campaign.raised}
                         min={campaign.min_investment}
                         valuation={campaign.business_id.valuation}
-                        link={`/business/${campaign.business_id.BusinessName}`}
+                        link={`/business/${campaign._id}`}
                         tag = {campaign.business_id.tag_list}
                     />
-                    </Link>
                     ))}
             </div>
                  {/* Pagination controls */}
