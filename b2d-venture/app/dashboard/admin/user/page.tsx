@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+
 export default function Page() {
     const [userData, setUserData] = useState([]);
     async function fetchData(){
@@ -25,9 +28,11 @@ export default function Page() {
                 method: 'POST'
             });
             if (response.ok) {
-                console.log("User deleted successfully");
-                fetchData()
+                console.log("Delete User Successful");
+                fetchData();
+                toast.success("Delete User Successful")
               } else {
+                toast.error("Failed to delete user")
                 throw new Error("Failed to delete user");
               }
         } catch (error) {
@@ -53,6 +58,7 @@ export default function Page() {
 
     return(
         <div>
+            <Toaster />
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">User Mangement</h1>
                 <div className="flex mt-5 gap-5">

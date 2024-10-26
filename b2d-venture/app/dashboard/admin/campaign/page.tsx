@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+
 export default function Page() {
     const [campaign, setCampaign] = useState([]);
     async function fetchData(){
@@ -27,7 +30,9 @@ export default function Page() {
             if (response.ok) {
                 console.log("Campaign deleted successfully");
                 fetchData()
+                toast.success("Delete Campaign Successful");
               } else {
+                toast.error("Failed to delete user");
                 throw new Error("Failed to delete the Campaign");
               }
         } catch (error) {
@@ -55,6 +60,7 @@ export default function Page() {
 
     return(
         <div>
+            <Toaster />
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">Business's raise campaign Mangement</h1>
                 <div className="flex mt-5 gap-5">
