@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 
 export default function Page() {
     const [campaign, setCampaign] = useState([]);
+    const [loading, setLoading] = useState(true);
     async function fetchData(){
         const response = await fetch('/api/fetchingData/RaiseCampaign');
             const data = await response.json();
@@ -17,10 +18,23 @@ export default function Page() {
     }
     useEffect(()  => {
         fetchData()
+        setLoading(false)
       }, [])
     
-      if (campaign.length === 0) {
-        return <div>No RaiseCampaign data</div>;
+      if(loading){
+        return(
+            <div>
+                <img
+                src="/assets/icons/icons-loading.gif"
+                alt="loading"
+                className="object-contain"
+              />
+            <div className="loader">Loading...</div> 
+            </div>
+        )
+    }
+    if (!campaign) {
+        return <div>No user data</div>;
     }
     async function handleDelete({id}) {
         try{
@@ -45,7 +59,7 @@ export default function Page() {
             {value: item.start_date, type:"text"},
             {value: item.end_date, type:"text"},
             {value: {isHave: true,text: "Detail", action: "detail", id: item._id.toString()}, type: "button"},
-            {value: {isHave: true,text: "Edit", action: "edit", id: item._id.toString()}, type: "button"},
+            {value: {isHave: true,text: "Edit", action: "redirect", path: `campaign/edit/${item._id.toString()}`}, type: "button"},
             {value: {isHave: true,text: "Delete", action: "delete", id: item._id.toString()}, type: "button"},
         ] 
     ))
@@ -67,13 +81,17 @@ export default function Page() {
                     <Button>+ Add Raised Campaign</Button>
                     <SearchBar text='Search Raised Campaign'/>
                     <Filter className="" />
+                    <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
+                        total:
+                        <p className="px-2"> {data.length}</p>
+                    </div>
                 </div>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
                 <PaginationTable 
                     data={data}
                     itemsPerPage={10}
                     onDelete={(id) => handleDelete({ id })}
-                    buttonIndex={3}
+                    buttonIndex={5}
                 />
             </div>
             

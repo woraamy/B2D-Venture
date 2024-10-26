@@ -13,6 +13,7 @@ export default function({params}){
     const [role,setRole] = useState("");
     const [name,setName] = useState("");
     const [email,setEmail] = useState("");
+    
 
     async function fetchData(){
         const response = await fetch(`/api/fetchingData/User/${id}`);

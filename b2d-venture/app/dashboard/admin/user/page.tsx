@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 
 export default function Page() {
     const [userData, setUserData] = useState([]);
+    const [loading, setLoading] = useState(true);
     async function fetchData(){
         const response = await fetch('/api/fetchingData/User');
             const data = await response.json();
@@ -17,9 +18,21 @@ export default function Page() {
     }
     useEffect(()  => {
         fetchData()
+        setLoading(false)
       }, [])
-    
-      if (userData.length === 0) {
+    if(loading){
+        return(
+            <div>
+                <img
+                src="/assets/icons/icons-loading.gif"
+                alt="loading"
+                className="object-contain"
+              />
+            <div className="loader">Loading...</div> 
+            </div>
+        )
+    }
+    if (!userData) {
         return <div>No user data</div>;
     }
     async function handleDelete({id}) {
@@ -66,6 +79,10 @@ export default function Page() {
                     <Button>+ Add New User</Button>
                     <SearchBar text='Search user'/>
                     <Filter className="" />
+                    <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
+                        total:
+                        <p className="px-2"> {data.length}</p>
+                    </div>
                 </div>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
                 <PaginationTable 
