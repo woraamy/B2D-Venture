@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator"
 import { AccountForm } from "@/components/shared/account-form"
+import { InvestorAccountForm } from "@/components/shared/AccountForms/InvestorAccountForm"
 
 export default function SettingsAccountPage() {
   return (
@@ -11,7 +12,7 @@ export default function SettingsAccountPage() {
         </p>
       </div>
       <Separator />
-      <AccountForm />
+      <InvestorAccountForm />
     </div>
   )
 }

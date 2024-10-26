@@ -21,47 +21,45 @@ import { useState } from "react"
 const investorAccountFormSchema = z.object({
     profilePicture: z.any().optional(), // Profile picture is optional
     username: z
-    .string()
-    .min(2, {
+      .string()
+      .min(2, {
         message: "Username must be at least 2 characters.",
-    })
-    .max(30, {
+      })
+      .max(30, {
         message: "Username must not be longer than 30 characters.",
-    }),
-    email: z
-    .string()
-    .email({
-        message: "Please enter a valid email address.",
-    })
-    .optional(),
+      }),
     investor_description: z.string().max(160).optional(),
     first_name: z
-    .string()
-    .max(160)
-    .optional(),
+      .string()
+      .max(160, {
+        message: "First name must not exceed 160 characters.",
+      })
+      .optional(),
     last_name: z
-    .string()
-    .max(160)
-    .optional(),
+      .string()
+      .max(160, {
+        message: "Last name must not exceed 160 characters.",
+      })
+      .optional(),
     contact_number: z
-    .string()
-    .max(160)
-    .optional(),
-    birthday: z
-    .string()
-    .max(160)
-    .optional(),
+      .string()
+      .max(15, {
+        message: "Contact number must not exceed 15 characters.",
+      })
+      .optional(),
+    birthdate: z.string().optional(),
     nationality: z
-    .string()
-    .max(160)
-    .optional(),
+      .string()
+      .max(100, {
+        message: "Nationality must not exceed 100 characters.",
+      })
+      .optional(),
 })
 
 type AccountFormValues = z.infer<typeof investorAccountFormSchema>
 
 // Default values
-const defaultValues: Partial<AccountFormValues> = {
-}
+const defaultValues: Partial<AccountFormValues> = {}
 
 export function InvestorAccountForm() {
   const [previewImage, setPreviewImage] = useState<string | null>(null)
@@ -73,17 +71,17 @@ export function InvestorAccountForm() {
 
   const { toast } = useToast()
 
-    // handle profile picture upload and preview
-    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-      const file = event.target.files?.[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = () => {
-          setPreviewImage(reader.result as string)
-        }
-        reader.readAsDataURL(file)
+  // handle profile picture upload and preview
+  function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        setPreviewImage(reader.result as string)
       }
+      reader.readAsDataURL(file)
     }
+  }
 
   function onSubmit(data: AccountFormValues) {
     toast({
@@ -143,22 +141,80 @@ export function InvestorAccountForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
-          name="email"
+          name="first_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Your email" {...field} />
+                <Input placeholder="Your first name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="last_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your last name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="contact_number"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contact Number</FormLabel>
+              <FormControl>
+                <Input placeholder="Your contact number" {...field} />
               </FormControl>
               <FormDescription>
-                This will be used for notifications and account recovery.
+                Optional, but useful if we need to reach you directly.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="birthdate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Birthdate</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="nationality"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nationality</FormLabel>
+              <FormControl>
+                <Input placeholder="Your nationality" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="investor_description"
@@ -175,6 +231,7 @@ export function InvestorAccountForm() {
             </FormItem>
           )}
         />
+
         <Button type="submit">Update account</Button>
       </form>
     </Form>
