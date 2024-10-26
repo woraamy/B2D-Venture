@@ -1,25 +1,48 @@
+"use client"
 import TableCard from "@/components/shared/TableCard";
-import Link from "next/link";
-import connect from "@/lib/connectDB"
-import { usePathname } from 'next/navigation';
-import InvestorRequest from "@/models/InvestorRequest"
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
-export default async function Page() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/User`, { next: { tags: ['collection'] } });
-    const res = await response.json();
-    const user = res.data || []
-  
-    const data = user.map((item,index)=>(
+export default function Page() {
+
+    const [userData, setUserData] = useState([]);
+    async function fetchData(){
+        const response = await fetch('/api/fetchingData/User');
+            const data = await response.json();
+            setUserData(data.data || []);
+    }
+    useEffect(()  => {
+        fetchData()
+      }, [])
+    
+      if (userData.length === 0) {
+        return <div>No user data</div>;
+    }
+    async function handleDelete({id}) {
+        try{
+            const response = await fetch(`/api/user/${id}/delete`, {
+                method: 'POST'
+            });
+            if (response.ok) {
+                console.log("File deleted successfully");
+                fetchData()
+              } else {
+                throw new Error("Failed to delete the file");
+              }
+        } catch (error) {
+            console.error("Failed to delete file:", error);
+        }
+    }
+    const data = userData.map((item,index)=>(
         [
             {value: item.username, type:"text"},
             {value: item.email, type:"text"},
             {value: item.role, type:"text"},
-            {value: {isHave: true,text: "Edit"}, type: "button"},
-            {value: {isHave: true,text: "Delete"}, type: "button"},
-        ]
+            {value: {isHave: true,text: "Edit", action: "edit", id: item._id.toString()}, type: "button"},
+            {value: {isHave: true,text: "Delete", action: "delete", id: item._id.toString()}, type: "button"},
+        ] 
     ))
     const headData = [
         {value:"User", type:"text"}, 
@@ -42,6 +65,7 @@ export default async function Page() {
                 <PaginationTable 
                     data={data}
                     itemsPerPage={10}
+                    onDelete={(id) => handleDelete({ id })}
                 />
             </div>
             

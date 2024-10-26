@@ -4,7 +4,7 @@ import TableCard from "@/components/shared/TableCard";
 import { Button } from "@/components/ui/button";
 
 
-export default function PaginationTable({data,itemsPerPage}) {
+export default function PaginationTable({data,itemsPerPage,onDelete}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,12 +15,18 @@ export default function PaginationTable({data,itemsPerPage}) {
 
     return (
         <div>
-            <div>
-                {paginatedData.map((item, index) => (
-                    <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold' />
-                ))}
-            </div>
-
+            {paginatedData.map((item, index) => {
+                    const userId = item[3]?.value?.id; // Ensure safe access to the ID
+                    return (
+                        <TableCard
+                            key={index}
+                            data={item}
+                            onDelete={userId ? () => onDelete(userId) : undefined}
+                            className='mt-3'
+                            valueClassname='font-semibold'
+                        />
+                    );
+                })}
             {/* Pagination controls */}
             <div className="flex justify-between mt-5">
                 <Button
