@@ -4,7 +4,7 @@ import TableCard from "@/components/shared/TableCard";
 import { Button } from "@/components/ui/button";
 
 
-export default function PaginationTable({data,itemsPerPage,onDelete}) {
+export default function PaginationTable({data,itemsPerPage,buttonIndex,onDelete}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,12 +16,12 @@ export default function PaginationTable({data,itemsPerPage,onDelete}) {
     return (
         <div>
             {paginatedData.map((item, index) => {
-                    const userId = item[3]?.value?.id; // Ensure safe access to the ID
+                    const id = item[buttonIndex]?.value?.id; // Ensure safe access to the ID
                     return (
                         <TableCard
                             key={index}
                             data={item}
-                            onDelete={userId ? () => onDelete(userId) : undefined}
+                            onDelete={id ? () => onDelete(id) : undefined}
                             className='mt-3'
                             valueClassname='font-semibold'
                         />
