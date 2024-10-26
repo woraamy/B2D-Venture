@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
-import Dialog from "@/components/ui/popup";
+import Dialog from "@/components/shared/AskInFormationPopup";
 import ClientComponent from "./ClientComponent";
 import { getServerSession } from "next-auth"; 
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 

@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Button } from "../ui/button"
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
+import Link from "next/link"
 export default function TableCard({className, data, valueClassname, onDelete}){
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)
@@ -34,11 +35,16 @@ export default function TableCard({className, data, valueClassname, onDelete}){
                                     <Button onClick={() =>onDelete()}>
                                         {value.value.text}
                                     </Button>
-                                ): (
+                                ):  value.value.action === "redirect" ? (
+                                    <Link href={value.value.path || ""}>
+                                        <Button>
+                                            {value.value.text}
+                                        </Button>
+                                    </Link>
+                                ):(
                                     <Button >{value.value.text}</Button>
                                 )
-                                )
-                        
+                            )
                             ) : null
                           ) : null}               
                     </div>

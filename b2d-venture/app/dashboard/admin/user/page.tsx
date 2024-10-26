@@ -1,6 +1,6 @@
 "use client"
 import TableCard from "@/components/shared/TableCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
@@ -39,12 +39,13 @@ export default function Page() {
             console.error("Failed to delete user:", error);
         }
     }
+
     const data = userData.map((item,index)=>(
         [
             {value: item.username, type:"text"},
             {value: item.email, type:"text"},
             {value: item.role, type:"text"},
-            {value: {isHave: true,text: "Edit", action: "edit", id: item._id.toString()}, type: "button"},
+            {value: {isHave: true,text: "Edit", action: "redirect", path: `user/edit/${item._id.toString()}`}, type: "button"},
             {value: {isHave: true,text: "Delete", action: "delete", id: item._id.toString()}, type: "button"},
         ] 
     ))
@@ -71,7 +72,8 @@ export default function Page() {
                     data={data}
                     itemsPerPage={10}
                     onDelete={(id) => handleDelete({ id })}
-                    buttonIndex={3}
+                    buttonIndex={4}
+                    onEdit={""}
                 />
             </div>
             
