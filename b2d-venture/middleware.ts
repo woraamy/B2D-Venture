@@ -38,11 +38,11 @@ export async function middleware(req) {
   }
 
 
-  // if (pathname.startsWith('/dashboard/investor')) {
-  //   if (token.role !== 'investor') {
-  //     return NextResponse.redirect(new URL('/403', req.url));
-  //   }
-  // }
+  if (pathname.startsWith('/dashboard/investor')) {
+    if (token.role !== 'investor') {
+      return NextResponse.redirect(new URL('/403', req.url));
+    }
+  }
 
   return NextResponse.next();
 }

@@ -10,6 +10,7 @@ import InvestorRequest from '@/models/InvestorRequest';
 import Business from '@/models/Business';
 import DataRoom from '@/models/DataRoom';
 import File from '@/models/file';
+import RaiseCampaign from '@/models/RaiseCampaign';
 
 export async function POST(req, { params }) { 
     const { id } = params;
@@ -51,6 +52,7 @@ export async function POST(req, { params }) {
                 }
                 await Business.deleteOne({ user_id: id });
                 await File.deleteMany({ business_id: business._id });
+                await RaiseCampaign({business_id: business._id})
             }
         }
 

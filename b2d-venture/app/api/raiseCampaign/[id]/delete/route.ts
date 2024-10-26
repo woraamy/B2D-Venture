@@ -5,9 +5,9 @@ import connect from '@/lib/connectDB';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from '@/models/RaiseCampaign';
+import Investment from '@/models/Investment';
 
-const assetBucket = process.env.ASSET_BUCKET_NAME;
-const asset = new GoogleStorage(assetBucket);
+
 
 export async function POST(req, {params}) { 
   // id is raisecampaign id
@@ -26,16 +26,17 @@ export async function POST(req, {params}) {
     console.log('Authen success')
 
     try {
-        const campaign = await RaiseCampaign.deleteById(id) 
+        const campaign = await RaiseCampaign.findByIdAndDelete(id) 
+        await Investment.deleteMany({raise_campaign_id:id})
         if (campaign.deletedCount === 1) {
-          console.log('campaign deleted successfully');
+          console.log('campaign and relate object deleted successfully');
         } else {
           console.log('No campaign found');
         }
         return NextResponse.json({ campaign }); 
     
     } catch (error) {
-        console.error('Error generating signed URL:', error);
+        console.error('Delete Error:', error);
         return NextResponse.error()
     }
     }

@@ -6,7 +6,6 @@ import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 export default function Page() {
-
     const [userData, setUserData] = useState([]);
     async function fetchData(){
         const response = await fetch('/api/fetchingData/User');
@@ -26,13 +25,13 @@ export default function Page() {
                 method: 'POST'
             });
             if (response.ok) {
-                console.log("File deleted successfully");
+                console.log("User deleted successfully");
                 fetchData()
               } else {
-                throw new Error("Failed to delete the file");
+                throw new Error("Failed to delete user");
               }
         } catch (error) {
-            console.error("Failed to delete file:", error);
+            console.error("Failed to delete user:", error);
         }
     }
     const data = userData.map((item,index)=>(
@@ -66,6 +65,7 @@ export default function Page() {
                     data={data}
                     itemsPerPage={10}
                     onDelete={(id) => handleDelete({ id })}
+                    buttonIndex={3}
                 />
             </div>
             

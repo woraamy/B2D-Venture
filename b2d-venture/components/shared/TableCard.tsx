@@ -19,7 +19,7 @@ export default function TableCard({className, data, valueClassname, onDelete}){
                         ) : value.type === "image" ? (
                             <div className="relative flex items-center">
                                 <Image 
-                                    src={value.value.src} 
+                                    src={value.value.src || '/assets/images/profile-user.png'} 
                                     style={{ objectFit: "cover" }}
                                     alt="Business Image" 
                                     width={40} 
