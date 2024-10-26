@@ -16,55 +16,66 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
+import { Select } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
 
 // Schema for form validation
-const accountFormSchema = z.object({
-  profilePicture: z.any().optional(), // Profile picture is optional
+const businessFormSchema = z.object({
+  profilePicture: z.any().optional(),
   username: z
     .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Username must not be longer than 30 characters.",
-    }),
-  email: z
-    .string()
-    .email({
-      message: "Please enter a valid email address.",
-    }),
+    .min(2, { message: "Username must be at least 2 characters." })
+    .max(30, { message: "Username must not be longer than 30 characters." }),
   bio: z.string().max(160).optional(),
+  website: z.string().url().optional(),
+  businessAddress: z.string().max(160).optional(),
+  city: z.string().max(160).optional(),
+  stateProvince: z.string().max(160).optional(),
+  postalCode: z.string().max(20).optional(),
+  country: z.string(),
+  tags: z
+    .array(
+      z.enum([
+        "Aerospace",
+        "Food & Drinks",
+        "Shop",
+        "Technology",
+        "Innovation",
+        "Transportation",
+        "Energy",
+        "AI & Machine Learning",
+      ])
+    )
+    .min(1, { message: "Please select at least one tag." }),
 })
 
-type AccountFormValues = z.infer<typeof accountFormSchema>
+type BusinessFormValues = z.infer<typeof businessFormSchema>
 
-// Default values
-const defaultValues: Partial<AccountFormValues> = {
-}
+const defaultValues: Partial<BusinessFormValues> = {}
 
-export function AccountForm() {
+export function BusinessAccountForm() {
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+  const form = useForm<BusinessFormValues>({
+    resolver: zodResolver(businessFormSchema),
     defaultValues,
   })
 
   const { toast } = useToast()
 
-    // handle profile picture upload and preview
-    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-      const file = event.target.files?.[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = () => {
-          setPreviewImage(reader.result as string)
-        }
-        reader.readAsDataURL(file)
+  // Handle profile picture upload and preview
+  function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        setPreviewImage(reader.result as string)
       }
+      reader.readAsDataURL(file)
     }
+  }
 
-  function onSubmit(data: AccountFormValues) {
+  function onSubmit(data: BusinessFormValues) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -78,7 +89,7 @@ export function AccountForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
+        {/* Profile Picture */}
         <div className="flex flex-col">
           {previewImage ? (
             <img
@@ -91,10 +102,7 @@ export function AccountForm() {
               <span className="text-gray-400">No image</span>
             </div>
           )}
-
-          <label className="font-medium text-gray-700">
-            Profile Picture
-          </label>
+          <label className="font-medium text-gray-700">Profile Picture</label>
           <input
             type="file"
             accept="image/*"
@@ -106,6 +114,7 @@ export function AccountForm() {
           </FormDescription>
         </div>
 
+        {/* Username */}
         <FormField
           control={form.control}
           name="username"
@@ -122,30 +131,15 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Your email" {...field} />
-              </FormControl>
-              <FormDescription>
-                This will be used for notifications and account recovery.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+
+<FormField
           control={form.control}
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio (optional)</FormLabel>
+              <FormLabel>Business Description</FormLabel>
               <FormControl>
-                <Input placeholder="Tell us about yourself" {...field} />
+                <Input placeholder="Tell us about your business" {...field} />
               </FormControl>
               <FormDescription>
                 This will be displayed on your profile.
@@ -154,7 +148,143 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+
+        <FormField
+          control={form.control}
+          name="website"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Website</FormLabel>
+              <FormControl>
+                <Input placeholder="Your business website" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="businessAddress"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Your business address" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Input placeholder="City" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="stateProvince"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>State/Province</FormLabel>
+              <FormControl>
+                <Input placeholder="State or Province" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="postalCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Postal Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Postal Code" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="country"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country</FormLabel>
+              <FormControl>
+                <Select defaultValue="United States" {...field}>
+                  <option value="United States">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Germany">Germany</option>
+                  <option value="France">France</option>
+                  <option value="India">India</option>
+                  <option value="China">China</option>
+                  <option value="Brazil">Brazil</option>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+<FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Aerospace",
+                  "Food & Drinks",
+                  "Shop",
+                  "Technology",
+                  "Innovation",
+                  "Transportation",
+                  "Energy",
+                  "AI & Machine Learning",
+                ].map((tag) => (
+                  <label key={tag} className="flex items-center space-x-2">
+                    <Checkbox
+                      name={tag}
+                      // Fallback to an empty array if field.value is undefined
+                      checked={field.value?.includes(tag) ?? false}
+                      onChange={(checked) => {
+                        if (checked.target.checked) {
+                          field.onChange([...(field.value ?? []), tag])
+                        } else {
+                          field.onChange(
+                            (field.value ?? []).filter((t: string) => t !== tag)
+                          )
+                        }
+                      }}
+                    />
+                    <span>{tag}</span>
+                  </label>
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Update business account</Button>
       </form>
     </Form>
   )
