@@ -1,6 +1,6 @@
 "use client"
 import TableCard from "@/components/shared/TableCard";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/ui/filter";
 import SearchBar from "@/components/ui/searchbar";

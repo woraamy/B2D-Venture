@@ -24,7 +24,6 @@ export default function PaginationTable({data, itemsPerPage, buttonIndex, onDele
                             onDelete={id ? () => onDelete(id) : undefined}
                             className='mt-3'
                             valueClassname='font-semibold'
-                            onEdit={() => onEdit}
                         />
                     );
                 })}
