@@ -9,7 +9,7 @@ import Investment from '@/models/Investment';
 
 
 
-export async function POST(req, {params}) { 
+export async function DELETE(req, {params}) { 
   // id is raisecampaign id
   const {id} = params;
   await connect();

@@ -12,7 +12,7 @@ import DataRoom from '@/models/DataRoom';
 import File from '@/models/file';
 import RaiseCampaign from '@/models/RaiseCampaign';
 
-export async function POST(req, { params }) { 
+export async function DELETE(req, { params }) { 
     const { id } = params;
     await connect();
 

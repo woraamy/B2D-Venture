@@ -16,7 +16,7 @@ export async function POST(req, { params }) {
     }
 
     if (session.user.role !== "admin") {
-        return NextResponse.json({ error: 'User does not have permission to delete this file' }, { status: 403 });
+        return NextResponse.json({ error: 'User does not have permission' }, { status: 403 });
     }
     console.log('Authentication successful');
 

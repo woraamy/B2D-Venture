@@ -58,7 +58,7 @@ export default function Page() {
             {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
             {value: item.start_date, type:"text"},
             {value: item.end_date, type:"text"},
-            {value: {isHave: true,text: "Detail", action: "detail", id: item._id.toString()}, type: "button"},
+            {value: {isHave: true,text: "View", action: "redirect", path: `/business/${item._id.toString()}`}, type: "button"},
             {value: {isHave: true,text: "Edit", action: "redirect", path: `campaign/edit/${item._id.toString()}`}, type: "button"},
             {value: {isHave: true,text: "Delete", action: "delete", id: item._id.toString()}, type: "button"},
         ] 
@@ -67,7 +67,7 @@ export default function Page() {
         {value:"Business", type:"text"}, 
         {value:"Start Date", type:"text"},
         {value:"End Date", type:"text"},
-        {value:"Detail", type:"text"},
+        {value:"View", type:"text"},
         {value:"Edit", type:"text"},
         {value:"Delete", type:"text"},
     ]

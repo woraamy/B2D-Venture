@@ -9,11 +9,6 @@ export default function({params}){
     const {id} = params;
     const router = useRouter();
     const [data, setData] = useState([]);
-    // state for data
-    const [role,setRole] = useState("");
-    const [name,setName] = useState("");
-    const [email,setEmail] = useState("");
-    
 
     async function fetchData(){
         const response = await fetch(`/api/fetchingData/RaiseCampaign/${id}`);
@@ -31,7 +26,7 @@ export default function({params}){
     async function handleSubmit(e){
         e.preventDefault()
         const formData = new FormData(e.target);
-        const response = await fetch(`/api/raisedCampaign/${id}/edit`, {
+        const response = await fetch(`/api/raiseCampaign/${id}/edit`, {
             method: 'POST',
             body: formData,
         });
@@ -59,7 +54,6 @@ export default function({params}){
                             name="name"
                             defaultValue={data.business_id.BusinessName}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setName(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -67,11 +61,9 @@ export default function({params}){
                     <td className="w-[60%] py-2">description</td>
                     <td className="w-[500px]">
                             <textarea
-                            type="text"
                             name="description"
                             defaultValue={data.business_id.description}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setName(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -83,7 +75,6 @@ export default function({params}){
                             name="valuation"
                             defaultValue={data.business_id.valuation}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setName(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -95,7 +86,6 @@ export default function({params}){
                             name="min"
                             defaultValue={data.min_investment}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setName(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -107,7 +97,6 @@ export default function({params}){
                             name="max"
                             defaultValue={data.max_investment}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setEmail(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -119,7 +108,6 @@ export default function({params}){
                             name="start"
                             defaultValue={data.start_date.slice(0,10)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setEmail(e.target.value) }
                             />
                     </td>
                 </tr>
@@ -131,7 +119,6 @@ export default function({params}){
                             name="end"
                             defaultValue={data.end_date.slice(0,10)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setEmail(e.target.value) }
                             />
                     </td>
                 </tr>
