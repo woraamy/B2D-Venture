@@ -1,42 +1,21 @@
-"use client"
+import { useEffect, useState } from "react";
+import { InvestorAccountForm } from "@/components/shared/AccountForms/InvestorAccountForm";
+import { BusinessAccountForm } from "@/components/shared/AccountForms/BusinessAccountForm";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import { Separator } from "@/components/ui/separator"
-import { InvestorAccountForm } from "@/components/shared/AccountForms/InvestorAccountForm"
-import { BusinessAccountForm } from "@/components/shared/AccountForms/BusinessAccountForm"
-
-export default function SettingsAccountPage() {
-  const router = useRouter()
-  const { id } = router.query // Get the id from the dynamic route
-  const [role, setRole] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+export default function SettingsAccountPage({ params }: { params: { id: string } }) {
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id) {
-      const fetchUserRole = async () => {
-        try {
-          const response = await fetch(`/api/getUserRole/${id}`) 
-          const data = await response.json()
-          
-          setRole(data.role) 
-        } catch (error) {
-          console.error("Failed to fetch user role:", error)
-        } finally {
-          setLoading(false) 
-        }
-      }
-
-      fetchUserRole()
+    async function fetchUserRole() {
+      const role = await getUserRole(params.id);
+      setUserRole(role);
     }
-  }, [id])
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
+    fetchUserRole();
+  }, [params.id]);
 
-  if (!role) {
-    return <div>Unable to fetch user role.</div>
+  if (!userRole) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -47,11 +26,28 @@ export default function SettingsAccountPage() {
           Update your account settings.
         </p>
       </div>
-      <Separator />
-
-      {/* Render form based on user role */}
-      {role === "investor" && <InvestorAccountForm />}
-      {role === "business" && <BusinessAccountForm />}
+      {userRole === "investor" ? (
+        <InvestorAccountForm />
+      ) : userRole === "business" ? (
+        <BusinessAccountForm />
+      ) : (
+        <p>User role not found.</p>
+      )}
     </div>
-  )
+  );
+}
+
+// Utility function to fetch the user role
+async function getUserRole(userId: string) {
+  try {
+    const response = await fetch(`/api/getUserRole?userId=${userId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch user role");
+    }
+    const data = await response.json();
+    return data.user_role;
+  } catch (error) {
+    console.error("Error fetching user role:", error);
+    return null;
+  }
 }
