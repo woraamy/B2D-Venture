@@ -220,7 +220,7 @@ export function InvestorAccountForm() {
           name="investor_description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio (optional)</FormLabel>
+              <FormLabel>Investor Description</FormLabel>
               <FormControl>
                 <Input placeholder="Tell us about yourself" {...field} />
               </FormControl>
