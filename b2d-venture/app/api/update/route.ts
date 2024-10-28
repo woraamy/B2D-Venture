@@ -6,15 +6,18 @@ export async function POST(req: Request) {
   try {
     await connectDB();
     
-    const { userId, data } = await req.json();
+    const { investorId, data } = await req.json();
 
     // Validate the user ID and data
-    if (!userId || !data) {
+    if (!investorId || !data) {
+        console.log('Investor ID:', investorId, 'Data:', data);
+        console.log('Error:', { error: "User ID and data are required" });
       return NextResponse.json({ error: "User ID and data are required" }, { status: 400 });
     }
 
     // Find the investor by user ID and update their information
-    const updatedInvestor = await Investor.findByIdAndUpdate(userId, data, { new: true });
+    console.log('Updating investor:', investorId, data);
+    const updatedInvestor = await Investor.findByIdAndUpdate(investorId, data, { new: true });
 
     if (!updatedInvestor) {
       return NextResponse.json({ error: "Investor not found" }, { status: 404 });

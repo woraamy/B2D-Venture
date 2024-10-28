@@ -27,15 +27,16 @@ const investorAccountFormSchema = z.object({
       })
       .max(30, {
         message: "Username must not be longer than 30 characters.",
-      }),
+      })
+      .optional(),
     investor_description: z.string().max(160).optional(),
-    first_name: z
+    firstName: z
       .string()
       .max(160, {
         message: "First name must not exceed 160 characters.",
       })
       .optional(),
-    last_name: z
+    lastName: z
       .string()
       .max(160, {
         message: "Last name must not exceed 160 characters.",
@@ -61,179 +62,210 @@ type AccountFormValues = z.infer<typeof investorAccountFormSchema>
 // Default values
 const defaultValues: Partial<AccountFormValues> = {}
 
-export function InvestorAccountForm() {
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
+export function InvestorAccountForm({params}) {
+    const id = params;
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
 
-  const form = useForm<AccountFormValues>({
+    const form = useForm<AccountFormValues>({
     resolver: zodResolver(investorAccountFormSchema),
     defaultValues,
-  })
+    })
 
-  const { toast } = useToast()
+    const { toast } = useToast()
 
-  // handle profile picture upload and preview
-  function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+    // handle profile picture upload and preview
+    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onload = () => {
+        const reader = new FileReader()
+        reader.onload = () => {
         setPreviewImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        }
+        reader.readAsDataURL(file)
     }
-  }
+    }
 
-  function onSubmit(data: AccountFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
+    async function onSubmit(data: AccountFormValues) {
+    try {
+        // Call the API to update investor details
+        console.log("submit id" + id);
+        const response = await fetch(`/api/update`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ investorId:id, data, role:"investor" }), // Send the investorId and the form data
+        })
 
-  return (
+        const result = await response.json();
+
+        if (response.ok) {
+        toast({
+            title: "Account updated successfully",
+            description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                <code className="text-white">{JSON.stringify(result.investor, null, 2)}</code>
+            </pre>
+            ),
+        })
+        } else {
+        toast({
+            title: "Update failed",
+            description: result.error,
+            variant: "destructive",
+        })
+        }
+    } catch (error) {
+        toast({
+        title: "Update failed",
+        description: "An error occurred while updating your account.",
+        variant: "destructive",
+        })
+        console.error("Error updating investor account:", error)
+    }
+    }
+
+
+    return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
         <div className="flex flex-col">
-          {previewImage ? (
+            {previewImage ? (
             <img
-              src={previewImage}
-              alt="Profile preview"
-              className="w-52 h-52 rounded-full object-cover mb-4"
+                src={previewImage}
+                alt="Profile preview"
+                className="w-52 h-52 rounded-full object-cover mb-4"
             />
-          ) : (
+            ) : (
             <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">No image</span>
+                <span className="text-gray-400">No image</span>
             </div>
-          )}
+            )}
 
-          <label className="font-medium text-gray-700">
+            <label className="font-medium text-gray-700">
             Profile Picture
-          </label>
-          <input
+            </label>
+            <input
             type="file"
             accept="image/*"
             onChange={handleProfilePictureChange}
             className="mt-2"
-          />
-          <FormDescription>
+            />
+            <FormDescription>
             Please upload an image for your profile (optional).
-          </FormDescription>
+            </FormDescription>
         </div>
 
         <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
+            control={form.control}
+            name="username"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
                 <Input placeholder="Your username" {...field} />
-              </FormControl>
-              <FormDescription>
+                </FormControl>
+                <FormDescription>
                 This is your public display name. It can be your real name or a pseudonym.
-              </FormDescription>
-              <FormMessage />
+                </FormDescription>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="first_name"
-          render={({ field }) => (
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
                 <Input placeholder="Your first name" {...field} />
-              </FormControl>
-              <FormMessage />
+                </FormControl>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="last_name"
-          render={({ field }) => (
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
                 <Input placeholder="Your last name" {...field} />
-              </FormControl>
-              <FormMessage />
+                </FormControl>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="contact_number"
-          render={({ field }) => (
+            control={form.control}
+            name="contact_number"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Contact Number</FormLabel>
-              <FormControl>
+                <FormLabel>Contact Number</FormLabel>
+                <FormControl>
                 <Input placeholder="Your contact number" {...field} />
-              </FormControl>
-              <FormDescription>
+                </FormControl>
+                <FormDescription>
                 Optional, but useful if we need to reach you directly.
-              </FormDescription>
-              <FormMessage />
+                </FormDescription>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="birthdate"
-          render={({ field }) => (
+            control={form.control}
+            name="birthdate"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Birthdate</FormLabel>
-              <FormControl>
+                <FormLabel>Birthdate</FormLabel>
+                <FormControl>
                 <Input type="date" {...field} />
-              </FormControl>
-              <FormMessage />
+                </FormControl>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="nationality"
-          render={({ field }) => (
+            control={form.control}
+            name="nationality"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Nationality</FormLabel>
-              <FormControl>
+                <FormLabel>Nationality</FormLabel>
+                <FormControl>
                 <Input placeholder="Your nationality" {...field} />
-              </FormControl>
-              <FormMessage />
+                </FormControl>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <FormField
-          control={form.control}
-          name="investor_description"
-          render={({ field }) => (
+            control={form.control}
+            name="investor_description"
+            render={({ field }) => (
             <FormItem>
-              <FormLabel>Investor Description</FormLabel>
-              <FormControl>
+                <FormLabel>Investor Description</FormLabel>
+                <FormControl>
                 <Input placeholder="Tell us about yourself" {...field} />
-              </FormControl>
-              <FormDescription>
+                </FormControl>
+                <FormDescription>
                 This will be displayed on your profile.
-              </FormDescription>
-              <FormMessage />
+                </FormDescription>
+                <FormMessage />
             </FormItem>
-          )}
+            )}
         />
 
         <Button type="submit">Update account</Button>
-      </form>
+        </form>
     </Form>
-  )
-}
+    )
+    }

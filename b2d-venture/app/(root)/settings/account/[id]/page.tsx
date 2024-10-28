@@ -25,7 +25,7 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
           </p>
         </div>
         {userRole === "investor" ? (
-          <InvestorAccountForm />
+          <InvestorAccountForm params={id} />
         ) : userRole === "business" ? (
           <BusinessAccountForm />
         ) : (
