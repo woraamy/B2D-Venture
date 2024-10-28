@@ -94,7 +94,7 @@ export function InvestorAccountForm({params}) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ investorId:id, data, role:"investor" }), // Send the investorId and the form data
+        body: JSON.stringify({ id:id, data, role:"investor" }), // Send the investorId and the form data
         })
 
         const result = await response.json();
