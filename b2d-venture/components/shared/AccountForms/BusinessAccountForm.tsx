@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Business from "@/models/Business";
+import UploadBusinessProfile from "../BusinessDashboard/UploadBusinessProfile";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
@@ -85,18 +86,6 @@ export function BusinessAccountForm({ params, data }) {
 
   const { toast } = useToast();
 
-  // Handle profile picture upload and preview
-  function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   async function onSubmit(data: BusinessFormValues) {
     try {
       // API call to update business details
@@ -147,9 +136,9 @@ export function BusinessAccountForm({ params, data }) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Profile Picture */}
         <div className="flex flex-col">
-          {previewImage ? (
+          {data.profile ? (
             <img
-              src={previewImage}
+              src={data.profile}
               alt="Profile preview"
               className="w-52 h-52 rounded-full object-cover mb-4"
             />
@@ -159,12 +148,7 @@ export function BusinessAccountForm({ params, data }) {
             </div>
           )}
           <label className="font-medium text-gray-700">Profile Picture</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleProfilePictureChange}
-            className="mt-2"
-          />
+          < UploadBusinessProfile business_id={id}/>
           <FormDescription>
             Please upload an image for your profile (optional).
           </FormDescription>
