@@ -1,219 +1,110 @@
-"use client"
+"use client";
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import Image from "next/image";
+import Link from "next/link";
+import Tag from "../../ui/tag";
+import connectDB from "@/lib/connectDB";
+import { Button } from "../../ui/button";
+import BusinessRequest from "@/models/businessRequest";
+import toast from "react-hot-toast";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { useToast } from "@/hooks/use-toast"
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
-import { useState } from "react"
+const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status}) => {
+    async function handleAllow(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request/businessRequestAction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'allow' }),
+            });
 
-// List of business tags
-const businessTags = [
-  "Aerospace",
-  "Food & Drinks",
-  "Shop",
-  "Technology",
-  "Innovation",
-  "Transportation",
-  "Energy",
-  "AI & Machine Learning",
-]
+            if (!response.ok) {
+                throw new Error('Failed to approve request');
+            }
 
-// Schema for form validation
-const businessFormSchema = z.object({
-  profilePicture: z.any().optional(), // Profile picture is optional
-  businessName: z
-    .string()
-    .min(2, {
-      message: "Business name must be at least 2 characters.",
-    })
-    .max(50, {
-      message: "Business name must not be longer than 50 characters.",
-    }),
-  website: z
-    .string()
-    .url({
-      message: "Please enter a valid website URL.",
-    })
-    .optional(),
-  bio: z.string().max(160).optional(),
-  tags: z
-    .array(
-      z.enum([
-        "Aerospace",
-        "Food & Drinks",
-        "Shop",
-        "Technology",
-        "Innovation",
-        "Transportation",
-        "Energy",
-        "AI & Machine Learning",
-      ])
-    )
-    .optional(),
-})
-
-type BusinessFormValues = z.infer<typeof businessFormSchema>
-
-// Default values
-const defaultValues: Partial<BusinessFormValues> = {
-}
-
-export function BusinessForm() {
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
-
-  const form = useForm<BusinessFormValues>({
-    resolver: zodResolver(businessFormSchema),
-    defaultValues,
-  })
-
-  const { toast } = useToast()
-
-    // handle profile picture upload and preview
-    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-      const file = event.target.files?.[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = () => {
-          setPreviewImage(reader.result as string)
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
         }
-        reader.readAsDataURL(file)
-      }
     }
 
-  function onSubmit(data: BusinessFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
+    async function handleReject(id: string, type: 'business' | 'investor') {
+        try {
+            const response = await fetch('/api/request/businessRequestAction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, action: 'reject' }),
+            });
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            if (!response.ok) {
+                throw new Error('Failed to reject request');
+            }
 
-        <div className="flex flex-col">
-          {previewImage ? (
-            <img
-              src={previewImage}
-              alt="Profile preview"
-              className="w-52 h-52 rounded-full object-cover mb-4"
-            />
-          ) : (
-            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">No image</span>
-            </div>
-          )}
+            const data = await response.json();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
 
-          <label className="font-medium text-gray-700">
-            Profile Picture
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleProfilePictureChange}
-            className="mt-2"
-          />
-          <FormDescription>
-            Please upload an image for your business profile (optional).
-          </FormDescription>
-        </div>
+ return (
+    <div className ={className}>
+            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
+            
+                <div className="relative group">
+                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] .text-[24px] ">
+                        <div className="relative -top-7">
+                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                                <h2 className="mt-10 font-semibold">{name}</h2>
+                                <p className="text-[15px] font-normal">{description}</p>
+                            </div>
+                            
+                            <div className="ml-2 mt-2 flex">
+                               {Array.isArray(tag) && tag.map((tag, index) => (
+                                    <Tag className="pr-2"
+                                    key={index}
+                                    tagName={tag} 
+                                    />
+                                ))}
+                            </div>
+                            <div className="relative block flex-col mt-4 overflow-hidden">
+                                <hr className="mb-2  border-t border-gray-300" />
+                                <div className="flex">
+                                    <p className="ml-2">Email</p>
+                                    <p className="ml-2 text-[15px] font-semibold">{email}</p>
+                                </div>
+                                <div className="flex">
+                                    <p className="ml-2">Tel.</p>
+                                    <p className="ml-2 text-[15px] font-semibold">{contact}</p>
+                                </div>
+                                <div className="mr-2 flex relative">
+                                    <p className="ml-2">Address</p>
+                                    <p className="ml-2 block text-[15px] font-semibold">{address}</p>
+                                </div>
+                                {status === "pending" ? (
+                                    <div className="flex justify-start mt-2">
+                                    <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                    <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    </div>
+                                ) : status === "approved"|| "done" ? (
+                                    <p className="mt-2 text-green-600">Request approved</p>
+                                ) : (
+                                    <p className="mt-2 text-red-600">Request rejected</p>
+                                 )}
 
-        <FormField
-          control={form.control}
-          name="businessName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your business name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the name that will be publicly displayed.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                            </div>
+                            
+                        </div>
+                    </CardContent>
+                
+                </div>
+            </Card>
+    </div>
+ );
+};
 
-        <FormField
-          control={form.control}
-          name="website"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Website</FormLabel>
-              <FormControl>
-                <Input type="url" placeholder="https://yourbusiness.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                This will be displayed on your profile.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio (optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="Tell us about your business" {...field} />
-              </FormControl>
-              <FormDescription>
-                This will be displayed on your business profile.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tags</FormLabel>
-              <FormControl>
-                <Select
-                  multiple
-                  onValueChange={field.onChange}
-                  value={field.value}
-                >
-                  {businessTags.map((tag) => (
-                    <option key={tag} value={tag}>
-                      {tag}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormDescription>
-                Choose tags that best describe your business.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">Update business</Button>
-      </form>
-    </Form>
-  )
-}
+export default BusinessRequestCard;
