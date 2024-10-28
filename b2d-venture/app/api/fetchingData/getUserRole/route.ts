@@ -16,13 +16,13 @@ export async function GET(req: Request) {
     await connectDB();
 
     // Check if user is an Investor
-    const investor = await Investor.findOne({ user_id: userId });
+    const investor = await Investor.findById(userId);
     if (investor) {
       return NextResponse.json({ role: "investor" }, { status: 200 });
     }
 
     // Check if user is a Business
-    const business = await Business.findOne({ user_id: userId });
+    const business = await Business.findById(userId);
     if (business) {
       return NextResponse.json({ role: "business" }, { status: 200 });
     }
