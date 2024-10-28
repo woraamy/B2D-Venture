@@ -22,6 +22,11 @@ import Business from "@/models/Business";
 // Validation schema using zod
 const businessFormSchema = z.object({
   profilePicture: z.any().optional(),
+  BusinessName: z
+    .string()
+    .max(160, {
+      message: "business name must not exceed 160 characters.",
+    }).optional(),
   firstName: z
     .string()
     .max(160, {
@@ -60,7 +65,6 @@ const businessFormSchema = z.object({
         "AI & Machine Learning",
       ])
     )
-    .min(1, { message: "Please select at least one tag." })
     .optional(),
 });
 
@@ -70,7 +74,7 @@ const defaultValues: Partial<BusinessFormValues> = {
   tag_list: [],
 };
 
-export function BusinessAccountForm({ params }) {
+export function BusinessAccountForm({ params, data }) {
   const id = params;
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -106,7 +110,7 @@ export function BusinessAccountForm({ params }) {
   
       const result = await response.json();
       console.log(result);
-  
+      
       if (response.ok) {
         console.log("Account updated successfully");
         toast({
@@ -117,6 +121,7 @@ export function BusinessAccountForm({ params }) {
             </pre>
           ),
         });
+        
 
         window.location.reload();
       } else {
@@ -165,6 +170,25 @@ export function BusinessAccountForm({ params }) {
           </FormDescription>
         </div>
 
+        {/* Business Name */}
+        <FormField
+          control={form.control}
+          name="BusinessName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business Name</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Your Business name" 
+                  {...field}
+                  defaultValue={data.BusinessName || ""}
+                   />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* First Name */}
         <FormField
           control={form.control}
@@ -173,7 +197,11 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your first name" {...field} />
+                <Input 
+                  placeholder="Your first name" 
+                  {...field}
+                  defaultValue={data.firstName || ""}
+                   />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -188,7 +216,11 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your last name" {...field} />
+                <Input 
+                  placeholder="Your last name" 
+                  {...field}
+                  defaultValue={data.lastName || ""} 
+                  />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -203,7 +235,10 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Contact Number</FormLabel>
               <FormControl>
-                <Input placeholder="Your contact number" {...field} />
+                <Input 
+                  placeholder="Your contact number" 
+                  {...field}
+                  defaultValue={data.contactNumber || ""} />
               </FormControl>
               <FormDescription>
                 Optional, but useful if we need to reach you directly.
@@ -221,7 +256,10 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Business Description</FormLabel>
               <FormControl>
-                <Input placeholder="Tell us about your business" {...field} />
+                <Input 
+                  placeholder="Tell us about your business" 
+                  {...field}
+                  defaultValue={data.description || ""} />
               </FormControl>
               <FormDescription>This will be displayed on your profile.</FormDescription>
               <FormMessage />
@@ -237,7 +275,10 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Website</FormLabel>
               <FormControl>
-                <Input placeholder="Your business website" {...field} />
+                <Input 
+                placeholder="Your business website" 
+                {...field}
+                defaultValue={data.website || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -252,7 +293,11 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Business Address</FormLabel>
               <FormControl>
-                <Input placeholder="Your business address" {...field} />
+                <Input 
+                placeholder="Your business address" 
+                {...field}
+                defaultValue={data.BusinessAddress || ""}
+                 />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -267,7 +312,11 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
-                <Input placeholder="City" {...field} />
+                <Input 
+                laceholder="City" 
+                {...field}
+                defaultValue={data.city || ""}
+                 />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -282,7 +331,11 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>State/Province</FormLabel>
               <FormControl>
-                <Input placeholder="State or Province" {...field} />
+                <Input 
+                  placeholder="State or Province" 
+                  {...field}
+                  defaultValue={data.stateProvince || ""}
+                   />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -297,7 +350,10 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Postal Code</FormLabel>
               <FormControl>
-                <Input placeholder="Postal Code" {...field} />
+                <Input 
+                  placeholder="Postal Code" 
+                  {...field}
+                  defaultValue={data.postalCode || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -312,7 +368,10 @@ export function BusinessAccountForm({ params }) {
             <FormItem>
               <FormLabel>Country</FormLabel>
               <FormControl>
-                <Input placeholder="Your country" {...field} />
+                <Input 
+                  placeholder="Your country" 
+                  {...field}
+                  defaultValue={data.country || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
