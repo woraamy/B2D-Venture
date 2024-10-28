@@ -132,7 +132,7 @@ export function BusinessAccountForm() {
           )}
         />
 
-<FormField
+        <FormField
           control={form.control}
           name="bio"
           render={({ field }) => (
@@ -243,7 +243,7 @@ export function BusinessAccountForm() {
           )}
         />
 
-<FormField
+        <FormField
           control={form.control}
           name="tags"
           render={({ field }) => (

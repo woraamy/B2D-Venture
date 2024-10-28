@@ -8,17 +8,13 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getUserRole?userId=${id}`;
   
   try {
-    const response = await fetch(apiUrl); 
-    console.log("User role response:", response);
-    console.log(id);
+    const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error("Failed to fetch user role");
     }
-    console.log("User role response:", response);
 
     const data = await response.json();
     const userRole = data.role;
-    console.log("User role:", userRole);
 
     return (
       <div className="space-y-6">
