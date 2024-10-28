@@ -20,15 +20,6 @@ import { useState } from "react"
 // Schema for form validation
 const investorAccountFormSchema = z.object({
     profilePicture: z.any().optional(), // Profile picture is optional
-    username: z
-      .string()
-      .min(2, {
-        message: "Username must be at least 2 characters.",
-      })
-      .max(30, {
-        message: "Username must not be longer than 30 characters.",
-      })
-      .optional(),
     investor_description: z.string().max(160).optional(),
     firstName: z
       .string()
@@ -48,7 +39,7 @@ const investorAccountFormSchema = z.object({
         message: "Contact number must not exceed 15 characters.",
       })
       .optional(),
-    birthdate: z.string().optional(),
+    birthDate: z.string().optional(),
     nationality: z
       .string()
       .max(100, {
@@ -87,8 +78,6 @@ export function InvestorAccountForm({params}) {
 
     async function onSubmit(data: AccountFormValues) {
     try {
-        // Call the API to update investor details
-        console.log("submit id" + id);
         const response = await fetch(`/api/update`, {
         method: "POST",
         headers: {
@@ -159,23 +148,6 @@ export function InvestorAccountForm({params}) {
 
         <FormField
             control={form.control}
-            name="username"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                <Input placeholder="Your username" {...field} />
-                </FormControl>
-                <FormDescription>
-                This is your public display name. It can be your real name or a pseudonym.
-                </FormDescription>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <FormField
-            control={form.control}
             name="firstName"
             render={({ field }) => (
             <FormItem>
@@ -221,7 +193,7 @@ export function InvestorAccountForm({params}) {
 
         <FormField
             control={form.control}
-            name="birthdate"
+            name="birthDate"
             render={({ field }) => (
             <FormItem>
                 <FormLabel>Birthdate</FormLabel>
