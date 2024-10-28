@@ -11,7 +11,7 @@ export default function InvestorSidenav({id}) {
     const investpage = pathname === `/dashboard/investor/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const historypage = pathname.startsWith(`/dashboard/investor/${id}/history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const informationpage = pathname.startsWith(`/dashboard/investor/${id}/sharedInformation`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const setting = pathname.startsWith(`/dashboard/settings/account`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const setting = pathname.startsWith(`/settings/account/${id}`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[100vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
@@ -31,7 +31,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
-                    <Link href={`/settings/account`} className="ml-2">Profile Setting</Link>
+                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
                 </div>
             </div>
         </div>
