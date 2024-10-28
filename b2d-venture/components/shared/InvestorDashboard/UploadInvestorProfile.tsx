@@ -30,6 +30,7 @@ export default function UploadInvestorProfile({investor_id}) {
 
       if (response.ok) {
         setIsUpload(true);
+        window.location.reload(); 
         console.log("File uploaded successfully");
       } else {
         const errorData = await response.json();

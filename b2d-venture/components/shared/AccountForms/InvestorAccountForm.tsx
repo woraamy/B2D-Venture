@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
+import UploadInvestorProfile from "@/components/shared/InvestorDashboard/UploadInvestorProfile"
+
 import {
   Form,
   FormControl,
@@ -61,18 +63,7 @@ export function InvestorAccountForm({params, data}) {
     defaultValues,
     })
     const { toast } = useToast()
-
-    // handle profile picture upload and preview
-    function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0]
-    if (file) {
-        const reader = new FileReader()
-        reader.onload = () => {
-        setPreviewImage(reader.result as string)
-        }
-        reader.readAsDataURL(file)
-    }
-    }
+    
     async function onSubmit(data: AccountFormValues) {
     try {
         const response = await fetch(`/api/update`, {
@@ -117,9 +108,9 @@ export function InvestorAccountForm({params, data}) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
         <div className="flex flex-col">
-            {previewImage ? (
+            {data.profile_picture ? (
             <img
-                src={previewImage}
+                src={data.profile_picture}
                 alt="Profile preview"
                 className="w-52 h-52 rounded-full object-cover mb-4"
             />
@@ -132,12 +123,7 @@ export function InvestorAccountForm({params, data}) {
             <label className="font-medium text-gray-700">
             Profile Picture
             </label>
-            <input
-            type="file"
-            accept="image/*"
-            onChange={handleProfilePictureChange}
-            className="mt-2"
-            />
+            <UploadInvestorProfile investor_id={id} />
             <FormDescription>
             Please upload an image for your profile (optional).
             </FormDescription>
