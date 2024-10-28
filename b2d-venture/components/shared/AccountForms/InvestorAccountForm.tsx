@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 // Schema for form validation
 const investorAccountFormSchema = z.object({
@@ -53,15 +53,13 @@ type AccountFormValues = z.infer<typeof investorAccountFormSchema>
 // Default values
 const defaultValues: Partial<AccountFormValues> = {}
 
-export function InvestorAccountForm({params}) {
+export function InvestorAccountForm({params, data}) {
     const id = params;
     const [previewImage, setPreviewImage] = useState<string | null>(null)
-
     const form = useForm<AccountFormValues>({
     resolver: zodResolver(investorAccountFormSchema),
     defaultValues,
     })
-
     const { toast } = useToast()
 
     // handle profile picture upload and preview
@@ -75,7 +73,6 @@ export function InvestorAccountForm({params}) {
         reader.readAsDataURL(file)
     }
     }
-
     async function onSubmit(data: AccountFormValues) {
     try {
         const response = await fetch(`/api/update`, {
@@ -153,7 +150,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                <Input placeholder="Your first name" {...field} />
+                <Input 
+                    placeholder="Your first name" 
+                    {...field}
+                    defaultValue={data.firstName || ""}
+                      />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -167,7 +168,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                <Input placeholder="Your last name" {...field} />
+                <Input 
+                    placeholder="Your last name" 
+                    {...field}
+                    defaultValue={data.LastName || ""} 
+                    />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -181,7 +186,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>Contact Number</FormLabel>
                 <FormControl>
-                <Input placeholder="Your contact number" {...field} />
+                <Input 
+                    placeholder="Your contact number"  
+                    {...field} 
+                    defaultValue={data.contactNumber || ""}
+                    />
                 </FormControl>
                 <FormDescription>
                 Optional, but useful if we need to reach you directly.
@@ -198,7 +207,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>Birthdate</FormLabel>
                 <FormControl>
-                <Input type="date" {...field} />
+                <Input 
+                    type="date"
+                    {...field} 
+                    defaultValue={data.birthDate ? data.birthDate.slice(0, 10) : ""}
+                    />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -212,7 +225,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>Nationality</FormLabel>
                 <FormControl>
-                <Input placeholder="Your nationality" {...field} />
+                <Input 
+                    placeholder="Your nationality" 
+                    {...field}
+                    defaultValue={data.Nationality || ""}
+                     />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -226,7 +243,11 @@ export function InvestorAccountForm({params}) {
             <FormItem>
                 <FormLabel>Investor Description</FormLabel>
                 <FormControl>
-                <Input placeholder="Tell us about yourself" {...field} />
+                <Input 
+                    placeholder="Tell us about yourself" 
+                    {...field}
+                    defaultValue={data.description || ""}
+                     />
                 </FormControl>
                 <FormDescription>
                 This will be displayed on your profile.

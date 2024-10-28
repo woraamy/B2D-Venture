@@ -6,15 +6,20 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
 
   // Construct an absolute URL for the fetch request
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/getUserRole?userId=${id}`;
+  const userUrl =`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investor/${id}`;
   
+
   try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
+    const responseRole = await fetch(apiUrl);
+    const responseUser = await fetch(userUrl);
+    if (!responseRole.ok) {
       throw new Error("Failed to fetch user role");
     }
 
-    const data = await response.json();
+    const data = await responseRole.json();
     const userRole = data.role;
+    const userData =  await responseUser.json();
+    const user = userData.data
 
     return (
       <div className="space-y-6">
@@ -25,7 +30,7 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
           </p>
         </div>
         {userRole === "investor" ? (
-          <InvestorAccountForm params={id} />
+          <InvestorAccountForm params={id} data={user}/>
         ) : userRole === "business" ? (
           <BusinessAccountForm params={id}/>
         ) : (
