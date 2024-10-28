@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Business from "@/models/Business";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
@@ -102,10 +103,12 @@ export function BusinessAccountForm({ params }) {
         },
         body: JSON.stringify({ id: id, data, role: "business" }), // Send businessId, form data, and role
       });
-
+  
       const result = await response.json();
-
+      console.log(result);
+  
       if (response.ok) {
+        console.log("Account updated successfully");
         toast({
           title: "Account updated successfully",
           description: (
@@ -114,6 +117,8 @@ export function BusinessAccountForm({ params }) {
             </pre>
           ),
         });
+
+        window.location.reload();
       } else {
         toast({
           title: "Update failed",
@@ -130,6 +135,7 @@ export function BusinessAccountForm({ params }) {
       console.error("Error updating business account:", error);
     }
   }
+  
 
   return (
     <Form {...form}>
@@ -321,7 +327,6 @@ export function BusinessAccountForm({ params }) {
                 <FormItem>
                 <FormLabel>
                     Business Type Tags
-                    <span className="text-red-500"> *</span>
                 </FormLabel>
                 <FormControl>
                     <div>
