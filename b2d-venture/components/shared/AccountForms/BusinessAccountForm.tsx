@@ -19,6 +19,7 @@ import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Business from "@/models/Business";
 import UploadBusinessProfile from "../BusinessDashboard/UploadBusinessProfile";
+import UploadBusinessCover from "../BusinessDashboard/uploadBusinessCover";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
@@ -135,25 +136,40 @@ export function BusinessAccountForm({ params, data }) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Profile Picture */}
-        <div className="flex flex-col">
-          {data.profile ? (
-            <img
-              src={data.profile}
-              alt="Profile preview"
-              className="w-52 h-52 rounded-full object-cover mb-4"
-            />
-          ) : (
-            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">No image</span>
+        <div className="flex">
+          <div className="flex flex-col">
+            {data.profile ? (
+              <img
+                src={data.profile}
+                alt="Profile preview"
+                className="w-52 h-52 rounded-full object-cover mb-4"
+              />
+            ) : (
+              <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+                <span className="text-gray-400">No image</span>
+              </div>
+            )}
+            <label className="font-medium text-gray-700">Profile Picture</label>
+            < UploadBusinessProfile business_id={id}/>
+            <FormDescription>
+              Please upload an image for your profile (optional).
+            </FormDescription>
+          </div >
+          <div className="flex flex-col">
+            {data.coverimg ? (
+                <img
+                  src={data.coverimg}
+                  alt="Profile preview"
+                  className="w-96 h-52  object-cover mb-4"
+                />
+              ) : (
+                <div className="w-80 h-44 bg-gray-200 mb-4 flex items-center justify-center">
+                  <span className="text-gray-400">No image</span>
+                </div>
+              )}
+              <UploadBusinessCover business_id={id}/>
             </div>
-          )}
-          <label className="font-medium text-gray-700">Profile Picture</label>
-          < UploadBusinessProfile business_id={id}/>
-          <FormDescription>
-            Please upload an image for your profile (optional).
-          </FormDescription>
         </div>
-
         {/* Business Name */}
         <FormField
           control={form.control}
