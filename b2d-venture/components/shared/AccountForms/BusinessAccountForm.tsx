@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { useToast } from "@/hooks/use-toast"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,27 +13,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
-import { Select } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { Select } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
-// Schema for form validation
+// Validation schema using zod
 const businessFormSchema = z.object({
   profilePicture: z.any().optional(),
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." })
-    .max(30, { message: "Username must not be longer than 30 characters." }),
-  bio: z.string().max(160).optional(),
+  firstName: z
+  .string()
+  .max(160, {
+    message: "First name must not exceed 160 characters.",
+  })
+  .optional(),
+lastName: z
+  .string()
+  .max(160, {
+    message: "Last name must not exceed 160 characters.",
+  })
+  .optional(),
+contactNumber: z
+  .string()
+  .max(15, {
+    message: "Contact number must not exceed 15 characters.",
+  })
+  .optional(),
+  description: z.string().max(160).optional(),
   website: z.string().url().optional(),
-  businessAddress: z.string().max(160).optional(),
+  BusinessAddress: z.string().max(160).optional(),
   city: z.string().max(160).optional(),
   stateProvince: z.string().max(160).optional(),
   postalCode: z.string().max(20).optional(),
-  country: z.string(),
-  tags: z
+  country: z.string().max(20).optional(),
+  tag_list: z
     .array(
       z.enum([
         "Aerospace",
@@ -47,43 +61,72 @@ const businessFormSchema = z.object({
       ])
     )
     .min(1, { message: "Please select at least one tag." }),
-})
+});
 
-type BusinessFormValues = z.infer<typeof businessFormSchema>
+type BusinessFormValues = z.infer<typeof businessFormSchema>;
 
-const defaultValues: Partial<BusinessFormValues> = {}
+const defaultValues: Partial<BusinessFormValues> = {};
 
-export function BusinessAccountForm() {
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
+export function BusinessAccountForm({params}) {
+  const id = params;
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const form = useForm<BusinessFormValues>({
     resolver: zodResolver(businessFormSchema),
     defaultValues,
-  })
+  });
 
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   // Handle profile picture upload and preview
   function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0]
+    const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = () => {
-        setPreviewImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
-  function onSubmit(data: BusinessFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function onSubmit(data: BusinessFormValues) {
+    try {
+      // API call to update business details
+      const response = await fetch(`/api/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id, data, role: "business" }), // Send businessId, form data, and role
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Account updated successfully",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{JSON.stringify(result.business, null, 2)}</code>
+            </pre>
+          ),
+        });
+      } else {
+        toast({
+          title: "Update failed",
+          description: result.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Update failed",
+        description: "An error occurred while updating your account.",
+        variant: "destructive",
+      });
+      console.error("Error updating business account:", error);
+    }
   }
 
   return (
@@ -114,27 +157,10 @@ export function BusinessAccountForm() {
           </FormDescription>
         </div>
 
-        {/* Username */}
+        {/* Business Description */}
         <FormField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="Your username" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a pseudonym.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="bio"
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Business Description</FormLabel>
@@ -149,6 +175,7 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* Website */}
         <FormField
           control={form.control}
           name="website"
@@ -163,9 +190,10 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* Business Address */}
         <FormField
           control={form.control}
-          name="businessAddress"
+          name="BusinessAddress"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Business Address</FormLabel>
@@ -177,6 +205,7 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* City */}
         <FormField
           control={form.control}
           name="city"
@@ -191,6 +220,7 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* State/Province */}
         <FormField
           control={form.control}
           name="stateProvince"
@@ -205,6 +235,7 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* Postal Code */}
         <FormField
           control={form.control}
           name="postalCode"
@@ -219,6 +250,7 @@ export function BusinessAccountForm() {
           )}
         />
 
+        {/* Country */}
         <FormField
           control={form.control}
           name="country"
@@ -226,26 +258,17 @@ export function BusinessAccountForm() {
             <FormItem>
               <FormLabel>Country</FormLabel>
               <FormControl>
-                <Select defaultValue="United States" {...field}>
-                  <option value="United States">United States</option>
-                  <option value="Canada">Canada</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Germany">Germany</option>
-                  <option value="France">France</option>
-                  <option value="India">India</option>
-                  <option value="China">China</option>
-                  <option value="Brazil">Brazil</option>
-                </Select>
+                <Input placeholder="Your country" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
+        {/* Tags */}
         <FormField
           control={form.control}
-          name="tags"
+          name="tag_list"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tags</FormLabel>
@@ -263,15 +286,14 @@ export function BusinessAccountForm() {
                   <label key={tag} className="flex items-center space-x-2">
                     <Checkbox
                       name={tag}
-                      // Fallback to an empty array if field.value is undefined
                       checked={field.value?.includes(tag) ?? false}
                       onChange={(checked) => {
                         if (checked.target.checked) {
-                          field.onChange([...(field.value ?? []), tag])
+                          field.onChange([...(field.value ?? []), tag]);
                         } else {
                           field.onChange(
                             (field.value ?? []).filter((t: string) => t !== tag)
-                          )
+                          );
                         }
                       }}
                     />
@@ -284,8 +306,8 @@ export function BusinessAccountForm() {
           )}
         />
 
-        <Button type="submit">Update business account</Button>
+        <Button type="submit">Update Business Account</Button>
       </form>
     </Form>
-  )
+  );
 }

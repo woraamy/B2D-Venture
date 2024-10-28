@@ -27,7 +27,7 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
         {userRole === "investor" ? (
           <InvestorAccountForm params={id} />
         ) : userRole === "business" ? (
-          <BusinessAccountForm />
+          <BusinessAccountForm params={id}/>
         ) : (
           <p>User role not found.</p>
         )}

@@ -42,7 +42,7 @@ const investorAccountFormSchema = z.object({
         message: "Last name must not exceed 160 characters.",
       })
       .optional(),
-    contact_number: z
+    contactNumber: z
       .string()
       .max(15, {
         message: "Contact number must not exceed 15 characters.",
@@ -204,7 +204,7 @@ export function InvestorAccountForm({params}) {
 
         <FormField
             control={form.control}
-            name="contact_number"
+            name="contactNumber"
             render={({ field }) => (
             <FormItem>
                 <FormLabel>Contact Number</FormLabel>
