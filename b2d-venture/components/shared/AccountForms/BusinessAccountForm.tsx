@@ -16,30 +16,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
   profilePicture: z.any().optional(),
   firstName: z
-  .string()
-  .max(160, {
-    message: "First name must not exceed 160 characters.",
-  })
-  .optional(),
-lastName: z
-  .string()
-  .max(160, {
-    message: "Last name must not exceed 160 characters.",
-  })
-  .optional(),
-contactNumber: z
-  .string()
-  .max(15, {
-    message: "Contact number must not exceed 15 characters.",
-  })
-  .optional(),
+    .string()
+    .max(160, {
+      message: "First name must not exceed 160 characters.",
+    })
+    .optional(),
+  lastName: z
+    .string()
+    .max(160, {
+      message: "Last name must not exceed 160 characters.",
+    })
+    .optional(),
+  contactNumber: z
+    .string()
+    .max(15, {
+      message: "Contact number must not exceed 15 characters.",
+    })
+    .optional(),
   description: z.string().max(160).optional(),
   website: z.string().url().optional(),
   BusinessAddress: z.string().max(160).optional(),
@@ -60,14 +59,17 @@ contactNumber: z
         "AI & Machine Learning",
       ])
     )
-    .min(1, { message: "Please select at least one tag." }),
+    .min(1, { message: "Please select at least one tag." })
+    .optional(),
 });
 
 type BusinessFormValues = z.infer<typeof businessFormSchema>;
 
-const defaultValues: Partial<BusinessFormValues> = {};
+const defaultValues: Partial<BusinessFormValues> = {
+  tag_list: [],
+};
 
-export function BusinessAccountForm({params}) {
+export function BusinessAccountForm({ params }) {
   const id = params;
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -157,6 +159,54 @@ export function BusinessAccountForm({params}) {
           </FormDescription>
         </div>
 
+        {/* First Name */}
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your first name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Last Name */}
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your last name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Contact Number */}
+        <FormField
+          control={form.control}
+          name="contactNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contact Number</FormLabel>
+              <FormControl>
+                <Input placeholder="Your contact number" {...field} />
+              </FormControl>
+              <FormDescription>
+                Optional, but useful if we need to reach you directly.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Business Description */}
         <FormField
           control={form.control}
@@ -167,9 +217,7 @@ export function BusinessAccountForm({params}) {
               <FormControl>
                 <Input placeholder="Tell us about your business" {...field} />
               </FormControl>
-              <FormDescription>
-                This will be displayed on your profile.
-              </FormDescription>
+              <FormDescription>This will be displayed on your profile.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -265,46 +313,51 @@ export function BusinessAccountForm({params}) {
           )}
         />
 
-        {/* Tags */}
+        {/* Type of Business*/}
         <FormField
-          control={form.control}
-          name="tag_list"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tags</FormLabel>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Aerospace",
-                  "Food & Drinks",
-                  "Shop",
-                  "Technology",
-                  "Innovation",
-                  "Transportation",
-                  "Energy",
-                  "AI & Machine Learning",
-                ].map((tag) => (
-                  <label key={tag} className="flex items-center space-x-2">
-                    <Checkbox
-                      name={tag}
-                      checked={field.value?.includes(tag) ?? false}
-                      onChange={(checked) => {
-                        if (checked.target.checked) {
-                          field.onChange([...(field.value ?? []), tag]);
-                        } else {
-                          field.onChange(
-                            (field.value ?? []).filter((t: string) => t !== tag)
-                          );
-                        }
-                      }}
-                    />
-                    <span>{tag}</span>
-                  </label>
-                ))}
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            control={form.control}
+            name="tag_list"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>
+                    Business Type Tags
+                    <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                    <div>
+                    {[
+                        "Aerospace",
+                        "Food & Drinks",
+                        "Shop",
+                        "Technology",
+                        "Innovation",
+                        "Transportation",
+                        "Energy",
+                        "AI & Machine Learning",
+                    ].map((tag) => (
+                        <label key={tag} className="ml-4">
+                        <input
+                            type="checkbox"
+                            value={tag}
+                            checked={field.value.includes(tag)}
+                            onChange={(e) => {
+                            const value = e.target.value;
+                            if (field.value.includes(value)) {
+                                field.onChange(field.value.filter((val: string) => val !== value));
+                            } else {
+                                field.onChange([...field.value, value]);
+                            }
+                            }}
+                        />{" "}
+                        {tag}
+                        </label>
+                    ))}
+                    </div>
+                </FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
 
         <Button type="submit">Update Business Account</Button>
       </form>

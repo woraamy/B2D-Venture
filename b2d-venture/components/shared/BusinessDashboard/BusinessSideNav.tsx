@@ -40,7 +40,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
-                    <Link href={`/settings/account${id}`} className="ml-2">Profile Setting</Link>
+                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${dataroom}`}>
                     <BsDatabaseFillAdd />
