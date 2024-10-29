@@ -19,7 +19,7 @@ export default function InvestorSidenav({id}) {
     const businesspage = pathname === `/dashboard/business/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const historypage = pathname.startsWith(`/dashboard/business/${id}/investment-history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const raisecampaignmanagementpage = pathname.startsWith(`/dashboard/business/${id}/manage-raise-campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const setting = pathname.startsWith(`/dashboard/settings/account`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const setting = pathname.startsWith(`/settings/account/${id}`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const dataroom = pathname.startsWith(`/dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
@@ -40,7 +40,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
-                    <Link href={`/settings/account`} className="ml-2">Profile Setting</Link>
+                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${dataroom}`}>
                     <BsDatabaseFillAdd />

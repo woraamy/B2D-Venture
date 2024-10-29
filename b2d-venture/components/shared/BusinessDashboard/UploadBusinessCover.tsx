@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-
-export default function UploadInvestorProfile({investor_id}) {
+export default function UploadBusinessCover({business_id}) {
   const [isUpload, setIsUpload] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -23,7 +22,7 @@ export default function UploadInvestorProfile({investor_id}) {
     formData.append("files", file);
 
     try {
-      const response = await fetch(`/api/file/upload/${investor_id}/profile?role=investor`, {
+      const response = await fetch(`/api/file/upload/${business_id}/cover`, {
         method: "POST",
         body: formData,
       });
@@ -52,7 +51,7 @@ export default function UploadInvestorProfile({investor_id}) {
         accept=".jpg,.png,.pdf" // restrict to certain file types (optional)
       />
       <Button onClick={handleUploadProfile} disabled={!file}>
-        Upload Profile
+        Upload Cover Image
       </Button>
     </div>
   );

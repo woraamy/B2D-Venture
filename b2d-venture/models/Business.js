@@ -10,7 +10,6 @@ const BusinessSchema = mongoose.Schema(
         ref:'User'},
       firstName: String,
       lastName:  String,
-      c: String,
       email: String,
       BusinessName: String,
       contactNumber: String,

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function UploadInvestorProfile({investor_id}) {
+export default function UploadBusinessProfile({business_id}) {
   const [isUpload, setIsUpload] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -23,7 +23,7 @@ export default function UploadInvestorProfile({investor_id}) {
     formData.append("files", file);
 
     try {
-      const response = await fetch(`/api/file/upload/${investor_id}/profile?role=investor`, {
+      const response = await fetch(`/api/file/upload/${business_id}/profile?role=business`, {
         method: "POST",
         body: formData,
       });
@@ -57,3 +57,4 @@ export default function UploadInvestorProfile({investor_id}) {
     </div>
   );
 }
+
