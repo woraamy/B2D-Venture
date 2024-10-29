@@ -32,6 +32,7 @@ export default async function Page({ params }) {
                           name={file.name} 
                           user_id={user_id}
                           file_path={file.file_path}
+                          role="business"
                           />
                       ))
                       }
