@@ -19,10 +19,7 @@ const RequestStatus = ({className, businessName, status, date, businessImg}) => 
             <h1 className="pl-10 mt-3 text-[#144583] font-semibold text-s underline">{businessName}</h1>
             <h1 className="pl-10 mt-3">{date}</h1>
             { status === 'approved' ? (
-                <div className=" flex">
-                    <h1 className="pl-10 mt-3 text-green-500 font-semibold">{status}</h1>
-                    <Button className="ml-10 shadow-md">View</Button>
-                </div>
+                <h1 className="pl-10 mt-3 text-green-500 font-semibold">{status}</h1>
             ): status === 'pending' ? (
                 <h1 className="pl-10 mt-3 text-gray-500 font-semibold">{status}</h1>
             ):(
