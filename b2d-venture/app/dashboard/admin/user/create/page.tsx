@@ -2,31 +2,30 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from 'next/navigation'
 import { Toaster } from "react-hot-toast";
 import RegisterInvestor from "@/components/shared/Register_investor";
 import { Password } from 'primereact/password';
 import RegisterBusiness from "@/components/shared/Register_business";
 
+
 export default function page(){
-    const router = useRouter();
     const [role, setRole] = useState("investor")
-    const [data, setData] = useState([]);
+    const [addAdmin, setAddAdmin] = useState("");
     const [formValidated, setFormValidated] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
     async function handleAdminSubmit(e){
         e.preventDefault()
         const formData = new FormData(e.target);
-        const response = await fetch(`/api/raiseCampaign/${id}/edit`, {
+        const response = await fetch(`/api/register/admin`, {
             method: 'POST',
             body: formData,
         });
     
         const result = await response.json();
         if (response.ok) {
-            toast.success("Edit raise campaign success!");  
-            router.push('/dashboard/admin/campaign');  
+            toast.success("Add admin success!");  
+            setAddAdmin("Add admin success!")
         } else {
             toast.error(result.error || 'Failed to edit raise campaign'); 
         }
@@ -44,6 +43,7 @@ export default function page(){
       if (role === "business"){
         return (
           <div>
+            <Toaster />
             <div className="flex mt-10 ml-24">
                   <span className="text-xl text-gray-400" onClick={() => setRole("investor")}> Investor </span>
                   <span className="text-xl ml-10 text-[#FF553E] underline" onClick={() => setRole("business")}> Business </span>
@@ -83,7 +83,7 @@ export default function page(){
                       <td className="w-[100%] ">
                           <Password
                               type="password"
-                              name="name"
+                              name="password1"
                               className="mt-5 ml-5 block w-full p-2 bg-white border border-gray-300 rounded-md"
                               />
                       </td>
@@ -93,7 +93,7 @@ export default function page(){
                       <td className="w-[100%]">
                           <Password
                               type="password"
-                              name="name"
+                              name="password2"
                               className="mt-5 ml-5 block w-full p-2 bg-white border border-gray-300 rounded-md"
                               />
                       </td>
@@ -110,6 +110,7 @@ export default function page(){
                   </tr>
               </table>
             <Button className="mt-10 w-[30%] " type="submit">Add Admin user</Button>
+            <span className="mt-5">{addAdmin}</span>
             </div>
             </form>
           </div>

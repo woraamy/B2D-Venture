@@ -36,6 +36,7 @@ export default async function Page({params}) {
                     <Link href='file' className="text-xl ml-10 text-gray-400">Allowed file</Link>
                 </div>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                
                 <div>
                     {
                         data.map((item,index)=>(
