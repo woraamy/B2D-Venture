@@ -163,7 +163,7 @@ export default async function Page({ params }) {
                         key={index}
                         businessName={item.business_id.BusinessName}
                         date={item.createdAt}
-                        status={item.status}
+                        status={item.status_from_business}
                         businessImg={item.business_id.profile}
                         />
                     ))}

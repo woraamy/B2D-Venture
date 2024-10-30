@@ -5,7 +5,7 @@ import { FaFileAlt } from "react-icons/fa";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function FileContainer({name,user_id,file_path}) {
+export default function FileContainer({name,user_id,file_path,role}) {
     console.log(file_path)
     const [signedUrl, setSignedUrl] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
@@ -60,11 +60,13 @@ export default function FileContainer({name,user_id,file_path}) {
                         < FaFileAlt size={40} color="gray"/> 
                          <h1 className="ml-5">{name}</h1>
                     </Link>
-                    <Button className="ml-10 shadow-md"
-                      onClick={handleDelete}>
-                      <MdDelete />
-                      delete
+                    {role === "business" ? (
+                    <Button className="ml-10 shadow-md" onClick={handleDelete}>
+                        <MdDelete />
+                        delete
                     </Button>
+                    ) : null}
+                                    
                 </div>
             )}
         </div>
