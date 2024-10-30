@@ -38,6 +38,7 @@ export default async function ManageRaiseCampaignPage({ params }: { params: { id
             raised={campaignData.raised}
             investors={campaignData.investors}
             min={campaignData.minInvestment}
+            max={campaignData.maxInvestment}
             valuation={campaignData.valuation}
             tag={campaignData.tags}
             businessId={id} // Passing the business ID for dynamic routes

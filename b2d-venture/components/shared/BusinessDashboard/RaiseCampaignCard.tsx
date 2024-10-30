@@ -14,6 +14,7 @@ const BusinessRaiseCampaignCard = ({
   raised,
   investors,
   min,
+  max,
   valuation,
   link,
   tag,
@@ -76,6 +77,10 @@ const BusinessRaiseCampaignCard = ({
               <div>
                 <p className="text-lg font-semibold">{min}</p>
                 <p className="text-sm text-gray-500">Min. Investment</p>
+              </div>
+              <div>
+                <p className="text-lg font-semibold">{max}</p>
+                <p className="text-sm text-gray-500">Max. Investment</p>
               </div>
               <div>
                 <p className="text-lg font-semibold">{valuation}</p>
