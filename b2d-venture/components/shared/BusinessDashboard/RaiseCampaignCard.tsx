@@ -17,7 +17,7 @@ const BusinessRaiseCampaignCard = ({
   valuation,
   link,
   tag,
-  businessId 
+  businessId // Pass the business ID for dynamic routing
 }) => {
   return (
     <div className={className}>

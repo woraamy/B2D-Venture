@@ -4,66 +4,65 @@ import { Toaster } from "@/components/ui/toaster";
 import RaiseCampaign from "@/models/RaiseCampaign"; 
 
 export default async function ManageRaiseCampaignPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+    const { id } = params;
 
-  // Construct an absolute URL for the fetch request to get the raise campaign data
-  const raiseCampaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
+    // Construct an absolute URL for the fetch request to get the raise campaign data
+    const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
 
-  try {
-    const response = await fetch(raiseCampaignUrl);
+    try {
+        const response = await fetch(campaignUrl);
+        if (!response.ok) {
+            throw new Error("Failed to fetch raise campaign data");
+        }
+        const data = await response.json();
+        const campaignData = data.data;
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch raise campaign data");
-    }
-
-    const raiseCampaignData = await response.json();
-    const campaign = raiseCampaignData.data; // Assuming the API returns campaign data under `data`
 
     return (
-      <div className="space-y-6">
+        <div className="space-y-6">
         <Toaster />
         <div>
-          <h3 className="text-lg font-medium">Manage Raise Campaign</h3>
-          <p className="text-sm text-muted-foreground">
+            <h3 className="text-lg font-medium">Manage Raise Campaign</h3>
+            <p className="text-sm text-muted-foreground">
             View and manage your raise campaign information.
-          </p>
+            </p>
         </div>
 
         {/* Display the campaign data using BusinessRaiseCampaignCard */}
-        {campaign ? (
-          <RaiseCampaign
-            coverimg={campaign.coverImage}
-            profile={campaign.profileImage}
-            name={campaign.businessName}
-            description={campaign.description}
-            raised={campaign.raised}
-            investors={campaign.investors}
-            min={campaign.minInvestment}
-            valuation={campaign.valuation}
-            tag={campaign.tags}
+        {campaignData ? (
+            <RaiseCampaign
+            coverimg={campaignData.coverImage}
+            profile={campaignData.profileImage}
+            name={campaignData.businessName}
+            description={campaignData.description}
+            raised={campaignData.raised}
+            investors={campaignData.investors}
+            min={campaignData.minInvestment}
+            valuation={campaignData.valuation}
+            tag={campaignData.tags}
             businessId={id} // Passing the business ID for dynamic routes
-          />
+            />
         ) : (
-          <p>No raise campaign found for this business.</p>
+            <p>No raise campaign found for this business.</p>
         )}
 
         {/* Action buttons */}
         <div className="flex justify-end space-x-4">
-          <Link href={`/dashboard/business/${id}/edit-campaign`}>
+            <Link href={`/dashboard/business/${id}/edit-campaign`}>
             <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Edit Campaign
+                Edit Campaign
             </button>
-          </Link>
-          <Link href={`/dashboard/business/${id}/create-campaign`}>
+            </Link>
+            <Link href={`/dashboard/business/${id}/create-campaign`}>
             <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-              Create Campaign
+                Create Campaign
             </button>
-          </Link>
+            </Link>
         </div>
-      </div>
+        </div>
     );
-  } catch (error) {
+    } catch (error) {
     console.error("Error fetching raise campaign data:", error);
     return <p>Failed to load raise campaign data.</p>;
-  }
-}
+    }
+    }
