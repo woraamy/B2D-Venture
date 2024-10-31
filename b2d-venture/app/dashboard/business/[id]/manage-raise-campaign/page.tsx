@@ -1,10 +1,11 @@
-// pages/dashboard/business/[id]/manage-raise-campaign.tsx
 import Link from "next/link";
 import { Toaster } from "@/components/ui/toaster";
 import RaiseCampaign from "@/models/RaiseCampaign"; 
+import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 
-export default async function ManageRaiseCampaignPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+export default async function ManageRaiseCampaignPage({ params }) {
+    const {id}  = params;
+    console.log(id);
 
     // Construct an absolute URL for the fetch request to get the raise campaign data
     const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
@@ -15,8 +16,10 @@ export default async function ManageRaiseCampaignPage({ params }: { params: { id
             throw new Error("Failed to fetch raise campaign data");
         }
         const data = await response.json();
-        const campaignData = data.data;
+        const campaignData = data.data[0];
 
+        console.log(campaignData);
+        console.log(campaignData._id);
 
     return (
         <div className="space-y-6">
@@ -30,9 +33,8 @@ export default async function ManageRaiseCampaignPage({ params }: { params: { id
 
         {/* Display the campaign data using BusinessRaiseCampaignCard */}
         {campaignData ? (
-            <RaiseCampaign
-            coverimg={campaignData.coverImage}
-            profile={campaignData.profileImage}
+            <RaiseCampaignCard
+            className=""
             name={campaignData.businessName}
             description={campaignData.description}
             raised={campaignData.raised}

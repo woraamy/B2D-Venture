@@ -5,10 +5,8 @@ import Link from "next/link";
 import Tag from "@/components/ui/tag"; // Adjust this based on your folder structure
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component for "Edit" and "Create"
 
-const BusinessRaiseCampaignCard = ({
+const RaiseCampaignCard = ({
   className,
-  coverimg,
-  profile,
   name,
   description,
   raised,
@@ -16,36 +14,14 @@ const BusinessRaiseCampaignCard = ({
   min,
   max,
   valuation,
-  link,
   tag,
   businessId // Pass the business ID for dynamic routing
 }) => {
   return (
     <div className={className}>
-      <Card className="shadow-md overflow-hidden relative w-[500px] h-auto bg-white rounded-xl">
-        <CardHeader className="relative flex-grow h-60 p-0 m-0">
-          <div className="relative w-full h-full">
-            <Image
-              src={coverimg}
-              style={{ objectFit: "cover" }}
-              alt="Business Cover Image"
-              fill={true}
-              className="rounded-t-xl"
-            />
-          </div>
-        </CardHeader>
 
         <CardContent className="p-4">
           <div className="flex items-center mb-4">
-            <div className="relative w-[60px] h-[60px]">
-              <Image
-                src={profile}
-                style={{ objectFit: "cover" }}
-                alt="Business Profile Image"
-                fill={true}
-                className="rounded-full"
-              />
-            </div>
             <div className="ml-4">
               <CardTitle className="text-2xl font-semibold">{name}</CardTitle>
               <CardDescription className="text-sm text-gray-500">
@@ -86,6 +62,10 @@ const BusinessRaiseCampaignCard = ({
                 <p className="text-lg font-semibold">{valuation}</p>
                 <p className="text-sm text-gray-500">Valuation</p>
               </div>
+              <div>
+                <p className="text-lg font-semibold">{goal}</p>
+                <p className="text-sm text-gray-500">Valuation</p>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -100,7 +80,8 @@ const BusinessRaiseCampaignCard = ({
         </CardFooter>
       </Card>
     </div>
+
   );
 };
 
-export default BusinessRaiseCampaignCard;
+export default RaiseCampaignCard;
