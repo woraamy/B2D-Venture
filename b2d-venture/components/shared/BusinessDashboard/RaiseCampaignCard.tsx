@@ -15,6 +15,7 @@ const RaiseCampaignCard = ({
   shared_price,
   tag,
   goal,
+  status,
   businessId // Pass the business ID for dynamic routing
 }) => {
   return (
@@ -34,6 +35,7 @@ const RaiseCampaignCard = ({
             <p><strong>Valuation:</strong> ${valuation}</p>
             <p><strong>Start Date:</strong> {new Date(start_date).toLocaleDateString()}</p>
             <p><strong>End Date:</strong> {new Date(end_date).toLocaleDateString()}</p>
+            <p><strong>Status:</strong> {status}</p>
           </div>
           <div className="mt-4">
             <p><strong>Tags:</strong> {Array.isArray(tag) && tag.join(', ')}</p>

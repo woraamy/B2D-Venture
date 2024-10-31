@@ -8,6 +8,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
     // Construct an absolute URL for the fetch request to get the raise campaign data
     const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
     const investmentUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`;
+    const status = "Open"
 
     try {
         const response = await fetch(campaignUrl);
@@ -16,6 +17,10 @@ export default async function ManageRaiseCampaignPage({ params }) {
         }
         const data = await response.json();
         const campaignData = data.data[0];
+    
+    if (campaignData.end_date < new Date()) {
+        const status = "Closed";
+    }
 
         return (
             <div className="flex flex-col items-center space-y-8 w-[80vw]">
@@ -42,6 +47,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
                         shared_price={campaignData.shared_price.toLocaleString()}
                         tag={campaignData.business_id.tag_list}
                         goal={campaignData.goal.toLocaleString()}
+                        status={status}
                         businessId={id} // Passing the business ID for dynamic routes
                     />
                 ) : (
