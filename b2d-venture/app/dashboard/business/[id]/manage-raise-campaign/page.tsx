@@ -7,6 +7,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
 
     // Construct an absolute URL for the fetch request to get the raise campaign data
     const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
+    const investmentUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`;
 
     try {
         const response = await fetch(campaignUrl);
@@ -32,16 +33,15 @@ export default async function ManageRaiseCampaignPage({ params }) {
                         className=""
                         businessName={campaignData.business_id.BusinessName}
                         description={campaignData.business_id.description}
-                        raised={campaignData.raised}
-                        investors={campaignData.investors.toLocaleString()}
+                        raised={campaignData.raised.toLocaleString()}
                         min={campaignData.min_investment.toLocaleString()}
                         max={campaignData.max_investment.toLocaleString()}
                         valuation={campaignData.business_id.valuation.toLocaleString()}
                         start_date={campaignData.start_date}
                         end_date={campaignData.end_date}
-                        shared_price={campaignData.shared_price}
+                        shared_price={campaignData.shared_price.toLocaleString()}
                         tag={campaignData.business_id.tag_list}
-                        goal={campaignData.goal}
+                        goal={campaignData.goal.toLocaleString()}
                         businessId={id} // Passing the business ID for dynamic routes
                     />
                 ) : (
@@ -55,11 +55,14 @@ export default async function ManageRaiseCampaignPage({ params }) {
                             Edit Campaign
                         </button>
                     </Link>
-                    <Link href={`/dashboard/business/${id}/create-campaign`}>
+                    <Link href={`/dashboard/business/${id}/open-campaign`}>
                         <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                            Create Campaign
+                            Open Campaign
                         </button>
                     </Link>
+                    <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                        Close
+                    </button>
                 </div>
             </div>
         );

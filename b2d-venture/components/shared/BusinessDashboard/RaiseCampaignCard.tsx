@@ -7,7 +7,6 @@ const RaiseCampaignCard = ({
   businessName,
   description,
   raised,
-  investors,
   min,
   max,
   valuation,
