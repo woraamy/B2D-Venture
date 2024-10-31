@@ -42,11 +42,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
         // Update form data for the Edit modal
         const handleEditClick = () => {
             if (status === "Closed") {
-                toast({
-                    title: "Cannot Edit",
-                    description: "You cannot edit a raise campaign that is closed.",
-                    variant: "destructive",
-                });
+                toast.error("Cannot edit a closed campaign.");
             } else {
                 setFormData({
                     businessName: campaignData.business_id.BusinessName,
@@ -66,11 +62,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
 
         const handleCreateClick = () => {
             if (status === "Open") {
-                toast({
-                    title: "Cannot Create",
-                    description: "You cannot create a new raise campaign while one is still open.",
-                    variant: "destructive",
-                });
+                toast.error("Cannot create a new campaign while the current one is open.");
             } else {
                 setIsCreateModalOpen(true);
             }
@@ -89,18 +81,10 @@ export default async function ManageRaiseCampaignPage({ params }) {
                 body: JSON.stringify(formData),
             });
             if (response.ok) {
-                toast({
-                    title: "Success",
-                    description: "Campaign updated successfully!",
-                    variant: "success",
-                });
+                toast.success("Campaign updated successfully!");
                 setIsEditModalOpen(false);
             } else {
-                toast({
-                    title: "Error",
-                    description: "Failed to update campaign.",
-                    variant: "destructive",
-                });
+                toast.error("Failed to update campaign.");
             }
         };
 
