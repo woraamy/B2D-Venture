@@ -14,6 +14,10 @@ const RaiseCampaignCard = ({
   min,
   max,
   valuation,
+  goal,
+  start_date,
+  end_date,
+  shared_price,
   tag,
   businessId // Pass the business ID for dynamic routing
 }) => {
@@ -65,6 +69,14 @@ const RaiseCampaignCard = ({
               <div>
                 <p className="text-lg font-semibold">{goal}</p>
                 <p className="text-sm text-gray-500">Valuation</p>
+              </div>
+              <div>
+                <p className="text-lg font-semibold">{start_date}</p>
+                <p className="text-sm text-gray-500">Start Date</p>
+              </div>
+              <div>
+                <p className="text-lg font-semibold">{end_date}</p>
+                <p className="text-sm text-gray-500">End date</p>
               </div>
             </div>
           </div>
