@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
-import { Toaster, toast } from "@/components/ui/toaster";
+import { Toast, Toaster } from "react-hot-toast";
+import {toast} from "react-hot-toast";
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 import Modal from "@/components/ui/modal";
 
@@ -116,18 +117,10 @@ export default async function ManageRaiseCampaignPage({ params }) {
                 body: JSON.stringify(formData),
             });
             if (response.ok) {
-                toast({
-                    title: "Success",
-                    description: "Campaign created successfully!",
-                    variant: "success",
-                });
+                toast.success("Campaign created successfully!");
                 setIsCreateModalOpen(false);
             } else {
-                toast({
-                    title: "Error",
-                    description: "Failed to create campaign.",
-                    variant: "destructive",
-                });
+                toast.error("Failed to create campaign.");
             }
         };
 
