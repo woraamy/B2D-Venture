@@ -364,6 +364,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
               </FormItem>
             )}
           />
+          
           {/* Type of Business*/}
           <FormField
             control={form.control}

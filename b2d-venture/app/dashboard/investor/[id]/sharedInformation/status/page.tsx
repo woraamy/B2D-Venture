@@ -16,8 +16,8 @@ export default async function Page({params}) {
         [
             {value: item.createdAt.toLocaleString(), type:"text"},
             {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
-            {value: item.status, type:"text"},
-            {value: {isHave: (item.status === "approved"),text: "View",action:"redirect",path:"file"}, type: "button"}
+            {value: item.status_from_business, type:"text"},
+            {value: {isHave: (item.status_from_business === "approved"),text: "View",action:"redirect",path:"file"}, type: "button"}
         ]
     ))
     const headData = [
