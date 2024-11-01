@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import RaiseCampaign from "@/models/RaiseCampaign";
 
 // Validation schema for raise campaign using zod
 const raiseFormSchema = z.object({
@@ -41,8 +42,10 @@ const raiseFormSchema = z.object({
 
 type RaiseCampaignFormValues = z.infer<typeof raiseFormSchema>;
 
-export function RaiseCampaignForm({ params, data }) {
+export async function EditRaiseCampaignForm({ params }) {
   const id = params;
+  const data = await RaiseCampaign.find({ business_id: id }).populate("business_id").lean();
+
   const form = useForm<RaiseCampaignFormValues>({
     resolver: zodResolver(raiseFormSchema),
     defaultValues: {
