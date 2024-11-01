@@ -1,4 +1,5 @@
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
+import Link from "next/link";
 import Script from "next/script";
 import { toast } from "react-hot-toast"; // Toast for client-side notifications
 
@@ -58,23 +59,24 @@ export default async function ManageRaiseCampaignPage({ params }) {
 
                 {/* Action Buttons */}
                 <div className="flex space-x-4">
-                    <button
-                        data-modal-target="editModal"
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                    >
-                        Edit Campaign
+                {/* Edit Campaign button, navigating to the edit-raise-campaign page */}
+                <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
+                    <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Edit Campaign
                     </button>
-                    <button
-                        data-modal-target="createModal"
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                    >
-                        Create Campaign
+                </Link>
+
+                {/* Create Campaign button, navigating to the create-raise-campaign page */}
+                <Link href={`/dashboard/business/${id}/create-raise-campaign`}>
+                    <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    Create Campaign
                     </button>
-                    <button
-                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                    >
-                        Close Campaign
-                    </button>
+                </Link>
+
+                {/* Close Campaign button, assuming it will perform some action when clicked */}
+                <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    Close Campaign
+                </button>
                 </div>
 
                 {/* Include the client-side script */}
