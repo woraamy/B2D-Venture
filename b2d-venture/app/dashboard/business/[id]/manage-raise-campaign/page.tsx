@@ -70,10 +70,15 @@ export default async function ManageRaiseCampaignPage({ params }) {
                     >
                         Create Campaign
                     </button>
+                    <button
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                        Close Campaign
+                    </button>
                 </div>
 
                 {/* Include the client-side script */}
-                <Script src="/scripts/modal.js" />
+                <Script src="/public/modal.js" />
             </div>
         );
     } catch (error) {
