@@ -8,15 +8,13 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import RaiseCampaign from "@/models/RaiseCampaign";
+import { useEffect, useState } from "react";
 
 // Validation schema for raise campaign using zod
 const raiseFormSchema = z.object({
@@ -42,32 +40,69 @@ const raiseFormSchema = z.object({
 
 type RaiseCampaignFormValues = z.infer<typeof raiseFormSchema>;
 
-export async function EditRaiseCampaignForm({ params }) {
+export function EditRaiseCampaignForm({ params }: { params: string }) {
   const id = params;
-  const data = await RaiseCampaign.find({ business_id: id }).populate("business_id").lean();
 
+  const [initialData, setInitialData] = useState<RaiseCampaignFormValues | null>(null);
+  const { toast } = useToast();
+
+  // Fetch data in useEffect
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(`/api/fetchingData/RaiseCampaign/businessId/${id}`);
+        const result = await response.json();
+        const campaignData = result[0];
+
+        if (response.ok && campaignData) {
+          setInitialData({
+            main_investment: campaignData.main_investment || 0,
+            max_investment: campaignData.max_investment || 0,
+            goal: campaignData.goal || 0,
+            start_date: campaignData.start_date || "",
+            end_date: campaignData.end_date || "",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: "Failed to load campaign data.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching campaign data:", error);
+        toast({
+          title: "Error",
+          description: "An error occurred while fetching campaign data.",
+          variant: "destructive",
+        });
+      }
+    }
+
+    fetchData();
+  }, [id, toast]);
+
+  // Initialize form using react-hook-form
   const form = useForm<RaiseCampaignFormValues>({
     resolver: zodResolver(raiseFormSchema),
-    defaultValues: {
-      main_investment: data.main_investment || 0,
-      max_investment: data.max_investment || 0,
-      goal: data.goal || 0,
-      start_date: data.start_date || "",
-      end_date: data.end_date || "",
+    defaultValues: initialData || {
+      main_investment: 0,
+      max_investment: 0,
+      goal: 0,
+      start_date: "",
+      end_date: "",
     },
   });
 
-  const { toast } = useToast();
-
+  // Handle form submission
   async function onSubmit(data: RaiseCampaignFormValues) {
     try {
-      // API call to update raise campaign details
       const response = await fetch(`/api/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id, data, role: "raisecampaign" }), // Send campaign id, form data, and role
+        body: JSON.stringify({ id: id, data, role: "raisecampaign" }),
       });
 
       const result = await response.json();
@@ -100,6 +135,10 @@ export async function EditRaiseCampaignForm({ params }) {
     }
   }
 
+  if (!initialData) {
+    return <div>Loading...</div>; // Show a loading state while the data is being fetched
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -109,9 +148,9 @@ export async function EditRaiseCampaignForm({ params }) {
           name="main_investment"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Main Investment</FormLabel>
+              <FormLabel>Min Investment</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Enter main investment" {...field} />
+                <Input type="number" placeholder="Enter min investment" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
