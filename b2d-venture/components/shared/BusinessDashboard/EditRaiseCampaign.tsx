@@ -91,144 +91,130 @@ export function EditRaiseCampaignForm({params, data}) {
 
 
     return (
-    <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
-        {/* <div className="flex flex-col">
-            {data.profile_picture ? (
-            <img
-                src={data.profile_picture}
-                alt="Profile preview"
-                className="w-52 h-52 rounded-full object-cover mb-4"
-            />
-            ) : (
-            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                <span className="text-gray-400">No image</span>
-            </div>
-            )}
-
-            <label className="font-medium text-gray-700">
-            Profile Picture
-            </label>
-            <UploadInvestorProfile investor_id={id} />
-            <FormDescription>
-            Please upload an image for your profile (optional).
-            </FormDescription>
-        </div> */}
-
-        <FormField
-            control={form.control}
-            name="min_investment"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Minimum Investment</FormLabel>
-                <FormControl>
-                <Input 
-                    placeholder="Minimum investment for investors" 
-                    {...field}
-                    defaultValue={data.min_investment || ""}
+      <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
+        <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    
+              {/* Form fields */}
+              <FormField
+                control={form.control}
+                name="min_investment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Minimum Investment</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Minimum investment for investors"
+                        {...field}
+                        defaultValue={data.min_investment || ""}
                       />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <FormField
-            control={form.control}
-            name="max_investment"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Minimum Investment</FormLabel>
-                <FormControl>
-                <Input 
-                    placeholder="Maximum investment for investors" 
-                    {...field}
-                    defaultValue={data.max_investment || ""}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <FormField
+                control={form.control}
+                name="max_investment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Maximum Investment</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Maximum investment for investors"
+                        {...field}
+                        defaultValue={data.max_investment || ""}
                       />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <FormField
-            control={form.control}
-            name="goal"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Goal</FormLabel>
-                <FormControl>
-                <Input 
-                    placeholder="Goal" 
-                    {...field}
-                    defaultValue={data.goal || ""}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <FormField
+                control={form.control}
+                name="goal"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Goal</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Goal"
+                        {...field}
+                        defaultValue={data.goal || ""}
                       />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <FormField
-            control={form.control}
-            name="start_date"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Start Date of your raise campaign</FormLabel>
-                <FormControl>
-                <Input 
-                    type="date"
-                    {...field} 
-                    defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""}
-                    />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-         <FormField
-            control={form.control}
-            name="end_date"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Start Date of your raise campaign</FormLabel>
-                <FormControl>
-                <Input 
-                    type="date"
-                    {...field} 
-                    defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""}
-                    />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Raise campaign Description</FormLabel>
-                <FormControl>
-                <Input 
-                    placeholder="Tell us about your raise campaign" 
-                    {...field}
-                    defaultValue={data.description || ""}
-                     />
-                </FormControl>
-                <FormDescription>
-                This will be displayed on your profile.
-                </FormDescription>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-
-        <Button type="submit">Update rasie campaign</Button>
-        </form>
-    </Form>
-    )
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <FormField
+                control={form.control}
+                name="start_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date of your raise campaign</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        {...field}
+                        defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <FormField
+                control={form.control}
+                name="end_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date of your raise campaign</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        {...field}
+                        defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Raise campaign Description</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Tell us about your raise campaign"
+                        {...field}
+                        defaultValue={data.description || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This will be displayed on raise campaign page.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+    
+              <Button type="submit" className="w-full">
+                Update Raise Campaign
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
+    );
+    
     }
