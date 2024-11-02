@@ -33,9 +33,12 @@ export async function POST(req: Request) {
     }
 
     if (role === "raisecampaign") {
-        const updatedAccount = await RaiseCampaign.findByIdAndUpdate(id, data, {new: true});
+        const campaign = await RaiseCampaign.findById(id);
+        console.log('Raise campaign:', campaign);
+        const updatedCampaign = await RaiseCampaign.findByIdAndUpdate(id, data, {new: true});
         console.log('Updating raise campaign:', id, data);
-        return NextResponse.json({ message: "Raise campaign updated successfully", campaign: updatedAccount }, { status: 200 });
+        console.log('Updated raise campaign:', updatedCampaign);
+        return NextResponse.json({ message: "Raise campaign updated successfully", campaign: updatedCampaign }, { status: 200 });
     }
 
 

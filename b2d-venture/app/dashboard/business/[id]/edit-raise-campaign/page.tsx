@@ -17,7 +17,7 @@ export default async function Page({ params }) {
     const campaignData = data[0];
 
     return(
-        <EditRaiseCampaignForm params={id} data={campaignData}/>
+        <EditRaiseCampaignForm params={campaignData._id} data={campaignData}/>
       );
   } catch (error) {
     console.error("Error fetching campaign data:", error);
