@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 // Schema for form validation
 const editRaiseCampaignFormSchema = z.object({
@@ -48,7 +50,6 @@ export function EditRaiseCampaignForm({ params, data }) {
     resolver: zodResolver(editRaiseCampaignFormSchema),
     defaultValues,
   });
-  const { toast } = useToast();
 
   async function onSubmit(data: EditFormValues) {
     try {
@@ -62,34 +63,20 @@ export function EditRaiseCampaignForm({ params, data }) {
 
       const result = await response.json();
 
-      if (response.ok) {
-        toast({
-          title: "Raise campaign updated successfully",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(result.investor, null, 2)}</code>
-            </pre>
-          ),
-        });
+      if (result.ok) {
+        toast.success("Raise campaign updated successfully");
       } else {
-        toast({
-          title: "Update failed",
-          description: result.error,
-          variant: "destructive",
-        });
+        toast.error("Failed to update raise campaign");
       }
     } catch (error) {
-      toast({
-        title: "Update failed",
-        description: "An error occurred while updating your account.",
-        variant: "destructive",
-      });
+      toast.error("Failed to update raise campaign");
       console.error("Error updating raise campaign:", error);
     }
   }
 
   return (
     <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
+      <Toaster /> {/* For toasts */}
       <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
