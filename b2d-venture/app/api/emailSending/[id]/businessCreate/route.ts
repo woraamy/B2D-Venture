@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import InvestorRequest from '@/models/InvestorRequest';
-
+import BusinessRequest from '@/models/businessRequest';
 const nodemailer = require('nodemailer');
 
 // Handles POST requests to /api
@@ -9,10 +9,9 @@ export async function POST(req, {params}) {
     const username = process.env.NEXT_PUBLIC_EMAIL_USERNAME;
     const password = process.env.NEXT_PUBLIC_EMAIL_PASSWORD;
     const web = process.env.NEXT_PUBLIC_API_URL;
-    
+
     const {id} = params
-    // id is investorRequest id
-    const email = req.nextUrl.searchParams.get('email');
+    // id is businessRequest id
    
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -25,29 +24,27 @@ export async function POST(req, {params}) {
         }
     });
     try {
-        const request = await InvestorRequest.findById(id)
-            .populate("business_id")
-            .populate("investor_id");
+        const request = await BusinessRequest.findById(id)
         console.log(request)
         if (!request) {
-            return NextResponse.json({ message: 'Investor request not found' }, { status: 404 });
+            return NextResponse.json({ message: 'Business request not found' }, { status: 404 });
         }
         
         let message;
-        const status = request.status_from_business
+        const status = request.status
         if (status === "approved"){
-            const link = `${web}/dashboard/investor/${request.investor_id._id}/sharedInformation/file`
-            message = `<p>We are pleased to inform you that your recent request to ${request.business_id.BusinessName} has been approved! you can see information in this link </p> <a href='${link}'>Link</a>`
+            const link = `${web}/login`
+            message = `<p>We are pleased to inform you that your recent request to create business has been approved! you can already login with this link</p> <a href='${link}'>Login</a>`
         
         } else{
-            message = `<p>Thank you for submitting your request. After careful review, we regret to inform you that your request to ${request.business_id.BusinessName} has been declined.</p>`
+            message = `<p>Thank you for submitting your request. After careful review, we regret to inform you that your request to create business has been declined.</p>`
         }
         const mail = await transporter.sendMail({
             from: username,
-            to: email,
+            to: request.email,
             subject: `Your request has been ${status}`,
             html: `
-                <p>Dear ${request.investor_id.firstName || "anonymous"}</p>
+                <p>Dear ${request.firstName || "anonymous"}</p>
                 <div>${message}</div>
             `,
         })

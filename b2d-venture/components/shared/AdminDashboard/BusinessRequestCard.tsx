@@ -22,7 +22,10 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
             if (!response.ok) {
                 throw new Error('Failed to approve request');
             }
-
+            const responseEmail = await fetch(`/api/emailSending/${id}/businessCreate`,{method: 'POST'})
+            if (!responseEmail.ok) {
+                throw new Error('Failed to send notification');
+            }
             const data = await response.json();
             toast.success(data.message);
         } catch (error) {
@@ -43,7 +46,10 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
             if (!response.ok) {
                 throw new Error('Failed to reject request');
             }
-
+            const responseEmail = await fetch(`/api/emailSending/${id}/businessCreate`,{method: 'POST'})
+            if (!responseEmail.ok) {
+                throw new Error('Failed to send notification');
+            }
             const data = await response.json();
             toast.success(data.message);
         } catch (error) {
