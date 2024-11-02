@@ -14,7 +14,7 @@ export default async function Page({ params }) {
       throw new Error("Failed to fetch raise campaign data");
     }
     const data = await response.json();
-    const campaignData = data.data[0];
+    const campaignData = data[0];
 
     return(
         <EditRaiseCampaignForm params={id} data={campaignData}/>

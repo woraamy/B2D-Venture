@@ -82,7 +82,6 @@ async function getBusinessData(raiseCampaignObjectId) {
     .populate('investor_id')
     .populate('business_id')
     .sort({ createdAt: -1 });
-    console.log(investorRequests);
     
 
     //Fetch Raise Campaign data
@@ -90,7 +89,8 @@ async function getBusinessData(raiseCampaignObjectId) {
         next: { tags: ['collection'] },
     });    
     const raise_campaign_json = await response_raise_campaign.json();
-    const raise_campaign = raise_campaign_json.data[0];
+    const raise_campaign = raise_campaign_json[0];
+    console.log(raise_campaign_json);
 
     let businessObjectId;
     // Make business object id

@@ -16,7 +16,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
             throw new Error("Failed to fetch raise campaign data");
         }
         const data = await response.json();
-        const campaignData = data.data[0];
+        const campaignData = data[0];
 
         // Determine campaign status based on end_date
         if (new Date(campaignData.end_date) < new Date()) {
