@@ -6,10 +6,12 @@ const nodemailer = require('nodemailer');
 // Handles POST requests to /api
 
 export async function POST(req, {params}) {
-    const username = process.env.NEXT_PUBLIC_BURNER_USERNAME;
-    const password = process.env.NEXT_PUBLIC_BURNER_PASSWORD;
+    const username = process.env.NEXT_PUBLIC_EMAIL_USERNAME;
+    const password = process.env.NEXT_PUBLIC_EMAIL_PASSWORD;
     const web = process.env.NEXT_PUBLIC_API_URL;
-
+    console.log('Username:', username);
+    console.log('Password:', password);
+    
     const {id} = params
     // id is investorRequest id
     const email = req.nextUrl.searchParams.get('email');
@@ -28,27 +30,27 @@ export async function POST(req, {params}) {
         const request = await InvestorRequest.findById(id)
             .populate("business_id")
             .populate("investor_id");
-
+        console.log(request)
         if (!request) {
             return NextResponse.json({ message: 'Investor request not found' }, { status: 404 });
         }
         
         let message;
         const status = request.status_from_business
-        if (status === "allow"){
+        if (status === "approved"){
             const link = `${web}/dashboard/investor/${request.investor_id._id}/sharedInformation/file`
-            message = `We are pleased to inform you that your recent request to ${request.business_id.BusinessName} has been approved! you can see information in this link <Link href='${link}'>Link</Link>`
+            message = `<p>We are pleased to inform you that your recent request to ${request.business_id.BusinessName} has been approved! you can see information in this link </p> <a href='${link}'>Link</a>`
         
         } else{
-            message = `Thank you for submitting your request. After careful review, we regret to inform you that your request to ${request.business_id.BusinessName} has been declined.`
+            message = `<p>Thank you for submitting your request. After careful review, we regret to inform you that your request to ${request.business_id.BusinessName} has been declined.</p>`
         }
         const mail = await transporter.sendMail({
             from: username,
             to: email,
-            subject: `Your request has been ${request.business_id.BusinessName}`,
+            subject: `Your request has been ${status}`,
             html: `
-                <p>Dear ${request.investor_id.name}</p>
-                <p>${message}</p>
+                <p>Dear ${request.investor_id.firstName || "anonymous"}</p>
+                <div>${message}</div>
             `,
         })
         return NextResponse.json({ status: 'success', message: 'Email sent successfully' }, { status: 200 });

@@ -24,11 +24,6 @@ const InvestorRequestSchema = new mongoose.Schema(
       enum: ["approved", "pending", "declined"],
       default: "pending"  
     },
-    // status: {
-    //   type: String,
-    //   enum: ["approved", "pending", "declined"],
-    //   default: "pending"  
-    // },
     reason: {
       type: String,
       required: true,  
