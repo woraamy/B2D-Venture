@@ -7,8 +7,20 @@ import { EditRaiseCampaignForm } from "@/components/shared/BusinessDashboard/Edi
 
 export default async function Page({ params }) {
   const {id} = params;
-  
-  return(
-    <EditRaiseCampaignForm params={id}/>
-  );
+  const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
+  try {
+    const response = await fetch(campaignUrl);
+    if (!response.ok) {
+      throw new Error("Failed to fetch raise campaign data");
+    }
+    const data = await response.json();
+    const campaignData = data.data[0];
+
+    return(
+        <EditRaiseCampaignForm params={id} data={campaignData}/>
+      );
+  } catch (error) {
+    console.error("Error fetching campaign data:", error);
+    return <p>Failed to load campaign data.</p>;
+  }
 };

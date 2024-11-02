@@ -15,13 +15,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
+import { set } from "mongoose";
 
 // Validation schema for raise campaign using zod
 const raiseFormSchema = z.object({
   main_investment: z
     .number()
-    .positive({ message: "Main investment must be a positive number." })
-    .nonnegative({ message: "Main investment must be a valid number." }),
+    .positive({ message: "Min investment must be a positive number." })
+    .nonnegative({ message: "Min investment must be a valid number." }),
   max_investment: z
     .number()
     .positive({ message: "Max investment must be a positive number." })
@@ -40,10 +41,18 @@ const raiseFormSchema = z.object({
 
 type RaiseCampaignFormValues = z.infer<typeof raiseFormSchema>;
 
-export function EditRaiseCampaignForm({ params }: { params: string }) {
+export function EditRaiseCampaignForm({params, data}) {
   const id = params;
-
-  const [initialData, setInitialData] = useState<RaiseCampaignFormValues | null>(null);
+  console.log("Data in client side" + data)
+  console.log(data)
+  const [initialData, setInitialData] = useState({
+    min_investment: 0,
+    max_investment: 0,
+    goal: 0,
+    start_date: "",
+    end_date: "",
+  });
+  const [campaignData, setCampaignData] = useState<any | null>(null);
   const { toast } = useToast();
 
   // Fetch data in useEffect
@@ -56,12 +65,14 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
 
         if (response.ok && campaignData) {
           setInitialData({
-            main_investment: campaignData.main_investment || 0,
-            max_investment: campaignData.max_investment || 0,
-            goal: campaignData.goal || 0,
-            start_date: campaignData.start_date || "",
-            end_date: campaignData.end_date || "",
+            min_investment: campaignData.min_investment,
+            max_investment: campaignData.max_investment,
+            goal: campaignData.goal,
+            start_date: campaignData.start_date,
+            end_date: campaignData.end_date,
           });
+          setCampaignData(campaignData);
+          console.log(initialData)
         } else {
           toast({
             title: "Error",
@@ -150,7 +161,12 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
             <FormItem>
               <FormLabel>Min Investment</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Enter min investment" {...field} />
+                <Input 
+                  type="number" 
+                  placeholder="Enter min investment" 
+                  {...field}
+                  defaultValue={data.min_investment} 
+                  />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -165,7 +181,11 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
             <FormItem>
               <FormLabel>Max Investment</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Enter max investment" {...field} />
+                <Input 
+                  type="number" 
+                  placeholder="Enter max investment" 
+                  {...field} 
+                  defaultValue={data.max_investment}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -180,7 +200,11 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
             <FormItem>
               <FormLabel>Goal</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Enter campaign goal" {...field} />
+                <Input 
+                  type="number" 
+                  placeholder="Enter campaign goal" 
+                  {...field} 
+                  defaultValue={data.goal}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -195,7 +219,10 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
             <FormItem>
               <FormLabel>Start Date</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input 
+                  type="date" 
+                  {...field} 
+                  defaultValue={data.start_date}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -210,7 +237,10 @@ export function EditRaiseCampaignForm({ params }: { params: string }) {
             <FormItem>
               <FormLabel>End Date</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+              <Input 
+                  type="date" 
+                  {...field} 
+                  defaultValue={data.end_date}/>
               </FormControl>
               <FormMessage />
             </FormItem>
