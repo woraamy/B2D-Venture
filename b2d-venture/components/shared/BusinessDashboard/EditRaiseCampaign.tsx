@@ -76,7 +76,9 @@ export function EditRaiseCampaignForm({ params, data }) {
 
   return (
     <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
-      <Toaster /> {/* For toasts */}
+      <h1 className="text-2xl font-bold text-[#FF6347]">Edit Raise Campaign</h1>
+
+      <Toaster /> 
       <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -59,7 +59,20 @@ export function CreateRaiseCampaignForm({ params }) {
 
   async function onSubmit(data: CreateFormValues) {
     try {
-
+        console.log("Request body:", {
+            business_id: id,
+            rasied: 0,
+            shared_price: 0,
+            min_investment: data.min_investment,
+            max_investment: data.max_investment,
+            goal: data.goal,
+            description: data.description,
+            start_date: String(Date.now()),
+            end_date: data.end_date,
+            files: data.files || [],
+            status: "open",
+        });
+        
       const requestData = {
         business_id: id, 
         rasied: 0,
@@ -68,9 +81,10 @@ export function CreateRaiseCampaignForm({ params }) {
         max_investment: data.max_investment,
         goal: data.goal,
         description: data.description,
-        start_date: data.start_date,
+        start_date: String(Date.now()),
         end_date: data.end_date,
         files: data.files || [],
+        status: "open",
       };
 
       // Make the API request
@@ -114,6 +128,8 @@ export function CreateRaiseCampaignForm({ params }) {
 
   return (
     <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
+      <h1 className="text-2xl font-bold text-[#FF6347]">Create Raise Campaign</h1>
+
       <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -171,21 +187,6 @@ export function CreateRaiseCampaignForm({ params }) {
                       {...field}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Start Date */}
-            <FormField
-              control={form.control}
-              name="start_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

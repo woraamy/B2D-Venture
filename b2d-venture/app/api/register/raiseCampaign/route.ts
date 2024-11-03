@@ -3,6 +3,7 @@ import connectDB from "@/lib/connectDB";
 import RaiseCampaign from "@/models/RaiseCampaign";
 
 export async function POST(req: NextRequest) {
+    console.log("ma laew");
 
 
   try {
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
+      status,
     } = await req.json();
 
     // Log the incoming data to check for missing fields
@@ -32,6 +34,7 @@ export async function POST(req: NextRequest) {
         files,
         start_date,
         end_date,
+        status,
     });
 
     // Connect to the database
@@ -47,6 +50,7 @@ export async function POST(req: NextRequest) {
         files,
         start_date,
         end_date,
+        status,
     });
 
     // Save the new request to the database
