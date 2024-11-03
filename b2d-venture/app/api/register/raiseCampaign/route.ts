@@ -9,6 +9,8 @@ export async function POST(req: NextRequest) {
     // Parse the request body
     const {
       business_id,
+      rasied,
+      shared_price,
       min_investment,
       max_investment,
       goal,
@@ -16,12 +18,13 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
-      status,
     } = await req.json();
 
     // Log the incoming data to check for missing fields
     console.log("Request body:", {
         business_id,
+        rasied,
+        shared_price,
         min_investment,
         max_investment,
         goal,
@@ -29,7 +32,6 @@ export async function POST(req: NextRequest) {
         files,
         start_date,
         end_date,
-        status,
     });
 
     // Connect to the database
@@ -45,7 +47,6 @@ export async function POST(req: NextRequest) {
         files,
         start_date,
         end_date,
-        status,
     });
 
     // Save the new request to the database
