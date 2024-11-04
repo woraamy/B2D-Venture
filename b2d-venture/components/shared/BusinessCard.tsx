@@ -8,6 +8,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
  return (
     <div className ={className}>
             <Link href={link}>
+            <div>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-white rounded-xl">
                 <CardHeader className="relative flex-grow h-1/2 p-0 m-0">
                     <div className="relative w-full h-full">
@@ -69,6 +70,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 
                 </div>
             </Card>
+            </div>
             </Link>
     </div>
  );
