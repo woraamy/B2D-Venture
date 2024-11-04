@@ -24,6 +24,11 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                 throw new Error('Failed to approve request');
             }
 
+            const responseEmail = await fetch(`/api/emailSending/${id}/dataroomAccess/investor?email=${email}`,{method: 'POST'})
+            if (!responseEmail.ok) {
+                throw new Error('Failed to send notification');
+            }
+
             const data = await response.json();
             toast.success(data.message);
         } catch (error) {
@@ -44,7 +49,10 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
             if (!response.ok) {
                 throw new Error('Failed to reject request');
             }
-
+            const responseEmail = await fetch(`/api/emailSending/${id}/dataroomAccess/investor?email=${email}`,{method: 'POST'})
+            if (!responseEmail.ok) {
+                throw new Error('Failed to send notification');
+            }
             const data = await response.json();
             toast.success(data.message);
         } catch (error) {
