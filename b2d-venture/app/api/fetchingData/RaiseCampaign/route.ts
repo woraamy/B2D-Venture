@@ -7,7 +7,13 @@ export async function GET() {
         await connect();
         const data = await RaiseCampaign.find().populate('business_id');
         if (data) {
-            return NextResponse.json({data}); 
+           // Format the created_at date before sending
+           const formattedData = data.map(item => ({
+            ...item.toObject(),
+            start_date: item.start_date.toLocaleDateString(), 
+            end_date: item.end_date.toLocaleDateString() 
+            }));
+            return NextResponse.json({ data: formattedData });
         }
         return NextResponse.json({ message: `RaiseCampaign not found` });
     } catch (error){

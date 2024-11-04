@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import connectDB from "@/lib/connectDB";
-import Dialog from "@/components/ui/popup";
+import Dialog from "@/components/shared/AskInFormationPopup";
 
 export default function ClientComponent({
   businessId,

@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/BusinessDashboard/TableCard";
+import TableCard from "@/components/shared/TableCard";
 import Investment from "@/models/Investment";
 import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";

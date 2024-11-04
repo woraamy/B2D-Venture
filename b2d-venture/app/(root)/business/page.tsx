@@ -7,19 +7,21 @@ import Link from "next/link";
 import Business from "@/models/Business"
 import RaisedCampaign from "@/models/RaiseCampaign"
 import connect from "@/lib/connectDB";
+import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
 
-const getRaisedCampaign = async () => {
-        const raised = await RaisedCampaign.find().populate("business_id")
-        return raised 
-}
+// const getRaisedCampaign = async () => {
+//         const raised = await RaisedCampaign.find().populate("business_id")
+//         return raised 
+// }
 
 
 export default async function Page() {
-    await connect()
-    const data = await getRaisedCampaign()
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign`, { next: { tags: ['collection'] } });
+    const res = await response.json();
+    const data = res.data || []
     return(
         <>
-        <div className="max-w-[70%] mx-auto mt-20">
+        <div className="max-w-[70%] mx-auto mt-20 mb-20">
             <h1 className="text-[#FF553E] text-[60px] font-semibold leading-[52px] tracking[-0.4px]">Businesses</h1>
             <p className="max-w-[70%] mt-10 text-sm/[20px]">
                 Discover tomorrow's leaders with <b>B2D Venture</b>. Unlock opportunities across Southeast Asia 
@@ -29,28 +31,8 @@ export default async function Page() {
                 <SearchBar text="Search Business"/>
                 <Filter className="ms-5"/>
             </div>
-            <div className="flex flex-wrap gap-4 ">
-                {data.map((campaign,index) =>(
-                    <Link href={`/business/${campaign._id}`} passHref key={campaign._id}>
-                    <BusinessCard
-                    className="mt-10"
-                    coverimg = {campaign.business_id.coverimg}
-                    profile= {campaign.business_id.profile}
-                    name= {campaign.business_id.BusinessName}
-                    description={campaign.business_id.description}
-                    raised={campaign.raised.toLocaleString()}
-                    investors="10"
-                    min={campaign.min_investment.toLocaleString()}
-                    valuation={campaign.business_id.valuation.toLocaleString()}
-                    link={`/business/${campaign.business_id.BusinessName}`}
-                    tag = {campaign.business_id.tag_list}
-                  />
-                  </Link>
-                ))}
-            </div>
-            <Button className="ml-[45%] my-[40px]">
-                <span className="text-white">See more</span>
-            </Button>
+            <BusinessCardPagination data={data} itemsPerPage={12} />
+           
         </div>
         </>
     );

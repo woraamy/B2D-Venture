@@ -66,11 +66,11 @@ export default async function Page() {
             <div className="flex-col ml-10 mt-5">
                 <h1 className="text-[32px] font-bold ml-5">Dashboard</h1>      
                     <div className="flex ml-3">
-                        <ReportCard className="" name='Active Investor' amount={activeInvestor}/>
-                        <ReportCard className="" name='Active Business' amount={activeBusiness}/>
-                        <ReportCard className="" name='Active Raise Campaign' amount={activeCampaign}/>
-                        <ReportCard className="" name='Total Raised' amount={totalRaised.total}/>
-                        <ReportCard className="" name='Total Profit' amount={profit.total}/>
+                        <ReportCard className="" name='Active Investor' amount={activeInvestor.toLocaleString()}/>
+                        <ReportCard className="" name='Active Business' amount={activeBusiness.toLocaleString()}/>
+                        <ReportCard className="" name='Active Raise Campaign' amount={activeCampaign.toLocaleString()}/>
+                        <ReportCard className="" name='Total Raised' amount={totalRaised.total.toLocaleString()}/>
+                        <ReportCard className="" name='Total Profit' amount={profit.total.toLocaleString()}/>
                     </div>
                 <div className="px-2">
                     <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">

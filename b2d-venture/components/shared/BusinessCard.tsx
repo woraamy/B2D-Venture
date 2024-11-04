@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Tag from "../ui/tag";
 
-const BusinessCard = ({className, coverimg, profile, name, description, raised, investors, min, valuation, link, tag}) => {
+const BusinessCard = ({className, coverimg, profile, name, description, raised, min, valuation, link, tag}) => {
  return (
     <div className ={className}>
+            <Link href={link}>
             <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[350px] bg-white rounded-xl">
                 <CardHeader className="relative flex-grow h-1/2 p-0 m-0">
                     <div className="relative w-full h-full">
@@ -50,15 +51,15 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                             <div className="mt-4">
                                 <hr className="mb-2  border-t border-gray-300" />
                                 <div className="flex">
-                                    <p className="ml-2 text-[15px] font-semibold">{raised}</p>
+                                    <p className="ml-2 text-[15px] font-semibold">{raised.toLocaleString()}</p>
                                     <p className="ml-2">Raised</p>
                                 </div>
                                 <div className="flex">
-                                    <p className="ml-2 text-[15px] font-semibold">{investors}</p>
-                                    <p className="ml-2">investors</p>
+                                    <p className="ml-2 text-[15px] font-semibold">{valuation.toLocaleString()}</p>
+                                    <p className="ml-2">valuation</p>
                                 </div>
                                 <div className="flex">
-                                    <p className="ml-2 text-[15px] font-semibold">{min}</p>
+                                    <p className="ml-2 text-[15px] font-semibold">{min.toLocaleString()}</p>
                                     <p className="ml-2">min. investment</p>
                                 </div>
                                 
@@ -68,6 +69,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 
                 </div>
             </Card>
+            </Link>
     </div>
  );
 };

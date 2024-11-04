@@ -1,6 +1,6 @@
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
 import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/InvestorDashboard/TableCard";
+import TableCard from "@/components/shared/TableCard";
 import Link from "next/link";
 import connect from "@/lib/connectDB"
 import { usePathname } from 'next/navigation';
@@ -17,7 +17,7 @@ export default async function Page({params}) {
             {value: item.createdAt.toLocaleString(), type:"text"},
             {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
             {value: item.status_from_business, type:"text"},
-            {value: {isHave: (item.status_from_business === "approved"),text: "View"}, type: "button"}
+            {value: {isHave: (item.status_from_business === "approved"),text: "View",action:"redirect",path:"file"}, type: "button"}
         ]
     ))
     const headData = [
@@ -36,6 +36,7 @@ export default async function Page({params}) {
                     <Link href='file' className="text-xl ml-10 text-gray-400">Allowed file</Link>
                 </div>
                 <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                
                 <div>
                     {
                         data.map((item,index)=>(

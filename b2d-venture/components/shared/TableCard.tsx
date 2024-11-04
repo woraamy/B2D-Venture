@@ -1,11 +1,15 @@
 "use client"
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import { Button } from "../../ui/button"
-export default function TableCard({className, data, valueClassname}){
+import { Button } from "../ui/button"
+import { useState } from "react"
+import { useRouter } from 'next/navigation'
+import Link from "next/link"
+export default function TableCard({className, data, valueClassname, onDelete}){
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)
     }
+
     return (      
         <div className={className}>
             <div className="flex justify-between bg-white w-[75vw] h-[50px] border-2 rounded-xl">
@@ -16,7 +20,7 @@ export default function TableCard({className, data, valueClassname}){
                         ) : value.type === "image" ? (
                             <div className="relative flex items-center">
                                 <Image 
-                                    src={value.value.src} 
+                                    src={value.value.src || '/assets/images/profile-user.png'} 
                                     style={{ objectFit: "cover" }}
                                     alt="Business Image" 
                                     width={40} 
@@ -27,7 +31,20 @@ export default function TableCard({className, data, valueClassname}){
                             </div>
                         ) : value.type === "button" ? (
                             value.value.isHave ? (
-                              <Button>{value.value.text}</Button>
+                                (value.value.action === "delete" ? (
+                                    <Button onClick={() =>onDelete()}>
+                                        {value.value.text}
+                                    </Button>
+                                ):  value.value.action === "redirect" ? (
+                                    <Link href={value.value.path || ""}>
+                                        <Button>
+                                            {value.value.text}
+                                        </Button>
+                                    </Link>
+                                ):(
+                                    <Button >{value.value.text}</Button>
+                                )
+                            )
                             ) : null
                           ) : null}               
                     </div>

@@ -12,8 +12,8 @@ export default function AdminSideNav() {
     const dashboard = pathname === "/dashboard/admin" ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const businessrequest = pathname === "/dashboard/admin/business-request" ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const investorrequest = pathname === "/dashboard/admin/investor-request" ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const user = pathname === "/dashboard/admin/user" ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const campaign = pathname === "/dashboard/admin/campaign" ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const user = pathname.startsWith(`/dashboard/admin/user`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const campaign = pathname.startsWith(`/dashboard/admin/campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[100vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
