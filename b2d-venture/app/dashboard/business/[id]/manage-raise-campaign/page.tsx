@@ -1,7 +1,5 @@
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 import Link from "next/link";
-import Script from "next/script";
-import { toast } from "react-hot-toast"; // Toast for client-side notifications
 
 export default async function ManageRaiseCampaignPage({ params }) {
     const { id } = params;
@@ -78,9 +76,6 @@ export default async function ManageRaiseCampaignPage({ params }) {
                     Close Campaign
                 </button>
                 </div>
-
-                {/* Include the client-side script */}
-                <Script src="/public/modal.js" />
             </div>
         );
     } catch (error) {

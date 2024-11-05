@@ -3,14 +3,12 @@ import connectDB from "@/lib/connectDB";
 import RaiseCampaign from "@/models/RaiseCampaign";
 
 export async function POST(req: NextRequest) {
-    console.log("ma laew");
-
 
   try {
     // Parse the request body
     const {
       business_id,
-      rasied,
+      raised,
       shared_price,
       min_investment,
       max_investment,
@@ -22,10 +20,13 @@ export async function POST(req: NextRequest) {
       status,
     } = await req.json();
 
-    // Log the incoming data to check for missing fields
-    console.log("Request body:", {
+    // Connect to the database
+    await connectDB();
+
+    // If not approved, create a pending business registration request
+    const newRequest = new RaiseCampaign({
         business_id,
-        rasied,
+        raised,
         shared_price,
         min_investment,
         max_investment,
@@ -37,27 +38,8 @@ export async function POST(req: NextRequest) {
         status,
     });
 
-    // Connect to the database
-    await connectDB();
-
-    // If not approved, create a pending business registration request
-    const newRequest = new RaiseCampaign({
-        business_id,
-        min_investment,
-        max_investment,
-        goal,
-        description,
-        files,
-        start_date,
-        end_date,
-        status,
-    });
-
-    // Save the new request to the database
     await newRequest.save();
-    console.log("Raise campaign created successfully");
 
-    // Return success response
     return NextResponse.json(
       { message: "Business registration request submitted successfully" },
       { status: 200 }
@@ -71,7 +53,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Handle unsupported methods
 export async function OPTIONS() {
   return NextResponse.json({ message: "Method Not Allowed" }, { status: 405 });
 }

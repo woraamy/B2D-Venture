@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { date, z } from "zod";
+import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 // Schema for form validation (all fields required)
@@ -39,55 +38,56 @@ const createRaiseCampaignFormSchema = z.object({
       message: "Goal is required",
     }),
   description: z.string().min(1, "Description is required"),
-  start_date: z.string().min(1, "Start date is required"),
   end_date: z.string().min(1, "End date is required"),
   files: z.array(z.string()).optional(),
 });
 
 type CreateFormValues = z.infer<typeof createRaiseCampaignFormSchema>;
 
-// Default values
-const defaultValues: Partial<CreateFormValues> = {};
+// Initialize default values
+const defaultValues: Partial<CreateFormValues> = {
+  min_investment: 0, // Default to 0 or a reasonable value
+  max_investment: 0,
+  goal: 0,
+  description: "",
+  end_date: "",
+  files: [],
+};
 
 export function CreateRaiseCampaignForm({ params }) {
-  const id = params;
+  const id = params;  // Assuming you're passing `params` correctly
   const form = useForm<CreateFormValues>({
     resolver: zodResolver(createRaiseCampaignFormSchema),
-    defaultValues,
+    defaultValues: {
+        min_investment: 0, // Default to 0 or a reasonable value
+        max_investment: 0,
+        goal: 0,
+        description: "",
+        end_date: "",
+        files: [],
+    }
   });
+  const { errors } = form.formState;
   const { toast } = useToast();
+  console.log("Create Raise Campaign form errors:", errors);
 
   async function onSubmit(data: CreateFormValues) {
+    console.log("Create Raise Campaign form data:", data);
     try {
-        console.log("Request body:", {
-            business_id: id,
-            rasied: 0,
-            shared_price: 0,
-            min_investment: data.min_investment,
-            max_investment: data.max_investment,
-            goal: data.goal,
-            description: data.description,
-            start_date: String(Date.now()),
-            end_date: data.end_date,
-            files: data.files || [],
-            status: "open",
-        });
-        
       const requestData = {
-        business_id: id, 
-        rasied: 0,
-        shared_price: 0,
+        business_id: id,
         min_investment: data.min_investment,
         max_investment: data.max_investment,
+        raised: 0,
+        shared_price: 0,
         goal: data.goal,
         description: data.description,
-        start_date: String(Date.now()),
+        start_date: Date.now(), 
         end_date: data.end_date,
+        status: "open", 
         files: data.files || [],
-        status: "open",
       };
 
-      // Make the API request
       const response = await fetch(`/api/register/raiseCampaign`, {
         method: "POST",
         headers: {
@@ -128,11 +128,15 @@ export function CreateRaiseCampaignForm({ params }) {
 
   return (
     <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
-      <h1 className="text-2xl font-bold text-[#FF6347]">Create Raise Campaign</h1>
+      {/* Header */}
+      <h1 className="text-2xl font-bold mb-6">Create Your Raise Campaign</h1>
 
       <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)} // Make sure this is properly attached
+            className="space-y-8"
+          >
             {/* Minimum Investment */}
             <FormField
               control={form.control}
@@ -145,6 +149,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       type="number"
                       placeholder="Minimum investment for investors"
                       {...field}
+                      value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     />
                   </FormControl>
@@ -165,6 +170,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       type="number"
                       placeholder="Maximum investment for investors"
                       {...field}
+                      value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     />
                   </FormControl>
@@ -185,6 +191,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       type="number"
                       placeholder="Goal"
                       {...field}
+                      value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     />
                   </FormControl>
@@ -195,18 +202,22 @@ export function CreateRaiseCampaignForm({ params }) {
 
             {/* End Date */}
             <FormField
-              control={form.control}
-              name="end_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>End Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                control={form.control}
+                name="end_date"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>End Date of your raise campaign</FormLabel>
+                    <FormControl>
+                        <Input
+                        type="date"
+                        {...field}
+                        value={field.value || ""}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
 
             {/* Raise Campaign Description */}
             <FormField
@@ -219,10 +230,11 @@ export function CreateRaiseCampaignForm({ params }) {
                     <Input
                       placeholder="Tell us about your raise campaign"
                       {...field}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormDescription>
-                    This will be displayed on raise campaign page.
+                    This will be displayed on the raise campaign page.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
