@@ -1,6 +1,7 @@
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 import Link from "next/link";
 import RaiseCampaign from "@/models/RaiseCampaign";
+import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast
 
 export default async function ManageRaiseCampaignPage({ params }) {
     const { id } = params;
@@ -9,11 +10,25 @@ export default async function ManageRaiseCampaignPage({ params }) {
     const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
     let status = "open";
 
+    // Fetch the campaign from the database
     const campaign = await RaiseCampaign.find({ business_id: id });
 
-    function handleClose() {
-        campaign.status = "closed";
-        campaign.save();
+    async function handleClose() {
+        try {
+            // Update the campaign status in the database
+            campaign.status = "closed";
+            await campaign.save(); // Save the updated status in the database
+
+            // Show success toast
+            toast.success("Raise campaign successfully closed!");
+
+            // Optionally reload the page or update the status on the UI
+            window.location.reload(); // Reload the page to reflect the updated status
+        } catch (error) {
+            // Show error toast if something goes wrong
+            toast.error("Failed to close the raise campaign. Please try again.");
+            console.error("Error closing campaign:", error);
+        }
     }
 
     try {
@@ -65,24 +80,24 @@ export default async function ManageRaiseCampaignPage({ params }) {
 
                 {/* Action Buttons */}
                 <div className="flex space-x-4">
-                {/* Edit Campaign button, navigating to the edit-raise-campaign page */}
-                <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Edit Campaign
-                    </button>
-                </Link>
+                    {/* Edit Campaign button */}
+                    <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
+                        <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                            Edit Campaign
+                        </button>
+                    </Link>
 
-                {/* Create Campaign button, navigating to the create-raise-campaign page */}
-                <Link href={`/dashboard/business/${id}/create-raise-campaign`}>
-                    <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                    Create Campaign
-                    </button>
-                </Link>
+                    {/* Create Campaign button */}
+                    <Link href={`/dashboard/business/${id}/create-raise-campaign`}>
+                        <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                            Create Campaign
+                        </button>
+                    </Link>
 
-                {/* Close Campaign button, assuming it will perform some action when clicked */}
-                <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" onClick={handleClose}>
-                    Close Campaign
-                </button>
+                    {/* Close Campaign button */}
+                    <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" onClick={handleClose}>
+                        Close Campaign
+                    </button>
                 </div>
             </div>
         );
