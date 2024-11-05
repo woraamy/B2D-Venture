@@ -3,7 +3,6 @@ import connectDB from "@/lib/connectDB";
 import RaiseCampaign from "@/models/RaiseCampaign";
 
 export async function POST(req: NextRequest) {
-
   try {
     // Parse the request body
     const {
@@ -17,35 +16,38 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
-      status,
+      status, // Now considering status sent from frontend
     } = await req.json();
 
     // Connect to the database
     await connectDB();
 
-    // If not approved, create a pending business registration request
+    // Create a new raise campaign entry with the provided data
     const newRequest = new RaiseCampaign({
-        business_id,
-        raised,
-        shared_price,
-        min_investment,
-        max_investment,
-        goal,
-        description,
-        files,
-        start_date,
-        end_date,
-        status,
+      business_id,
+      raised,
+      shared_price,
+      min_investment,
+      max_investment,
+      goal,
+      description,
+      files,
+      start_date,
+      end_date,
+      status: status || "open", // Use the passed status or default to "open"
     });
 
     await newRequest.save();
 
+    // console.log(newRequest);
+    // console.log("Raise campaign submitted successfully");
+
     return NextResponse.json(
-      { message: "Business registration request submitted successfully" },
+      { message: "Raise campaign submitted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error submitting business registration request:", error);
+    console.error("Error submitting raise campaign:", error);
     return NextResponse.json(
       { message: "Internal Server Error", error: error.message },
       { status: 500 }

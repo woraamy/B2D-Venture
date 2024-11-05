@@ -1,12 +1,20 @@
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 import Link from "next/link";
+import RaiseCampaign from "@/models/RaiseCampaign";
 
 export default async function ManageRaiseCampaignPage({ params }) {
     const { id } = params;
 
     // Fetch campaign data
     const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
-    let status = "Open";
+    let status = "open";
+
+    const campaign = await RaiseCampaign.find({ business_id: id });
+
+    function handleClose() {
+        campaign.status = "closed";
+        campaign.save();
+    }
 
     try {
         const response = await fetch(campaignUrl);
@@ -18,7 +26,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
 
         // Determine campaign status based on end_date
         if (new Date(campaignData.end_date) < new Date()) {
-            status = "Closed";
+            status = "closed";
         }
 
         return (
@@ -48,7 +56,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
                         shared_price={campaignData.shared_price.toLocaleString()}
                         tag={campaignData.business_id.tag_list}
                         goal={campaignData.goal.toLocaleString()}
-                        status={status}
+                        status={campaignData.status}
                         businessId={id}
                     />
                 ) : (
@@ -72,7 +80,7 @@ export default async function ManageRaiseCampaignPage({ params }) {
                 </Link>
 
                 {/* Close Campaign button, assuming it will perform some action when clicked */}
-                <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                <button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" onClick={handleClose}>
                     Close Campaign
                 </button>
                 </div>

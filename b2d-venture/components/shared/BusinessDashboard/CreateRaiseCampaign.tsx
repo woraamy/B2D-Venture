@@ -87,6 +87,7 @@ export function CreateRaiseCampaignForm({ params }) {
         status: "open", 
         files: data.files || [],
       };
+      console.log("Request data:", requestData);
 
       const response = await fetch(`/api/register/raiseCampaign`, {
         method: "POST",
