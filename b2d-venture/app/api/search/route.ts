@@ -4,7 +4,10 @@ function getNestedProperty(obj, path) {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 export async function POST(req){
-    const { data, value, obj } = req.body;
+    const { data, value, obj } = await req.json();
+    console.log(data)
+    console.log(value)
+    console.log(obj)
 
     if (!data || !value || !obj) {
         return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
