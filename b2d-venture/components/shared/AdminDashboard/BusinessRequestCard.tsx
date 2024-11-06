@@ -59,7 +59,7 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
 
  return (
     <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative  w-[300px] h-[360px] bg-white rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative w-[300px] h-[360px] bg-white rounded-xl">
             
                 <div className="relative group">
                     <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] .text-[24px] ">

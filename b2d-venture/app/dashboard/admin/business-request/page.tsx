@@ -10,8 +10,7 @@ import Filter from "@/components/ui/filter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function Page({ params }) {
-    const {id} = params;
+export default function Page() {
     const [curData, setCurData] = useState([]);
     const [curInitData, setCurInitData] = useState([]);
     const [data, setData] = useState([]);
@@ -19,9 +18,9 @@ export default function Page({ params }) {
 
     const [currentCurPage, setCurrentCurPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8;
-    const totalPages = Math.ceil(data.length/itemsPerPage)
-    const totalCurPages = Math.ceil(curData.length/itemsPerPage)
+    const itemsPerPage = 12;
+    const totalPages = data.length > 0 ? Math.ceil(data.length / itemsPerPage) : 1;
+    const totalCurPages = curData.length > 0 ? Math.ceil(data.length / itemsPerPage) : 1;
     const paginationData = data.slice((currentPage-1)*itemsPerPage,currentPage*itemsPerPage);
     const paginationCurData = curData.slice((currentCurPage-1)*itemsPerPage,currentCurPage*itemsPerPage);
 
@@ -63,13 +62,13 @@ export default function Page({ params }) {
                 <div className="w-[80%]">
                     <div className="flex mt-5">
                         <SearchBar 
-                        text="Search Business request" 
+                        text="Search Business request by business's name" 
                         data={curInitData}
                         onSearch={handleCurSearchResults}
                         obj={"BusinessName"}/>
                         <Filter className="ms-5"/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5  flex-wrap gap-4">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
                         {paginationCurData.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
@@ -105,13 +104,13 @@ export default function Page({ params }) {
                 <div className="w-[80%]">
                     <div className="flex mt-5">
                         <SearchBar 
-                            text="Search Business request " 
+                            text="Search Business request by business's name" 
                             data={initialData}
                             onSearch={handleSearchResults}
                             obj={"BusinessName"}/>
                         <Filter className="ms-5"/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5  flex-wrap gap-4">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
                         {paginationData.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
