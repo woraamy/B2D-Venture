@@ -63,10 +63,11 @@ export function EditRaiseCampaignForm({ params, data }) {
 
       const result = await response.json();
 
-      if (result.ok) {
+      if (result.message === "Raise campaign updated successfully") {
         toast.success("Raise campaign updated successfully");
       } else {
-        toast.error("Failed to update raise campaign");
+        console.log(result);
+        toast.error("Failed to update raise campaign because result is not ok");
       }
     } catch (error) {
       toast.error("Failed to update raise campaign");

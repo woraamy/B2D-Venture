@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 // Schema for form validation (all fields required)
 const createRaiseCampaignFormSchema = z.object({
@@ -68,7 +68,6 @@ export function CreateRaiseCampaignForm({ params }) {
     }
   });
   const { errors } = form.formState;
-  const { toast } = useToast();
   console.log("Create Raise Campaign form errors:", errors);
 
   async function onSubmit(data: CreateFormValues) {
@@ -100,29 +99,12 @@ export function CreateRaiseCampaignForm({ params }) {
       const result = await response.json();
 
       if (response.ok) {
-        toast({
-          title: "Raise campaign created successfully",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">
-                {JSON.stringify(result.raiseCampaign, null, 2)}
-              </code>
-            </pre>
-          ),
-        });
+        toast.success("Raise campaign updated successfully");
       } else {
-        toast({
-          title: "Creation failed",
-          description: result.error,
-          variant: "destructive",
-        });
+        toast.error("Failed to update raise campaign because result is not ok");
       }
     } catch (error) {
-      toast({
-        title: "Creation failed",
-        description: "An error occurred while creating your campaign.",
-        variant: "destructive",
-      });
+      toast.error("Failed to create raise campaign");
       console.error("Error creating raise campaign:", error);
     }
   }
