@@ -100,7 +100,10 @@ export function CreateRaiseCampaignForm({ params }) {
 
       if (response.ok) {
         toast.success("Raise campaign updated successfully");
-      } else {
+      } if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
+        toast.error("You already have an open raise campaign");
+      } 
+      else {
         toast.error("Failed to update raise campaign because result is not ok");
       }
     } catch (error) {

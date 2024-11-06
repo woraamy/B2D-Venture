@@ -4,7 +4,6 @@ import RaiseCampaign from "@/models/RaiseCampaign";
 
 export async function POST(req: NextRequest) {
   try {
-    // Parse the request body
     const {
       business_id,
       raised,
@@ -16,13 +15,27 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
-      status, // Now considering status sent from frontend
+      status,
     } = await req.json();
 
     // Connect to the database
     await connectDB();
 
-    // Create a new raise campaign entry with the provided data
+    // Check if there is any existing raise campaign with the same business_id that is still open
+    const existingOpenCampaign = await RaiseCampaign.findOne({
+      business_id: business_id,
+      status: "open"
+    });
+
+    // If an open campaign exists, send an error response
+    if (existingOpenCampaign) {
+      return NextResponse.json(
+        { message: "An open raise campaign already exists for this business." },
+        { status: 400 }
+      );
+    }
+
+    // If no open campaigns exist, create a new raise campaign entry with the provided data
     const newRequest = new RaiseCampaign({
       business_id,
       raised,
@@ -34,13 +47,10 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
-      status: status || "open",
+      status: status || "open", // Default to "open" if status is not provided
     });
 
     await newRequest.save();
-
-    // console.log(newRequest);
-    // console.log("Raise campaign submitted successfully");
 
     return NextResponse.json(
       { message: "Raise campaign submitted successfully" },
