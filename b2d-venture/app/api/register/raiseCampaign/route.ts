@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
-      status: status || "open", // Use the passed status or default to "open"
+      status: status || "open",
     });
 
     await newRequest.save();
