@@ -104,7 +104,7 @@ export function CreateRaiseCampaignForm({ params }) {
         toast.error("You already have an open raise campaign");
       } 
       else {
-        toast.error("Failed to update raise campaign because result is not ok");
+        toast.error("You already have an open raise campaign, please close it before creating a new one");
       }
     } catch (error) {
       toast.error("Failed to create raise campaign");
