@@ -1,3 +1,4 @@
+"use client"
 import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
@@ -8,17 +9,30 @@ import Business from "@/models/Business"
 import RaisedCampaign from "@/models/RaiseCampaign"
 import connect from "@/lib/connectDB";
 import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
+import { useState, useEffect } from "react";
+import DataRoom from "@/models/DataRoom";
 
-// const getRaisedCampaign = async () => {
-//         const raised = await RaisedCampaign.find().populate("business_id")
-//         return raised 
-// }
-
-
-export default async function Page() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign`, { next: { tags: ['collection'] } });
-    const res = await response.json();
-    const data = res.data || []
+export default function Page() {
+    const [data, setData] = useState([]);
+    const [initialData, setInitialData] = useState([]);
+    async function fetchData(){
+            const response = await fetch(`/api/fetchingData/RaiseCampaign`);
+            const res = await response.json();
+            setData(res.data || []);
+            setInitialData(res.data || []);
+    }
+    
+    useEffect(()  => {
+        fetchData()
+      }, [])
+      
+    const handleSearchResults = (newData) => {
+        setData(newData);  // Update the state with the received search results
+        if (!newData){
+            setData(newData.length > 0 ? newData : initialData);
+        }
+      };
+    
     return(
         <>
         <div className="max-w-[70%] mx-auto mt-20 mb-20">
@@ -28,7 +42,11 @@ export default async function Page() {
                 Dive into the dynamic business landscape, connect with emerging startups, and explore investment prospects that are shaping the region's future growth."
             </p>
             <div className="flex mt-10">
-                <SearchBar text="Search Business"/>
+                <SearchBar 
+                    text="Search Business" 
+                    data={data}
+                    onSearch={handleSearchResults}
+                    obj={"business_id.BusinessName"}/>
                 <Filter className="ms-5"/>
             </div>
             <BusinessCardPagination data={data} itemsPerPage={12} />
