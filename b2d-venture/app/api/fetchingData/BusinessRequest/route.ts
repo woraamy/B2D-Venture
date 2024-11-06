@@ -1,11 +1,10 @@
-import InvestorRequest from "@/models/InvestorRequest"
+import BusinessRequest from "@/models/businessRequest";
 import connect from "@/lib/connectDB";
 import { NextResponse, NextRequest } from "next/server";
-export async function GET(req: Request, { params }) {
-    const { id } = params;
+export async function GET(req: Request) {
     try{
         await connect();
-        const data =await InvestorRequest.find({'investor_id': id})
+        const data =await BusinessRequest.find()
         .populate('business_id')
         .sort({createdAt: -1 })
 
@@ -17,7 +16,7 @@ export async function GET(req: Request, { params }) {
             }));
             return NextResponse.json({ data: formattedData });
     }
-        return NextResponse.json({ message: `Investment ${id} not found` });
+        return NextResponse.json({ message: `Business request ${id} not found` });
     } catch (error){
         return NextResponse.json({ message: error });  
     }  
