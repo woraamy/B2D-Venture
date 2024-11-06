@@ -4,8 +4,7 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET(req: Request) {
     try{
         await connect();
-        const data =await BusinessRequest.find()
-        .populate('business_id')
+        const data = await BusinessRequest.find()
         .sort({createdAt: -1 })
 
         if (data) {
