@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Business from "./Business"
+import { description } from "@/components/charts/overviewchart";
 const RaisedCampaignSchema = mongoose.Schema(
     {
       business_id: { 
@@ -20,6 +21,7 @@ const RaisedCampaignSchema = mongoose.Schema(
         enum: ["open", "closed"],
         default: "open"  
       },
+      description: String,
     },
     {
         timestamps: true,

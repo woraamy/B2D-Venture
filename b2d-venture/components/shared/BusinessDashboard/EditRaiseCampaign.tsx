@@ -191,7 +191,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                 <FormItem>
                   <FormLabel>Raise campaign Description</FormLabel>
                   <FormControl>
-                    <Input
+                    <textarea
                       placeholder="Tell us about your raise campaign"
                       {...field}
                       defaultValue={data.description || ""}

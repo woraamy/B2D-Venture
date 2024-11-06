@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampaignCard";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 
 export default function ManageRaiseCampaignPage({ params }) {
     const { id } = params;
@@ -65,6 +66,7 @@ export default function ManageRaiseCampaignPage({ params }) {
     function handleCreateAttempt() {
         if (status === "open") {
             toast.error("Cannot create a new raise campaign while another one is open.");
+            return;
         }
     }
 
@@ -73,6 +75,7 @@ export default function ManageRaiseCampaignPage({ params }) {
 
     return (
         <div className="flex flex-col items-center space-y-8 w-[80vw]">
+            <Toaster />
             <div id="toaster"></div>
 
             {/* Campaign Information */}
