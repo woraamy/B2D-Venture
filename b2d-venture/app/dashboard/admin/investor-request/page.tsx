@@ -102,7 +102,7 @@ export default function Page() {
                                 text="Search Investor request by Investor's first name" 
                                 data={initialData}
                                 onSearch={handleSearchResults}
-                                obj={"investor_id.user_id.username"}/>
+                                obj={"investor_id.firstName"}/>
                         <Filter className="ms-5"/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
