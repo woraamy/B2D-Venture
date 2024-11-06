@@ -29,13 +29,13 @@ export async function middleware(req) {
   //  }
 
 
-  if (pathname.startsWith('/dashboard/business')) {
-    const pathParts = pathname.split('/');
-    const businessId = pathParts[3];
-    if (token.role !== 'business') {
-      return NextResponse.redirect(new URL('/403', req.url));
-    }
-  }
+  // if (pathname.startsWith('/dashboard/business')) {
+  //   const pathParts = pathname.split('/');
+  //   const businessId = pathParts[3];
+  //   if (token.role !== 'business') {
+  //     return NextResponse.redirect(new URL('/403', req.url));
+  //   }
+  // }
 
 
   if (pathname.startsWith('/dashboard/investor')) {

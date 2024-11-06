@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import Investor from "@/models/Investor";
 import Business from "@/models/Business";
+import RaiseCampaign from "@/models/RaiseCampaign";
 
 export async function POST(req: Request) {
   try {
@@ -27,8 +28,17 @@ export async function POST(req: Request) {
 
     if (role === "business") {
         const updatedAccount = await Business.findByIdAndUpdate(id, data, { new: true });
-        console.log('Updating investor:', id, data);
+        console.log('Updating business:', id, data);
         return NextResponse.json({ message: "Account updated successfully", business: updatedAccount }, { status: 200 });
+    }
+
+    if (role === "raisecampaign") {
+        const campaign = await RaiseCampaign.findById(id);
+        console.log('Raise campaign:', campaign);
+        const updatedCampaign = await RaiseCampaign.findByIdAndUpdate(id, data, {new: true});
+        console.log('Updating raise campaign:', id, data);
+        console.log('Updated raise campaign:', updatedCampaign);
+        return NextResponse.json({ message: "Raise campaign updated successfully", campaign: updatedCampaign }, { status: 200 });
     }
 
 
