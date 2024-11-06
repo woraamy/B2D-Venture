@@ -44,7 +44,7 @@ export default function Page() {
             <div className="flex mt-10">
                 <SearchBar 
                     text="Search Business" 
-                    data={data}
+                    data={initialData}
                     onSearch={handleSearchResults}
                     obj={"business_id.BusinessName"}/>
                 <Filter className="ms-5"/>
