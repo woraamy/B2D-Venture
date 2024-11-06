@@ -11,10 +11,12 @@ import { Toaster } from "react-hot-toast";
 export default function Page() {
     const [campaign, setCampaign] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [initialData, setInitialData] = useState([]);
     async function fetchData(){
         const response = await fetch('/api/fetchingData/RaiseCampaign');
             const data = await response.json();
             setCampaign(data.data || []);
+            setInitialData(data.data || []);
     }
     useEffect(()  => {
         fetchData()
@@ -53,6 +55,12 @@ export default function Page() {
             console.error("Failed to delete Campaign:", error);
         }
     }
+    const handleSearchResults = (newData) => {
+        setCampaign(newData);  // Update the state with the received search results
+        if (!newData){
+            setCampaign(newData.length > 0 ? newData : initialData);
+        }
+        };
     const data = campaign.map((item,index)=>(
         [
             {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
@@ -79,7 +87,12 @@ export default function Page() {
                 <h1 className="font-bold text-3xl">Business's raise campaign Mangement</h1>
                 <div className="flex mt-5 gap-5">
                     <Button>+ Add Raised Campaign</Button>
-                    <SearchBar text='Search Raised Campaign'/>
+                    {/* <SearchBar text='Search Raised Campaign'/> */}
+                    <SearchBar 
+                            text='Search Raised Campaign'
+                            data={initialData}
+                            onSearch={handleSearchResults}
+                            obj={"business_id.BusinessName"}/>
                     <Filter className="" />
                     <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
                         total:
