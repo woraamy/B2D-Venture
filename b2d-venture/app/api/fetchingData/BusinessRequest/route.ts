@@ -16,7 +16,7 @@ export async function GET(req: Request) {
             }));
             return NextResponse.json({ data: formattedData });
     }
-        return NextResponse.json({ message: `Business request ${id} not found` });
+        return NextResponse.json({ message: `Business request not found` });
     } catch (error){
         return NextResponse.json({ message: error });  
     }  
