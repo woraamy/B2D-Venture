@@ -5,9 +5,10 @@ import { IoFilter } from "react-icons/io5";
 
 export default function SearchBar({text, data, onSearch, obj}){
       const [query, setQuery] = useState('');
+      const [isFound, setIsFound] = useState(true);
       async function handleSearch() {
             try {
-                  console.log(data)
+                  setIsFound(true);
                   const response = await fetch('/api/search', {
                         method: 'POST',
                         headers: {
@@ -23,7 +24,9 @@ export default function SearchBar({text, data, onSearch, obj}){
                         throw new Error('Search request failed');
                   }
                   const datas = await response.json();
-                  console.log(datas)
+                  if (!datas || datas.length === 0){
+                        setIsFound(false);
+                  }
                   onSearch(datas) //retreive data at the parent page
             } catch(error){
                   console.log(error)
@@ -31,19 +34,27 @@ export default function SearchBar({text, data, onSearch, obj}){
       }
       const handleKeyDown = (event) => {
             if (event.key === 'Enter') {
-              console.log(data)
               handleSearch(); // Trigger search on Enter key
             }
           };
       return (
-            <input
-            type="text"
-            value={query}
-            placeholder={text}
-            className="h-42px border p-2 w-full rounded-md bg-[#F2EBEB]"
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            />
+            <div className='w-screen'>
+                  <input
+                  type="text"
+                  value={query}
+                  placeholder={text}
+                  className="h-42px border p-2 w-full rounded-md bg-[#F2EBEB]"
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  />
+                  {!isFound ?(
+                        <div>
+                              <p className='text-red-500 text-2xl mt-20 '>no match is found</p>
+                        </div>
+                  ) : null
+                  }
+                  
+            </div>
       );
 };    
 
