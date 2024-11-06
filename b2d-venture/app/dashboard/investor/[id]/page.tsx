@@ -66,7 +66,7 @@ export default async function Page({ params }) {
     const investors  =  await res.json();
     const investor = investors.data
 
-    const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
+    const res1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}/investor`, { next: { tags: ['collection'] } });
     const requestData  =  await res1.json();
     const request = requestData.data || []
 

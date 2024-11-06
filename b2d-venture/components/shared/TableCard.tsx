@@ -12,7 +12,7 @@ export default function TableCard({className, data, valueClassname, onDelete}){
 
     return (      
         <div className={className}>
-            <div className="flex justify-between bg-white w-[75vw] h-[50px] border-2 rounded-xl">
+            <div className="flex justify-between bg-white w-[75vw] py-2 border-2 rounded-xl">
                 {data.map((value, index) => (
                     <div key={index} className={`flex items-center justify-center px-7 ${valueClassname}`} style={{ flex: '1' }}>
                         {value.type === "text" ? (

@@ -8,7 +8,7 @@ import InvestorRequest from "@/models/InvestorRequest"
 
 export default async function Page({params}) {
     const {id} = params
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}`, { next: { tags: ['collection'] } });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/InvestorRequest/${id}/investor`, { next: { tags: ['collection'] } });
     const res = await response.json();
     const request = res.data || []
   
