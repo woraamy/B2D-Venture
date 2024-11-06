@@ -115,6 +115,7 @@ export function CreateRaiseCampaignForm({ params }) {
   return (
     <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
       {/* Header */}
+      <Toaster />
       <h1 className="text-2xl font-bold mb-6">Create Your Raise Campaign</h1>
 
       <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
