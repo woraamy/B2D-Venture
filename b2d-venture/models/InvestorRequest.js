@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Investor from "@/models/Investor"
+import Business from "./Business"
 
 const InvestorRequestSchema = new mongoose.Schema(
   {
