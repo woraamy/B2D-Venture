@@ -8,8 +8,8 @@ export async function GET(req: Request, { params }) {
     const { id } = params;
     try{
         await connect();
-        const data =await InvestorRequest.find({'business_id': id})
-        .populate('investor_id')
+        const data =await InvestorRequest.find({'investor_id': id})
+        .populate('business_id')
         .sort({createdAt: -1 })
 
         if (data) {

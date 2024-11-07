@@ -5,17 +5,18 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }) {
     const { businessId } = params; // Extract businessId from the request params
+    console.log("Business ID " + businessId);
     
     try {
         await connectDB(); // Connect to the database
 
         // Query RaiseCampaign using business_id instead of _id
         const data = await RaiseCampaign.find({ business_id: businessId })
-            .populate('business_id') // Populate the business_id field with related data
-            .lean(); // Convert MongoDB documents to plain JS objects
+            .populate('business_id') 
+            .lean(); 
         
-        if (data.length > 0) { // Check if campaigns were found
-            return NextResponse.json({ data }); 
+        if (data.length > 0) { 
+            return NextResponse.json(data); 
         }
         
         return NextResponse.json({ message: `No RaiseCampaign found for businessId: ${businessId}` });

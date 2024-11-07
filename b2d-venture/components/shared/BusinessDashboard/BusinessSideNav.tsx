@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { BsFileBarGraphFill } from "react-icons/bs";
 import { MdOutlineWorkHistory } from "react-icons/md";
-import { RiInformation2Fill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { IoIosSettings } from "react-icons/io";
 import { MdCampaign } from "react-icons/md";
 import { BsDatabaseFillAdd } from "react-icons/bs"
+import { CiSquareQuestion } from "react-icons/ci";
 
 export default function InvestorSidenav({id}) {
 
@@ -21,6 +21,8 @@ export default function InvestorSidenav({id}) {
     const raisecampaignmanagementpage = pathname.startsWith(`/dashboard/business/${id}/manage-raise-campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const setting = pathname.startsWith(`/settings/account/${id}`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const dataroom = pathname.startsWith(`/dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const request = pathname.startsWith(`/dashboard/business/${id}/request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+
 
     return(
         <div className="overflow-hidden flex bg-white sticky top-0 left-0 h-[100vh] w-[20%] xl:w-[15%] text-[#A6ABC8]">
@@ -36,15 +38,19 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${raisecampaignmanagementpage}`}>
                     <MdCampaign />
-                    <Link href={`/dashboard/investor/${id}/sharedInformation/status`} className="ml-2">Manage Raise Campaign</Link>
-                </div>
-                <div className={`flex mt-2 p-3 ${setting}`}>
-                    < IoIosSettings />
-                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
+                    <Link href={`/dashboard/business/${id}/manage-raise-campaign`} className="ml-2">Manage Raise Campaign</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${dataroom}`}>
                     <BsDatabaseFillAdd />
                     <Link href={`/dashboard/business/${id}/dataroom`} className="ml-2">Dataroom</Link>
+                </div>
+                <div className={`flex mt-2 p-3 ${request}`}>
+                    <CiSquareQuestion />
+                    <Link href={`/dashboard/business/${id}/request`} className="ml-2">Manage Investor's Request</Link>
+                </div>
+                <div className={`flex mt-2 p-3 ${setting}`}>
+                    < IoIosSettings />
+                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
                 </div>
 
             </div>
