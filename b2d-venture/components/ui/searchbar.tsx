@@ -38,7 +38,7 @@ export default function SearchBar({text, data, onSearch, obj}){
             }
           };
       return (
-            <div className='w-screen'>
+            <div className='w-full'>
                   <input
                   type="text"
                   value={query}
@@ -48,8 +48,8 @@ export default function SearchBar({text, data, onSearch, obj}){
                   onKeyDown={handleKeyDown}
                   />
                   {!isFound ?(
-                        <div>
-                              <p className='text-red-500 text-2xl mt-20 '>no match is found</p>
+                        <div className='relative ml-[0%]'>
+                              <p className='text-red-500 text-2xl mt-5 '>no match is found</p>
                         </div>
                   ) : null
                   }
