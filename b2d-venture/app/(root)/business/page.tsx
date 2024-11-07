@@ -1,7 +1,7 @@
 import SearchBar from "@/components/ui/searchbar";
 import BusinessCard from "@/components/shared/BusinessCard";
 import { Button } from "@/components/ui/button";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 import { promises as fs } from "fs";
 import Link from "next/link";
 import Business from "@/models/Business"

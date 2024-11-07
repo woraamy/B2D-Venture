@@ -5,7 +5,7 @@ import Business from '@/models/Business'
 import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 export default async function Page({ params }) {
     const {id} = params;
     const business = await Business.find()

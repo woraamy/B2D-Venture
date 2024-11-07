@@ -2,7 +2,7 @@
 import TableCard from "@/components/shared/TableCard";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 import toast from "react-hot-toast";
