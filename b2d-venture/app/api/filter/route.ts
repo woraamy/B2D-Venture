@@ -1,8 +1,10 @@
 "use server"
 import { NextResponse } from "next/server";
-
+function getNestedProperty(obj, path) {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+}
 export async function POST(req) {
-    const { data, tag, sort } = await req.json();
+    const { data, tag, sort , obj} = await req.json();
 
     if (!data || (!tag && !sort)) {
         return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
@@ -15,9 +17,10 @@ export async function POST(req) {
 
     if (tag.length > 0) {
         tag.forEach((tagItem) => {
-            queriedData = queriedData.filter((dataItem) => 
-                dataItem.business_id.tag_list.includes(tagItem)
-            );
+            queriedData = queriedData.filter(item => {
+                const propertyValue = getNestedProperty(item, obj); // Get nested property dynamically
+                return propertyValue && propertyValue.includes(tagItem);
+            })
         });
         
     }

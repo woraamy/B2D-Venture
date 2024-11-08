@@ -16,11 +16,11 @@ import {
   } from '../ui/dropdown-menu';
 
 
-export default function Filter({className, onSubmit, data}){
+export default function Filter({className, onSubmit, data, obj}){
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
     const [isOpen, setIsOpen] = useState(false);
     const [checked, setChecked] = useState([]);
-
+    
     const handleCheck = (event) => {
         const value = event.target.value; 
         setChecked((prevChecked) => {
@@ -48,7 +48,8 @@ export default function Filter({className, onSubmit, data}){
             body: JSON.stringify({
                   data: data,  
                   tag: checked,
-                  sort: selectedSort
+                  sort: selectedSort,
+                  obj: obj
               }) 
         });
         const datas = await response.json();

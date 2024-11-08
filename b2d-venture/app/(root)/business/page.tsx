@@ -30,7 +30,6 @@ export default function Page() {
             setData(newData.length > 0 ? newData : initialData);
         } else{
             setData(newData); 
-
         }
       };
 
@@ -59,7 +58,9 @@ export default function Page() {
                 <Filter 
                     className="ms-5"
                         onSubmit={handleFilter}
-                        data={initialData}/>
+                        data={initialData}
+                        obj="business_id.tag_list"
+                        />
             </div>
             <BusinessCardPagination data={data} itemsPerPage={12} />
            

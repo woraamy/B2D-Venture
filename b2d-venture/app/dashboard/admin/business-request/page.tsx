@@ -54,6 +54,14 @@ export default function Page() {
     }
     };
 
+    const handleFilter = (newData) => {
+        if (!newData){
+            setData(newData.length > 0 ? newData : initialData);
+        } else{
+            setData(newData); 
+        }
+    };
+
     return(
         <div>
             <div className="ml-[10%] mt-[5%] w-[85vw]">
@@ -66,7 +74,10 @@ export default function Page() {
                         data={curInitData}
                         onSearch={handleCurSearchResults}
                         obj={"BusinessName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                        className="ms-5"
+                        onSubmit={handleFilter}
+                        data={curInitData}/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
                         {paginationCurData.map((req)=>(
