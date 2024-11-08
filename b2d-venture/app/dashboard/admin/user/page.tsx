@@ -11,15 +11,20 @@ import { Toaster } from "react-hot-toast";
 export default function Page() {
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [initialData, setInitialData] = useState([]);
+
     async function fetchData(){
         const response = await fetch('/api/fetchingData/User');
             const data = await response.json();
             setUserData(data.data || []);
+            setInitialData(data.data || []);
     }
+
     useEffect(()  => {
         fetchData()
         setLoading(false)
       }, [])
+      
     if(loading){
         return(
             <div>
@@ -32,9 +37,11 @@ export default function Page() {
             </div>
         )
     }
+
     if (!userData) {
         return <div>No user data</div>;
     }
+
     async function handleDelete({id}) {
         try{
             const response = await fetch(`/api/user/${id}/delete`, {
@@ -52,6 +59,13 @@ export default function Page() {
             console.error("Failed to delete user:", error);
         }
     }
+
+    const handleSearchResults = (newData) => {
+        setUserData(newData);  // Update the state with the received search results
+        if (!newData){
+            setUserData(newData.length > 0 ? newData : initialData);
+        }
+        };
 
     const data = userData.map((item,index)=>(
         [
@@ -77,7 +91,12 @@ export default function Page() {
                 <h1 className="font-bold text-3xl">User Mangement</h1>
                 <div className="flex mt-5 gap-5">
                     <Button>+ Add New User</Button>
-                    <SearchBar text='Search user'/>
+                    <SearchBar 
+                            text='Search user'
+                            data={initialData}
+                            onSearch={handleSearchResults}
+                            obj={"username"}
+                            />
                     <Filter className="" />
                     <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
                         total:

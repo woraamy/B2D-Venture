@@ -1,15 +1,10 @@
-import Business from "@/models/Business";
-import RaiseCampaign from "@/models/RaiseCampaign";
-import Investment from "@/models/Investment";
-import InvestorRequest from "@/models/InvestorRequest"
+import BusinessRequest from "@/models/businessRequest";
 import connect from "@/lib/connectDB";
 import { NextResponse, NextRequest } from "next/server";
-export async function GET(req: Request, { params }) {
-    const { id } = params;
+export async function GET(req: Request) {
     try{
         await connect();
-        const data =await InvestorRequest.find({'business_id': id})
-        .populate('investor_id')
+        const data = await BusinessRequest.find()
         .sort({createdAt: -1 })
 
         if (data) {
@@ -20,7 +15,7 @@ export async function GET(req: Request, { params }) {
             }));
             return NextResponse.json({ data: formattedData });
     }
-        return NextResponse.json({ message: `Request ${id} not found` });
+        return NextResponse.json({ message: `Business request not found` });
     } catch (error){
         return NextResponse.json({ message: error });  
     }  

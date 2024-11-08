@@ -5,11 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../../ui/button";
 import connectDB from "@/lib/connectDB";
-import { Key } from "lucide-react";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, key, id, email, contact, name, description, business, link, reason, status_from_admin }) => {
+const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_admin }) => {
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
             const response = await fetch('/api/request/investorRequestAction', {
