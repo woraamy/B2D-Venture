@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function Page() {
+    const tag = ["approved", "pending", "declined"]
+    const select = ["Newest", "Oldest"]
     const [curData, setCurData] = useState([]);
     const [curInitData, setCurInitData] = useState([]);
     const [data, setData] = useState([]);
@@ -60,9 +62,15 @@ export default function Page() {
                             data={curInitData}
                             onSearch={handleCurSearchResults}
                             obj={"investor_id.firstName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleCurSearchResults}
+                            data={curInitData}
+                            obj="status_from_admin"
+                            tag={[]}
+                            select={select}/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationCurData.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
@@ -103,9 +111,15 @@ export default function Page() {
                                 data={initialData}
                                 onSearch={handleSearchResults}
                                 obj={"investor_id.firstName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleSearchResults}
+                            data={initialData}
+                            obj="status_from_admin"
+                            tag={tag}
+                            select={select}/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationData.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
