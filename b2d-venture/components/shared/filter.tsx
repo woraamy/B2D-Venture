@@ -19,14 +19,18 @@ import {
 export default function Filter({className, onSubmit, data}){
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
     const [isOpen, setIsOpen] = useState(false);
-    const [tagSelect, setTagSelect] = useState([]);
-    function handleTagChange(tag) {
-        setTagSelect(prev =>
-            prev.includes(tag)
-                ? prev.filter(t => t !== tag) // Remove if already selected
-                : [...prev, tag]              // Add if not selected
-        );
-    }
+    const [checked, setChecked] = useState([]);
+
+    const handleCheck = (event) => {
+        const value = event.target.value; 
+        setChecked((prevChecked) => {
+            if (event.target.checked) {
+                return [...prevChecked, value]; 
+            } else {
+                return prevChecked.filter((tag) => tag !== value);
+            }
+        });
+    };
     const [selectedSort, setSelectedSort] = useState("Select sort value");
     
     function handleSortSelect(sortOption){
@@ -35,7 +39,7 @@ export default function Filter({className, onSubmit, data}){
 
     async function handleSubmit(){
         try{
-            console.log("Selected Tags:", tagSelect);
+            console.log("Selected Tags:", checked);
             const response = await fetch('/api/filter', {
             method: 'POST',
             headers: {
@@ -43,7 +47,7 @@ export default function Filter({className, onSubmit, data}){
             },
             body: JSON.stringify({
                   data: data,  
-                  tag: tagSelect,
+                  tag: checked,
                   sort: selectedSort
               }) 
         });
@@ -99,10 +103,11 @@ export default function Filter({className, onSubmit, data}){
                     <div className="h-[250px] overflow-auto flex flex-wrap gap-4">
                         {tag.map((item, index) => (
                             <div key={index} className="flex  items-center mt-2 ml-2">
-                             <Checkbox
-                                className="inline-box"
-                                label={item}
-                                onChange={() => handleTagChange(item)}
+                            <input
+                                type="checkbox"
+                                value={item}
+                                // checked={checked.includes(item)}
+                                onChange={handleCheck}
                                 />
                                  <span className="ml-2">{item}</span>
                             </div>

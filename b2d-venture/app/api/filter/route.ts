@@ -35,7 +35,7 @@ export async function POST(req) {
         }
     }
 
-    console.log(queriedData)
+    // console.log(queriedData)
     
     return NextResponse.json(queriedData, { status: 200 });
 }
