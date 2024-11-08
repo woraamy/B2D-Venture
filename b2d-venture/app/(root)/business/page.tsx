@@ -12,6 +12,8 @@ import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
 import { useState, useEffect } from "react";
 
 export default function Page() {
+    const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
+    const select = ["Newest", "Oldest", "Popular", "Nearly close"]
     const [data, setData] = useState([]);
     const [initialData, setInitialData] = useState([]);
     async function fetchData(){
@@ -60,6 +62,8 @@ export default function Page() {
                         onSubmit={handleFilter}
                         data={initialData}
                         obj="business_id.tag_list"
+                        tag={tag}
+                        select={select}
                         />
             </div>
             <BusinessCardPagination data={data} itemsPerPage={12} />

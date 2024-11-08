@@ -16,8 +16,7 @@ import {
   } from '../ui/dropdown-menu';
 
 
-export default function Filter({className, onSubmit, data, obj}){
-    const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
+export default function Filter({className, onSubmit, data, obj, tag, select}){
     const [isOpen, setIsOpen] = useState(false);
     const [checked, setChecked] = useState([]);
     
@@ -72,7 +71,7 @@ export default function Filter({className, onSubmit, data, obj}){
                     </div>
             </Button>
             {isOpen &&(
-                <div className="absolute w-[20%] h-[350px] bg-white shadow-lg rounded-lg z-10 overflow-auto">
+                <div className="absolute w-[16%] h-auto bg-white shadow-lg rounded-lg z-10 overflow-auto">
                     <div className="flex sort ml-2 mt-2 mr-2">
                         <div className='flex ml-2 items-center'>
                             Sorted by :
@@ -87,34 +86,32 @@ export default function Filter({className, onSubmit, data, obj}){
                                     </Button>
                                 </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem onClick={() => handleSortSelect("Newest")}>
-                                            Newest
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleSortSelect("Popular")}>
-                                            Popular
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleSortSelect("Nearly close")}>
-                                            Nearly close
-                                        </DropdownMenuItem>
+                                        {select.map((item, index) => (
+                                            <DropdownMenuItem
+                                                key={index}
+                                                onClick={() => handleSortSelect(item)} // Use the actual item value
+                                            >
+                                                {item}
+                                            </DropdownMenuItem>
+                                        ))}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 </div>
                         </div>
                     </div>
-                    <div className="h-[250px] overflow-auto flex flex-wrap gap-4">
+                    <div className="h-auto overflow-auto flex flex-wrap gap-4">
                         {tag.map((item, index) => (
-                            <div key={index} className="flex  items-center mt-2 ml-2">
+                            <div key={index} className="flex items-center justify-normal mt-2 ml-2">
                             <input
                                 type="checkbox"
                                 value={item}
-                                // checked={checked.includes(item)}
                                 onChange={handleCheck}
                                 />
                                  <span className="ml-2">{item}</span>
                             </div>
                         ))}
                     </div>
-                    <Button className='mt-1 ml-2 text-white' onClick={handleSubmit}>
+                    <Button className='mt-1 ml-2 mb-2 text-white' onClick={handleSubmit}>
                         Filter Now
                     </Button>
                 </div>
@@ -124,5 +121,3 @@ export default function Filter({className, onSubmit, data, obj}){
     );
 };
 
-           
-// export default Filter;

@@ -1,19 +1,15 @@
 "use client"
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
-<<<<<<< HEAD
 import Filter from "@/components/shared/filter";
-=======
-import Filter from "@/components/ui/filter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+
 export default function Page() {
     const [curData, setCurData] = useState([]);
     const [curInitData, setCurInitData] = useState([]);
     const [data, setData] = useState([]);
     const [initialData, setInitialData] = useState([]);
->>>>>>> main
-
     const [currentCurPage, setCurrentCurPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;

@@ -36,6 +36,10 @@ export async function POST(req) {
             queriedData = queriedData.sort((a, b) => 
                 new Date(a.end_date) - new Date(b.end_date)
             );
+        } else if (sort === "Oldest") {
+            queriedData = queriedData.sort((a, b) => 
+                new Date(a.end_date) - new Date(b.end_date)
+            );
         }
     }
 
