@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
     const { data, tag, sort } = await req.json();
-    console.log(data);
+    console.log(tag)
+    // console.log(sort)
 
     if (!data || (!tag && !sort)) {
         return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
@@ -14,13 +15,13 @@ export async function POST(req) {
 
     let queriedData = data;
 
-    if (tag) {
+    if (tag.length > 0) {
         queriedData = queriedData.filter(item => 
             item.business_id.tag_list.includes(tag)
         );
     }
 
-    if (sort) {
+    if (sort != "Select sort value") {
         if (sort === "Newest") {
             queriedData = queriedData.sort((a, b) => 
                 new Date(b.start_date) - new Date(a.start_date)
@@ -34,5 +35,7 @@ export async function POST(req) {
         }
     }
 
+    console.log(queriedData)
+    
     return NextResponse.json(queriedData, { status: 200 });
 }

@@ -14,16 +14,19 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
   } from '../ui/dropdown-menu';
-// import {useCheckbox, Chip, VisuallyHidden, tv} from "@nextui-org/react";
 
 
 export default function Filter({className, onSubmit, data}){
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
     const [isOpen, setIsOpen] = useState(false);
-    const [checked, setChecked] = useState([]);
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-      };
+    const [tagSelect, setTagSelect] = useState([]);
+    function handleTagChange(tag) {
+        setTagSelect(prev =>
+            prev.includes(tag)
+                ? prev.filter(t => t !== tag) // Remove if already selected
+                : [...prev, tag]              // Add if not selected
+        );
+    }
     const [selectedSort, setSelectedSort] = useState("Select sort value");
     
     function handleSortSelect(sortOption){
@@ -32,6 +35,7 @@ export default function Filter({className, onSubmit, data}){
 
     async function handleSubmit(){
         try{
+            console.log("Selected Tags:", tagSelect);
             const response = await fetch('/api/filter', {
             method: 'POST',
             headers: {
@@ -39,11 +43,12 @@ export default function Filter({className, onSubmit, data}){
             },
             body: JSON.stringify({
                   data: data,  
-                  tag: checked,
+                  tag: tagSelect,
                   sort: selectedSort
               }) 
         });
-        onSubmit(response)
+        const datas = await response.json();
+        onSubmit(datas)
         }catch(error){
             console.log(error)
         };
@@ -97,14 +102,13 @@ export default function Filter({className, onSubmit, data}){
                              <Checkbox
                                 className="inline-box"
                                 label={item}
-                                value={checked}
-                                onChange={handleChange}
+                                onChange={() => handleTagChange(item)}
                                 />
                                  <span className="ml-2">{item}</span>
                             </div>
                         ))}
                     </div>
-                    <Button className='mt-1 ml-2 text-white' onClick={()=>handleSubmit}>
+                    <Button className='mt-1 ml-2 text-white' onClick={handleSubmit}>
                         Filter Now
                     </Button>
                 </div>

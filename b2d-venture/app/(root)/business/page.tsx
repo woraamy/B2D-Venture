@@ -26,11 +26,21 @@ export default function Page() {
       }, [])
       
     const handleSearchResults = (newData) => {
-        setData(newData);  // Update the state with the received search results
         if (!newData){
             setData(newData.length > 0 ? newData : initialData);
+        } else{
+            setData(newData); 
+
         }
       };
+
+    const handleFilter = (newData) => {
+        if (!newData){
+            setData(newData.length > 0 ? newData : initialData);
+        } else{
+            setData(newData); 
+        }
+    };
     
     return(
         <>
@@ -46,7 +56,10 @@ export default function Page() {
                     data={initialData}
                     onSearch={handleSearchResults}
                     obj={"business_id.BusinessName"}/>
-                <Filter className="ms-5"/>
+                <Filter 
+                    className="ms-5"
+                        onSubmit={handleFilter}
+                        data={initialData}/>
             </div>
             <BusinessCardPagination data={data} itemsPerPage={12} />
            
