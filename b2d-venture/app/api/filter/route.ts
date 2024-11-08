@@ -22,7 +22,7 @@ export async function POST(req) {
         
     }
 
-    if (sort != "Select sort value") {
+    if (sort != "Select sort value" || sort === "" ) {
         if (sort === "Newest") {
             queriedData = queriedData.sort((a, b) => 
                 new Date(b.start_date) - new Date(a.start_date)
