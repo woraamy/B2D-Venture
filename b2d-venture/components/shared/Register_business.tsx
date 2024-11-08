@@ -29,7 +29,7 @@ const FormSchema = z.object({
   stateProvince: z.string().min(1, { message: "State/Province is required" }),
   postalCode: z.string().min(1, { message: "Postal/Zip code is required" }),
   country: z.string().min(1, { message: "Country is required" }),
-  typeOfBusiness: z
+  tag_list: z
     .array(z.string())
     .min(1, { message: "At least one business type must be selected" }),
 
@@ -84,7 +84,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       stateProvince: "",
       postalCode: "",
       country: "",
-      typeOfBusiness: [],
+      tag_list: [],
       username: "",
       password: "",
       confirmPassword: "",
@@ -128,7 +128,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
             stateProvince, 
             postalCode, 
             country, 
-            typeOfBusiness, 
+            tag_list, 
             username, 
             password,
             role,
@@ -151,7 +151,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
           stateProvince,
           postalCode,
           country,
-          typeOfBusiness,
+          tag_list,
           username,
           password,
           role:"business",
@@ -368,7 +368,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
           {/* Type of Business*/}
           <FormField
             control={form.control}
-            name="typeOfBusiness"
+            name="tag_list"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>

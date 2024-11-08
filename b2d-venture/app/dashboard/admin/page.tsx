@@ -91,7 +91,7 @@ export default async function Page() {
                                 address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                                 name={req.BusinessName} 
                                 description={req.description}
-                                tag={req.typeOfBusiness} 
+                                tag={req.tag_list} 
                                 email={req.email}
                                 status={req.status}
                                 className='mr-5'

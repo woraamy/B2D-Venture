@@ -11,7 +11,7 @@ const businessRequestSchema = new mongoose.Schema({
   stateProvince: { type: String, required: true },
   postalCode: { type: String, required: true },
   country: { type: String, required: true },
-  typeOfBusiness: { type: [String], required: true },
+  tag_list: { type: [String], required: true },
   username: { type: String, required: true },
   password: { type: String, required: true },
   status: { type: String, enum: ["pending", "approved", "rejected", "done"], default: "pending" },  // Tracks the status of the request

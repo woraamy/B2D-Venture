@@ -6,15 +6,7 @@ import Business from '@/models/Business'
 import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
-<<<<<<< HEAD
 import Filter from "@/components/shared/filter";
-export default async function Page({ params }) {
-    const {id} = params;
-    const business = await Business.find()
-    const cur = await BusinessRequest.find({status: 'pending'}).sort({createdAt: -1 })
-    const history = await BusinessRequest.find({status: ['approved','done','rejected']}).sort({createdAt: -1 })
-=======
-import Filter from "@/components/ui/filter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -62,7 +54,6 @@ export default function Page() {
     }
     };
 
->>>>>>> main
     return(
         <div>
             <div className="ml-[10%] mt-[5%] w-[85vw]">
@@ -86,7 +77,7 @@ export default function Page() {
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
                             description={req.description}
-                            tag={req.typeOfBusiness} 
+                            tag={req.tag_list} 
                             email={req.email}
                             status={req.status}
                             className='mr-5\'
@@ -117,7 +108,10 @@ export default function Page() {
                             data={initialData}
                             onSearch={handleSearchResults}
                             obj={"BusinessName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                        className="ms-5"
+                        onSubmit={handleFilter}
+                        data={initialData}/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
                         {paginationData.map((req)=>(
@@ -128,7 +122,7 @@ export default function Page() {
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
                             description={req.description}
-                            tag={req.typeOfBusiness} 
+                            tag={req.tag_list} 
                             email={req.email}
                             status={req.status}
                             className='mr-5\'
