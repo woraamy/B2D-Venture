@@ -8,7 +8,7 @@ import connectDB from "@/lib/connectDB";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_admin }) => {
+const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_admin, time }) => {
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
             const response = await fetch('/api/request/investorRequestAction', {
@@ -71,7 +71,7 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                 <div className="relative group">
                     <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px]">
                         <div className="relative">
-                            <div className="overflow-auto relative ml-2 h-[100px]">
+                            <div className="overflow-auto relative ml-2 h-[80px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
@@ -90,16 +90,19 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                                     <p className="ml-2">Tel.</p>
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
+                                <div> 
+                                    <p>create at: {time}</p>
+                                </div>
 
                                 {status_from_admin === "pending" ? (
-                                    <div className="flex justify-start mt-2">
+                                    <div className="flex justify-start mt-1">
                                         <Button onClick={() => handleAllow(id, 'admin')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
                                         <Button onClick={() => handleReject(id, 'admin')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status_from_admin === "approved" || status_from_admin === "done" ? (
-                                    <p className="mt-2 text-green-600">Request approved</p>
+                                    <p className="mt-1 text-green-600">Request approved</p>
                                 ) : status_from_admin === "declined" ? (
-                                    <p className="mt-2 text-red-600">Request rejected</p>
+                                    <p className="mt-1 text-red-600">Request rejected</p>
                                 ) : null}
                             </div>
 

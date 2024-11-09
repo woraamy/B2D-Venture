@@ -41,7 +41,7 @@ export default function Page() {
         setCurData(newData);  // Update the state with the received search results
         if (!newData){
             setCurData(newData.length > 0 ? newData : curInitData);
-        }
+        } 
       };
 
     const handleSearchResults = (newData) => {
@@ -68,7 +68,9 @@ export default function Page() {
                             data={curInitData}
                             obj="status_from_admin"
                             tag={[]}
-                            select={select}/>
+                            select={select}
+                            timeKey="createdAt"
+                            />
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationCurData.map((req)=>(
@@ -84,6 +86,7 @@ export default function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
+                                time={req.createdAt}
                                 />
                             ))}
                     </div> 
@@ -117,7 +120,8 @@ export default function Page() {
                             data={initialData}
                             obj="status_from_admin"
                             tag={tag}
-                            select={select}/>
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationData.map((req)=>(
@@ -133,6 +137,7 @@ export default function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
+                                time={req.createdAt}
                                 />
                             ))}
                     </div> 

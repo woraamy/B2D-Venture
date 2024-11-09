@@ -4,7 +4,7 @@ function getNestedProperty(obj, path) {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 export async function POST(req) {
-    const { data, tag, sort , obj} = await req.json();
+    const { data, tag, sort , obj, timeKey} = await req.json();
 
     if (!data || (!tag && !sort)) {
         return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
@@ -24,21 +24,20 @@ export async function POST(req) {
         });
         
     }
-
     if (sort != "Select sort value" || sort === "" ) {
         if (sort === "Newest") {
             queriedData = queriedData.sort((a, b) => 
-                new Date(b.start_date) - new Date(a.start_date)
+                b[timeKey] - a[timeKey]
             );
         } else if (sort === "Popular") {
             queriedData = queriedData.sort((a, b) => b.raised - a.raised);
         } else if (sort === "Nearly close") {
             queriedData = queriedData.sort((a, b) => 
-                new Date(a.end_date) - new Date(b.end_date)
+                a.end_date - new b.end_date
             );
         } else if (sort === "Oldest") {
             queriedData = queriedData.sort((a, b) => 
-                new Date(a.end_date) - new Date(b.end_date)
+                a[timeKey] - b[timeKey]
             );
         }
     }

@@ -16,7 +16,7 @@ import {
   } from '../ui/dropdown-menu';
 
 
-export default function Filter({className, onSubmit, data, obj, tag, select}){
+export default function Filter({className, onSubmit, data, obj, tag, select, timeKey}){
     const [isOpen, setIsOpen] = useState(false);
     const [checked, setChecked] = useState([]);
     

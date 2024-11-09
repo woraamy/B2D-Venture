@@ -94,7 +94,7 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
                                     <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
-                                    <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    <Button onClick={() => handleReject(id, 'business')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
                                 ) : status === "approved"|| "done" ? (
                                     <p className="mt-2 text-green-600">Request approved</p>

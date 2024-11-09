@@ -74,7 +74,8 @@ export default function Page() {
                             data={curInitData}
                             obj="status"
                             tag={[]}
-                            select={select}/>
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationCurData.map((req)=>(
@@ -122,7 +123,8 @@ export default function Page() {
                             data={initialData}
                             obj="status"
                             tag={tag}
-                            select={select}/>
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
                     <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationData.map((req)=>(

@@ -105,7 +105,8 @@ export default function Page() {
                             data={initialData}
                             obj="role"
                             tag={tag}
-                            select={select}/>
+                            select={select}
+                            timeKey="createdAt"/>
                     <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
                         total:
                         <p className="px-2"> {data.length}</p>
