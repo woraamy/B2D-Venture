@@ -20,8 +20,6 @@ export default async function Page({params}) {
     const business_id = data.business_id?.toString();
     const campaign_id = data._id?.toString();
     const benefit = data.investment_benefit;
-    console.log(data); 
-    console.log(benefit, typeof benefit);
    
     if (!data) {
         return <div>business not found</div>;
@@ -73,8 +71,8 @@ export default async function Page({params}) {
                 <div className="mt-7">
                     <h1 className="text-[20px]"><b>Highlight</b></h1>
                     <li className= "mt-5">{data.description}</li>
-                    <h1 className="text-[20px] mt-7"><b>Investment Benefit</b></h1>
-                    <div className="mt-10">
+                    <h1 className="text-[20px]"><b>Investment Benefit</b></h1>
+                    <div className="mt-5">
                         {data.investment_benefit}
                     </div>
                     <div className="relative mt-5 h-[30rem] w-[45vw]">
