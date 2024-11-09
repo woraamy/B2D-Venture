@@ -95,6 +95,7 @@ export default async function Page() {
                                 email={req.email}
                                 status={req.status}
                                 className='mr-5'
+                                time={req.createdAt.toLocaleDateString('en-US')}
                                 />
                             ))}
                         </div>    

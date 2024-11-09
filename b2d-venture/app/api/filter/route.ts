@@ -10,7 +10,6 @@ function convertDate(time){
 }
 export async function POST(req) {
     const { data, tag, sort , obj, timeKey} = await req.json();
-
     if (!data || (!tag && !sort)) {
         return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
     }

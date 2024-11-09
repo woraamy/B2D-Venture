@@ -91,7 +91,7 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
                                 <div> 
-                                    <p>create at: {time}</p>
+                                    <p className="ml-2 text-slate-500">create at: {time}</p>
                                 </div>
 
                                 {status_from_admin === "pending" ? (

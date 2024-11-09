@@ -8,7 +8,7 @@ import { Button } from "../../ui/button";
 import BusinessRequest from "@/models/businessRequest";
 import toast from "react-hot-toast";
 
-const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status}) => {
+const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status, time}) => {
     async function handleAllow(id: string, type: 'business' | 'investor') {
         try {
             const response = await fetch('/api/request/businessRequestAction', {
@@ -90,6 +90,9 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
                                 <div className="mr-2 flex relative">
                                     <p className="ml-2">Address</p>
                                     <p className="ml-2 block text-[15px] font-semibold">{address}</p>
+                                </div>
+                                <div> 
+                                    <p className="ml-2 text-slate-500">create at: {time}</p>
                                 </div>
                                 {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
