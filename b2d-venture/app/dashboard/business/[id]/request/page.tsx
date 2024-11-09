@@ -51,7 +51,7 @@ export default async function Page({params}) {
                                 reason={req.reason}
                                 status_from_business={req.status_from_business}
                                 className='mr-5'
-                                time={req.createdAt.toLocaleDateString('en-US')}
+                                time={req.createdAt}
                                 />
                             ))}
                     </div>

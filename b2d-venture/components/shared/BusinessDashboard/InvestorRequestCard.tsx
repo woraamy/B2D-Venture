@@ -9,7 +9,7 @@ import { Key } from "lucide-react";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_business }) => {
+const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_business, time}) => {
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
             const response = await fetch('/api/request/investorRequestAction', {
@@ -70,11 +70,11 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                 <div className="relative group">
                     <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px]">
                         <div className="relative">
-                            <div className="overflow-auto relative ml-2 h-[100px]">
+                            <div className="overflow-auto relative ml-2 h-[90px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
-                            <div className="overflow-auto relative ml-2 h-[80px]">
+                            <div className="overflow-auto relative ml-2 h-[70px]">
                                 <h2 className="mt-2 font-semibold">Reason</h2>
                                 <p className="text-[15px] font-normal">{reason}</p>
                             </div>
@@ -89,6 +89,10 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                                     <p className="ml-2">Tel.</p>
                                     <p className="ml-2 text-[15px] font-semibold">{contact}</p>
                                 </div>
+                                <div> 
+                                    <p className="ml-2 text-slate-500">create at: {time}</p>
+                                </div>
+
 
                                 {status_from_business === "pending" ? (
                                     <div className="flex justify-start mt-2">
