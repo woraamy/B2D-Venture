@@ -39,11 +39,30 @@ export default function({params}){
             toast.error(result.error || 'Failed to edit raise campaign'); 
         }
     }
+
+    async function handleClose() {
+        try {
+            const response = await fetch(`/api/update/closeRaiseCampaign`, {
+                method: "POST",
+                body: JSON.stringify({ business_id: data.business_id }),
+            });
+
+            if (response.ok) {
+                toast.success("Raise campaign closed successfully");
+                router.push('/dashboard/admin/campaign');  
+            } else {
+                toast.error("Failed to close raise campaign");
+            }
+        } catch (error) {
+            toast.error("An error occurred while closing the campaign");
+            console.error("Error closing raise campaign:", error);
+        }
+    }
      
     return (
         <div className="flex justify-center items-center w-[85vw] ">
             <Toaster />
-            <div className="flex flex-col justify-center items-center bg-white w-[60%] h-[50%] rounded-xl shadow-lg p-48">
+            <div className="flex flex-col justify-center items-center bg-white w-[60%] h-[60%] rounded-xl shadow-lg p-48">
             <form method="post" onSubmit={handleSubmit}>
             <table className="text-[16px] mt-5">
                 <tr>
@@ -123,8 +142,12 @@ export default function({params}){
                     </td>
                 </tr>
             </table>
-            <Button className="mt-5 w-[30%] " type="submit">Edit</Button>
+            <div className="flex justify-center">
+                    <Button className="mt-5 w-[30%]" type="submit">Edit</Button>
+                </div>           
             </form>
+            <Button className="mt-5 w-[30%] bg-red-600 hover:bg-red-700" onClick={handleClose} >Close</Button>
+            
             </div>
     </div>
     )
