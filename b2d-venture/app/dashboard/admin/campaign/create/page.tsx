@@ -30,7 +30,7 @@ export default function Page() {
         setSelect(`${name} : ${ids}`)
         setId(ids)
     }
-    
+
     return(
       <div>
         <div className="">

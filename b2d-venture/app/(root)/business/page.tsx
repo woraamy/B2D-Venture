@@ -19,8 +19,9 @@ export default function Page() {
     async function fetchData(){
             const response = await fetch(`/api/fetchingData/RaiseCampaign`);
             const res = await response.json();
-            setData(res.data || []);
-            setInitialData(res.data || []);
+            const filteredData = res.data.filter((item)=>(item.status==="open"))
+            setData(filteredData || []);
+            setInitialData(filteredData || []);
     }
     
     useEffect(()  => {
@@ -43,6 +44,7 @@ export default function Page() {
         }
     };
     
+    // const filteredData = data.filter((item)=>(item.status==="open"))
     return(
         <>
         <div className="max-w-[70%] mx-auto mt-20 mb-20">
