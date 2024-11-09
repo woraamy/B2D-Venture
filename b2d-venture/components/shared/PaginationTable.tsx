@@ -8,7 +8,7 @@ export default function PaginationTable({data, itemsPerPage, buttonIndex, onDele
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const totalPages = data.length > 0 ? Math.ceil(data.length/itemsPerPage) : 1
 
     // Get data for the current page
     const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
