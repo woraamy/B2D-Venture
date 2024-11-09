@@ -12,11 +12,11 @@ export default function DetailCard({Data}){
             <CardHeader className="border-b-4 border-[#D9D9D9]">
                 <h1 className="text-[20px]">Rasied</h1>
                 <h1 className="text-[32px]"><b>${Data.data.raised.toLocaleString()}</b> | {formattedPercent}%</h1>
-                <div className="w-full h-4 mb-4 bg-white rounded-full">
+                <div className="w-full h-4 mb-4 bg-slate-300 rounded-full">
                     <div
-                        className="h-4 bg-[#45B52A] rounded-full"
+                        className="h-4 bg-[#45B52A] rounded-full z-0"
                         style={{ width: `${formattedPercent}%` }}
-                    ></div>                
+                    ></div>              
                 </div>
                 <div className="flex text-[24px]">
                     <h2 className="mt-3">Funding goal</h2>

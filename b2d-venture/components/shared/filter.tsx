@@ -48,7 +48,8 @@ export default function Filter({className, onSubmit, data, obj, tag, select, tim
                   data: data,  
                   tag: checked,
                   sort: selectedSort,
-                  obj: obj
+                  obj: obj,
+                  timeKey: timeKey
               }) 
         });
         const datas = await response.json();
