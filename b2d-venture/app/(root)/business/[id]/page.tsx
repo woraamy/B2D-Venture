@@ -19,6 +19,9 @@ export default async function Page({params}) {
     const business_data = await Business.findById(data.business_id);
     const business_id = data.business_id?.toString();
     const campaign_id = data._id?.toString();
+    const benefit = data.investment_benefit;
+    console.log(data); 
+    console.log(benefit, typeof benefit);
    
     if (!data) {
         return <div>business not found</div>;
@@ -69,10 +72,11 @@ export default async function Page({params}) {
                 {/* dummy */}
                 <div className="mt-7">
                     <h1 className="text-[20px]"><b>Highlight</b></h1>
-                    <li className= "mt-5">- High-Impact Technology: AI-driven cancer detection represents a high-growth segment with both financial and societal impact, offering investors a chance to be part of a transformative healthcare innovation.</li>
-                    <li>- First-Mover Advantage: By focusing on the teenage and young adult cancer market, we have a clear first-mover advantage in a niche with high unmet needs</li>
-                    <li>- Strong Growth Trajectory: With a scalable business model, global market potential, and ongoing advancements in AI, this startup is poised for rapid growth, offering significant returns on investment.</li>
-                    <h1 className="text-[20px] mt-7"><b>Oppotunity</b></h1>
+                    <li className= "mt-5">{data.description}</li>
+                    <h1 className="text-[20px] mt-7"><b>Investment Benefit</b></h1>
+                    <div className="mt-10">
+                        {data.investment_benefit}
+                    </div>
                     <div className="relative mt-5 h-[30rem] w-[45vw]">
                         <Image 
                         src='/assets/images/example.png'
@@ -81,11 +85,7 @@ export default async function Page({params}) {
                         style={{objectFit:"cover"}}
                         />
                     </div>
-                    <div className="mt-10">
-                        <li><b>Niche Focus</b>: There is a growing need for specialized cancer detection tools for teenagers and young adults, an underserved demographic with unique cancer profiles often overlooked by standard diagnostic approaches.</li>
-                        <li><b>Growing Market</b>: The global AI healthcare market is projected to grow significantly, with cancer diagnostics being a major focus. Early detection and personalized medicine are key drivers of this growth.</li>
-                        <li><b>Impact Potential</b>: By improving early detection rates and reducing misdiagnosis, this technology has the potential to save lives, reduce healthcare costs, and enhance patient outcomes, making it a valuable proposition for healthcare providers and insurers.</li>
-                    </div>
+                    
 
                     <h1 id='teams' className="text-[20px] mt-7"><b>Teams</b></h1>
 
