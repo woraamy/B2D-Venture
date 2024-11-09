@@ -7,6 +7,7 @@ import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Page() {
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
@@ -92,7 +93,9 @@ export default function Page() {
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">Business's raise campaign Mangement</h1>
                 <div className="flex mt-5 gap-5">
-                    <Button>+ Add Raised Campaign</Button>
+                    <Link href={'campaign/create'}>
+                        <Button>+ Add Raised Campaign</Button>
+                    </Link>
                     <SearchBar 
                             text='Search Raised Campaign'
                             data={initialData}
