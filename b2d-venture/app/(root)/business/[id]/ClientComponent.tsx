@@ -48,7 +48,7 @@ export default function ClientComponent({
 
   const fetchCampaignData = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${campaignId}`);
+      const response = await fetch(`/api/fetchingData/RaiseCampaign/${campaignId}`);
       const campaignData = await response.json(); 
       console.log('Fetched Campaign Data:', campaignData); 
       setCampaignData(campaignData); 

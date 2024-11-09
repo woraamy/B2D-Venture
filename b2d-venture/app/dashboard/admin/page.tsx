@@ -91,10 +91,11 @@ export default async function Page() {
                                 address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                                 name={req.BusinessName} 
                                 description={req.description}
-                                tag={req.typeOfBusiness} 
+                                tag={req.tag_list} 
                                 email={req.email}
                                 status={req.status}
                                 className='mr-5'
+                                time={req.createdAt.toLocaleDateString('en-US')}
                                 />
                             ))}
                         </div>    
@@ -115,6 +116,7 @@ export default async function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
+                                time={req.createdAt.toLocaleDateString('en-US')}
                                 />
                             ))}
                         </div>    

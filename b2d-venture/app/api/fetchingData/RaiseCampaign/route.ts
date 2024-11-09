@@ -10,8 +10,8 @@ export async function GET() {
            // Format the created_at date before sending
            const formattedData = data.map(item => ({
             ...item.toObject(),
-            start_date: item.start_date.toLocaleDateString(), 
-            end_date: item.end_date.toLocaleDateString() 
+            start_date: item.start_date.toLocaleDateString('en-US'),
+            end_date: item.end_date.toLocaleDateString('en-US')
             }));
             return NextResponse.json({ data: formattedData });
         }

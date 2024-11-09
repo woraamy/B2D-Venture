@@ -6,11 +6,13 @@ import Business from '@/models/Business'
 import BusinessRequestCard from "@/components/shared/AdminDashboard/BusinessRequestCard";
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function Page() {
+    const tag = ["approved", "pending", "declined"]
+    const select = ["Newest", "Oldest"]
     const [curData, setCurData] = useState([]);
     const [curInitData, setCurInitData] = useState([]);
     const [data, setData] = useState([]);
@@ -66,9 +68,16 @@ export default function Page() {
                         data={curInitData}
                         onSearch={handleCurSearchResults}
                         obj={"BusinessName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleCurSearchResults}
+                            data={curInitData}
+                            obj="status"
+                            tag={[]}
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationCurData.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
@@ -77,10 +86,11 @@ export default function Page() {
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
                             description={req.description}
-                            tag={req.typeOfBusiness} 
+                            tag={req.tag_list} 
                             email={req.email}
                             status={req.status}
                             className='mr-5\'
+                            time={req.createdAt}
                             />
                         ))}
                     </div> 
@@ -108,9 +118,16 @@ export default function Page() {
                             data={initialData}
                             onSearch={handleSearchResults}
                             obj={"BusinessName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleSearchResults}
+                            data={initialData}
+                            obj="status"
+                            tag={tag}
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationData.map((req)=>(
                             <BusinessRequestCard 
                             key={req._id}
@@ -119,10 +136,11 @@ export default function Page() {
                             address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
                             name={req.BusinessName} 
                             description={req.description}
-                            tag={req.typeOfBusiness} 
+                            tag={req.tag_list} 
                             email={req.email}
                             status={req.status}
                             className='mr-5\'
+                            time={req.createdAt}
                             />
                         ))}
                     </div> 

@@ -2,13 +2,15 @@
 import TableCard from "@/components/shared/TableCard";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 
 export default function Page() {
+    const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
+    const select = ["Newest", "Oldest", "Popular", "Nearly close"]
     const [campaign, setCampaign] = useState([]);
     const [loading, setLoading] = useState(true);
     const [initialData, setInitialData] = useState([]);
@@ -96,7 +98,14 @@ export default function Page() {
                             data={initialData}
                             onSearch={handleSearchResults}
                             obj={"business_id.BusinessName"}/>
-                    <Filter className="" />
+                    <Filter 
+                            className="ms-5"
+                            onSubmit={handleSearchResults}
+                            data={initialData}
+                            obj="business_id.tag_list"
+                            tag={tag}
+                            select={select}
+                            timeKey="start_date"/>
                     <div className="flex bg-white px-5 py-2 w-[100px] items-center rounded-md shadow-sm">
                         total:
                         <p className="px-2"> {data.length}</p>

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       stateProvince,
       postalCode,
       country,
-      typeOfBusiness,
+      tag_list,
       username,
       password,
       status,
@@ -70,10 +70,10 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await hashPassword(password);
 
-    // Handle case where typeOfBusiness is an array
-    const businessType = Array.isArray(typeOfBusiness)
-      ? typeOfBusiness.join(", ")
-      : typeOfBusiness;
+    // Handle case where tag_list is an array
+    const businessType = Array.isArray(tag_list)
+      ? tag_list.join(", ")
+      : tag_list;
 
     // Create a new business user
     const newUser = new User({
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
       stateProvince,
       postalCode,
       country,
-      typeOfBusiness: businessType,
+      tag_list: businessType,
       username,
       status: "active",
     });

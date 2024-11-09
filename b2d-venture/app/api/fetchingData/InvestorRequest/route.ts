@@ -15,7 +15,12 @@ export async function GET(req: Request) {
         });
 
         if (data) {
-            return NextResponse.json({ data: data },{status: 200});
+            // Format the created_at date before sending
+            const formattedData = data.map(item => ({
+                ...item.toObject(),
+                createdAt: item.createdAt.toLocaleDateString('en-US')
+            }));
+            return NextResponse.json({ data: formattedData });
     }
         return NextResponse.json({ message: `Investor request not found` },{status: 404});
     } catch (error){
