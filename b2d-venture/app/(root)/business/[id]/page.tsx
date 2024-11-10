@@ -31,7 +31,7 @@ export default async function Page({ params }) {
     const userEmail = session?.user?.email || "";
 
     return (
-        <div className="flex justify-center min-h-screen bg-gray-100 py-10 px-6">
+        <div className="flex justify-center min-h-screen bg-[#FFF5EE] py-10 px-6">
             {/* Main Content Area on the Left */}
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
                 {/* Header with Business Name and Profile Image */}
@@ -77,19 +77,25 @@ export default async function Page({ params }) {
                 {/* Overview and Navigation */}
                 <div className="flex items-center border-b-2 border-gray-200 mt-8 pb-4">
                     <h2 className="text-xl font-semibold text-[#FF553E]">Overview</h2>
+                    <Link href="#description" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Description
+                    </Link>
+                    <Link href="#benefit" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Benefits
+                    </Link>
                     <Link href="#contact" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
                         Contact
                     </Link>
                 </div>
 
                 {/* Description Section */}
-                <div className="mt-6">
+                <div id="description" className="mt-6">
                     <h3 className="text-lg font-semibold text-gray-800">Description</h3>
                     <p className="text-gray-700 mt-4">{data.description}</p>
                 </div>
 
                 {/* Investment Benefit Section */}
-                <div className="mt-8">
+                <div id="benefit" className="mt-8">
                     <h3 className="text-lg font-semibold text-gray-800">Investment Benefit</h3>
                     <p className="text-gray-700 mt-4">{data.investment_benefit}</p>
                     <div className="relative mt-6 h-80 w-full rounded-lg overflow-hidden">
