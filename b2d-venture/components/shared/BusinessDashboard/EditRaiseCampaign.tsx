@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -34,6 +33,7 @@ const editRaiseCampaignFormSchema = z.object({
     .nonnegative("Goal must be non-negative")
     .optional(),
   description: z.string().optional(), // Optional description
+  investment_benefit: z.string().optional(), // New field for investment benefit
   start_date: z.string().optional(),
   end_date: z.string().optional(),
   files: z.array(z.string()).optional(),
@@ -76,141 +76,165 @@ export function EditRaiseCampaignForm({ params, data }) {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
-      <h1 className="text-2xl font-bold text-[#FF6347]">Edit Raise Campaign</h1>
 
-      <Toaster /> 
-      <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Minimum Investment */}
-            <FormField
-              control={form.control}
-              name="min_investment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Minimum Investment</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Minimum investment for investors"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.min_investment || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+<div className="flex justify-center w-[90vw] max-w-2xl mt-10 space-y-4">
+  <h1 className="flex text-center text-2xl font-bold text-[#FF6347]">
+    Edit Raise Campaign
+  </h1>
 
-            {/* Maximum Investment */}
-            <FormField
-              control={form.control}
-              name="max_investment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Maximum Investment</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Maximum investment for investors"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.max_investment || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+  {/* Form Container */}
+  <div className="bg-white p-8 rounded shadow-md w-full">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Minimum Investment */}
+        <FormField
+          control={form.control}
+          name="min_investment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Minimum Investment</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Minimum investment for investors"
+                  {...field}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  defaultValue={data.min_investment || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* Goal */}
-            <FormField
-              control={form.control}
-              name="goal"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Goal</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Goal"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.goal || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Maximum Investment */}
+        <FormField
+          control={form.control}
+          name="max_investment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Maximum Investment</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Maximum investment for investors"
+                  {...field}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  defaultValue={data.max_investment || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* Start Date */}
-            <FormField
-              control={form.control}
-              name="start_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      {...field}
-                      defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Goal */}
+        <FormField
+          control={form.control}
+          name="goal"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Goal</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Goal"
+                  {...field}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  defaultValue={data.goal || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* End Date */}
-            <FormField
-              control={form.control}
-              name="end_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>End Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      {...field}
-                      defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Start Date */}
+        <FormField
+          control={form.control}
+          name="start_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Start Date of your raise campaign</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  {...field}
+                  defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* Raise Campaign Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Raise campaign Description</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Tell us about your raise campaign"
-                      {...field}
-                      defaultValue={data.description || ""}
-                    />
-                  </FormControl>
-                  <FormDescription>This will be displayed on raise campaign page.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* End Date */}
+        <FormField
+          control={form.control}
+          name="end_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>End Date of your raise campaign</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  {...field}
+                  defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* Submit Button */}
-            <Button type="submit" className="w-full">
-              Update Raise Campaign
-            </Button>
-          </form>
-        </Form>
-      </div>
-    </div>
-  );
-}
+        {/* Raise Campaign Description */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Raise Campaign Description</FormLabel>
+              <FormControl>
+                <textarea
+                  placeholder="Tell us about your raise campaign"
+                  {...field}
+                  defaultValue={data.description || ""}
+                  className="w-full h-32 p-3 border rounded"
+                />
+              </FormControl>
+              <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Investment Benefit */}
+        <FormField
+          control={form.control}
+          name="investment_benefit"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Investment Benefit</FormLabel>
+              <FormControl>
+                <textarea
+                  placeholder="Describe the benefits for investors"
+                  {...field}
+                  defaultValue={data.investment_benefit || ""}
+                  className="w-full h-32 p-3 border rounded"
+                />
+              </FormControl>
+              <FormDescription>This will help investors understand the benefits.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Submit Button */}
+        <Button type="submit" className="w-full">
+          Update Raise Campaign
+        </Button>
+      </form>
+    </Form>
+  </div>
+</div>
+  )};

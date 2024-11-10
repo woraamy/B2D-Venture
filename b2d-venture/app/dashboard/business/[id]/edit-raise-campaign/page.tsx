@@ -4,25 +4,26 @@ import DataRoom from "@/models/DataRoom";
 import Business from "@/models/Business";
 import connect from "@/lib/connectDB";
 import { EditRaiseCampaignForm } from "@/components/shared/BusinessDashboard/EditRaiseCampaign";
+import RaiseCampaign from "@/models/RaiseCampaign";
 
 export default async function Page({ params }) {
   const { id } = params;
-  const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
-  try {
-    const response = await fetch(campaignUrl);
-    if (!response.ok) {
-      throw new Error("Failed to fetch raise campaign data");
-    }
-    const data = await response.json();
 
-    const openCampaignData = data.find(campaign => campaign.status === "open");
+  try {
+    await connect(); // Ensure database connection
+
+    // Find the open raise campaign for the specified business_id and make it a plain object
+    const openCampaignData = await RaiseCampaign.findOne({ business_id: id, status: "open" }).lean();
 
     if (!openCampaignData) {
       return <p>No open raise campaign found for this business.</p>;
     }
 
+    // Convert the MongoDB object to a JSON-serializable plain object
+    const plainCampaignData = JSON.parse(JSON.stringify(openCampaignData));
+
     return (
-      <EditRaiseCampaignForm params={openCampaignData._id} data={openCampaignData} />
+      <EditRaiseCampaignForm params={plainCampaignData._id} data={plainCampaignData} />
     );
   } catch (error) {
     console.error("Error fetching campaign data:", error);
