@@ -11,14 +11,19 @@ import Business from "@/models/Business";
 export default async function Page({ params }) {
     const { id } = params; // id = campaign_id
     const data = await RaiseCampaign.findOne({ _id: id, status: "open" })
-        .populate('business_id')
-        .lean();
+        .populate({
+            path: 'business_id',
+            populate: {
+                path: 'user_id', 
+            },
+        })
+        .lean(); 
     
     if (!data) {
         return <div>Business not found</div>;
     }
 
-    const business_data = data.business_id.populate('user_id').lean();
+    const business_data = data.business_id;
     const business_id = business_data._id?.toString();
     const campaign_id = data._id?.toString();
 
@@ -67,13 +72,11 @@ export default async function Page({ params }) {
                 
                 <div className="flex border-b-2 font-semibold w-[90%] mt-10">
                     <h1 className="text-[24px] text-[#FF553E]">Overview</h1>
-                    <Link href="#teams" className="text-[18px] ml-5 mt-1">Teams</Link>
                     <Link href="#contact" className="text-[18px] ml-5 mt-1">Contact</Link>
-                    <Link href="#update" className="text-[18px] ml-5 mt-1">Updates</Link>
                 </div>
 
                 <div className="mt-7">
-                    <h1 className="text-[20px]"><b>Highlight</b></h1>
+                    <h1 className="text-[20px]"><b>Description</b></h1>
                     <p className="mt-5">{data.description}</p>
 
                     <h1 className="text-[20px] mt-5"><b>Investment Benefit</b></h1>
@@ -100,7 +103,6 @@ export default async function Page({ params }) {
                         <p><b>Country:</b> {business_data.country}</p>
                     </div>
 
-                    <h1 id="teams" className="text-[20px] mt-7"><b>Teams</b></h1>
                 </div>
             </div>
             
