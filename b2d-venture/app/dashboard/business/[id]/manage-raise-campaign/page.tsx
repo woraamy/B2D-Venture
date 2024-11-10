@@ -101,6 +101,8 @@ export default function ManageRaiseCampaignPage({ params }) {
                     shared_price={campaignData.shared_price.toLocaleString()}
                     tag={campaignData.business_id.tag_list}
                     goal={campaignData.goal.toLocaleString()}
+                    description={campaignData.description}
+                    investmen_benefit={campaignData.investmen_benefit}
                     status={status}
                     businessId={id}
                 />
