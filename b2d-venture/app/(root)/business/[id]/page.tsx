@@ -3,22 +3,22 @@ import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/shared/AskInFormationPopup";
 import ClientComponent from "./ClientComponent";
-import { getServerSession } from "next-auth"; 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Business from "@/models/Business";
 
 export default async function Page({ params }) {
-    const { id } = params; // id = campaign_id
+    const { id } = params;
     const data = await RaiseCampaign.findOne({ _id: id, status: "open" })
         .populate({
             path: 'business_id',
             populate: {
-                path: 'user_id', 
+                path: 'user_id',
             },
         })
-        .lean(); 
-    
+        .lean();
+
     if (!data) {
         return <div>Business not found</div>;
     }
@@ -31,84 +31,95 @@ export default async function Page({ params }) {
     const userEmail = session?.user?.email || "";
 
     return (
-        <>
-        <div className="pb-[10%]">
-            <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
-                <div className="flex">
-                    <div className="relative h-[100px] w-[100px]">
-                        <Image 
+        <div className="flex justify-center min-h-screen bg-gray-100 py-10 px-6">
+            {/* Main Content Area on the Left */}
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
+                {/* Header with Business Name and Profile Image */}
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300">
+                        <Image
                             src={business_data.profile}
                             alt="profile"
                             fill={true}
-                            style={{objectFit:"cover"}}
-                            className="rounded-md"
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
-                    <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
                             {business_data.BusinessName}
                         </h1>
+                        <p className="text-gray-600 mt-2">{business_data.description}</p>
                     </div>
                 </div>
-                <p className="mt-5">{business_data.description}</p>
 
-                {/* Display tag list */}
-                <div className="flex flex-wrap gap-2 mt-3">
+                {/* Tag List */}
+                <div className="flex flex-wrap gap-2 mt-4">
                     {business_data.tag_list.map((tag, index) => (
-                        <span key={index} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full">
+                        <span
+                            key={index}
+                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                        >
                             {tag}
                         </span>
                     ))}
                 </div>
 
-                <div className="relative mt-5 h-[30rem] w-[45vw]">
-                    <Image 
+                {/* Cover Image */}
+                <div className="relative mt-6 h-80 w-full rounded-lg overflow-hidden">
+                    <Image
                         src={business_data.coverimg}
                         alt="Cover Image"
                         fill={true}
-                        style={{objectFit:"cover"}}
+                        style={{ objectFit: "cover" }}
                     />
                 </div>
-                
-                <div className="flex border-b-2 font-semibold w-[90%] mt-10">
-                    <h1 className="text-[24px] text-[#FF553E]">Overview</h1>
-                    <Link href="#contact" className="text-[18px] ml-5 mt-1">Contact</Link>
+
+                {/* Overview and Navigation */}
+                <div className="flex items-center border-b-2 border-gray-200 mt-8 pb-4">
+                    <h2 className="text-xl font-semibold text-[#FF553E]">Overview</h2>
+                    <Link href="#contact" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Contact
+                    </Link>
                 </div>
 
-                <div className="mt-7">
-                    <h1 className="text-[20px]"><b>Description</b></h1>
-                    <p className="mt-5">{data.description}</p>
+                {/* Description Section */}
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800">Description</h3>
+                    <p className="text-gray-700 mt-4">{data.description}</p>
+                </div>
 
-                    <h1 className="text-[20px] mt-5"><b>Investment Benefit</b></h1>
-                    <div className="mt-5">{data.investment_benefit}</div>
-
-                    <div className="relative mt-5 h-[30rem] w-[45vw]">
-                        <Image 
+                {/* Investment Benefit Section */}
+                <div className="mt-8">
+                    <h3 className="text-lg font-semibold text-gray-800">Investment Benefit</h3>
+                    <p className="text-gray-700 mt-4">{data.investment_benefit}</p>
+                    <div className="relative mt-6 h-80 w-full rounded-lg overflow-hidden">
+                        <Image
                             src="/assets/images/example.png"
                             alt="Investment Benefit"
                             fill={true}
-                            style={{objectFit:"cover"}}
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
+                </div>
 
-                    {/* Contact Information */}
-                    <h1 id="contact" className="text-[20px] mt-7"><b>Contact</b></h1>
-                    <div className="mt-5">
-                        <p><b>Email:</b> {business_data.user_id.email}</p>
-                        <p><b>Contact Number:</b> {business_data.contactNumber}</p>
-                        <p><b>Address:</b> {business_data.BusinessAddress}</p>
-                        <p><b>City:</b> {business_data.city}</p>
-                        <p><b>State/Province:</b> {business_data.stateProvince}</p>
-                        <p><b>Postal Code:</b> {business_data.postalCode}</p>
-                        <p><b>Country:</b> {business_data.country}</p>
+                {/* Contact Information */}
+                <div id="contact" className="mt-10">
+                    <h3 className="text-lg font-semibold text-gray-800">Contact</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-gray-700">
+                        <p><strong>Email:</strong> {business_data.user_id.email}</p>
+                        <p><strong>Contact Number:</strong> {business_data.contactNumber}</p>
+                        <p><strong>Address:</strong> {business_data.BusinessAddress}</p>
+                        <p><strong>City:</strong> {business_data.city}</p>
+                        <p><strong>State/Province:</strong> {business_data.stateProvince}</p>
+                        <p><strong>Postal Code:</strong> {business_data.postalCode}</p>
+                        <p><strong>Country:</strong> {business_data.country}</p>
                     </div>
-
                 </div>
             </div>
-            
-            {/* Client Component with props */}
-            <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail}/>
+
+            <div className="lg:flex flex-col items-start w-80 ml-8 space-y-6">
+                <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail} />
+            </div>
         </div>
-        </>
     );
 }
