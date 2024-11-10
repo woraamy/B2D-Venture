@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { InvestChart } from "@/components/charts/investchart";
 
 // Schema for form validation (all fields required)
 const createRaiseCampaignFormSchema = z.object({
@@ -38,6 +39,7 @@ const createRaiseCampaignFormSchema = z.object({
       message: "Goal is required",
     }),
   description: z.string().min(1, "Description is required"),
+  investment_benefit: z.string().min(1, "Investment benefit is required"),
   end_date: z.string().min(1, "End date is required"),
   files: z.array(z.string()).optional(),
 });
@@ -50,6 +52,7 @@ const defaultValues: Partial<CreateFormValues> = {
   max_investment: 0,
   goal: 0,
   description: "",
+  investment_benefit: "",
   end_date: "",
   files: [],
 };
@@ -63,6 +66,7 @@ export function CreateRaiseCampaignForm({ params }) {
         max_investment: 0,
         goal: 0,
         description: "",
+        investment_benefit: "",
         end_date: "",
         files: [],
     }
@@ -81,6 +85,7 @@ export function CreateRaiseCampaignForm({ params }) {
         shared_price: 0,
         goal: data.goal,
         description: data.description,
+        investment_benefit: data.investment_benefit,
         start_date: Date.now(), 
         end_date: data.end_date,
         status: "open", 
@@ -223,6 +228,25 @@ export function CreateRaiseCampaignForm({ params }) {
                   <FormDescription>
                     This will be displayed on the raise campaign page.
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Raise Campaign Description */}
+            <FormField
+              control={form.control}
+              name="investment_benefit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Raise campaign Benefits for Investor</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Tell us about your raise campaign"
+                      {...field}
+                      value={field.value || ""}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
