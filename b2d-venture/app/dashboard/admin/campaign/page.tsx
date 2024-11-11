@@ -7,6 +7,7 @@ import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Page() {
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
@@ -70,29 +71,34 @@ export default function Page() {
     const data = campaign.map((item,index)=>(
         [
             {value: {src:item.business_id.profile, text:item.business_id.BusinessName},type:"image"},
+            {value: item.status, type:"text"},
             {value: item.start_date, type:"text"},
             {value: item.end_date, type:"text"},
             {value: {isHave: true,text: "View", action: "redirect", path: `/business/${item._id.toString()}`}, type: "button"},
-            {value: {isHave: true,text: "Edit", action: "redirect", path: `campaign/edit/${item._id.toString()}`}, type: "button"},
+            {value: {isHave: item.status === "open" ? true : false,text: "Edit", action: "redirect", path: `campaign/edit/${item._id.toString()}`}, type: "button"},
             {value: {isHave: true,text: "Delete", action: "delete", id: item._id.toString()}, type: "button"},
         ] 
     ))
     const headData = [
-        {value:"Business", type:"text"}, 
+        {value:"Business", type:"text"},
+        {value:"Status", type:"text"}, 
         {value:"Start Date", type:"text"},
         {value:"End Date", type:"text"},
         {value:"View", type:"text"},
         {value:"Edit", type:"text"},
         {value:"Delete", type:"text"},
+        
     ]
 
     return(
-        <div>
+        <div className="mb-10">
             <Toaster />
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">Business's raise campaign Mangement</h1>
                 <div className="flex mt-5 gap-5">
-                    <Button>+ Add Raised Campaign</Button>
+                    <Link href={'campaign/create'}>
+                        <Button>+ Add Raised Campaign</Button>
+                    </Link>
                     <SearchBar 
                             text='Search Raised Campaign'
                             data={initialData}
@@ -116,7 +122,7 @@ export default function Page() {
                     data={data}
                     itemsPerPage={10}
                     onDelete={(id) => handleDelete({ id })}
-                    buttonIndex={5}
+                    buttonIndex={6}
                 />
             </div>
             
