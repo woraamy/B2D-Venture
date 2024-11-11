@@ -118,12 +118,13 @@ export function CreateRaiseCampaignForm({ params }) {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
-      {/* Header */}
+    <div className="flex flex-col items-center space-y-6 w-[50vw] mt-10 mx-56">
       <Toaster />
-      <h1 className="text-2xl font-bold mb-6">Create Your Raise Campaign</h1>
+      <div>
+        <h1 className="text-2xl font-bold text-[#FF6347]">Create Raise Campaign</h1>
+      </div>
 
-      <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
+      <div className="bg-white p-8 rounded shadow-md w-full">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)} // Make sure this is properly attached
@@ -219,10 +220,11 @@ export function CreateRaiseCampaignForm({ params }) {
                 <FormItem>
                   <FormLabel>Raise campaign Description</FormLabel>
                   <FormControl>
-                    <Input
+                    <textarea
                       placeholder="Tell us about your raise campaign"
                       {...field}
                       value={field.value || ""}
+                      className="w-full h-32 p-3 border rounded"
                     />
                   </FormControl>
                   <FormDescription>
@@ -241,10 +243,11 @@ export function CreateRaiseCampaignForm({ params }) {
                 <FormItem>
                   <FormLabel>Raise campaign Benefits for Investor</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Tell us about your raise campaign"
+                    <textarea
+                      placeholder="Tell us about your raise campaign's benefits"
                       {...field}
                       value={field.value || ""}
+                      className="w-full h-32 p-3 border rounded"
                     />
                   </FormControl>
                   <FormMessage />
