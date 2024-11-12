@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import connectDB from "@/lib/connectDB";
 import { toast } from "react-toastify";
+import Investor from "@/models/Investor";
+import { profile } from "console";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -95,6 +97,19 @@ const authOptions: NextAuthOptions = {
           });
 
           await newUser.save(); 
+
+          const newInvestor = new Investor({
+            user_id: newUser._id,
+            firstName: "",
+            lastName: "",
+            investor_description: "",
+            profile_picture: "",
+            contactNumber: "",
+            birthDate: "",
+            nationality: "",
+          });
+
+          
           return true; 
         } catch (err) {
           console.log("Error during Google sign-in:", err);

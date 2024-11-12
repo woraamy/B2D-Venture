@@ -13,7 +13,6 @@ const InvestorSchema = mongoose.Schema(
       investment_history: [{
         type:mongoose.Schema.Types.ObjectId, ref:"Investment"
         }],
-      email: String,
       firstName: {
         type: String,
       },
