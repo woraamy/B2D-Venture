@@ -18,11 +18,10 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import ToolsBar from "../ToolsBar";
-import { Textarea } from "@/components/ui/textarea";
-import parse from "html-react-parser";
-import dynamic from "next/dynamic";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import TextAlign from "@tiptap/extension-text-align";
 
 
 // Schema for form validation
@@ -85,11 +84,16 @@ export function EditRaiseCampaignForm({ params, data }) {
       console.error("Error updating raise campaign:", error);
     }
   }
+
   const editor = useEditor({
     extensions: [
-      StarterKit, // This includes basic formatting extensions like bold, italic, etc.
+      StarterKit,
+      TextAlign.configure({
+        types: ["paragraph"], 
+      }),
+      Image
     ],
-    content: data.description || "<b>description</b>", // Set initial content from data
+    content: data.description || "", // Set initial content from data
     editorProps: {
       attributes: {
         class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
@@ -246,7 +250,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                 {/* Raise Campaign Description */}
                 <div className="mt-10 ">
                   <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
-                 <ToolsBar />
+                 <ToolsBar editor={editor}/>
                 </div>
                 <FormField
                   control={form.control}
