@@ -6,6 +6,8 @@ import { promises as fs } from "fs";
 import Business from '@/models/Business'
 import RaisedCampaign from '@/models/RaiseCampaign'
 import connect from '@/lib/connectDB'
+import DOMPurify from 'dompurify';
+import ReactHtmlParser from "react-html-parser";
 
 const getRaisedCampaign = async () => {
     const business = await Business.find()
@@ -17,6 +19,9 @@ const getRaisedCampaign = async () => {
 export default async function Home() {
     await connect()
     const {trend: trendData, latest :latestData} = await getRaisedCampaign()
+    
+    // const html = "<p class='text-red-500'>Hello</p>"
+    
     return (
         <div className="flex-col">
             <div className="flex ">
@@ -113,6 +118,7 @@ export default async function Home() {
                 ))}
             </div>
             </div>
-        </div>
+            {/* {ReactHtmlParser(html)} */}
+            </div>
     )
 }

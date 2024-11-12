@@ -32,6 +32,10 @@ const editRaiseCampaignFormSchema = z.object({
     .number({ invalid_type_error: "Goal must be a number" })
     .nonnegative("Goal must be non-negative")
     .optional(),
+  shared_price: z
+    .number({ invalid_type_error: "shared price must be a number" })
+    .nonnegative("shared price must be non-negative")
+    .optional(),
   description: z.string().optional(), // Optional description
   investment_benefit: z.string().optional(), // New field for investment benefit
   start_date: z.string().optional(),
@@ -77,7 +81,7 @@ export function EditRaiseCampaignForm({ params, data }) {
 
   return (
 
-    <div className="flex flex-col items-center space-y-6 w-[50vw] mt-10 mx-56">
+    <div className="flex flex-col w-[85vw] items-center space-y-6 mb-16 mt-10 ">
       <Toaster />
       <div>
         <h1 className="text-2xl font-bold text-[#FF6347]">Edit Raise Campaign</h1>
@@ -85,9 +89,11 @@ export function EditRaiseCampaignForm({ params, data }) {
       
 
         {/* Form Container */}
-        <div className="bg-white p-8 rounded shadow-md w-full">
+        <div className="flex w-[80%] justify-center bg-white p-10 rounded shadow-md ">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form 
+              onSubmit={form.handleSubmit(onSubmit)} 
+              className="grid grid-cols-1 w-full md:grid-cols-2 gap-8">
               {/* Minimum Investment */}
               <FormField
                 control={form.control}
@@ -145,6 +151,24 @@ export function EditRaiseCampaignForm({ params, data }) {
                   </FormItem>
                 )} />
 
+                <FormField
+                control={form.control}
+                name="shared_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Shared Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Shared Price"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        defaultValue={data.shared_price || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
               {/* Start Date */}
               <FormField
                 control={form.control}
@@ -178,26 +202,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                     <FormMessage />
                   </FormItem>
                 )} />
-
-              {/* Raise Campaign Description */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Raise Campaign Description</FormLabel>
-                    <FormControl>
-                      <textarea
-                        placeholder="Tell us about your raise campaign"
-                        {...field}
-                        defaultValue={data.description || ""}
-                        className="w-full h-32 p-3 border rounded" />
-                    </FormControl>
-                    <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-
+              <div className="md:col-span-2 flex flex-col gap-8 justify-center">
               {/* Investment Benefit */}
               <FormField
                 control={form.control}
@@ -216,11 +221,33 @@ export function EditRaiseCampaignForm({ params, data }) {
                     <FormMessage />
                   </FormItem>
                 )} />
+                {/* Raise Campaign Description */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Raise Campaign Description</FormLabel>
+                      <FormControl>
+                        <textarea
+                          placeholder="Tell us about your raise campaign"
+                          {...field}
+                          defaultValue={data.description || ""}
+                          className="w-full h-32 p-3 border rounded" />
+                      </FormControl>
+                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
 
               {/* Submit Button */}
-              <Button type="submit" className="w-full">
-                Update Raise Campaign
-              </Button>
+              <div className="md:col-span-2 flex justify-center">
+                <Button type="submit" className="w-1/2">
+                  Update Raise Campaign
+                </Button>
+            </div>
+              
             </form>
           </Form>
         </div>
