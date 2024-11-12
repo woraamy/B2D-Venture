@@ -257,7 +257,6 @@ export function EditRaiseCampaignForm({ params, data }) {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Raise Campaign Description</FormLabel>
                       <FormControl>
                         <div className="w-full">
                           <EditorContent editor={editor} />
@@ -268,24 +267,6 @@ export function EditRaiseCampaignForm({ params, data }) {
                     </FormItem>
                   )}
     />
-                {/* <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Raise Campaign Description</FormLabel>
-                      <FormControl>
-                        <textarea
-                          placeholder="Tell us about your raise campaign"
-                          {...field}
-                          defaultValue={data.description || ""}
-                          defaultValue={"<b>description</b>"}
-                          className="w-full h-32 p-3 border rounded" />
-                      </FormControl>
-                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )} /> */}
                 </div>
 
               {/* Submit Button */}

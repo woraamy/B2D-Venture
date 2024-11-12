@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import toast from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 
-export default function DragAndDrop({type}) {
+export default function DragAndDrop({type, className}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
@@ -110,6 +110,7 @@ export default function DragAndDrop({type}) {
   }
 
   return (
+    <div className={className}>
     <div className="flex mt-44 bg-transparent justify-center h-screen w-screen">
       <Toaster />
       <div className="flex bg-white items-center h-[50%] w-[80%] rounded-xl shadow-lg border-2">
@@ -188,6 +189,7 @@ export default function DragAndDrop({type}) {
     
       </div>
 
+    </div>
     </div>
   );
 }

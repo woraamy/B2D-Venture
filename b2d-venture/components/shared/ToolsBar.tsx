@@ -16,16 +16,21 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogFooter,
+    DialogClose
     } from "@/components/ui/dialog"
 import { Toggle } from "@/components/ui/toggle"
 import { useEditor } from "@tiptap/react"
 import { useState } from "react";
-
-
-  export default function ToolsBar({editor}) {
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Copy } from "lucide-react";
+import DragAndDrop from "./BusinessDashboard/DragAndDrop";
+export default function ToolsBar({editor}) {
     
     if (!editor) return null;
-    function uploadImage{
+    function uploadImage(){
         
     }
     
@@ -69,11 +74,46 @@ import { useState } from "react";
                     pressed={editor.isActive({ textAlign: "right" })}>
                     <AlignRight className="h-4 w-4"/>  
                 </Toggle>
-                <Toggle  
+                {/* <Toggle  
                     onClick={() =>  editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     pressed={editor.isActive("heading", { level: 1 })}>
                     <Image className="h-4 w-4"/>  
-                </Toggle>
+                </Toggle> */}
+                <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="outline" className="border-0">
+                        <Image className="h-4 w-4"/>  
+                   </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md bg-white">
+                    <DialogHeader>
+                    <DialogTitle>Share link</DialogTitle>
+                    <DialogDescription>
+                        Anyone who has this link will be able to view this.
+                    </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex items-center space-x-2">
+                    <div className="grid flex-1 gap-2">
+                        <Label htmlFor="link" className="sr-only">
+                        Link
+                        </Label>
+                        <DragAndDrop type="asset" className='absolute '/>
+                       
+                    </div>
+                    <Button type="submit" size="sm" className="px-3">
+                        <span className="sr-only">Copy</span>
+                        <Copy />
+                    </Button>
+                    </div>
+                    <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                        Close
+                        </Button>
+                    </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+                </Dialog>
                 
                 
             </div>
