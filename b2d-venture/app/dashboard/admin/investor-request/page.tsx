@@ -1,15 +1,17 @@
 "use client"
 import InvestorRequestCard from "@/components/shared/AdminDashboard/InvestorRequestCard";
 import SearchBar from "@/components/ui/searchbar";
-import Filter from "@/components/ui/filter";
+import Filter from "@/components/shared/filter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+
 export default function Page() {
+    const tag = ["approved", "pending", "declined"]
+    const select = ["Newest", "Oldest"]
     const [curData, setCurData] = useState([]);
     const [curInitData, setCurInitData] = useState([]);
     const [data, setData] = useState([]);
     const [initialData, setInitialData] = useState([]);
-
     const [currentCurPage, setCurrentCurPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
@@ -39,7 +41,7 @@ export default function Page() {
         setCurData(newData);  // Update the state with the received search results
         if (!newData){
             setCurData(newData.length > 0 ? newData : curInitData);
-        }
+        } 
       };
 
     const handleSearchResults = (newData) => {
@@ -60,9 +62,17 @@ export default function Page() {
                             data={curInitData}
                             onSearch={handleCurSearchResults}
                             obj={"investor_id.firstName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleCurSearchResults}
+                            data={curInitData}
+                            obj="status_from_admin"
+                            tag={[]}
+                            select={select}
+                            timeKey="createdAt"
+                            />
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationCurData.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
@@ -76,6 +86,7 @@ export default function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
+                                time={req.createdAt}
                                 />
                             ))}
                     </div> 
@@ -103,9 +114,16 @@ export default function Page() {
                                 data={initialData}
                                 onSearch={handleSearchResults}
                                 obj={"investor_id.firstName"}/>
-                        <Filter className="ms-5"/>
+                        <Filter 
+                            className="ms-5"
+                            onSubmit={handleSearchResults}
+                            data={initialData}
+                            obj="status_from_admin"
+                            tag={tag}
+                            select={select}
+                            timeKey="createdAt"/>
                     </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-between">
+                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
                         {paginationData.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
@@ -119,6 +137,7 @@ export default function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
+                                time={req.createdAt}
                                 />
                             ))}
                     </div> 

@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       business_id: business_id,
       status: "open"
     });
-
+    
     // If an open campaign exists, send an error response
     if (existingOpenCampaign) {
       return NextResponse.json(

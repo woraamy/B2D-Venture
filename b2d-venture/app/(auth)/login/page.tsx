@@ -73,7 +73,7 @@ function LoginPage() {
         stateProvince, 
         postalCode, 
         country, 
-        typeOfBusiness, 
+        tag_list, 
         username, 
         password: businessPassword 
       } = businessRequestData.businessRequest;
@@ -93,7 +93,7 @@ function LoginPage() {
             postalCode,
             city,
             country,
-            typeOfBusiness,
+            tag_list,
             username,
             password: businessPassword,
             email,

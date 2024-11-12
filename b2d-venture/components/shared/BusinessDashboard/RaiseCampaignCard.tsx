@@ -27,15 +27,18 @@ const RaiseCampaignCard = ({
           <h2 className="text-3xl font-bold">{businessName}</h2>
           <p className="text-sm font-light">{description}</p>
         </CardHeader>
-        <CardContent className="p-6 space-y-4">
-          {/* Financial Information */}
-          <div className="grid grid-cols-2 gap-4 text-gray-800">
-            <div><strong>Raised:</strong> ${raised.toLocaleString()}</div>
-            <div><strong>Goal:</strong> ${goal.toLocaleString()}</div>
-            <div><strong>Min Investment:</strong> ${min.toLocaleString()}</div>
-            <div><strong>Max Investment:</strong> ${max.toLocaleString()}</div>
-            <div><strong>Share Price:</strong> ${shared_price}</div>
-            <div><strong>Valuation:</strong> ${valuation.toLocaleString()}</div>
+        <CardContent className="p-4">
+          <p className="text-md">{description}</p>
+          <div className="mt-4">
+            <p><strong>Raised:</strong> ${raised}</p>
+            <p><strong>Goal:</strong> ${goal}</p>
+            <p><strong>Minimum Investment:</strong> ${min}</p>
+            <p><strong>Maximum Investment:</strong> ${max}</p>
+            <p><strong>Share Price:</strong> ${shared_price}</p>
+            <p><strong>Valuation:</strong> ${valuation}</p>
+            <p><strong>Start Date:</strong> {new Date(start_date).toLocaleDateString('en-US')}</p>
+            <p><strong>End Date:</strong> {new Date(end_date).toLocaleDateString('en-US')}</p>
+            <p><strong>Status:</strong> {status}</p>
           </div>
 
           {/* Campaign Dates */}

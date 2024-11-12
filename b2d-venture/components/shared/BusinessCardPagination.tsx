@@ -6,11 +6,11 @@ import BusinessCard from "./BusinessCard";
 
 export default function BusinessCardPagination({data,itemsPerPage}){
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(data.length/itemsPerPage)
+    const totalPages =  data.length > 0 ? Math.ceil(data.length/itemsPerPage) : 1
     const paginationData = data.slice((currentPage-1)*itemsPerPage,currentPage*itemsPerPage);
     return(
         <div>
-             <div className="flex flex-wrap gap-4 justify-center ">
+             <div className="flex flex-wrap gap-4 justify-normal ">
                 {paginationData.map((campaign,index) =>(
                         <BusinessCard
                         key={index}
