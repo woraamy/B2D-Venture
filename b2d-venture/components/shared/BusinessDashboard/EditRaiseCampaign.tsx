@@ -17,6 +17,13 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import ToolsBar from "../ToolsBar";
+import { Textarea } from "@/components/ui/textarea";
+import parse from "html-react-parser";
+import dynamic from "next/dynamic";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+
 
 // Schema for form validation
 const editRaiseCampaignFormSchema = z.object({
@@ -78,6 +85,21 @@ export function EditRaiseCampaignForm({ params, data }) {
       console.error("Error updating raise campaign:", error);
     }
   }
+  const editor = useEditor({
+    extensions: [
+      StarterKit, // This includes basic formatting extensions like bold, italic, etc.
+    ],
+    content: data.description || "<b>description</b>", // Set initial content from data
+    editorProps: {
+      attributes: {
+        class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
+      },
+    },
+    onUpdate({ editor }) {
+      // Update the form field value whenever the editor content changes
+      form.setValue("description", editor.getHTML());
+    },
+  });
 
   return (
 
@@ -202,7 +224,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                     <FormMessage />
                   </FormItem>
                 )} />
-              <div className="md:col-span-2 flex flex-col gap-8 justify-center">
+              <div className="md:col-span-2 flex flex-col gap-1 justify-center">
               {/* Investment Benefit */}
               <FormField
                 control={form.control}
@@ -222,7 +244,27 @@ export function EditRaiseCampaignForm({ params, data }) {
                   </FormItem>
                 )} />
                 {/* Raise Campaign Description */}
+                <div className="mt-10 ">
+                  <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
+                 <ToolsBar />
+                </div>
                 <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Raise Campaign Description</FormLabel>
+                      <FormControl>
+                        <div className="w-full">
+                          <EditorContent editor={editor} />
+                        </div>
+                      </FormControl>
+                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+    />
+                {/* <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
@@ -233,12 +275,13 @@ export function EditRaiseCampaignForm({ params, data }) {
                           placeholder="Tell us about your raise campaign"
                           {...field}
                           defaultValue={data.description || ""}
+                          defaultValue={"<b>description</b>"}
                           className="w-full h-32 p-3 border rounded" />
                       </FormControl>
                       <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
                       <FormMessage />
                     </FormItem>
-                  )} />
+                  )} /> */}
                 </div>
 
               {/* Submit Button */}

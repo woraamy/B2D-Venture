@@ -7,7 +7,7 @@ import Business from '@/models/Business'
 import RaisedCampaign from '@/models/RaiseCampaign'
 import connect from '@/lib/connectDB'
 import DOMPurify from 'dompurify';
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 const getRaisedCampaign = async () => {
     const business = await Business.find()
