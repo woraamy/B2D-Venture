@@ -13,9 +13,9 @@ export default async function Page({ params }) {
   const user_id = business.user_id.toString()
   
   return(
-    <div className="flex">
-        <div className="flex w-[40vw] h-screen">
-        <DragAndDrop type="dataroom"/>
+    <div className="flex overflow-hidden">
+        <div className="flex ml-10 w-[40vw] h-screen">
+        <DragAndDrop type="dataroom" className={"flex mt-44 bg-transparent justify-center h-screen w-screen"}/>
         </div>
 
         <div className="absolute right-0 flex w-[40vw] h-screen bg-white shadow-lg  ">

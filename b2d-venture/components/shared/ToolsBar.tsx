@@ -36,7 +36,6 @@ export default function ToolsBar({editor}) {
     
     return (
         <div>
-            
             <div className="border-2 w-full rounded-md">
                 <Toggle 
                     onClick={() => editor.chain().focus().toggleBold().run()}
@@ -74,21 +73,22 @@ export default function ToolsBar({editor}) {
                     pressed={editor.isActive({ textAlign: "right" })}>
                     <AlignRight className="h-4 w-4"/>  
                 </Toggle>
+
                 <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="outline" className="border-0">
                         <Image className="h-4 w-4"/>  
                    </Button>
                 </DialogTrigger>
-                <DialogContent className="flex flex-col items-center justify-center h-[500px]">
+                <DialogContent className="flex max-w-[60vw] flex-col bg-white">
                     <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
+                    <DialogTitle>Upload or select picture</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this.
+                       Upload or select picture
                     </DialogDescription>
                     </DialogHeader>
-                    <div>
-                        <DragAndDrop type="asset" className=''/>
+                    <div className="h-[70vh] items-center overflow-hidden ml-[20%]">
+                        <DragAndDrop type="asset" className='flex ml-1 h-[70vh]'/>
                     </div>
                     <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>

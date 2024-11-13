@@ -111,9 +111,9 @@ export default function DragAndDrop({type, className}) {
 
   return (
     <div className={className}>
-    <div className="flex mt-44 bg-transparent justify-center h-screen w-screen">
+    <div className="flex">
       <Toaster />
-      <div className="flex bg-white items-center h-[50%] w-[80%] rounded-xl shadow-lg border-2">
+      <div className="relative flex bg-white self-stretch justify-center items-center h-[50%] w-[90%] rounded-xl shadow-lg border-2">
       <form
         className={`${
           dragActive ? "bg-gray-200" : "bg-transparent"
@@ -151,7 +151,7 @@ export default function DragAndDrop({type, className}) {
 
         </div>
       </form>
-      <div className="relative flex flex-col p-3 ml-10 self-stretch mt-16 h-[70%] w-[50%] ">
+      <div className="relative flex flex-col p-3 ml-10 self-stretch mt-[5%] h-[70%] w-[50%] overflow-auto ">
         
         <h1 className="text-xl font-semibold mb-5">Uploaded File</h1>
           {files.map((file: any, idx: any) => (
@@ -159,15 +159,16 @@ export default function DragAndDrop({type, className}) {
               <span>
                 <FaFileAlt />
               </span>
-              <span>{file.name}</span>
+              <span className="break-words max-w-[70%]">{file.name}</span>
               <span
-                className="text-red-500 flex ml-10 cursor-pointer"
+                className="text-red-500 cursor-pointer  "
                 onClick={() => removeFile(file.name, idx)}
               >
                 <MdDelete />
               </span>
             </div>
           ))}
+          </div>
           {isLoading && (
           <div className=" absolute bottom-0  w-full flex items-center justify-center">
             <img
@@ -179,12 +180,12 @@ export default function DragAndDrop({type, className}) {
           </div>
           )}
           <button
-          className="absolute bottom-0 bg-orange-500 rounded-lg p-2 mt-3 w-auto"
+          className="absolute bottom-5 left-1/2 bg-orange-500 rounded-lg p-2 mt-3 w-auto"
           onClick={handleSubmitFile}
           >
           <span className="p-2 text-white">Submit</span>
         </button>
-        </div>
+        
      
     
       </div>

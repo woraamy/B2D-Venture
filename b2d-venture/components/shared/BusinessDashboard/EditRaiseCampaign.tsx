@@ -85,7 +85,7 @@ export function EditRaiseCampaignForm({ params, data }) {
     }
   }
 
-  const editor = useEditor({
+  const editorDescription = useEditor({
     extensions: [
       StarterKit,
       TextAlign.configure({
@@ -104,6 +104,27 @@ export function EditRaiseCampaignForm({ params, data }) {
       form.setValue("description", editor.getHTML());
     },
   });
+
+  const editorBenefit = useEditor({
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ["paragraph"], 
+      }),
+      Image
+    ],
+    content: data.investment_benefit || "", // Set initial content from data
+    editorProps: {
+      attributes: {
+        class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
+      },
+    },
+    onUpdate({ editor }) {
+      // Update the form field value whenever the editor content changes
+      form.setValue("investment_benefit", editor.getHTML());
+    },
+  });
+
 
   return (
 
@@ -230,27 +251,29 @@ export function EditRaiseCampaignForm({ params, data }) {
                 )} />
               <div className="md:col-span-2 flex flex-col gap-1 justify-center">
               {/* Investment Benefit */}
-              <FormField
-                control={form.control}
-                name="investment_benefit"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Investment Benefit</FormLabel>
-                    <FormControl>
-                      <textarea
-                        placeholder="Describe the benefits for investors"
-                        {...field}
-                        defaultValue={data.investment_benefit || ""}
-                        className="w-full h-32 p-3 border rounded" />
-                    </FormControl>
-                    <FormDescription>This will help investors understand the benefits.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+              <div className="mt-10 ">
+                  <p className="text-sm font-semibold mb-2">Investment Benefit</p>
+                 <ToolsBar editor={editorBenefit}/>
+                </div>
+                <FormField
+                  control={form.control}
+                  name="investment_benefit"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="w-full">
+                          <EditorContent editor={editorBenefit} />
+                        </div>
+                      </FormControl>
+                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+    />
                 {/* Raise Campaign Description */}
                 <div className="mt-10 ">
                   <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
-                 <ToolsBar editor={editor}/>
+                 <ToolsBar editor={editorDescription}/>
                 </div>
                 <FormField
                   control={form.control}
@@ -259,7 +282,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                     <FormItem>
                       <FormControl>
                         <div className="w-full">
-                          <EditorContent editor={editor} />
+                          <EditorContent editor={editorDescription} />
                         </div>
                       </FormControl>
                       <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
