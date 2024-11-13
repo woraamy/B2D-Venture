@@ -31,6 +31,13 @@ export async function middleware(req) {
     const pathParts = pathname.split('/');
     const investorIdFromPath = pathParts[3]; // Extract investor ID from the path
 
+    console.log('Investor ID from path:', investorIdFromPath);
+    console.log(pathParts);
+    console.log("Token" + token);
+    console.log("Investor ID" + token.investorId);
+    console.log("Role" + token.role);
+
+
     // Check if the user is an investor and if they are accessing their own dashboard
     if (token.role !== 'investor' || token.investorId !== investorIdFromPath) {
       return NextResponse.redirect(new URL('/403', req.url));

@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { number, z } from "zod";
+import { z } from "zod";
 
-const createPaymentSchema = (minInvestment: number, maxInvestment: number) =>
+const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({
     cardNumber: z.string().min(16, { message: "Card number must be at least 16 digits" }),
     cvv: z.string().min(3, { message: "CVV must be at least 3 digits" }),
     name: z.string().min(1, { message: "Name is required" }),
-    expiry: z.string().min(5, { message: "Expiry date is required (MM/YY)" }),
+    expiry: z.string().regex(/^\d{2}\/\d{2}$/, { message: "Expiry date must be in MM/YY format" }),
     amount: z
       .number()
       .positive({ message: "Amount must be a positive number" })
@@ -33,7 +33,7 @@ export default function PaymentPage() {
   const investorId = searchParams.get("investorId");
 
   const [loading, setLoading] = useState(false);
-  const [campaignData, setCampaignData] = useState<any>(null);
+  const [campaignData, setCampaignData] = useState(null);
   const [minInvestment, setMinInvestment] = useState(0);
   const [maxInvestment, setMaxInvestment] = useState(0);
 
@@ -70,7 +70,6 @@ export default function PaymentPage() {
 
   const handlePayment = async (data) => {
     setLoading(true);
-
     try {
       const response = await fetch("/api/investment", {
         method: "POST",
@@ -96,100 +95,94 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-700">Enter Payment Details</h2>
-        <form onSubmit={form.handleSubmit(handlePayment)}>
-          {/* Credit Card Number */}
-          <div className="mb-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Payment Details</h2>
+        <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
+
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cardNumber">
               Card Number
             </label>
             <input
               type="text"
               {...form.register("cardNumber")}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="1234 5678 9012 3456"
             />
             {form.formState.errors.cardNumber && (
-              <p className="text-red-600">{form.formState.errors.cardNumber.message}</p>
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.cardNumber.message}</p>
             )}
           </div>
 
-          {/* CVV */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cvv">
               CVV
             </label>
             <input
               type="text"
               {...form.register("cvv")}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="123"
             />
             {form.formState.errors.cvv && (
-              <p className="text-red-600">{form.formState.errors.cvv.message}</p>
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.cvv.message}</p>
             )}
           </div>
 
-          {/* Name on Card */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">
               Name on Card
             </label>
             <input
               type="text"
               {...form.register("name")}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="John Doe"
             />
             {form.formState.errors.name && (
-              <p className="text-red-600">{form.formState.errors.name.message}</p>
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
             )}
           </div>
 
-          {/* Expiry Date */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="expiry">
               Expiry Date
             </label>
             <input
               type="text"
               {...form.register("expiry")}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="MM/YY"
             />
             {form.formState.errors.expiry && (
-              <p className="text-red-600">{form.formState.errors.expiry.message}</p>
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.expiry.message}</p>
             )}
           </div>
 
-          {/* Investment Amount */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="amount">
-              Amount to Invest
+              Amount to Invest (in USD)
             </label>
             <input
               type="number"
               {...form.register("amount", { valueAsNumber: true })}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder={`Investment between ${minInvestment} and ${maxInvestment}`}
             />
             {form.formState.errors.amount && (
-              <p className="text-red-600">{form.formState.errors.amount.message}</p>
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.amount.message}</p>
             )}
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150"
+            className={`w-full py-3 px-4 text-white font-semibold rounded-md transition ${
+              loading
+                ? "bg-indigo-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
           >
             {loading ? "Processing..." : "Submit Payment"}
           </button>
