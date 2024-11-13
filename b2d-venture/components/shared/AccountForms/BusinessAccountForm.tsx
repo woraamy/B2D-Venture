@@ -19,7 +19,7 @@ import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Business from "@/models/Business";
 import UploadBusinessProfile from "../BusinessDashboard/UploadBusinessProfile";
-import UploadBusinessCover from "../BusinessDashboard/uploadBusinessCover";
+import UploadBusinessCover from "../BusinessDashboard/UploadBusinessCover";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
@@ -313,7 +313,7 @@ export function BusinessAccountForm({ params, data }) {
               <FormLabel>City</FormLabel>
               <FormControl>
                 <Input 
-                laceholder="City" 
+                placeholder="City" 
                 {...field}
                 defaultValue={data.city || ""}
                  />
