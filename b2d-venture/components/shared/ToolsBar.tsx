@@ -74,36 +74,21 @@ export default function ToolsBar({editor}) {
                     pressed={editor.isActive({ textAlign: "right" })}>
                     <AlignRight className="h-4 w-4"/>  
                 </Toggle>
-                {/* <Toggle  
-                    onClick={() =>  editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                    pressed={editor.isActive("heading", { level: 1 })}>
-                    <Image className="h-4 w-4"/>  
-                </Toggle> */}
                 <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="outline" className="border-0">
                         <Image className="h-4 w-4"/>  
                    </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md bg-white">
+                <DialogContent className="flex flex-col items-center justify-center h-[500px]">
                     <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>
                         Anyone who has this link will be able to view this.
                     </DialogDescription>
                     </DialogHeader>
-                    <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                        Link
-                        </Label>
-                        <DragAndDrop type="asset" className='absolute '/>
-                       
-                    </div>
-                    <Button type="submit" size="sm" className="px-3">
-                        <span className="sr-only">Copy</span>
-                        <Copy />
-                    </Button>
+                    <div>
+                        <DragAndDrop type="asset" className=''/>
                     </div>
                     <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>

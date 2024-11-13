@@ -69,8 +69,9 @@ export default function Page() {
                         timeKey="start_date"
                         />
             </div>
-            <BusinessCardPagination data={data} itemsPerPage={12} />
-           
+            <div className=''>
+                <BusinessCardPagination data={data} itemsPerPage={12} />
+            </div>
         </div>
         </>
     );

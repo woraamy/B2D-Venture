@@ -72,7 +72,7 @@ export default function Filter({className, onSubmit, data, obj, tag, select, tim
                     </div>
             </Button>
             {isOpen &&(
-                <div className="absolute w-[16%] h-auto bg-white shadow-lg rounded-lg z-10 overflow-auto">
+                <div className="absolute w-[25%] h-auto bg-white shadow-lg rounded-lg z-10 overflow-auto">
                     <div className="flex sort ml-2 mt-2 mr-2">
                         <div className='flex ml-2 items-center'>
                             Sorted by :

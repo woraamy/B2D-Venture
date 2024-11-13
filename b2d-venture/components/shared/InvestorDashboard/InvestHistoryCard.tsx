@@ -26,30 +26,26 @@ const InvestHistoryCard = ({className, businessName, businessImg, link, valuatio
                                 <span className="ml-auto">{date}</span>
                             </div>
                             <table className="text-xs">
+                            <tbody>
                                 <tr>
-                                    <td>Valuation</td>
-                                    <td>
-                                        <div className="ml-20">$ {valuation}</div>
-                                    </td>
+                                <td>Valuation</td>
+                                <td>
+                                    <div className="ml-20">$ {valuation}</div>
+                                </td>
                                 </tr>
                                 <tr>
-                                    <td>Raised</td>
-                                    <td>
-                                        <div className="ml-20">$ {raised}</div>
-                                    </td>
+                                <td>Raised</td>
+                                <td>
+                                    <div className="ml-20">$ {raised}</div>
+                                </td>
                                 </tr>
                                 <tr>
-                                    <td>Equiry Stake</td>
-                                    <td>
-                                        <div className="ml-20">{equityStake} %</div>
-                                    </td>
+                                <td>Equity Stake</td>
+                                <td>
+                                    <div className="ml-20">{equityStake} %</div>
+                                </td>
                                 </tr>
-                                <tr>
-                                    <td>Share recieve</td>
-                                    <td>
-                                        <div className="ml-20">{shared} shares</div>
-                                    </td>
-                                </tr>
+                            </tbody>
                             </table>
                         </div>
                     </CardContent>
