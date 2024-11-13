@@ -111,9 +111,8 @@ export default function DragAndDrop({type, className}) {
 
   return (
     <div className={className}>
-    <div className="flex">
       <Toaster />
-      <div className="relative flex bg-white self-stretch justify-center items-center h-[50%] w-[90%] rounded-xl shadow-lg border-2">
+      <div className="relative flex bg-white  justify-center items-center h-[50%] w-[90%] rounded-xl shadow-lg border-2">
       <form
         className={`${
           dragActive ? "bg-gray-200" : "bg-transparent"
@@ -170,7 +169,7 @@ export default function DragAndDrop({type, className}) {
           ))}
           </div>
           {isLoading && (
-          <div className=" absolute bottom-0  w-full flex items-center justify-center">
+          <div className=" absolute bottom-5 left-1/4  w-full flex items-center justify-center">
             <img
                 src="/assets/icons/icons-loading.gif"
                 alt="loading"
@@ -190,7 +189,6 @@ export default function DragAndDrop({type, className}) {
     
       </div>
 
-    </div>
     </div>
   );
 }

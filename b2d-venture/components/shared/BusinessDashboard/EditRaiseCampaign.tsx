@@ -251,7 +251,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                 )} />
               <div className="md:col-span-2 flex flex-col gap-1 justify-center">
               {/* Investment Benefit */}
-              <div className="mt-10 ">
+              {/* <div className="mt-10 ">
                   <p className="text-sm font-semibold mb-2">Investment Benefit</p>
                  <ToolsBar editor={editorBenefit}/>
                 </div>
@@ -269,9 +269,9 @@ export function EditRaiseCampaignForm({ params, data }) {
                       <FormMessage />
                     </FormItem>
                   )}
-    />
+    /> */}
                 {/* Raise Campaign Description */}
-                <div className="mt-10 ">
+                <div className="mt-2 ">
                   <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
                  <ToolsBar editor={editorDescription} id={id}/>
                 </div>
