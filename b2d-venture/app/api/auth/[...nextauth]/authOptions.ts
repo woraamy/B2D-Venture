@@ -5,6 +5,9 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import connectDB from "@/lib/connectDB";
 import { toast } from "react-toastify";
+import Investor from "@/models/Investor";
+import Business from "@/models/Business";
+import { profile } from "console";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -81,54 +84,104 @@ const authOptions: NextAuthOptions = {
       if (account.provider === "google") {
         try {
           const { name, email } = user;
-          await connectDB(); 
+          console.log(`Google sign-in for: ${email}`);
+          await connectDB();
+    
           const existingUser = await User.findOne({ email });
-
+    
           if (existingUser) {
+            console.log(`Existing user found: ${existingUser.email}`);
             return true;
           }
-
-          const newUser = new User({
+    
+          // Create new user
+          const newUser = await User.create({
             name,
             email,
-            role: "investor",
+            role: "investor", // Assign default role as investor
           });
-
-          await newUser.save(); 
-          return true; 
+    
+          console.log(`New user created: ${newUser.email}`);
+    
+          // Create corresponding investor profile
+          const newInvestor = await Investor.create({
+            user_id: newUser._id,
+            firstName: "",
+            lastName: "",
+            investor_description: "",
+            profile_picture: "",
+            contactNumber: "",
+            birthDate: "",
+            nationality: "",
+          });
+    
+          console.log(`Investor profile created for: ${newUser.email}`);
+    
+          return true;
         } catch (err) {
-          console.log("Error during Google sign-in:", err);
-          return false; 
+          console.error("Error during Google sign-in:", err);
+          return false;
         }
       }
       return true;
     },
+    
 
     async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.email = user.email;
         token.name = user.name;
-        token.role = user.role; 
+        token.role = user.role || "investor"; // Default role if undefined
+        token.id = await findId(user.email); 
       }
-      return token; 
+      return token;
     },
+    
 
     async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
         session.user.email = token.email;
         session.user.name = token.name;
-        session.user.role = token.role; 
+        session.user.role = token.role;
+        session.user.id = token.id; // Use the id from the token
       }
-      return session; 
-    },
+      return session;
+    }
+    
+    ,
 
-    async redirect({ url, baseUrl }) {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       if (url.startsWith(baseUrl)) {
-        return url;
+        return "/";
       }
       return baseUrl; 
-    },
+    }
+    ,
   },
 };
+
+const findId = async (email: string): Promise<string | null> => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    return null;
+  }
+
+  if (user.role === "investor") {
+    const investor = await Investor.findOne({ user_id: user._id });
+    if (investor) {
+      return investor._id.toString(); // Convert to string for consistency
+    }
+  }
+
+  if (user.role === "business") {
+    const business = await Business.findOne({ user_id: user._id });
+    if (business) {
+      return business._id.toString();
+    }
+  }
+
+  return null; // For "admin" or unknown roles
+};
+
 
 export { authOptions };
