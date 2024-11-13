@@ -7,6 +7,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Business from "@/models/Business";
+import parse from "html-react-parser";
+
 
 export default async function Page({ params }) {
     const { id } = params;
@@ -91,22 +93,14 @@ export default async function Page({ params }) {
                 {/* Description Section */}
                 <div id="description" className="mt-6">
                     <h3 className="text-lg font-semibold text-gray-800">Description</h3>
-                    <p className="text-gray-700 mt-4">{data.description}</p>
+                    {/* <p className="text-gray-700 mt-4">{data.description}</p> */}
+                    <div className="mt-5">
+                        {parse(data.description)}
+                    </div>
+                    
                 </div>
 
-                {/* Investment Benefit Section */}
-                <div id="benefit" className="mt-8">
-                    <h3 className="text-lg font-semibold text-gray-800">Investment Benefit</h3>
-                    <p className="text-gray-700 mt-4">{data.investment_benefit}</p>
-                    <div className="relative mt-6 h-80 w-full rounded-lg overflow-hidden">
-                        <Image
-                            src="/assets/images/example.png"
-                            alt="Investment Benefit"
-                            fill={true}
-                            style={{ objectFit: "cover" }}
-                        />
-                    </div>
-                </div>
+                
 
                 {/* Contact Information */}
                 <div id="contact" className="mt-10">
