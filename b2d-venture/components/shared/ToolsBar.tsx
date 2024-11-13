@@ -1,4 +1,3 @@
-
 import { 
         Bold, 
         Italic, 
@@ -25,7 +24,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import ImageContainer from "./ImageContainer";
 import DragAndDrop from "./BusinessDashboard/DragAndDrop";
-export default function ToolsBar({editor}) {
+export default function ToolsBar({editor, id}) {
     
     if (!editor) return null;
     function uploadImage(){
@@ -89,7 +88,7 @@ export default function ToolsBar({editor}) {
                         <div className="flex items-center overflow-hidden ml-[20%]">
                             <DragAndDrop type="asset" className='flex ml-1 h-[70vh]'/>
                         </div>
-                        <ImageContainer />
+                        <ImageContainer id={id}/>
                     </div>
                     
                     <DialogFooter className="sm:justify-start">

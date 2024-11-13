@@ -262,7 +262,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                     <FormItem>
                       <FormControl>
                         <div className="w-full">
-                          <EditorContent editor={editorBenefit} />
+                          <EditorContent editor={editorBenefit} id={id} />
                         </div>
                       </FormControl>
                       <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
@@ -273,7 +273,7 @@ export function EditRaiseCampaignForm({ params, data }) {
                 {/* Raise Campaign Description */}
                 <div className="mt-10 ">
                   <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
-                 <ToolsBar editor={editorDescription}/>
+                 <ToolsBar editor={editorDescription} id={id}/>
                 </div>
                 <FormField
                   control={form.control}
