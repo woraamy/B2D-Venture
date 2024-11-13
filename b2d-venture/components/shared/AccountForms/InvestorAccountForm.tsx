@@ -6,6 +6,7 @@ import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import UploadInvestorProfile from "@/components/shared/InvestorDashboard/UploadInvestorProfile"
+import { toast } from "react-hot-toast"
 
 import {
   Form,
@@ -62,45 +63,28 @@ export function InvestorAccountForm({params, data}) {
     resolver: zodResolver(investorAccountFormSchema),
     defaultValues,
     })
-    const { toast } = useToast()
     
     async function onSubmit(data: AccountFormValues) {
-    try {
-        const response = await fetch(`/api/update`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id:id, data, role:"investor" }), // Send the investorId and the form data
-        })
-
-        const result = await response.json();
-
-        if (response.ok) {
-        toast({
-            title: "Account updated successfully",
-            description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(result.investor, null, 2)}</code>
-            </pre>
-            ),
-        })
-        } else {
-        toast({
-            title: "Update failed",
-            description: result.error,
-            variant: "destructive",
-        })
+        try {
+          const response = await fetch(`/api/update`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: id, data, role: "investor" }), // Send the investorId and the form data
+          });
+    
+          const result = await response.json();
+    
+          if (response.ok) {
+            toast.success("Account updated successfully");
+          } else {
+            toast.error(result?.message || "Failed to update account");
+          }
+        } catch (error) {
+          toast.error("An unexpected error occurred while updating the account.");
         }
-    } catch (error) {
-        toast({
-        title: "Update failed",
-        description: "An error occurred while updating your account.",
-        variant: "destructive",
-        })
-        console.error("Error updating investor account:", error)
-    }
-    }
+      }
 
 
     return (
@@ -157,7 +141,7 @@ export function InvestorAccountForm({params, data}) {
                 <Input 
                     placeholder="Your last name" 
                     {...field}
-                    defaultValue={data.LastName || ""} 
+                    defaultValue={data.lastName || ""} 
                     />
                 </FormControl>
                 <FormMessage />

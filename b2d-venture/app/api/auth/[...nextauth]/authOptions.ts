@@ -6,6 +6,7 @@ import { NextAuthOptions } from "next-auth";
 import connectDB from "@/lib/connectDB";
 import { toast } from "react-toastify";
 import Investor from "@/models/Investor";
+import Business from "@/models/Business";
 import { profile } from "console";
 
 const authOptions: NextAuthOptions = {
@@ -131,7 +132,7 @@ const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.name = user.name;
         token.role = user.role || "investor"; // Default role if undefined
-        console.log(`JWT created for: ${token.email}, Role: ${token.role}`);
+        token.id = await findId(user.email); 
       }
       return token;
     },
@@ -142,17 +143,14 @@ const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.name = token.name;
         session.user.role = token.role;
-        session.user.id = await Investor.findOne({ user_id: token.id });
-        console.log(
-          `Session updated for: ${session.user.email}, Role: ${session.user.role}`
-        );
+        session.user.id = token.id; // Use the id from the token
       }
       return session;
     }
+    
     ,
 
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      console.log(`Redirecting to: ${url}, Base URL: ${baseUrl}`);
       if (url.startsWith(baseUrl)) {
         return "/";
       }
@@ -161,5 +159,29 @@ const authOptions: NextAuthOptions = {
     ,
   },
 };
+
+const findId = async (email: string): Promise<string | null> => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    return null;
+  }
+
+  if (user.role === "investor") {
+    const investor = await Investor.findOne({ user_id: user._id });
+    if (investor) {
+      return investor._id.toString(); // Convert to string for consistency
+    }
+  }
+
+  if (user.role === "business") {
+    const business = await Business.findOne({ user_id: user._id });
+    if (business) {
+      return business._id.toString();
+    }
+  }
+
+  return null; // For "admin" or unknown roles
+};
+
 
 export { authOptions };
