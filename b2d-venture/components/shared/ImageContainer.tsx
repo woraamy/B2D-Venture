@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-export default function ImageContainer({id}) {
+export default function ImageContainer({id, onSubmit, setIsDialogOpen}) {
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedImages, setSelectedImages] = useState(new Set());
+    const [selectedImages, setSelectedImages] = useState([]);
     async function fetchData(){
         const response = await fetch(`/api/fetchingData/getFilebyCampaignId?campaignId=${id}`);
         const data = await response.json();
@@ -34,20 +34,18 @@ export default function ImageContainer({id}) {
       }
 
       const handleCheckboxChange = (filePath) => {
-        setSelectedImages((prevSelected) => {
-          const newSelected = new Set(prevSelected);
-          if (newSelected.has(filePath)) {
-            newSelected.delete(filePath);
+        setSelectedImages((prevChecked) => {
+          if (prevChecked.includes(filePath)) {
+            return prevChecked.filter((image) => image !== filePath);
           } else {
-            newSelected.add(filePath);
+            return [...prevChecked, filePath];
           }
-          return newSelected;
         });
       };
-
-      async function handleSubmit(){
-        try{
-          console.log("asd")
+       function handleSubmit(){
+       try{
+            onSubmit(selectedImages)
+            setIsDialogOpen(false); 
         }catch(error){
             console.log(error)
         };
@@ -58,20 +56,20 @@ export default function ImageContainer({id}) {
             <div className="flex h-[40vh] w-[57vw]">
             {data.map((item, index) => (
                 <Checkbox 
-                    onChange={() => handleCheckboxChange(item.file_path)}
+                    key= {index}
+                    // value={item.file_path}
+                    checked={selectedImages.includes(item.file_path)}
+                    onCheckedChange={() => handleCheckboxChange(item.file_path)} 
                     className="flex relative h-[35%] w-[20%] border-white border-8 rounded-lg shadow-lg hover:border-slate-400" 
                     style={{
                         backgroundImage: `url(${item.file_path})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        }}>
-                </Checkbox>
-                
-                // </div>
+                        }} />
             ))}
             </div>
             <Button className='relative text-white' onClick={handleSubmit}>
-                        Select
+                Select
             </Button>
                 
         </div>

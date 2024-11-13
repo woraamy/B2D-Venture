@@ -25,10 +25,16 @@ import { Button } from "../ui/button";
 import ImageContainer from "./ImageContainer";
 import DragAndDrop from "./BusinessDashboard/DragAndDrop";
 export default function ToolsBar({editor, id}) {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     
     if (!editor) return null;
-    function uploadImage(){
-        
+
+    
+    const handleSubmit = (selectedImages) => {
+        setIsDialogOpen(false);
+        selectedImages.forEach((item) => {
+            editor.chain().focus().setImage({ src: item }).run()
+        })                
     }
     
     return (
@@ -71,9 +77,9 @@ export default function ToolsBar({editor, id}) {
                     <AlignRight className="h-4 w-4"/>  
                 </Toggle>
 
-                <Dialog>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="outline" className="border-0">
+                    <Button variant="outline" className="border-0" onClick={() => setIsDialogOpen(true)}>
                         <Image className="h-4 w-4"/>  
                    </Button>
                 </DialogTrigger>
@@ -93,14 +99,13 @@ export default function ToolsBar({editor, id}) {
                         {/* Image Container */}
                         <h1 className="-mt-64 font-semibold text-lg">Select Image</h1>
                         <div className="mt-2 overflow-auto">
-                            <ImageContainer id={id} />
+                            <ImageContainer id={id} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} />
                         </div>
                         </div>
                         
                     
                 </DialogContent>
                 </Dialog>
-                
                 
             </div>
         </div>
