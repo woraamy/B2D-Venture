@@ -16,7 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-import { InvestChart } from "@/components/charts/investchart";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import TextAlign from "@tiptap/extension-text-align";
+import ToolsBar from "../ToolsBar";
 
 // Schema for form validation (all fields required)
 const createRaiseCampaignFormSchema = z.object({
@@ -38,8 +42,14 @@ const createRaiseCampaignFormSchema = z.object({
     .refine((value) => value !== undefined, {
       message: "Goal is required",
     }),
+    shared_price: z
+    .number({ invalid_type_error: "shared price must be a number" })
+    .nonnegative("shared price must be non-negative")
+    .refine((value) => value !== undefined, {
+      message: "Shared is required",
+    }),
   description: z.string().min(1, "Description is required"),
-  investment_benefit: z.string().min(1, "Investment benefit is required"),
+  start_date: z.string().min(1, "Start date is required"),
   end_date: z.string().min(1, "End date is required"),
   files: z.array(z.string()).optional(),
 });
@@ -51,8 +61,9 @@ const defaultValues: Partial<CreateFormValues> = {
   min_investment: 0, // Default to 0 or a reasonable value
   max_investment: 0,
   goal: 0,
+  shared_price: 0,
   description: "",
-  investment_benefit: "",
+  start_date: "",
   end_date: "",
   files: [],
 };
@@ -65,8 +76,9 @@ export function CreateRaiseCampaignForm({ params }) {
         min_investment: 0, // Default to 0 or a reasonable value
         max_investment: 0,
         goal: 0,
+        shared_price: 0,
         description: "",
-        investment_benefit: "",
+        start_date: new Date().toISOString().split('T')[0],
         end_date: "",
         files: [],
     }
@@ -85,8 +97,7 @@ export function CreateRaiseCampaignForm({ params }) {
         shared_price: 0,
         goal: data.goal,
         description: data.description,
-        investment_benefit: data.investment_benefit,
-        start_date: Date.now(), 
+        start_date: data.start_date, 
         end_date: data.end_date,
         status: "open", 
         files: data.files || [],
@@ -116,19 +127,38 @@ export function CreateRaiseCampaignForm({ params }) {
       console.error("Error creating raise campaign:", error);
     }
   }
+  const editorDescription = useEditor({
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ["paragraph"], 
+      }),
+      Image
+    ],
+    content: "", 
+    editorProps: {
+      attributes: {
+        class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
+      },
+    },
+    onUpdate({ editor }) {
+      // Update the form field value whenever the editor content changes
+      form.setValue("description", editor.getHTML());
+    },
+  });
 
   return (
-    <div className="flex flex-col items-center space-y-6 w-[50vw] mt-10 mx-56">
+    <div className="flex flex-col w-[85vw] items-center space-y-6 mb-16 mt-10 ">
       <Toaster />
       <div>
         <h1 className="text-2xl font-bold text-[#FF6347]">Create Raise Campaign</h1>
       </div>
 
-      <div className="bg-white p-8 rounded shadow-md w-full">
+      <div className="flex w-[80%] justify-center bg-white p-10 rounded shadow-md ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)} // Make sure this is properly attached
-            className="space-y-8"
+            className="grid grid-cols-1 w-full md:grid-cols-2 gap-8"
           >
             {/* Minimum Investment */}
             <FormField
@@ -193,6 +223,24 @@ export function CreateRaiseCampaignForm({ params }) {
               )}
             />
 
+          {/* Start Date */}
+          <FormField
+                control={form.control}
+                name="start_date"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Start Date of your raise campaign</FormLabel>
+                    <FormControl>
+                        <Input
+                        type="date"
+                        {...field}
+                        defaultValue={new Date().toISOString().split('T')[0]} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+
             {/* End Date */}
             <FormField
                 control={form.control}
@@ -212,53 +260,55 @@ export function CreateRaiseCampaignForm({ params }) {
                 )}
                 />
 
-            {/* Raise Campaign Description */}
             <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Raise campaign Description</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Tell us about your raise campaign"
-                      {...field}
-                      value={field.value || ""}
-                      className="w-full h-32 p-3 border rounded"
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    This will be displayed on the raise campaign page.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                control={form.control}
+                name="shared_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Shared Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Shared Price"
+                        {...field}
+                        value={field.value ?? 0}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
 
-            {/* Raise Campaign Description */}
-            <FormField
-              control={form.control}
-              name="investment_benefit"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Raise campaign Benefits for Investor</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Tell us about your raise campaign's benefits"
-                      {...field}
-                      value={field.value || ""}
-                      className="w-full h-32 p-3 border rounded"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="md:col-span-2 flex flex-col gap-1 justify-center">
+                {/* Raise Campaign Description */}
+                <div className="mt-2 ">
+                  <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
+                 <ToolsBar editor={editorDescription} id={id}/>
+                </div>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="w-full">
+                          <EditorContent editor={editorDescription} />
+                        </div>
+                      </FormControl>
+                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+    />
+                </div>
+
+            
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full">
-              Create Raise Campaign
-            </Button>
+            <div className="md:col-span-2 flex justify-center">
+              <Button type="submit" className="w-1/2">
+                Create Raise Campaign
+              </Button>
+            </div>
           </form>
         </Form>
       </div>

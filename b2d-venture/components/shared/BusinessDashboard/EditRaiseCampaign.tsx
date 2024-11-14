@@ -43,7 +43,6 @@ const editRaiseCampaignFormSchema = z.object({
     .nonnegative("shared price must be non-negative")
     .optional(),
   description: z.string().optional(), // Optional description
-  investment_benefit: z.string().optional(), // New field for investment benefit
   start_date: z.string().optional(),
   end_date: z.string().optional(),
   files: z.array(z.string()).optional(),
@@ -102,26 +101,6 @@ export function EditRaiseCampaignForm({ params, data }) {
     onUpdate({ editor }) {
       // Update the form field value whenever the editor content changes
       form.setValue("description", editor.getHTML());
-    },
-  });
-
-  const editorBenefit = useEditor({
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ["paragraph"], 
-      }),
-      Image
-    ],
-    content: data.investment_benefit || "", // Set initial content from data
-    editorProps: {
-      attributes: {
-        class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
-      },
-    },
-    onUpdate({ editor }) {
-      // Update the form field value whenever the editor content changes
-      form.setValue("investment_benefit", editor.getHTML());
     },
   });
 
@@ -250,26 +229,6 @@ export function EditRaiseCampaignForm({ params, data }) {
                   </FormItem>
                 )} />
               <div className="md:col-span-2 flex flex-col gap-1 justify-center">
-              {/* Investment Benefit */}
-              {/* <div className="mt-10 ">
-                  <p className="text-sm font-semibold mb-2">Investment Benefit</p>
-                 <ToolsBar editor={editorBenefit}/>
-                </div>
-                <FormField
-                  control={form.control}
-                  name="investment_benefit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="w-full">
-                          <EditorContent editor={editorBenefit} id={id} />
-                        </div>
-                      </FormControl>
-                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-    /> */}
                 {/* Raise Campaign Description */}
                 <div className="mt-2 ">
                   <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
