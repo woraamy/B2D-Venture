@@ -83,7 +83,7 @@ export default function ToolsBar({editor, id}) {
                         <Image className="h-4 w-4"/>  
                    </Button>
                 </DialogTrigger>
-                <DialogContent className="flex max-w-[60vw] max-h-[92vh] flex-col bg-white">
+                <DialogContent className="flex max-w-[60vw] max-h-[95vh] flex-col bg-white">
                     <DialogHeader>
                     <DialogTitle>Image Preview and Selection</DialogTitle>
                     <DialogDescription>
@@ -97,7 +97,7 @@ export default function ToolsBar({editor, id}) {
                                 className="h-[60vh] shadow-none"
                         />
                         {/* Image Container */}
-                        <h1 className="-mt-64 font-semibold text-lg">Select Image</h1>
+                        <h1 className="-mt-[20%] font-semibold text-lg">Select Image</h1>
                         <div className="mt-2 overflow-auto">
                             <ImageContainer id={id} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} />
                         </div>
