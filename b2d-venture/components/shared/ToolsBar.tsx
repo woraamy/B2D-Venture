@@ -46,7 +46,7 @@ export default function ToolsBar({editor, id}) {
     const handleSubmit = (selectedImages) => {
         setIsDialogOpen(false);
         selectedImages.forEach((item) => {
-            editor.chain().focus().setImage({ src: item }).run()
+            editor.chain().focus().setImage({ src: item.file_path }).run()
         })                
     }
     
@@ -122,7 +122,7 @@ export default function ToolsBar({editor, id}) {
                                     />
                                     <div className="loader">Loading...</div>
                                 </div> 
-                            :<ImageContainer data={data} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} />
+                            :<ImageContainer data={data} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} onDelete={fetchData}/>
                         }
                         </div>
                         </div>
