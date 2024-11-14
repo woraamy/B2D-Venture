@@ -5,6 +5,7 @@ import RaiseCampaignCard from "@/components/shared/BusinessDashboard/RaiseCampai
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
+import parse from "html-react-parser";
 
 export default function ManageRaiseCampaignPage({ params }) {
     const { id } = params;
@@ -74,7 +75,7 @@ export default function ManageRaiseCampaignPage({ params }) {
     if (error) return <p>Failed to load raise campaign data: {error}</p>;
 
     return (
-        <div className="flex flex-col items-center space-y-8 w-[80vw]">
+        <div className="flex flex-col items-center space-y-5 w-[80vw] mb-10">
             <Toaster />
             <div id="toaster"></div>
 
@@ -85,7 +86,7 @@ export default function ManageRaiseCampaignPage({ params }) {
                     View and manage your raise campaign information.
                 </p>
             </div>
-
+            <div className="flex">
             {/* Campaign Details */}
             {campaignData ? (
                 <RaiseCampaignCard
@@ -110,11 +111,11 @@ export default function ManageRaiseCampaignPage({ params }) {
             )}
 
             {/* Action Buttons */}
-            <div className="flex space-x-4">
+            <div className="flex flex-col ml-24 mt-10 gap-4 ">
                 {/* Edit Campaign button, disabled if status is "closed" */}
                 <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
                     <button
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${status === "open" ? "bg-blue-500 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
                         disabled={status === "closed"}
                     >
                         Edit Campaign
@@ -124,7 +125,7 @@ export default function ManageRaiseCampaignPage({ params }) {
                 {/* Create Campaign button with conditional click handler */}
                 <Link href={`/dashboard/business/${id}/create-raise-campaign`}>
                     <button
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${status === "close" ? "bg-green-500 hover:bg-green-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
                         onClick={status === "open" ? handleCreateAttempt : undefined}
                         disabled={status === "open"}
                     >
@@ -134,12 +135,13 @@ export default function ManageRaiseCampaignPage({ params }) {
 
                 {/* Close Campaign button, disabled if status is "closed" */}
                 <button
-                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    className="px-4 py-2 w-[15vw] bg-red-500 text-white rounded-xl hover:bg-red-700 "
                     onClick={handleClose}
                     disabled={status === "closed"}
                 >
                     Close Campaign
                 </button>
+            </div>
             </div>
         </div>
     );

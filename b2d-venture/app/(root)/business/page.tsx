@@ -1,13 +1,6 @@
 "use client"
 import SearchBar from "@/components/ui/searchbar";
-import BusinessCard from "@/components/shared/BusinessCard";
-import { Button } from "@/components/ui/button";
 import Filter from "@/components/shared/filter";
-import { promises as fs } from "fs";
-import Link from "next/link";
-import Business from "@/models/Business"
-import RaisedCampaign from "@/models/RaiseCampaign"
-import connect from "@/lib/connectDB";
 import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
 import { useState, useEffect } from "react";
 
