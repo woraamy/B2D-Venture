@@ -2,33 +2,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-export default function ImageContainer({id, onSubmit, setIsDialogOpen}) {
-    const [data, setData] = useState([])
-    const [isLoading, setIsLoading] = useState(true);
+export default function ImageContainer({data, onSubmit, setIsDialogOpen}) {
     const [selectedImages, setSelectedImages] = useState([]);
-    async function fetchData(){
-        const response = await fetch(`/api/fetchingData/getFilebyCampaignId?campaignId=${id}`);
-        const data = await response.json();
-        setData(data.file || []);
-    }
-    useEffect(()  => {
-        fetchData()
-        setIsLoading(false)
-      }, [])
-    
-      if (isLoading) {
-        return (
-          <div className="absolute bottom-5 left-1/4 w-full flex items-center justify-center">
-            <img
-              src="/assets/icons/icons-loading.gif"
-              alt="Loading"
-              className="object-contain"
-            />
-            <div className="loader">Loading...</div>
-          </div>
-        );
-      }
-    
+ 
       if (data.length === 0) {
         return <div className="text-center">No images available</div>;
       }

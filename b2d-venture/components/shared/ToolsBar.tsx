@@ -20,13 +20,26 @@ import {
     } from "@/components/ui/dialog"
 import { Toggle } from "@/components/ui/toggle"
 import { useEditor } from "@tiptap/react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import ImageContainer from "./ImageContainer";
 import DragAndDrop from "./BusinessDashboard/DragAndDrop";
 export default function ToolsBar({editor, id}) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [data, setData] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+
+    async function fetchData(){
+        const response = await fetch(`/api/fetchingData/getFilebyCampaignId?campaignId=${id}`);
+        const data = await response.json();
+        setData(data.file || []);
+    }
+    useEffect(()  => {
+        fetchData()
+        setIsLoading(false)
+      }, [])
     
+
     if (!editor) return null;
 
     
@@ -95,11 +108,22 @@ export default function ToolsBar({editor, id}) {
                             <DragAndDrop
                                 type="asset"
                                 className="h-[60vh] shadow-none"
+                                onUploadComplete={fetchData}
                         />
                         {/* Image Container */}
                         <h1 className="-mt-[20%] font-semibold text-lg">Select Image</h1>
                         <div className="mt-2 overflow-auto">
-                            <ImageContainer id={id} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} />
+                            {isLoading ? 
+                                <div className="absolute bottom-5 left-1/4 w-full flex items-center justify-center">
+                                    <img
+                                    src="/assets/icons/icons-loading.gif"
+                                    alt="Loading"
+                                    className="object-contain"
+                                    />
+                                    <div className="loader">Loading...</div>
+                                </div> 
+                            :<ImageContainer data={data} onSubmit={handleSubmit} setIsDialogOpen={setIsDialogOpen} />
+                        }
                         </div>
                         </div>
                         
