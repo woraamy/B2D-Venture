@@ -1,21 +1,37 @@
-import { useState } from "react";
+"use client"
+import { useState, useEffect } from "react";
 import DragAndDrop from "@/components/shared/BusinessDashboard/DragAndDrop";
 import FileContainer from "@/components/shared/BusinessDashboard/FileContainer";
 import DataRoom from "@/models/DataRoom";
 import Business from "@/models/Business";
 import connect from "@/lib/connectDB"
-export default async function Page({ params }) {
+export default function Page({ params }) {
   const {id} = params;
-  await connect();
-  const dataroom = await DataRoom.findOne({'business_id':id}).populate('files')
-  const files = dataroom ? dataroom.files || [] : [];
-  const business = await Business.findById(id)
-  const user_id = business.user_id.toString()
+  const [files, setFiles] = useState([])
+  const [user_id, setUserId] = useState("")
+  async function fetchData() {
+    try {
+      const response = await fetch(`/api/fetchingData/DataRoom/${id}`);
+      const data = await response.json();
+      
+      const response1 = await fetch(`/api/fetchingData/getUserIdbyBusiness/${id}`);
+      const business = await response1.json();
+      setFiles(data.data.files || []);
+      setUserId(business.user_id || "");
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  }
+
+  useEffect(()  => {
+    fetchData()
+  }, [])
   
   return(
+    // OnUploadComplete={}
     <div className="flex overflow-hidden">
         <div className="flex ml-10 w-[40vw] h-screen">
-        <DragAndDrop type="dataroom" className={"flex mt-44 bg-transparent justify-center h-screen w-screen"}/>
+        <DragAndDrop type="dataroom" className={"flex mt-44 bg-transparent justify-center h-screen w-screen"} onUploadComplete={fetchData}/>
         </div>
 
         <div className="absolute right-0 flex w-[40vw] h-screen bg-white shadow-lg  ">

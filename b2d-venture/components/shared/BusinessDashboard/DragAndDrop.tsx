@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import toast from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 
-export default function DragAndDrop({type, className}) {
+export default function DragAndDrop({type, className, OnUploadComplete}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
   const [files, setFiles] = useState<any>([]);
@@ -56,7 +56,7 @@ export default function DragAndDrop({type, className}) {
 
       const result = await res.json();
       toast.success('File uploaded successfully!');
-      
+      OnUploadComplete();
       console.log('Upload successful:', result);
       // reset after successful
       setFiles([]);
