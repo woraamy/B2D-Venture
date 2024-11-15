@@ -22,7 +22,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
-
+import Link from '@tiptap/extension-link'
+import Heading from "@tiptap/extension-heading";
 
 // Schema for form validation
 const editRaiseCampaignFormSchema = z.object({
@@ -90,13 +91,28 @@ export function EditRaiseCampaignForm({ params, data }) {
       TextAlign.configure({
         types: ["paragraph"], 
       }),
-      Image
+      Image,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
+        HTMLAttributes: {
+          class: 'text-blue-500 underline cursor-pointer',
+        }}),
+      Heading.configure({
+        levels: [1],
+        HTMLAttributes: {
+          class: 'text-2xl',
+        }
+      }),
+      
     ],
     content: data.description || "", // Set initial content from data
     editorProps: {
       attributes: {
         class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
       },
+      
     },
     onUpdate({ editor }) {
       // Update the form field value whenever the editor content changes

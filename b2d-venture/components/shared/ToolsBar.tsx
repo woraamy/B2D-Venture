@@ -6,7 +6,9 @@ import {
         AlignJustify, 
         AlignCenter, 
         AlignRight,
-        Image
+        Image,
+        Link,
+        Heading
     } from "lucide-react"
 import {
     Dialog,
@@ -30,7 +32,7 @@ export default function ToolsBar({editor, id}) {
     const [isLoading, setIsLoading] = useState(true);
 
     async function fetchData(){
-        const response = await fetch(`/api/fetchingData/getFilebyCampaignId?campaignId=${id}`);
+        const response = await fetch(`/api/fetchingData/getFile?id=${id}`);
         const data = await response.json();
         setData(data.file || []);
     }
@@ -68,7 +70,16 @@ export default function ToolsBar({editor, id}) {
                      pressed={editor.isActive("underline")}>
                     <Underline className="h-4 w-4" />
                 </Toggle>
-                
+                <Toggle 
+                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                     pressed={editor.isActive("heading")}>
+                    <Heading className="h-4 w-4"/>
+                </Toggle>
+                <Toggle 
+                     onClick={() => editor.chain().focus().toggleLink().run()}
+                     pressed={editor.isActive("link")}>
+                    <Link className="h-4 w-4"/>
+                </Toggle>
                  <Toggle 
                      onClick={() => editor.chain().focus().setTextAlign('justify').run()}
                      pressed={editor.isActive({ textAlign: "justify" })}>

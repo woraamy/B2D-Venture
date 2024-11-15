@@ -21,7 +21,9 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import ToolsBar from "../ToolsBar";
-
+import Link from '@tiptap/extension-link'
+import Heading from "@tiptap/extension-heading";
+import { useRouter } from "next/router";
 // Schema for form validation (all fields required)
 const createRaiseCampaignFormSchema = z.object({
   min_investment: z
@@ -42,12 +44,12 @@ const createRaiseCampaignFormSchema = z.object({
     .refine((value) => value !== undefined, {
       message: "Goal is required",
     }),
-    shared_price: z
-    .number({ invalid_type_error: "shared price must be a number" })
+  shared_price: z
+    .number({ invalid_type_error: "Shared price must be a number" })
     .nonnegative("shared price must be non-negative")
     .refine((value) => value !== undefined, {
       message: "Shared is required",
-    }),
+  }),
   description: z.string().min(1, "Description is required"),
   start_date: z.string().min(1, "Start date is required"),
   end_date: z.string().min(1, "End date is required"),
@@ -69,6 +71,7 @@ const defaultValues: Partial<CreateFormValues> = {
 };
 
 export function CreateRaiseCampaignForm({ params }) {
+  const router = useRouter();
   const id = params;  // Assuming you're passing `params` correctly
   const form = useForm<CreateFormValues>({
     resolver: zodResolver(createRaiseCampaignFormSchema),
@@ -115,6 +118,7 @@ export function CreateRaiseCampaignForm({ params }) {
       const result = await response.json();
 
       if (response.ok) {
+        window.location.href = 'manage-raise-campaign';        
         toast.success("Raise campaign updated successfully");
       } if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
         toast.error("You already have an open raise campaign");
@@ -133,13 +137,28 @@ export function CreateRaiseCampaignForm({ params }) {
       TextAlign.configure({
         types: ["paragraph"], 
       }),
-      Image
+      Image,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
+        HTMLAttributes: {
+          class: 'text-blue-500 underline cursor-pointer',
+        }}),
+      Heading.configure({
+        levels: [1],
+        HTMLAttributes: {
+          class: 'text-2xl',
+        }
+      }),
+      
     ],
-    content: "", 
+    content: "", // Set initial content from data
     editorProps: {
       attributes: {
         class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
       },
+      
     },
     onUpdate({ editor }) {
       // Update the form field value whenever the editor content changes
@@ -223,6 +242,25 @@ export function CreateRaiseCampaignForm({ params }) {
               )}
             />
 
+            <FormField
+                control={form.control}
+                name="shared_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Shared Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Shared Price"
+                        {...field}
+                        value={field.value ?? 0}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
           {/* Start Date */}
           <FormField
                 control={form.control}
@@ -259,24 +297,6 @@ export function CreateRaiseCampaignForm({ params }) {
                     </FormItem>
                 )}
                 />
-
-            <FormField
-                control={form.control}
-                name="shared_price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Shared Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Shared Price"
-                        {...field}
-                        value={field.value ?? 0}
-                        />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
 
             <div className="md:col-span-2 flex flex-col gap-1 justify-center">
                 {/* Raise Campaign Description */}

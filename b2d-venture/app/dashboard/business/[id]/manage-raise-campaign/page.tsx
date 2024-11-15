@@ -22,12 +22,12 @@ export default function ManageRaiseCampaignPage({ params }) {
         async function fetchCampaignData() {
             try {
                 setLoading(true);
-                const campaignUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${id}`;
+                const campaignUrl = `/api/fetchingData/RaiseCampaign/businessId/${id}`;
                 const response = await fetch(campaignUrl);
                 if (!response.ok) throw new Error("Failed to fetch raise campaign data");
 
                 const data = await response.json();
-                const campaign = data[0];
+                const campaign = data[data.length-1];
 
                 setCampaignData(campaign);
                 setStatus(new Date(campaign.end_date) < new Date() ? "closed" : "open");
@@ -78,7 +78,7 @@ export default function ManageRaiseCampaignPage({ params }) {
         <div className="flex flex-col items-center space-y-5 w-[80vw] mb-10">
             <Toaster />
             <div id="toaster"></div>
-
+        
             {/* Campaign Information */}
             <div className="text-center">
                 <h3 className="text-lg font-medium">Manage Raise Campaign</h3>
@@ -103,7 +103,7 @@ export default function ManageRaiseCampaignPage({ params }) {
                     goal={campaignData.goal.toLocaleString()}
                     description={campaignData.description}
                     investment_benefit={campaignData.investmen_benefit}
-                    status={status}
+                    status={campaignData.status}
                     businessId={id}
                 />
             ) : (
@@ -115,8 +115,8 @@ export default function ManageRaiseCampaignPage({ params }) {
                 {/* Edit Campaign button, disabled if status is "closed" */}
                 <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
                     <button
-                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${status === "open" ? "bg-blue-500 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
-                        disabled={status === "closed"}
+                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${campaignData.status === "open" ? "bg-blue-500 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
+                        disabled={campaignData ? campaignData.status === "closed" : true}
                     >
                         Edit Campaign
                     </button>
@@ -125,9 +125,9 @@ export default function ManageRaiseCampaignPage({ params }) {
                 {/* Create Campaign button with conditional click handler */}
                 <Link href={`/dashboard/business/${id}/create-raise-campaign`}>
                     <button
-                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${status === "close" ? "bg-green-500 hover:bg-green-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
-                        onClick={status === "open" ? handleCreateAttempt : undefined}
-                        disabled={status === "open"}
+                        className={`px-4 py-2 w-[15vw] rounded-xl  text-white ${campaignData.status === "closed" ? "bg-green-500 hover:bg-green-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"}`}
+                        onClick={campaignData.status === "open" ? handleCreateAttempt : undefined}
+                        disabled={campaignData ? campaignData.status === "open" : false}
                     >
                         Create Campaign
                     </button>
@@ -135,9 +135,9 @@ export default function ManageRaiseCampaignPage({ params }) {
 
                 {/* Close Campaign button, disabled if status is "closed" */}
                 <button
-                    className="px-4 py-2 w-[15vw] bg-red-500 text-white rounded-xl hover:bg-red-700 "
+                    className={`"px-4 py-2 w-[15vw] rounded-xl text-white ${campaignData.status === "open" ? "bg-red-500 hover:bg-red-700 cursor-pointer" : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed" }`}
                     onClick={handleClose}
-                    disabled={status === "closed"}
+                    disabled={campaignData ? campaignData.status === "closed" : false}
                 >
                     Close Campaign
                 </button>

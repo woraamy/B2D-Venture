@@ -8,6 +8,11 @@ export async function GET(req: Request, { params }) {
         await connectDB();
         const data = await RaiseCampaign.findById(id).populate('business_id').lean();
         if (data) {
+            const now = new Date(); 
+            if(data.end_date < now){
+                data.status = "closed"
+                data.save()
+            }
             // Format the created_at date before sending
             const formattedData = {
                 ...data,
