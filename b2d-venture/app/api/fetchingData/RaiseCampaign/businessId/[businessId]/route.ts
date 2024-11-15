@@ -9,7 +9,7 @@ export async function GET(req: NextRequest, { params }) {
     
     try {
         await connectDB(); // Connect to the database
-
+        
         // Query RaiseCampaign using business_id instead of _id
         const data = await RaiseCampaign.find({ business_id: businessId })
             .populate('business_id') 

@@ -3,6 +3,10 @@ import SearchBar from "@/components/ui/searchbar";
 import Filter from "@/components/shared/filter";
 import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
 import { useState, useEffect } from "react";
+function parseDate(dateString) {
+    const [month, day, year] = dateString.split('/');
+    return new Date(year, month - 1, day); // month is 0-based, so subtract 1
+}
 
 export default function Page() {
     const tag = ["Aerospace", "Food & Drinks", "Shop", "Technology", "Innovation", "Transportation", "Energy", "AI & Machine Learning"]
@@ -12,7 +16,11 @@ export default function Page() {
     async function fetchData(){
             const response = await fetch(`/api/fetchingData/RaiseCampaign`);
             const res = await response.json();
-            const filteredData = res.data.filter((item)=>(item.status==="open"))
+            const now = new Date()
+            const filteredData = res.data.filter((item) => {
+                const startDate = parseDate(item.start_date);
+                return item.status === "open" && startDate < now;
+            });
             setData(filteredData || []);
             setInitialData(filteredData || []);
     }
