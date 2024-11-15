@@ -12,8 +12,8 @@ export async function GET(req: Request, { params }) {
             // Format the created_at date before sending
             const formattedData = {
                 ...data,
-                start_date: new Date(data.start_date).toLocaleDateString('en-US'),
-                end_date: new Date(data.end_date).toLocaleDateString('en-US')
+                start_date: new Date(data.start_date).toLocaleDateString('en-GB'),
+                end_date: new Date(data.end_date).toLocaleDateString('en-GB')
             };
             return NextResponse.json({ data: formattedData });
     }

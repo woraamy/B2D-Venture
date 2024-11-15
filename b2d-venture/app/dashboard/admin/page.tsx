@@ -95,7 +95,7 @@ export default async function Page() {
                                 email={req.email}
                                 status={req.status}
                                 className='mr-5'
-                                time={req.createdAt.toLocaleDateString('en-US')}
+                                time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}
                         </div>    
@@ -116,7 +116,7 @@ export default async function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
-                                time={req.createdAt.toLocaleDateString('en-US')}
+                                time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}
                         </div>    

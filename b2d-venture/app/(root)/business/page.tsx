@@ -4,7 +4,7 @@ import Filter from "@/components/shared/filter";
 import BusinessCardPagination from "@/components/shared/BusinessCardPagination";
 import { useState, useEffect } from "react";
 function parseDate(dateString) {
-    const [month, day, year] = dateString.split('/');
+    const [day, month, year] = dateString.split('/');
     return new Date(year, month - 1, day); // month is 0-based, so subtract 1
 }
 

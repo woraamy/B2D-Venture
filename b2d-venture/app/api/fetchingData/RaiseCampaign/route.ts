@@ -19,8 +19,8 @@ export async function GET() {
 
            const formattedData = data.map(item => ({
             ...item.toObject(),
-            start_date: new Date(item.start_date).toLocaleDateString('en-US'),
-            end_date: new Date(item.end_date).toLocaleDateString('en-US')
+            start_date: new Date(item.start_date).toLocaleDateString('en-GB'),
+            end_date: new Date(item.end_date).toLocaleDateString('en-GB')
             }));
             return NextResponse.json({ data: formattedData });
         }

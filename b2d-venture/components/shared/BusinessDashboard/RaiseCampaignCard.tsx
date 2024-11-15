@@ -43,11 +43,11 @@ const RaiseCampaignCard = ({
           <div className="grid grid-cols-2 gap-4 text-gray-600">
             <div className="flex items-center">
               <FaCalendarAlt className="mr-2 text-gray-500" />
-              <strong>Start Date:</strong> {new Date(start_date).toLocaleDateString()}
+              <strong>Start Date:</strong> {new Date(start_date).toLocaleDateString('en-GB')}
             </div>
             <div className="flex items-center">
               <FaCalendarAlt className="mr-2 text-gray-500" />
-              <strong>End Date:</strong> {new Date(end_date).toLocaleDateString()}
+              <strong>End Date:</strong> {new Date(end_date).toLocaleDateString('en-GB')}
             </div>
           </div>
             <p className="text-xl"><strong>Detail</strong></p>  
