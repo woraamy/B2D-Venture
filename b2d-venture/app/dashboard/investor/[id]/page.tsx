@@ -114,13 +114,10 @@ export default async function Page({ params }) {
                 <div className="w-full flex flex-col min-h-full items-start ml-[15%] mt-3">
                     <p className="font-light text-[12px] mb-3 max-w-[80%]">
                         {investor.investor_description || "No bio "}</p>
-                    <Button className=" shadow hover:text-white min-w-[80%]">
-                        Contact Investor
-                    </Button>
                     <table className="mt-3 text-[12px] font-light">
                         <tr>
                             <td className="w-[150px]">Email </td>
-                            <td >{investor.email || "-"}</td>
+                            <td >{investor.user_id.email || "-"}</td>
                         </tr>
                         <tr>
                             <td>Tel.</td>
@@ -135,7 +132,7 @@ export default async function Page({ params }) {
             </div>
             <div id="history" className="w-[27.5vw] flex-col  items-center h-1/2 border-r-2 overflow-auto">
                 <div className="mx-5">
-                    <h1 className="mt-3 text-xl font-semibold">Latest Investment</h1>
+                    <h1 className="mt-3 text-xl font-semibold">Latest Investments</h1>
                     {investment.slice(0, 3).map((item, index)=>(
                         <InvestHistoryCard 
                         key = {index}
@@ -155,7 +152,7 @@ export default async function Page({ params }) {
             </div>
             <div id="requestStatus" className="w-[30vw] h-1/2 overflow-auto">
             <div className="ml-10">
-                <h1 className="mt-3 text-xl font-semibold">Information Acess Request status</h1>
+                <h1 className="mt-3 text-xl font-semibold">Information Access Request Status</h1>
                     <div>
                     {request.slice(0, 3).map((item, index)=>(
                         <RequestStatus
