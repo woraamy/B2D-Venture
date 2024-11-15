@@ -22,6 +22,7 @@ const RaisedCampaignSchema = mongoose.Schema(
         default: "open"  
       },
       description: String,
+      team_member: [],
     },
     {
         timestamps: true,

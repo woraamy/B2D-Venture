@@ -9,7 +9,7 @@ export async function GET(req: Request) {
         if (data) {
             const formattedData = data.map(item => ({
                 ...item.toObject(),
-                createdAt:  new Date(item.createdAt).toLocaleDateString('en-US')
+                createdAt:  new Date(item.createdAt).toLocaleDateString('en-GB')
             }));
             return NextResponse.json({ data: formattedData });
         }

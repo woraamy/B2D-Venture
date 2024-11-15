@@ -64,7 +64,7 @@ export function AdminChart({className, data}) {
         </CardDescription>
       </CardHeader>
       <CardContent >
-        <ChartContainer config={chartConfig} className="w-full h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[25vh] w-[70vw]">
           <AreaChart
             accessibilityLayer
             data={chartData}
@@ -113,11 +113,8 @@ export function AdminChart({className, data}) {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
+              {months[0].month} - {months[5].month} 2024
             </div>
           </div>
         </div>

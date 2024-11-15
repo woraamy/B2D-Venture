@@ -6,17 +6,21 @@ import { promises as fs } from "fs";
 import Business from '@/models/Business'
 import RaisedCampaign from '@/models/RaiseCampaign'
 import connect from '@/lib/connectDB'
+import DOMPurify from 'dompurify';
+import parse from "html-react-parser";
 
 const getRaisedCampaign = async () => {
     const business = await Business.find()
-    const trend = await RaisedCampaign.find().populate("business_id").sort({raised: -1 }).limit(3);
-    const latest = await RaisedCampaign.find().populate("business_id").sort({start_date: -1 }).limit(3);
+    const now = new Date();
+    const trend = await RaisedCampaign.find({status: 'open',start_date: { $lt: now }}).populate("business_id").sort({raised: -1 }).limit(3);
+    const latest = await RaisedCampaign.find({status: 'open',start_date: { $lt: now }}).populate("business_id").sort({start_date: -1 }).limit(3);
     return {trend, latest}
 }
 
 export default async function Home() {
     await connect()
     const {trend: trendData, latest :latestData} = await getRaisedCampaign()
+        
     return (
         <div className="flex-col">
             <div className="flex ">
@@ -113,6 +117,6 @@ export default async function Home() {
                 ))}
             </div>
             </div>
-        </div>
+            </div>
     )
 }

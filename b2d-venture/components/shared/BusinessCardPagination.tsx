@@ -9,8 +9,9 @@ export default function BusinessCardPagination({data,itemsPerPage}){
     const totalPages =  data.length > 0 ? Math.ceil(data.length/itemsPerPage) : 1
     const paginationData = data.slice((currentPage-1)*itemsPerPage,currentPage*itemsPerPage);
     return(
-        <div>
-             <div className="flex flex-wrap gap-4 justify-normal ">
+        <div className="">
+            <div className="flex flex-warp item-center ">
+             <div className="flex flex-wrap gap-4 justify-start ">
                 {paginationData.map((campaign,index) =>(
                         <BusinessCard
                         key={index}
@@ -26,6 +27,7 @@ export default function BusinessCardPagination({data,itemsPerPage}){
                         tag = {campaign.business_id.tag_list}
                     />
                     ))}
+            </div>
             </div>
                  {/* Pagination controls */}
             <div className="flex justify-between mt-20">

@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,6 +17,13 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import ToolsBar from "../ToolsBar";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import TextAlign from "@tiptap/extension-text-align";
+import Link from '@tiptap/extension-link'
+import Heading from "@tiptap/extension-heading";
 
 // Schema for form validation
 const editRaiseCampaignFormSchema = z.object({
@@ -32,6 +38,10 @@ const editRaiseCampaignFormSchema = z.object({
   goal: z
     .number({ invalid_type_error: "Goal must be a number" })
     .nonnegative("Goal must be non-negative")
+    .optional(),
+  shared_price: z
+    .number({ invalid_type_error: "shared price must be a number" })
+    .nonnegative("shared price must be non-negative")
     .optional(),
   description: z.string().optional(), // Optional description
   start_date: z.string().optional(),
@@ -75,142 +85,197 @@ export function EditRaiseCampaignForm({ params, data }) {
     }
   }
 
+  const editorDescription = useEditor({
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ["paragraph"], 
+      }),
+      Image,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
+        HTMLAttributes: {
+          class: 'text-blue-500 underline cursor-pointer',
+        }}),
+      Heading.configure({
+        levels: [1],
+        HTMLAttributes: {
+          class: 'text-2xl',
+        }
+      }),
+      
+    ],
+    content: data.description || "", // Set initial content from data
+    editorProps: {
+      attributes: {
+        class: "text-md rounded-md border min-h-[300px] border-input bg-white my-2 py-2 px-3",
+      },
+      
+    },
+    onUpdate({ editor }) {
+      // Update the form field value whenever the editor content changes
+      form.setValue("description", editor.getHTML());
+    },
+  });
+
+
   return (
-    <div className="flex flex-col items-center space-y-8 w-[80vw] mt-10">
-      <h1 className="text-2xl font-bold text-[#FF6347]">Edit Raise Campaign</h1>
 
-      <Toaster /> 
-      <div className="bg-white p-8 rounded shadow-md max-w-lg w-full">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Minimum Investment */}
-            <FormField
-              control={form.control}
-              name="min_investment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Minimum Investment</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Minimum investment for investors"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.min_investment || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Maximum Investment */}
-            <FormField
-              control={form.control}
-              name="max_investment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Maximum Investment</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Maximum investment for investors"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.max_investment || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Goal */}
-            <FormField
-              control={form.control}
-              name="goal"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Goal</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Goal"
-                      {...field}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                      defaultValue={data.goal || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Start Date */}
-            <FormField
-              control={form.control}
-              name="start_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      {...field}
-                      defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* End Date */}
-            <FormField
-              control={form.control}
-              name="end_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>End Date of your raise campaign</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      {...field}
-                      defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Raise Campaign Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Raise campaign Description</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Tell us about your raise campaign"
-                      {...field}
-                      defaultValue={data.description || ""}
-                    />
-                  </FormControl>
-                  <FormDescription>This will be displayed on raise campaign page.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Submit Button */}
-            <Button type="submit" className="w-full">
-              Update Raise Campaign
-            </Button>
-          </form>
-        </Form>
+    <div className="flex flex-col w-[85vw] items-center space-y-6 mb-16 mt-10 ">
+      <Toaster />
+      <div>
+        <h1 className="text-2xl font-bold text-[#FF6347]">Edit Raise Campaign</h1>
       </div>
-    </div>
-  );
-}
+      
+
+        {/* Form Container */}
+        <div className="flex w-[80%] justify-center bg-white p-10 rounded shadow-md ">
+          <Form {...form}>
+            <form 
+              onSubmit={form.handleSubmit(onSubmit)} 
+              className="grid grid-cols-1 w-full md:grid-cols-2 gap-8">
+              {/* Minimum Investment */}
+              <FormField
+                control={form.control}
+                name="min_investment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Minimum Investment</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Minimum investment for investors"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        defaultValue={data.min_investment || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+              {/* Maximum Investment */}
+              <FormField
+                control={form.control}
+                name="max_investment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Maximum Investment</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Maximum investment for investors"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        defaultValue={data.max_investment || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+              {/* Goal */}
+              <FormField
+                control={form.control}
+                name="goal"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Goal</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Goal"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        defaultValue={data.goal || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+                <FormField
+                control={form.control}
+                name="shared_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Shared Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Shared Price"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        defaultValue={data.shared_price || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+              {/* Start Date */}
+              <FormField
+                control={form.control}
+                name="start_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date of your raise campaign</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        {...field}
+                        defaultValue={data.start_date ? data.start_date.slice(0, 10) : ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+              {/* End Date */}
+              <FormField
+                control={form.control}
+                name="end_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date of your raise campaign</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        {...field}
+                        defaultValue={data.end_date ? data.end_date.slice(0, 10) : ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              <div className="md:col-span-2 flex flex-col gap-1 justify-center">
+                {/* Raise Campaign Description */}
+                <div className="mt-2 ">
+                  <p className="text-sm font-semibold mb-2">Raise Campaign Description</p>
+                 <ToolsBar editor={editorDescription} id={id}/>
+                </div>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="w-full">
+                          <EditorContent editor={editorDescription} />
+                        </div>
+                      </FormControl>
+                      <FormDescription>This will be displayed on the raise campaign page.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+    />
+                </div>
+
+              {/* Submit Button */}
+              <div className="md:col-span-2 flex justify-center">
+                <Button type="submit" className="w-1/2">
+                  Update Raise Campaign
+                </Button>
+            </div>
+              
+            </form>
+          </Form>
+        </div>
+      </div>
+  )};

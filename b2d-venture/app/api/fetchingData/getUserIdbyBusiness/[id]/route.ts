@@ -13,15 +13,8 @@ export async function GET(req: Request, { params }) {
         // Try to find business by ID first
         let data = await Business.findById(id);
         if (data) {
-            console.log(`Business found by ID: ${data}`);
-            return NextResponse.json({ data });
-        }
-
-        // Try to find business by user_id if not found by ID
-        data = await Business.findOne({ user_id: id });
-        if (data) {
-            console.log(`Business found by user_id: ${data}`);
-            return NextResponse.json({ data });
+            console.log(`Business found by ID: ${data.user_id.toString()}`);
+            return NextResponse.json({ user_id: data.user_id.toString()  });
         }
 
         // If no data found

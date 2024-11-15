@@ -16,7 +16,7 @@ import InvestorRequestCard from "@/components/shared/BusinessDashboard/InvestorR
 import InvestorRequest from "@/models/InvestorRequest";
 import Business from "@/models/Business";
 
-async function getBarChartData({raiseCampaignObjectId}){
+async function getBarChartData(raiseCampaignIds){
     await connect();
     const now = new Date();
     const twelthMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
@@ -24,7 +24,7 @@ async function getBarChartData({raiseCampaignObjectId}){
     const  barChartdata = await Investment.aggregate([
         {
           $match: {
-            raise_campaign_id: raiseCampaignObjectId,
+            raise_campaign_id: { $in: raiseCampaignIds },
             created_at: { $gte: twelthMonthsAgo }
           }
         },
@@ -44,21 +44,21 @@ async function getBarChartData({raiseCampaignObjectId}){
     return {barChartdata}
 }
 
-async function getBusinessData(raiseCampaignObjectId) {
+async function getBusinessData(raiseCampaignIds) {
     const totalInvestor = await Investment.aggregate([
-      { $match: { raise_campaign_id: raiseCampaignObjectId } },
+      { $match: { raise_campaign_id: { $in: raiseCampaignIds }  } },
       { $group: { _id: "$investor_id" } },  // Unique investors
       { $count: "totalInvestor" }
     ]);
   
     // Total investments (count of investments)
     const totalInvestment = await Investment.countDocuments({
-        raise_campaign_id: raiseCampaignObjectId,
+        raise_campaign_id:  { $in: raiseCampaignIds } ,
     });
   
     // Total raised (sum of amounts raised)
     const totalRaised = await Investment.aggregate([
-      { $match: { raise_campaign_id: raiseCampaignObjectId } },
+      { $match: { raise_campaign_id:  { $in: raiseCampaignIds } } },
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
   
@@ -88,9 +88,8 @@ async function getBusinessData(raiseCampaignObjectId) {
     const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
         next: { tags: ['collection'] },
     });    
-    const raise_campaign_json = await response_raise_campaign.json();
-    const raise_campaign = raise_campaign_json[0];
-    console.log(raise_campaign_json);
+    const raise_campaign = await response_raise_campaign.json();
+    console.log(raise_campaign);
 
     let businessObjectId;
     // Make business object id
@@ -101,17 +100,14 @@ async function getBusinessData(raiseCampaignObjectId) {
     }
 
     // Make raise campaign object id
-    let raiseCampaignObjectId;
-    if (ObjectId.isValid(id)) {
-        raiseCampaignObjectId = new ObjectId(raise_campaign._id);
-    } else {
-        return { notFound: true };  
-    }
+    
+    const raiseCampaignObjectIds = raise_campaign.map((item) => new ObjectId( item._id))
+
 
     // const user = await User.findById(userObjectId);  
     
-    const { barChartdata } = await getBarChartData({ raiseCampaignObjectId });
-    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectId);
+    const { barChartdata } = await getBarChartData(raiseCampaignObjectIds);
+    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectIds);
 
     return(
         <>
@@ -192,7 +188,7 @@ async function getBusinessData(raiseCampaignObjectId) {
                         reason={req.reason}
                         status_from_business={req.status_from_business}
                         className='mr-5'
-                        time={req.createdAt.toLocaleDateString('en-US')}
+                        time={req.createdAt.toLocaleDateString('en-GB')}
                         />
                     ))}
                 </div>    

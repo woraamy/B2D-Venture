@@ -18,7 +18,7 @@ export async function GET(req: Request) {
             // Format the created_at date before sending
             const formattedData = data.map(item => ({
                 ...item.toObject(),
-                createdAt: item.createdAt.toLocaleDateString('en-US')
+                createdAt: item.createdAt.toLocaleDateString('en-GB')
             }));
             return NextResponse.json({ data: formattedData });
     }

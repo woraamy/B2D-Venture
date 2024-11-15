@@ -1,28 +1,63 @@
-import { useState } from "react";
+"use client"
+import { useState, useEffect } from "react";
 import DragAndDrop from "@/components/shared/BusinessDashboard/DragAndDrop";
 import FileContainer from "@/components/shared/BusinessDashboard/FileContainer";
 import DataRoom from "@/models/DataRoom";
 import Business from "@/models/Business";
 import connect from "@/lib/connectDB"
-export default async function Page({ params }) {
+export default function Page({ params }) {
   const {id} = params;
-  await connect();
-  const dataroom = await DataRoom.findOne({'business_id':id}).populate('files')
-  const files = dataroom ? dataroom.files || [] : [];
-  const business = await Business.findById(id)
-  const user_id = business.user_id.toString()
+  const [files, setFiles] = useState([])
+  const [user_id, setUserId] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+
+  async function fetchData() {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/fetchingData/DataRoom/${id}`);
+      const data = await response.json();
+      
+      const response1 = await fetch(`/api/fetchingData/getUserIdbyBusiness/${id}`);
+      const business = await response1.json();
+      setFiles(data.data.files || []);
+      setUserId(business.user_id || "");
+      setIsLoading(false)
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  }
+
+  useEffect(()  => {
+    fetchData()
+  }, [])
   
+ 
   return(
-    <div className="flex">
-        <div className="flex w-[40vw] h-screen">
-        <DragAndDrop type="dataroom"/>
+    // OnUploadComplete={}
+    <div className="flex overflow-hidden">
+        <div className="flex ml-10 w-[40vw] h-screen">
+        <DragAndDrop 
+          type="dataroom" 
+          onUploadComplete={fetchData}
+          className={"flex mt-44 bg-transparent justify-center h-screen w-screen"} 
+          />
         </div>
 
         <div className="absolute right-0 flex w-[40vw] h-screen bg-white shadow-lg  ">
             <div className="flex mt-20 ">
                 <div className="ml-16 mt-5">
                     <h1 className="mb-3 text-2xl font-semibold">Data Room</h1>
-                      {files.map((file,index)=>(
+                      {isLoading ? (
+                          <div className="">
+                            <img
+                                src="/assets/icons/icons-loading.gif"
+                                alt="loading"
+                                className="object-contain"
+                              />
+                            <div className="loader">Loading...</div> 
+                          </div>
+                      )
+                      : files.map((file,index)=>(
                         <FileContainer 
                           key={index} 
                           name={file.name} 

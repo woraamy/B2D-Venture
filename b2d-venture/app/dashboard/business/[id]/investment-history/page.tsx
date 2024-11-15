@@ -1,82 +1,90 @@
 import useSWR from 'swr';
 import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
-import Header from "@/components/shared/Header"
+import Header from "@/components/shared/Header";
 import TableCard from "@/components/shared/TableCard";
 import Investment from "@/models/Investment";
 import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
 import { OverviewChart } from "@/components/charts/overviewchart";
 import Business from "@/models/Business";
+import RaiseCampaign from '@/models/RaiseCampaign';
 
 async function fetchInvestmentData(id) {
-    // fetch investment data 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { revalidate: 100 }});
+    // fetch investment data
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { revalidate: 100 } });
     const res = await response.json();
     return res.data || [];
 }
 
-export default async function Page({params}) {
-    const {id} = params;
+export default async function Page({ params }) {
+    const { id } = params;
 
+    // Fetch business details
     const business = await Business.findById(id);
     console.log(business);
 
-    //Fetch Raise Campaign data
-    const response_raise_campaign = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/businessId/${business._id}`, {
-        next: { tags: ['collection'] },
-    });    
-    const raise_campaign_json = await response_raise_campaign.json();
-    const raise_campaign = raise_campaign_json.data[0];
+    // Fetch all Raise Campaigns for the business
+    const raise_campaign_list = await RaiseCampaign.find({ business_id: id })
+        .populate({
+            path: 'business_id',
+            populate: {
+                path: 'user_id',
+            },
+        })
+        .lean();
 
-    const investment = await fetchInvestmentData(raise_campaign._id);
-    
-    const data = investment.map((item, index) => (
-        [
+    // If no campaigns exist, show a message
+    if (!raise_campaign_list || raise_campaign_list.length === 0) {
+        return <p>No raise campaigns available for this business.</p>;
+    }
+
+    // Prepare table data for all campaigns
+    const tableData = [];
+
+    for (const campaign of raise_campaign_list) {
+        const investmentData = await fetchInvestmentData(campaign._id); // Fetch investments for each campaign
+
+        // Format investment data for each campaign, including campaign status
+        const formattedData = investmentData.map((item) => [
             { value: item.created_at, type: "text" },
             {
                 value: {
-                    src: item.investor_id.profile_picture,  // Access profile picture from populated investor_id
-                    text: item.investor_id.user_id.username // Access username from populated investor_id
+                    src: item.investor_id.profile_picture,
+                    text: item.investor_id.user_id.username
                 },
                 type: "image"
             },
             { value: item.amount.toLocaleString(), type: "text" },
-            { value: ((item.amount / item.raise_campaign_id.raised) * 100).toFixed(2).toLocaleString(), type: "text" },
-            { value: (item.amount / item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type: "text" },
-        ]
-    ));
-    
+            { value: ((item.amount / campaign.raised) * 100).toFixed(2).toLocaleString(), type: "text" },
+            { value: (item.amount / campaign.shared_price).toFixed(2).toLocaleString(), type: "text" },
+            { value: campaign.status, type: "text" } // Show campaign status
+        ]);
+
+        tableData.push(...formattedData); // Add all investments for this campaign to the main table data array
+    }
+
+    // Define the headers with campaign status column
     const headData = [
-        {value:"Date", type:"text"}, 
-        {value:"Investor", type:"text"},
-        {value:"Investment Money", type:"text"},
-        {value:"Equity Stake", type:"text"},
-        {value:"Shared recieve", type:"text"}
-        ]
-    return(
+        { value: "Date", type: "text" },
+        { value: "Investor", type: "text" },
+        { value: "Investment Money", type: "text" },
+        { value: "Equity Stake", type: "text" },
+        { value: "Shares Received", type: "text" },
+        { value: "Campaign Status", type: "text" }
+    ];
+
+    return (
         <div>
             <div className="ml-[6%] mt-10">
                 <div className="mt-7 flex flex-wrap gap-3">
                     <div className='ml-5'>
-                    {/* {overview.map((item, index)=>(   
-                        <InvestHistoryCard 
-                        key = {index}
-                        businessName={item.name}
-                        businessImg={item.profile}
-                        link={item.link}
-                        valuation={item.valuation.toLocaleString()}
-                        raised={item.totalRaised.toLocaleString()}
-                        equityStake={((item.totalRaised/item.valuation)*100).toFixed(2).toLocaleString()}
-                        shared={(item.totalRaised/item.shared).toFixed(2).toLocaleString()}
-                        className="relative py-2"
-                        />
-                    ))} */}
+                        {/* Additional investment overview component if needed */}
                     </div>
-                    </div>
+                </div>
                 <h1 className="font-bold mt-7 text-3xl">Investment History</h1>
                 <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold'/>
                 <div className='mb-10'>
                     {
-                        data.map((item,index)=>(
+                        tableData.map((item, index) => (
                             <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
                         ))
                     }

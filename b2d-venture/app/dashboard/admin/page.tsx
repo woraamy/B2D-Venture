@@ -73,7 +73,7 @@ export default async function Page() {
                         <ReportCard className="" name='Total Profit' amount={profit.total.toLocaleString()}/>
                     </div>
                 <div className="px-2">
-                    <div className="ml-3 w-[75vw] h-[50vh] shadow-md overflow-hidden">
+                    <div className="ml-3 w-[75vw] h-[49vh] rounded-md shadow-md overflow-hidden">
                         <AdminChart 
                             className=""
                             data={chartData}/>
@@ -95,7 +95,7 @@ export default async function Page() {
                                 email={req.email}
                                 status={req.status}
                                 className='mr-5'
-                                time={req.createdAt.toLocaleDateString('en-US')}
+                                time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}
                         </div>    
@@ -116,7 +116,7 @@ export default async function Page() {
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
-                                time={req.createdAt.toLocaleDateString('en-US')}
+                                time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}
                         </div>    

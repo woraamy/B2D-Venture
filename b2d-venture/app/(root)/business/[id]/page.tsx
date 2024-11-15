@@ -1,100 +1,125 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
 import Dialog from "@/components/shared/AskInFormationPopup";
 import ClientComponent from "./ClientComponent";
-import { getServerSession } from "next-auth"; 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from "@/models/RaiseCampaign";
-import business from "@/models/Business";
 import Business from "@/models/Business";
+import parse from "html-react-parser";
 
 
-export default async function Page({params}) {
-    const {id} = params; // id = campaign_id
-    const data = await RaiseCampaign.findById(id); // data = campaign
-    const business_data = await Business.findById(data.business_id);
-    const business_id = data.business_id?.toString();
-    const campaign_id = data._id?.toString();
-   
+export default async function Page({ params }) {
+    const { id } = params;
+    const data = await RaiseCampaign.findOne({ _id: id, status: "open" })
+        .populate({
+            path: 'business_id',
+            populate: {
+                path: 'user_id',
+            },
+        })
+        .lean();
+
     if (!data) {
-        return <div>business not found</div>;
+        return <div>Business not found</div>;
     }
+
+    const business_data = data.business_id;
+    const business_id = business_data._id?.toString();
+    const campaign_id = data._id?.toString();
 
     const session = await getServerSession(authOptions);
     const userEmail = session?.user?.email || "";
-  
-    return(
-        <>
-        {/* <Dialog title="Shared profile permission" link={`/business/${id}`} oktext='Allow' successmessage='Send request successed' >
-            <p>To provide give a permission to access comany's data we need to verify your identity, collect additional information. By sharing your profile, you consent to the company accessing your details for better service and support.</p>
-        </Dialog> */}
-        <div  className="pb-[10%]">
-            <div className="flex flex-col gap-1 mt-[3%] ml-[15%] max-w-[50%] flex-grow">
-                <div className="flex">
-                    <div className="relative h-[100px] w-[100px]">
-                        <Image 
-                        src={business_data.profile}
-                        alt="profile"
-                        fill={true}
-                        style={{objectFit:"cover"}}
-                        className="rounded-md "
+
+    return (
+        <div className="flex justify-center min-h-screen bg-[#FFF5EE] py-10 px-6">
+            {/* Main Content Area on the Left */}
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
+                {/* Header with Business Name and Profile Image */}
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300">
+                        <Image
+                            src={business_data.profile}
+                            alt="profile"
+                            fill={true}
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
-                    <div className="ml-5">
-                        <h1 className="text-[#18063C] text-[48px] font-semibold">{business_data.BusinessName}</h1>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            {business_data.BusinessName}
+                        </h1>
+                        <p className="text-gray-600 mt-2">{business_data.description}</p>
                     </div>
                 </div>
-                <p className="mt-5">{business_data.description}</p>
-                <div className="flex mt-2">
 
+                {/* Tag List */}
+                <div className="flex flex-wrap gap-2 mt-4">
+                    {business_data.tag_list.map((tag, index) => (
+                        <span
+                            key={index}
+                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                        >
+                            {tag}
+                        </span>
+                    ))}
                 </div>
-                <div className="relative mt-5 h-[30rem] w-[45vw]">
-                    <Image 
-                    src={business_data.coverimg}
-                    alt="s"
-                    fill={true}
-                    style={{objectFit:"cover"}}
+
+                {/* Cover Image */}
+                <div className="relative mt-6 h-80 w-full rounded-lg overflow-hidden">
+                    <Image
+                        src={business_data.coverimg}
+                        alt="Cover Image"
+                        fill={true}
+                        style={{ objectFit: "cover" }}
                     />
                 </div>
-                <div className="flex border-b-2 font-semibold w-[90%] mt-10">
-                    <h1 className="text-[24px] text-[#FF553E]">Overview</h1>
-                    <Link href="#teams" className="text-[18px] ml-5 mt-1">Teams</Link>
-                    <Link href="#contact" className="text-[18px] ml-5 mt-1">Contact</Link>
-                    <Link href="#update" className="text-[18px] ml-5 mt-1">Updates</Link>
-                </div>
-                {/* dummy */}
-                <div className="mt-7">
-                    <h1 className="text-[20px]"><b>Highlight</b></h1>
-                    <li className= "mt-5">- High-Impact Technology: AI-driven cancer detection represents a high-growth segment with both financial and societal impact, offering investors a chance to be part of a transformative healthcare innovation.</li>
-                    <li>- First-Mover Advantage: By focusing on the teenage and young adult cancer market, we have a clear first-mover advantage in a niche with high unmet needs</li>
-                    <li>- Strong Growth Trajectory: With a scalable business model, global market potential, and ongoing advancements in AI, this startup is poised for rapid growth, offering significant returns on investment.</li>
-                    <h1 className="text-[20px] mt-7"><b>Oppotunity</b></h1>
-                    <div className="relative mt-5 h-[30rem] w-[45vw]">
-                        <Image 
-                        src='/assets/images/example.png'
-                        alt="s"
-                        fill={true}
-                        style={{objectFit:"cover"}}
-                        />
-                    </div>
-                    <div className="mt-10">
-                        <li><b>Niche Focus</b>: There is a growing need for specialized cancer detection tools for teenagers and young adults, an underserved demographic with unique cancer profiles often overlooked by standard diagnostic approaches.</li>
-                        <li><b>Growing Market</b>: The global AI healthcare market is projected to grow significantly, with cancer diagnostics being a major focus. Early detection and personalized medicine are key drivers of this growth.</li>
-                        <li><b>Impact Potential</b>: By improving early detection rates and reducing misdiagnosis, this technology has the potential to save lives, reduce healthcare costs, and enhance patient outcomes, making it a valuable proposition for healthcare providers and insurers.</li>
-                    </div>
 
-                    <h1 id='teams' className="text-[20px] mt-7"><b>Teams</b></h1>
-
+                {/* Overview and Navigation */}
+                <div className="flex items-center border-b-2 border-gray-200 mt-8 pb-4">
+                    <h2 className="text-xl font-semibold text-[#FF553E]">Overview</h2>
+                    <Link href="#description" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Description
+                    </Link>
+                    <Link href="#benefit" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Benefits
+                    </Link>
+                    <Link href="#contact" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
+                        Contact
+                    </Link>
                 </div>
 
+                {/* Description Section */}
+                <div id="description" className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800">Description</h3>
+                    {/* <p className="text-gray-700 mt-4">{data.description}</p> */}
+                    <div className="mt-5">
+                        {parse(data.description)}
+                    </div>
+                    
+                </div>
+
+                
+
+                {/* Contact Information */}
+                <div id="contact" className="mt-10">
+                    <h3 className="text-lg font-semibold text-gray-800">Contact</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-gray-700">
+                        <p><strong>Email:</strong> {business_data.user_id.email}</p>
+                        <p><strong>Contact Number:</strong> {business_data.contactNumber}</p>
+                        <p><strong>Address:</strong> {business_data.BusinessAddress}</p>
+                        <p><strong>City:</strong> {business_data.city}</p>
+                        <p><strong>State/Province:</strong> {business_data.stateProvince}</p>
+                        <p><strong>Postal Code:</strong> {business_data.postalCode}</p>
+                        <p><strong>Country:</strong> {business_data.country}</p>
+                    </div>
+                </div>
             </div>
-            <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail}/>
-            
+
+            <div className="lg:flex flex-col items-start w-80 ml-8 space-y-6">
+                <ClientComponent businessId={business_id} campaignId={campaign_id} userEmail={userEmail} />
+            </div>
         </div>
-        </>
-    )
+    );
 }
