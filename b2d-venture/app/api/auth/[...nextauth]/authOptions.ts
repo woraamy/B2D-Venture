@@ -26,26 +26,7 @@ const authOptions: NextAuthOptions = {
           const user = await User.findOne({ email });
 
           if (!user) {
-            try {
-                const businessRequestRes = await fetch(`/api/fetchingData/getBusinessRequestStatus?email=${email}`);
-                const { status } = await businessRequestRes.json();
-
-                // If business request is approved, create the business user and activate it
-                if (status === "approved") {
-                    const activateBusinessRes = await fetch("/api/register/businessRequest", {
-                    method: "POST",
-                    body: JSON.stringify({ email }),
-                    headers: { "Content-Type": "application/json" },
-                    });
-
-                    if (!activateBusinessRes.ok) {
-                    toast.error("Error activating business account");
-                    return;
-                    }
-                    // toast.success("Your business account has been activated!");
-                }
-            }
-            catch { console.log("User not found") };
+            console.log("User not found");
             return null;
           }
 
@@ -54,7 +35,6 @@ const authOptions: NextAuthOptions = {
             console.log("Invalid password");
             return null;
           }
-
 
           return {
             ...user._doc, 
@@ -79,7 +59,6 @@ const authOptions: NextAuthOptions = {
     signIn: "/login", 
   },
   callbacks: {
-    // Callback when the user signs in
     async signIn({ user, account }: { user: any; account: any }) {
       if (account.provider === "google") {
         try {
@@ -132,7 +111,7 @@ const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.name = user.name;
         token.role = user.role || "investor"; // Default role if undefined
-        token.id = await findId(user.email); 
+        token.id = await findId(user.email);
       }
       return token;
     },
@@ -169,7 +148,7 @@ const findId = async (email: string): Promise<string | null> => {
   if (user.role === "investor") {
     const investor = await Investor.findOne({ user_id: user._id });
     if (investor) {
-      return investor._id.toString(); // Convert to string for consistency
+      return investor._id.toString();
     }
   }
 

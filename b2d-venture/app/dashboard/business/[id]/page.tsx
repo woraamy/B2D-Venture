@@ -89,7 +89,6 @@ async function getBusinessData(raiseCampaignIds) {
         next: { tags: ['collection'] },
     });    
     const raise_campaign = await response_raise_campaign.json();
-    console.log(raise_campaign);
 
     let businessObjectId;
     // Make business object id
@@ -99,15 +98,24 @@ async function getBusinessData(raiseCampaignIds) {
         return { notFound: true };  
     }
 
-    // Make raise campaign object id
-    
-    const raiseCampaignObjectIds = raise_campaign.map((item) => new ObjectId( item._id))
+    let raiseCampaignObjectIds
+    let barChartdata
+    let totalInvestor, totalInvestment, totalRaised
 
+    try {
+        const raiseCampaignObjectIds = raise_campaign.map((item) => new ObjectId( item._id))
+        const { barChartdata } = await getBarChartData(raiseCampaignObjectIds);
+        const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectIds);
+     }
+     catch (error) {
+        const raiseCampaignObjectIds = [];
+        const barChartdata = [];
+        const totalInvestor = 0
+        const totalInvestment = 0;
+        const totalRaised = 0;
+      }
 
-    // const user = await User.findById(userObjectId);  
     
-    const { barChartdata } = await getBarChartData(raiseCampaignObjectIds);
-    const { totalInvestor, totalInvestment, totalRaised } = await getBusinessData(raiseCampaignObjectIds);
 
     return(
         <>
