@@ -27,25 +27,6 @@ export async function POST(req: NextRequest) {
       status,
     } = await req.json();
 
-    // Log the incoming data to check for missing fields
-    console.log("Request body:", {
-      firstName,
-      lastName,
-      BusinessName,
-      email,
-      contactNumber,
-      BusinessAddress,
-      city,
-      stateProvince,
-      postalCode,
-      country,
-      tag_list,
-      username,
-      password,
-      status,
-    });
-
-    // Connect to the database
     await connectDB();
 
     // If not approved, create a pending business registration request
@@ -67,7 +48,6 @@ export async function POST(req: NextRequest) {
       status: "pending", // Request is pending approval
     });
 
-    // Save the new request to the database
     await newRequest.save();
     console.log("Business registration request submitted successfully");
 

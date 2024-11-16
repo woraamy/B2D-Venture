@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 
 function SignUp() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -46,7 +47,7 @@ function SignUp() {
 
   return (
     <div className="signUp-bg relative">
-      {/* Logo and Back to Home */}
+      <Toaster />
       <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347] hidden md:block">
         B2D Venture
       </a>
