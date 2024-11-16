@@ -12,23 +12,6 @@ export async function POST(req: NextRequest) {
   };
 
   try {
-    // Parse the request body
-    // const {
-    //   firstName,
-    //   lastName,
-    //   BusinessName,
-    //   email,
-    //   contactNumber,
-    //   BusinessAddress,
-    //   city,
-    //   stateProvince,
-    //   postalCode,
-    //   country,
-    //   tag_list,
-    //   username,
-    //   password,
-    //   status,
-    // } = await req.json();
 
     const {
       id,
@@ -62,7 +45,6 @@ export async function POST(req: NextRequest) {
         ? businessRequest.tag_list.join(", ")
         : businessRequest.tag_list;
 
-      // Create a new business user
       const newUser = new User({
         username: businessRequest.username,
         email: email,
@@ -71,7 +53,6 @@ export async function POST(req: NextRequest) {
       });
       await newUser.save();
 
-      // Create a new business record
       const newBusiness = new Business({
         user_id: newUser._id,
         firstName: businessRequest.firstName,

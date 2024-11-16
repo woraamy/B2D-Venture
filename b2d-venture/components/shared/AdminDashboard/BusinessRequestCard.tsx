@@ -37,7 +37,7 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
 
     async function handleReject(id: string, type: 'business' | 'investor') {
         try {
-            const response = await fetch('/api/request/businessRequestAction', {
+            const response = await fetch('/api/register/business', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -15,6 +15,10 @@ const FormSchema = z
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string().min(8, { message: "Password should be at least 8 characters" }),
     confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    birthDate: z.string().min(1, { message: "Birth date is required" }),
+    nationality: z.string().min(1, { message: "Nationality is required" }),
     role: z.literal("investor"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -37,6 +41,10 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       email: "",
       password: "",
       confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      nationality: "",
       role: "investor",
     },
   });

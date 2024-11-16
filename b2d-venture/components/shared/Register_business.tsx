@@ -150,8 +150,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
 
       if (res.ok) {
         setError("");
-        setSuccess("Business creation request has been sent! Please kindly wait for approval");
-        toast.success("Business creation request has been sent successfully!");
+        setSuccess("Business creation request has been sent.");
         form.reset(); 
       } else {
         const errorData = await res.json();

@@ -15,7 +15,8 @@ export async function middleware(req) {
 
   if (pathname.startsWith('/dashboard/business')) {
     const pathParts = pathname.split('/');
-    const businessIdFromPath = pathParts[3]; // Extract business ID from the path
+    const businessIdFromPath = pathParts[3]; 
+    console.log(businessIdFromPath);
 
     if (token.role !== 'business' || token.businessId !== businessIdFromPath) {
       return NextResponse.redirect(new URL('/403', req.url));
