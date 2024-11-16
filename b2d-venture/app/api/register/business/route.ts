@@ -13,43 +13,31 @@ export async function POST(req: NextRequest) {
 
   try {
     // Parse the request body
+    // const {
+    //   firstName,
+    //   lastName,
+    //   BusinessName,
+    //   email,
+    //   contactNumber,
+    //   BusinessAddress,
+    //   city,
+    //   stateProvince,
+    //   postalCode,
+    //   country,
+    //   tag_list,
+    //   username,
+    //   password,
+    //   status,
+    // } = await req.json();
+
     const {
-      firstName,
-      lastName,
-      BusinessName,
+      id,
+      type,
       email,
-      contactNumber,
-      BusinessAddress,
-      city,
-      stateProvince,
-      postalCode,
-      country,
-      tag_list,
-      username,
-      password,
-      status,
-    } = await req.json();
+      action} = await req.json();
 
-    console.log("Request body:", {
-      firstName,
-      lastName,
-      BusinessName,
-      email,
-      contactNumber,
-      BusinessAddress,
-      city,
-      stateProvince,
-      postalCode,
-      country,
-      username,
-      password,
-      status,
-    });
-
-    // Connect to the database
     await connectDB();
 
-    // Check if a user with this email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
@@ -58,9 +46,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Retrieve the corresponding business request
-    const businessRequest = await BusinessRequest.findOne({ email });
-
+    const businessRequest = await BusinessRequest.findById(id);
     if (!businessRequest) {
       return NextResponse.json(
         { message: "Business request not found" },
@@ -68,56 +54,68 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await hashPassword(password);
+    if (action === "allow") {
+      const hashedPassword = await hashPassword(businessRequest.password);
 
-    // Handle case where tag_list is an array
-    const businessType = Array.isArray(tag_list)
-      ? tag_list.join(", ")
-      : tag_list;
+      // Handle case where tag_list is an array
+      const businessType = Array.isArray(businessRequest.tag_list)
+        ? businessRequest.tag_list.join(", ")
+        : businessRequest.tag_list;
 
-    // Create a new business user
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      role: "business",
-    });
-    await newUser.save();
+      // Create a new business user
+      const newUser = new User({
+        username: businessRequest.username,
+        email: email,
+        password: hashedPassword,
+        role: "business",
+      });
+      await newUser.save();
 
-    // Create a new business record
-    const newBusiness = new Business({
-      user_id: newUser._id,
-      firstName,
-      lastName,
-      BusinessName,
-      email,
-      contactNumber,
-      BusinessAddress,
-      city,
-      stateProvince,
-      postalCode,
-      country,
-      tag_list: businessType,
-      username,
-      status: "active",
-    });
-    await newBusiness.save();
+      // Create a new business record
+      const newBusiness = new Business({
+        user_id: newUser._id,
+        firstName: businessRequest.firstName,
+        lastName: businessRequest.lastName,
+        BusinessName: businessRequest.BusinessName,
+        email: businessRequest.email,
+        contactNumber: businessRequest.contactNumber,
+        BusinessAddress: businessRequest.BusinessAddress,
+        city: businessRequest.city,
+        stateProvince: businessRequest.stateProvince,
+        postalCode: businessRequest.postalCode,
+        country: businessRequest.country,
+        tag_list: businessType,
+        username: businessRequest.username,
+        status: "active",
+      });
+      await newBusiness.save();
 
-    // Update the business request status to "done"
-    const updatedRequest = await BusinessRequest.findOneAndUpdate(
-      { email },                   // Find the business request by email
-      { $set: { status: "done" } }, // Set status to "done"
-      { new: true }                 // Return the updated document
-    );
+      const updatedRequest = await BusinessRequest.findOneAndUpdate(
+        { email },                   
+        { $set: { status: "approved" } }, 
+        { new: true }                
+      );
 
-    // Log and verify if update was successful
-    console.log("Updated business request:", updatedRequest);
+      console.log("Updated business request:", updatedRequest);
 
-    // Return success response
-    return NextResponse.json(
-      { message: "Business and user created successfully" },
-      { status: 200 }
-    );
+      return NextResponse.json(
+        { message: "Business and user created successfully" },
+        { status: 200 }
+      );
+    }
+
+    if (action === "reject") {
+      const updatedRequest = await BusinessRequest.findOneAndUpdate(
+        { email },                   
+        { $set: { status: "declined" } },
+        { new: true }
+      );
+
+      return NextResponse.json(
+        { message: "Business request rejected" },
+        { status: 200 }
+      );
+    }
 
   } catch (error) {
     console.error("Error submitting business registration request:", error);
