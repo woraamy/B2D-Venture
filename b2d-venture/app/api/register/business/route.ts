@@ -65,8 +65,9 @@ export async function POST(req: NextRequest) {
         stateProvince: businessRequest.stateProvince,
         postalCode: businessRequest.postalCode,
         country: businessRequest.country,
-        tag_list: businessType,
+        tag_list: businessRequest.tag_list,
         username: businessRequest.username,
+        valuation: 0,
         status: "active",
       });
       await newBusiness.save();
