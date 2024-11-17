@@ -8,6 +8,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from "@/models/RaiseCampaign";
 import Business from "@/models/Business";
 import parse from "html-react-parser";
+import { Toaster } from "react-hot-toast";
 
 
 export default async function Page({ params }) {
@@ -34,7 +35,7 @@ export default async function Page({ params }) {
 
     return (
         <div className="flex justify-center min-h-screen bg-[#FFF5EE] py-10 px-6">
-            {/* Main Content Area on the Left */}
+            <Toaster />
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
                 {/* Header with Business Name and Profile Image */}
                 <div className="flex items-center gap-4 mb-6">
@@ -81,9 +82,6 @@ export default async function Page({ params }) {
                     <h2 className="text-xl font-semibold text-[#FF553E]">Overview</h2>
                     <Link href="#description" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
                         Description
-                    </Link>
-                    <Link href="#benefit" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
-                        Benefits
                     </Link>
                     <Link href="#contact" className="text-lg ml-6 text-gray-500 hover:text-[#FF553E]">
                         Contact
