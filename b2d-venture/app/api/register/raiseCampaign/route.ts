@@ -35,7 +35,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // If no open campaigns exist, create a new raise campaign entry with the provided data
     const newRequest = new RaiseCampaign({
       business_id,
       raised,
@@ -47,6 +46,8 @@ export async function POST(req: NextRequest) {
       files,
       start_date,
       end_date,
+      valuation: 0,
+      
       status: status || "open", // Default to "open" if status is not provided
     });
 
