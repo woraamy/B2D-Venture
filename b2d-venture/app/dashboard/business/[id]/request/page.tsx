@@ -46,7 +46,7 @@ export default async function Page({params}) {
                                 name={req.investor_id.name}  
                                 description={req.investor_id.investor_description}  
                                 email={req.investor_id.email}
-                                link={req.business_id.toString()}
+                                profile={req.investor_id.profile_picture}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
                                 status_from_business={req.status_from_business}

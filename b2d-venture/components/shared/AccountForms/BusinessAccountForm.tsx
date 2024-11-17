@@ -47,7 +47,7 @@ const businessFormSchema = z.object({
       message: "Contact number must not exceed 15 characters.",
     })
     .optional(),
-  description: z.string().max(160).optional(),
+  description: z.string().optional(),
   website: z.string().url().optional(),
   BusinessAddress: z.string().max(160).optional(),
   city: z.string().max(160).optional(),
@@ -256,10 +256,11 @@ export function BusinessAccountForm({ params, data }) {
             <FormItem>
               <FormLabel>Business Description</FormLabel>
               <FormControl>
-                <Input 
+                <textarea 
                   placeholder="Tell us about your business" 
                   {...field}
-                  defaultValue={data.description || ""} />
+                  defaultValue={data.description || ""} 
+                  className="block w-full p-2 border h-[15vh] border-gray-300 rounded-md"/>
               </FormControl>
               <FormDescription>This will be displayed on your profile.</FormDescription>
               <FormMessage />

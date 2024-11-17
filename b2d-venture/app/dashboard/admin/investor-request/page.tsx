@@ -80,8 +80,8 @@ export default function Page() {
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.firstName}  
                                 description={req.investor_id.investor_description}  
+                                profile={req.investor_id.profile_picture}
                                 email={req.investor_id.email}
-                                link={req.business_id._id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
@@ -130,9 +130,9 @@ export default function Page() {
                                 id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
                                 name={req.investor_id.firstName}  
+                                profile={req.investor_id.profile_picture}
                                 description={req.investor_id.investor_description}  
                                 email={req.investor_id.email}
-                                link={req.business_id._id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
