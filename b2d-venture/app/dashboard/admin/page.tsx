@@ -73,7 +73,7 @@ export default async function Page() {
                         <ReportCard className="" name='Total Profit' amount={profit.total.toLocaleString()}/>
                     </div>
                 <div className="px-2">
-                    <div className="ml-3 w-[75vw] h-[49vh] rounded-md shadow-md overflow-hidden">
+                    <div className="ml-3 w-[75vw] rounded-md shadow-md overflow-hidden">
                         <AdminChart 
                             className=""
                             data={chartData}/>
