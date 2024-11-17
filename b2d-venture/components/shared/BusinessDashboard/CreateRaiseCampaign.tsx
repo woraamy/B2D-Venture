@@ -23,7 +23,6 @@ import TextAlign from "@tiptap/extension-text-align";
 import ToolsBar from "../ToolsBar";
 import Link from '@tiptap/extension-link'
 import Heading from "@tiptap/extension-heading";
-import { useRouter } from "next/router";
 // Schema for form validation (all fields required)
 const createRaiseCampaignFormSchema = z.object({
   min_investment: z
@@ -71,7 +70,6 @@ const defaultValues: Partial<CreateFormValues> = {
 };
 
 export function CreateRaiseCampaignForm({ params }) {
-  const router = useRouter();
   const id = params;  // Assuming you're passing `params` correctly
   const form = useForm<CreateFormValues>({
     resolver: zodResolver(createRaiseCampaignFormSchema),

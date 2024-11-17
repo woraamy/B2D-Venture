@@ -10,13 +10,15 @@ import toast from "react-hot-toast";
 
 const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status, time}) => {
     async function handleAllow(id: string, type: 'business' | 'investor') {
+        // const businessRequest = await BusinessRequest.findById(id); // find business request by id
+
         try {
-            const response = await fetch('/api/request/businessRequestAction', {
+            const response = await fetch('/api/register/business', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id, type, action: 'allow' }),
+                body: JSON.stringify({ id, type, email, action: 'allow' }),
             });
 
             if (!response.ok) {
@@ -35,7 +37,7 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
 
     async function handleReject(id: string, type: 'business' | 'investor') {
         try {
-            const response = await fetch('/api/request/businessRequestAction', {
+            const response = await fetch('/api/register/business', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

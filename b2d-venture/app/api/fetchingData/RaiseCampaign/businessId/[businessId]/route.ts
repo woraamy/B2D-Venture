@@ -8,9 +8,8 @@ export async function GET(req: NextRequest, { params }) {
     console.log("Business ID " + businessId);
     
     try {
-        await connectDB(); // Connect to the database
+        await connectDB(); 
         
-        // Query RaiseCampaign using business_id instead of _id
         const data = await RaiseCampaign.find({ business_id: businessId })
             .populate('business_id') 
             console.log("raise campaign " + data);
@@ -18,8 +17,10 @@ export async function GET(req: NextRequest, { params }) {
         if (data.length > 0) { 
             return NextResponse.json(data); 
         }
+
         
-        return NextResponse.json({ message: `No RaiseCampaign found for businessId: ${businessId}` });
+        
+        return NextResponse.json({ data: null });
         
     } catch (error) {
         return NextResponse.json({ message: error.message });  

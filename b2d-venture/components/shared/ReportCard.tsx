@@ -2,6 +2,10 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
 export default function ReportCard({className, name, amount}){
+    if (amount === undefined) {
+        amount = 0;
+    }
+
     return (
         <div className="py-5 px-2">
             <Card className= "shadow-md overflow-hidden relative  w-[14vw] h-[120px] bg-white rounded-xl">

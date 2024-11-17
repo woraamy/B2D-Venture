@@ -53,10 +53,15 @@ function getPieChartData(data) {
     }, {});
 
     const chartData = Object.values(totalRaised);
-    const pieData = chartData.map((item, index) => ({
-        ...item,  
-        fill: `var(--color-chart${index % 5 + 1})` 
-    }));
+    const pieData = chartData.map((item, index) => {
+        if (typeof item === 'object' && item !== null) {
+            return {
+                ...item,  
+                fill: `var(--color-chart${index % 5 + 1})`
+            };
+        }
+        return item;
+    });
     return pieData;
 }
 

@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { toast } from "@/hooks/use-toast";
+// import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 // Define the validation schema with zod
 const FormSchema = z.object({
@@ -95,23 +96,11 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
 
   const handleFormSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      // Call the business submit handler to send data to the backend
       await handleBusinessSubmit(data);
-  
-      // Show the success message with the form data
-      toast({
-        title: "Form submitted successfully",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      });
-  
-      // Notify parent component that form is validated successfully
+      toast.success("Form submitted successfully!");
       onFormValidated(true);
+
     } catch (error) {
-      // Handle errors that might occur during the form submission process
       setError("An error occurred while submitting the form.");
       console.error("Error:", error);
     }
@@ -161,12 +150,8 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
 
       if (res.ok) {
         setError("");
-        setSuccess("User registration successful!");
-        toast({
-          title: "Registration Success",
-          description: `Welcome ${username}!`,
-        });
-        form.reset(); // Reset form after successful submission
+        setSuccess("Business creation request has been sent.");
+        form.reset(); 
       } else {
         const errorData = await res.json();
         setError(errorData.message || "Registration failed.");

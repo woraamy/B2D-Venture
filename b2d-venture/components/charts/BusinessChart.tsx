@@ -35,11 +35,13 @@ export function BusinessChart({data}) {
   const months = getLastTwelthMonth();
   
   months.forEach((month, i) => {
+      if (data === undefined) {
+        data = [];
+      }
       if (!data.some(item => item._id.month === month.monthNum)) {
         data.splice(i, 0, { _id: { year: 2024, month: month.monthNum }, raised: 0});
       }
     });
-  console.log(data)
   const chartData =  data.map((data,index)=>({
       month: months[index].month, 
       investment: data.raised,

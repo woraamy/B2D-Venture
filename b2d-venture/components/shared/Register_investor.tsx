@@ -6,7 +6,15 @@ import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
 import { useState } from "react";
 
 const FormSchema = z
@@ -15,6 +23,11 @@ const FormSchema = z
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string().min(8, { message: "Password should be at least 8 characters" }),
     confirmPassword: z.string().min(8, { message: "Password should be at least 8 characters" }),
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    birthDate: z.string().min(1, { message: "Birth date is required" }),
+    nationality: z.string().min(1, { message: "Nationality is required" }),
+    contactNumber: z.string().min(1, { message: "Contact number is required" }),
     role: z.literal("investor"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -37,6 +50,11 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       email: "",
       password: "",
       confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      nationality: "",
+      contactNumber: "",
       role: "investor",
     },
   });
@@ -51,10 +69,15 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
-          email,
-          password,
-          role
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          role: "investor",
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: data.birthDate,
+          nationality: data.nationality,
+          contactNumber: data.contactNumber,
         }),
       });
 
@@ -78,8 +101,12 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
 
   return (
     <Form {...form}>
+      
       <form onSubmit={form.handleSubmit(handleInvestorSubmit)} className="space-y-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
+
+        <h2 className="p-medium-20 mt-10 ml-14">Investor Information</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10">
+
           {/* Username */}
           <FormField
             control={form.control}
@@ -140,7 +167,98 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
               </FormItem>
             )}
           />
-        </div>
+
+          {/* First Name */}
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your first name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Last Name */}
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your last name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Birth Date */}
+          <FormField
+            control={form.control}
+            name="birthDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Birth Date</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Nationality */}
+          <FormField
+            control={form.control}
+            name="nationality"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nationality</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your nationality" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        
+
+            {/* First Name */}
+            <FormField
+              control={form.control}
+              name="contactNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your contact number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="interests"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Interests</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tell us about your interests" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+        </div>  
 
         {/* Submit Button */}
         <div className="flex justify-center">
