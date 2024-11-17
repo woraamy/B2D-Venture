@@ -76,6 +76,17 @@ export default function({params}){
                     </td>
                 </tr>
                 <tr>
+                    <td className="w-[60%] py-2">Password</td>
+                    <td className="w-[100%]">
+                        <input
+                            type="password"
+                            name="password"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                            onChange={(e)=> setName(e.target.value) }
+                            />
+                    </td>
+                </tr>
+                <tr>
                     <td className="w-[60%] py-2">Email</td>
                     <td className="w-[100%]">
                         <input
