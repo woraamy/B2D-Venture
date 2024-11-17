@@ -27,6 +27,7 @@ const FormSchema = z
     lastName: z.string().min(1, { message: "Last name is required" }),
     birthDate: z.string().min(1, { message: "Birth date is required" }),
     nationality: z.string().min(1, { message: "Nationality is required" }),
+    contactNumber: z.string().min(1, { message: "Contact number is required" }),
     role: z.literal("investor"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -53,6 +54,7 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
       lastName: "",
       birthDate: "",
       nationality: "",
+      contactNumber: "",
       role: "investor",
     },
   });
@@ -67,10 +69,15 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
-          email,
-          password,
-          role,
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          role: "investor",
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: data.birthDate,
+          nationality: data.nationality,
+          contactNumber: data.contactNumber,
         }),
       });
 
@@ -94,8 +101,12 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
 
   return (
     <Form {...form}>
+      
       <form onSubmit={form.handleSubmit(handleInvestorSubmit)} className="space-y-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-8 md:p-16">
+
+        <h2 className="p-medium-20 mt-10 ml-14">Investor Information</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 p-4 ml-10 mr-10">
+
           {/* Username */}
           <FormField
             control={form.control}
@@ -216,7 +227,38 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
               </FormItem>
             )}
           />
-        </div>
+        
+
+            {/* First Name */}
+            <FormField
+              control={form.control}
+              name="contactNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your contact number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="interests"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Interests</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tell us about your interests" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+        </div>  
 
         {/* Submit Button */}
         <div className="flex justify-center">

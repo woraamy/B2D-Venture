@@ -11,7 +11,14 @@ const hashPassword = async (password: string) => {
 
 export async function POST(req: Request) {
   try {
-    const { username, email, password } = await req.json();
+    const { 
+      username, 
+      email,
+      password,
+      firstName,
+      lastName,
+      birthDate,
+      nationality } = await req.json();
 
     if (!username || !email || !password) {
       return NextResponse.json({ message: "All fields (username, email, password) are required." }, { status: 400 });
@@ -30,10 +37,18 @@ export async function POST(req: Request) {
       username,
       email,
       password: hashedPassword,
+      role: "investor",
     });
 
     const newInvestor = await Investor.create({
       user_id: newUser._id,
+      firstName,
+      lastName,
+      investor_description: "",
+      profile_picture: "",
+      contactNumber: "",
+      birthDate,
+      nationality,
       investment_history: [],
     });
 
