@@ -23,6 +23,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
           message: `Amount must be between ${minInvestment} and ${maxInvestment}`,
         }
       ),
+    termsAccepted: z.literal(true, { errorMap: () => ({ message: "You must accept the terms and conditions." }) }),
   });
 
 export default function PaymentPage() {
@@ -65,6 +66,7 @@ export default function PaymentPage() {
       name: "",
       expiry: "",
       amount: 0,
+      termsAccepted: false,
     },
   });
 
@@ -99,7 +101,7 @@ export default function PaymentPage() {
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Payment Details</h2>
         <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
-
+          {/* Payment fields */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cardNumber">
               Card Number
@@ -116,62 +118,30 @@ export default function PaymentPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cvv">
-              CVV
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="terms">
+              Terms and Conditions
             </label>
-            <input
-              type="text"
-              {...form.register("cvv")}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="123"
-            />
-            {form.formState.errors.cvv && (
-              <p className="text-red-500 text-xs mt-1">{form.formState.errors.cvv.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">
-              Name on Card
-            </label>
-            <input
-              type="text"
-              {...form.register("name")}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="John Doe"
-            />
-            {form.formState.errors.name && (
-              <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="expiry">
-              Expiry Date
-            </label>
-            <input
-              type="text"
-              {...form.register("expiry")}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="MM/YY"
-            />
-            {form.formState.errors.expiry && (
-              <p className="text-red-500 text-xs mt-1">{form.formState.errors.expiry.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="amount">
-              Amount to Invest (in USD)
-            </label>
-            <input
-              type="number"
-              {...form.register("amount", { valueAsNumber: true })}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder={`Investment between ${minInvestment} and ${maxInvestment}`}
-            />
-            {form.formState.errors.amount && (
-              <p className="text-red-500 text-xs mt-1">{form.formState.errors.amount.message}</p>
+            <div className="border p-4 rounded-md bg-gray-50 text-gray-600">
+              <p>Please read and accept the terms and conditions before investing.</p>
+              <ul className="list-disc pl-4">
+                <li>Your investment is subject to market risk.</li>
+                <li>Ensure you have read all the relevant documents.</li>
+                <li>No refunds after the transaction is complete.</li>
+              </ul>
+            </div>
+            <div className="mt-2">
+              <input
+                type="checkbox"
+                {...form.register("termsAccepted")}
+                id="termsAccepted"
+                className="mr-2"
+              />
+              <label htmlFor="termsAccepted" className="text-sm text-gray-700">
+                I have read and understood the terms and conditions.
+              </label>
+            </div>
+            {form.formState.errors.termsAccepted && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.termsAccepted.message}</p>
             )}
           </div>
 
