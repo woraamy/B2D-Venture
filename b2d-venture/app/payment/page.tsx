@@ -40,6 +40,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
   const [minInvestment, setMinInvestment] = useState(0);
   const [maxInvestment, setMaxInvestment] = useState(0);
+  const [campaignData, setCampaignData] = useState(null);
 
   const fetchCampaignData = async () => {
     try {
@@ -47,6 +48,7 @@ export default function PaymentPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${campaignId}`
       );
       const data = await response.json();
+      setCampaignData(data.data);
       setMinInvestment(data.data.min_investment);
       setMaxInvestment(data.data.max_investment);
     } catch (error) {
@@ -104,7 +106,7 @@ export default function PaymentPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
-          Payment Details
+          Payment Details for {campaignData?.business_id?.BusinessName}'s Raise Campaign
         </h2>
         <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-5">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
@@ -185,60 +187,68 @@ export default function PaymentPage() {
               
             {/* First Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="firstName">
                 First Name
               </label>
-              <Input {...form.register("firstName")} placeholder="John" />
-              {form.formState.errors.firstName && (
-                <p className="text-red-500 text-xs mt-1">
-                  {form.formState.errors.firstName.message}
-                </p>
-              )}
+              <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="John"
+              />
             </div>
 
             {/* Last Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="lastName">
                 Last Name
               </label>
-              <Input {...form.register("lastName")} placeholder="Doe" />
-              {form.formState.errors.lastName && (
-                <p className="text-red-500 text-xs mt-1">
-                  {form.formState.errors.lastName.message}
-                </p>
-              )}
+              <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Doe"
+              />
             </div>
           </div>
 
           {/* Address */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="address">
               Address
             </label>
-            <Input {...form.register("address")} placeholder="123 Main St" />
-            {form.formState.errors.address && (
-              <p className="text-red-500 text-xs mt-1">
-                {form.formState.errors.address.message}
-              </p>
-            )}
+            <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="123 Happy Street"
+              />
           </div>
 
           {/* City */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
               City
             </label>
-            <Input {...form.register("city")} placeholder="New York" />
-            {form.formState.errors.city && (
-              <p className="text-red-500 text-xs mt-1">
-                {form.formState.errors.city.message}
-              </p>
-            )}
+            <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="New York"
+              />
+          </div>
+
+          {/* Country */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
+              Country
+            </label>
+            <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="USA"
+              />
           </div>
 
           {/* Postal Code */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="postalCode">
               Postal Code
             </label>
             <Input {...form.register("postalCode")} placeholder="10001" />
@@ -250,7 +260,7 @@ export default function PaymentPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="terms">
               Terms and Conditions
             </label>
             <div className="border p-4 rounded-md bg-gray-50 text-gray-600 max-h-64 overflow-y-auto">
