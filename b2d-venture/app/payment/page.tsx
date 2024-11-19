@@ -2,18 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import data from "@/models/Investor";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({
+    firstName: z.string().min(1, { message: "First Name is required" }),
+    lastName: z.string().min(1, { message: "Last Name is required" }),
+    address: z.string().min(5, { message: "Address is required" }),
+    city: z.string().min(1, { message: "City is required" }),
+    postalCode: z.string().min(4, { message: "Postal Code is required" }),
     cardNumber: z.string().min(16, { message: "Card number must be at least 16 digits" }),
     cvv: z.string().min(3, { message: "CVV must be at least 3 digits" }),
-    name: z.string().min(1, { message: "Name is required" }),
+    name: z.string().min(1, { message: "Name on card is required" }),
     expiry: z.string().regex(/^\d{2}\/\d{2}$/, { message: "Expiry date must be in MM/YY format" }),
     amount: z
       .number()
@@ -31,11 +37,7 @@ export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const campaignId = searchParams.get("campaignId");
-  const businessId = searchParams.get("businessId");
-  const investorId = searchParams.get("investorId");
-
   const [loading, setLoading] = useState(false);
-  const [campaignData, setCampaignData] = useState(null);
   const [minInvestment, setMinInvestment] = useState(0);
   const [maxInvestment, setMaxInvestment] = useState(0);
 
@@ -45,7 +47,6 @@ export default function PaymentPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${campaignId}`
       );
       const data = await response.json();
-      setCampaignData(data);
       setMinInvestment(data.data.min_investment);
       setMaxInvestment(data.data.max_investment);
     } catch (error) {
@@ -54,14 +55,17 @@ export default function PaymentPage() {
   };
 
   useEffect(() => {
-    if (campaignId) {
-      fetchCampaignData();
-    }
+    if (campaignId) fetchCampaignData();
   }, [campaignId]);
 
   const form = useForm({
     resolver: zodResolver(createPaymentSchema(minInvestment, maxInvestment)),
     defaultValues: {
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      postalCode: "",
       cardNumber: "",
       cvv: "",
       name: "",
@@ -78,9 +82,8 @@ export default function PaymentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          investor_id: investorId,
-          raisedcampaign_id: campaignId,
-          amount: data.amount,
+          investorDetails: data,
+          raisedCampaignId: campaignId,
         }),
       });
 
@@ -88,7 +91,7 @@ export default function PaymentPage() {
         toast.success("Payment successful!");
         router.push(`/business/${campaignId}`);
       } else {
-        toast.error("Failed to create investment.");
+        toast.error("Failed to process payment.");
       }
     } catch (error) {
       toast.error("An error occurred while processing the payment.");
@@ -99,10 +102,12 @@ export default function PaymentPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Payment Details for {campaignData.business_id.BusinessName}</h2>
-        <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
-          {/* Payment fields */}
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+          Payment Details
+        </h2>
+        <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-5">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cardNumber">
               Card Number
@@ -119,11 +124,137 @@ export default function PaymentPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="terms">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cvv">
+              CVV
+            </label>
+            <input
+              type="text"
+              {...form.register("cvv")}
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="123"
+            />
+            {form.formState.errors.cvv && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.cvv.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">
+              Name on Card
+            </label>
+            <input
+              type="text"
+              {...form.register("name")}
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="John Doe"
+            />
+            {form.formState.errors.name && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="expiry">
+              Expiry Date
+            </label>
+            <input
+              type="text"
+              {...form.register("expiry")}
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="MM/YY"
+            />
+            {form.formState.errors.expiry && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.expiry.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="amount">
+              Amount to Invest (in USD)
+            </label>
+            <input
+              type="number"
+              {...form.register("amount", { valueAsNumber: true })}
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder={`Investment between ${minInvestment} and ${maxInvestment}`}
+            />
+            {form.formState.errors.amount && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.amount.message}</p>
+            )}
+          </div>
+              
+            {/* First Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
+              <Input {...form.register("firstName")} placeholder="John" />
+              {form.formState.errors.firstName && (
+                <p className="text-red-500 text-xs mt-1">
+                  {form.formState.errors.firstName.message}
+                </p>
+              )}
+            </div>
+
+            {/* Last Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <Input {...form.register("lastName")} placeholder="Doe" />
+              {form.formState.errors.lastName && (
+                <p className="text-red-500 text-xs mt-1">
+                  {form.formState.errors.lastName.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Address */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Address
+            </label>
+            <Input {...form.register("address")} placeholder="123 Main St" />
+            {form.formState.errors.address && (
+              <p className="text-red-500 text-xs mt-1">
+                {form.formState.errors.address.message}
+              </p>
+            )}
+          </div>
+
+          {/* City */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              City
+            </label>
+            <Input {...form.register("city")} placeholder="New York" />
+            {form.formState.errors.city && (
+              <p className="text-red-500 text-xs mt-1">
+                {form.formState.errors.city.message}
+              </p>
+            )}
+          </div>
+
+          {/* Postal Code */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Postal Code
+            </label>
+            <Input {...form.register("postalCode")} placeholder="10001" />
+            {form.formState.errors.postalCode && (
+              <p className="text-red-500 text-xs mt-1">
+                {form.formState.errors.postalCode.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
               Terms and Conditions
             </label>
             <div className="border p-4 rounded-md bg-gray-50 text-gray-600 max-h-64 overflow-y-auto">
-              <p className="font-semibold">Please read the following terms carefully:</p>
+            <p className="font-semibold">Please read the following terms carefully:</p>
               <ul className="list-disc pl-4 mt-2 space-y-2">
                 <li><strong>Eligibility:</strong> You must be at least 18 years old and legally capable of entering into an investment agreement.</li>
                 <li><strong>Investment Risks:</strong> Investing in this raise campaign involves risks, including potential loss of your entire investment. The company does not guarantee returns.</li>
@@ -136,38 +267,31 @@ export default function PaymentPage() {
                 <li><strong>Limitation of Liability:</strong> The company is not liable for any indirect, incidental, or consequential damages arising from your investment.</li>
                 <li><strong>Dispute Resolution:</strong> Any disputes will be resolved under the laws of [Insert Jurisdiction].</li>
               </ul>
-              <p className="mt-4">
-                By checking the box below and submitting your payment, you acknowledge that you have read, understood, and agree to these terms and conditions.
-              </p>
             </div>
             <div className="mt-2">
               <input
                 type="checkbox"
                 {...form.register("termsAccepted")}
-                id="termsAccepted"
                 className="mr-2"
               />
-              <label htmlFor="termsAccepted" className="text-sm text-gray-700">
-                I have read and understood the terms and conditions.
+              <label className="text-sm text-gray-700">
+                I accept the terms and conditions.
               </label>
             </div>
-            {form.formState.errors.termsAccepted && (
-              <p className="text-red-500 text-xs mt-1">{form.formState.errors.termsAccepted.message}</p>
-            )}
           </div>
 
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 px-4 text-white font-semibold rounded-md transition ${
-              loading
-                ? "bg-indigo-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
-            }`}
-          >
-            {loading ? "Processing..." : "Submit Payment"}
-          </button>
+          {/* Submit Button */}
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 px-4 text-white font-semibold rounded-md ${
+                loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+              }`}
+            >
+              {loading ? "Processing..." : "Submit Payment"}
+            </Button>
+          </div>
         </form>
       </div>
     </div>
