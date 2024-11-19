@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { description } from "../charts/overviewchart";
 
 // Define the validation schema with zod
 const FormSchema = z.object({
@@ -30,6 +31,7 @@ const FormSchema = z.object({
   stateProvince: z.string().min(1, { message: "State/Province is required" }),
   postalCode: z.string().min(1, { message: "Postal/Zip code is required" }),
   country: z.string().min(1, { message: "Country is required" }),
+  description: z.string().min(1,{ message: "Description is require" }),
   tag_list: z
     .array(z.string())
     .min(1, { message: "At least one business type must be selected" }),
@@ -85,6 +87,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       stateProvince: "",
       postalCode: "",
       country: "",
+      description: "",
       tag_list: [],
       username: "",
       password: "",
@@ -117,6 +120,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
             stateProvince, 
             postalCode, 
             country, 
+            description,
             tag_list, 
             username, 
             password,
@@ -124,7 +128,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
             status } = data;
 
     try {
-      const res = await fetch("http://localhost:3000/api/register/businessRequest", {
+      const res = await fetch("/api/register/businessRequest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,6 +144,7 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
           stateProvince,
           postalCode,
           country,
+          description,
           tag_list,
           username,
           password,
@@ -344,6 +349,24 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
                 </FormLabel>
                 <FormControl>
                   <Input id="country" placeholder="Country" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Country */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Description
+                  <span className="text-red-500"> *</span>
+                </FormLabel>
+                <FormControl>
+                  <textarea id="description" placeholder="Description" className="block w-full p-2 border h-[15vh] border-gray-300 rounded-md" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

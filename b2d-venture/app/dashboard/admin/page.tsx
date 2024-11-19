@@ -114,7 +114,7 @@ export default async function Page() {
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
-                                className='mr-5'
+                                className='mr-5 mb-10'
                                 profile={req.investor_id.profile_picture}
                                 time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
