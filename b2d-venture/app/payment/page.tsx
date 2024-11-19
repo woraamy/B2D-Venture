@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import data from "@/models/Investor";
 
 const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({
@@ -99,7 +100,7 @@ export default function PaymentPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Payment Details</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Payment Details for {campaignData.business_id.BusinessName}</h2>
         <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
           {/* Payment fields */}
           <div>
@@ -121,13 +122,23 @@ export default function PaymentPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="terms">
               Terms and Conditions
             </label>
-            <div className="border p-4 rounded-md bg-gray-50 text-gray-600">
-              <p>Please read and accept the terms and conditions before investing.</p>
-              <ul className="list-disc pl-4">
-                <li>Your investment is subject to market risk.</li>
-                <li>Ensure you have read all the relevant documents.</li>
-                <li>No refunds after the transaction is complete.</li>
+            <div className="border p-4 rounded-md bg-gray-50 text-gray-600 max-h-64 overflow-y-auto">
+              <p className="font-semibold">Please read the following terms carefully:</p>
+              <ul className="list-disc pl-4 mt-2 space-y-2">
+                <li><strong>Eligibility:</strong> You must be at least 18 years old and legally capable of entering into an investment agreement.</li>
+                <li><strong>Investment Risks:</strong> Investing in this raise campaign involves risks, including potential loss of your entire investment. The company does not guarantee returns.</li>
+                <li><strong>Commitment:</strong> Once your payment is processed, your investment is binding and non-refundable, except as required by law.</li>
+                <li><strong>Payment Terms:</strong> Payments must be made through authorized methods, and transaction fees may apply unless otherwise specified.</li>
+                <li><strong>Investor Rights:</strong> Your investment may entitle you to specific rights, as detailed in the campaign documentation.</li>
+                <li><strong>Campaign Completion:</strong> If the funding target is not met, the company may refund your investment or offer alternative arrangements.</li>
+                <li><strong>Confidentiality:</strong> You agree to keep all campaign-related information confidential.</li>
+                <li><strong>Data Privacy:</strong> Your personal information will be handled in accordance with our Privacy Policy.</li>
+                <li><strong>Limitation of Liability:</strong> The company is not liable for any indirect, incidental, or consequential damages arising from your investment.</li>
+                <li><strong>Dispute Resolution:</strong> Any disputes will be resolved under the laws of [Insert Jurisdiction].</li>
               </ul>
+              <p className="mt-4">
+                By checking the box below and submitting your payment, you acknowledge that you have read, understood, and agree to these terms and conditions.
+              </p>
             </div>
             <div className="mt-2">
               <input
@@ -144,6 +155,7 @@ export default function PaymentPage() {
               <p className="text-red-500 text-xs mt-1">{form.formState.errors.termsAccepted.message}</p>
             )}
           </div>
+
 
           <button
             type="submit"
