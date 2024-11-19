@@ -119,8 +119,8 @@ async function getBusinessData(raiseCampaignIds) {
 
     return(
         <>
-        <div className="flex flex-wrap w-[85vw] h-[100%]">
-            <div id="bar graph" className="overflow-auto flex w-[55vw] h-[48vh] border-r-2 border-b-2">
+        <div className="flex flex-wrap w-[85vw] ">
+            <div id="bar graph" className="overflow-auto flex w-[54vw] h-[48vh] border-r-2 border-b-2">
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
@@ -171,18 +171,10 @@ async function getBusinessData(raiseCampaignIds) {
                 </div>
             </div>
 
-            {/* Report Cards Section */}
-            <div className="flex ml-3 w-full">
-                <ReportCard className="" name='Total Investors' amount={totalInvestor}/>
-                <ReportCard className="" name='Total Investments' amount={totalInvestment}/>
-                <ReportCard className="" name='Total Raised' amount={totalRaised}/>
-                <ReportCard className="" name='Valuation' amount={business.valuation}/>
-            </div>
-
-            {/* Investor Requests Section (moved below Report Cards) */}
-            <div className="ml-7 w-full">
-                <h1 className="text-[32px] mt-5 font-bold">Investor requests</h1>    
-                <div className="flex overflow-auto px-5 py-5 w-[85%] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
+            <div className="flex w-full h-[50%] -mt-5">
+            <div className="w-[54vw] border-r-2">
+                <h1 className="text-3xl ml-10 mt-5 font-bold">Investor requests</h1>    
+                <div className="flex ml-10 overflow-auto mt-5 ">
                     {investorRequests.map((req)=>(
                         <InvestorRequestCard
                         key={req.id} 
@@ -200,6 +192,14 @@ async function getBusinessData(raiseCampaignIds) {
                         />
                     ))}
                 </div>    
+            </div>
+             {/* Report Cards Section */}
+             <div className="flex flex-wrap ml-3 w-[30vw] ">
+                <ReportCard className="" name='Total Investors' amount={totalInvestor}/>
+                <ReportCard className="" name='Total Investments' amount={totalInvestment}/>
+                <ReportCard className="" name='Total Raised' amount={totalRaised}/>
+                <ReportCard className="" name='Valuation' amount={business.valuation}/>
+            </div>
             </div>
         </div>
         </>
