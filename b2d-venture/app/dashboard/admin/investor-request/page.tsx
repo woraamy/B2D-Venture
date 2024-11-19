@@ -54,58 +54,6 @@ export default function Page() {
         <div>
             <div className="ml-[10%] mt-[5%] w-[85vw]">
                 <h1 className="text-5xl font-bold">Investor request</h1>
-                <h1 className="text-3xl mt-5">Current Request</h1>
-                <div className="w-[80%]">
-                    <div className="flex mt-5">
-                        <SearchBar 
-                            text="Search Investor request by Investor's first name" 
-                            data={curInitData}
-                            onSearch={handleCurSearchResults}
-                            obj={"investor_id.firstName"}/>
-                        <Filter 
-                            className="ms-5"
-                            onSubmit={handleCurSearchResults}
-                            data={curInitData}
-                            obj="status_from_admin"
-                            tag={[]}
-                            select={select}
-                            timeKey="createdAt"
-                            />
-                    </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
-                        {paginationCurData.map((req)=>(
-                                <InvestorRequestCard
-                                key={req.id} 
-                                id={req._id.toString()} 
-                                contact={req.investor_id.contactNumber} 
-                                name={req.investor_id.firstName}  
-                                description={req.investor_id.investor_description}  
-                                profile={req.investor_id.profile_picture}
-                                email={req.investor_id.email}
-                                business={req.business_id.BusinessName}
-                                reason={req.reason}
-                                status_from_admin={req.status_from_admin}
-                                className='mr-5'
-                                time={req.createdAt}
-                                />
-                            ))}
-                    </div> 
-                    <div className="flex justify-between mt-10 mb-10">
-                        <Button
-                            disabled={currentCurPage === 1}
-                            onClick={() => setCurrentCurPage(currentCurPage - 1)}
-                        >
-                            Previous
-                        </Button>
-                        <span>Page {currentCurPage} of {totalCurPages}</span>
-                        <Button
-                            disabled={currentCurPage === totalCurPages}
-                            onClick={() => setCurrentCurPage(currentCurPage + 1)}
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </div>
                 <h1 className="text-3xl mt-5">Request History</h1>
                 <div className="w-[80%]">
                     <div className="flex mt-5">
