@@ -61,17 +61,17 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
 
  return (
     <div className ={className}>
-            <Card className= "shadow-md overflow-hidden relative w-[300px] h-[360px] bg-white rounded-xl">
+            <Card className= "shadow-md overflow-hidden relative w-[350px] h-[270px] bg-white rounded-xl  transition-all duration-300 transform group hover:h-[400px]">
             
                 <div className="relative group">
-                    <CardContent className="relative z-0 bg-[#FFF8F2] h-[400px] .text-[24px] ">
+                    <CardContent className="relative z-0 h-[210px] .text-[24px] ">
                         <div className="relative -top-7">
-                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                            <div className="overflow-hidden relative ml-2 h-[180px]">
                                 <h2 className="mt-10 font-semibold">{name}</h2>
-                                <p className="text-[15px] font-normal">{description}</p>
+                                <p className="overflow-auto h-[75%] text-[15px] mt-1 font-normal">{description}</p>
                             </div>
                             
-                            <div className="ml-2 mt-2 flex">
+                            <div className="ml-2 mt-2 flex overflow-auto ">
                                {Array.isArray(tag) && tag.map((tag, index) => (
                                     <Tag className="pr-2"
                                     key={index}
@@ -79,34 +79,35 @@ const BusinessRequestCard = ({className, id, email, contact, address, name, desc
                                     />
                                 ))}
                             </div>
-                            <div className="relative block flex-col mt-4 overflow-hidden">
-                                <hr className="mb-2  border-t border-gray-300" />
-                                <div className="flex">
-                                    <p className="ml-2">Email</p>
-                                    <p className="ml-2 text-[15px] font-semibold">{email}</p>
-                                </div>
-                                <div className="flex">
-                                    <p className="ml-2">Tel.</p>
-                                    <p className="ml-2 text-[15px] font-semibold">{contact}</p>
-                                </div>
-                                <div className="mr-2 flex relative">
-                                    <p className="ml-2">Address</p>
-                                    <p className="ml-2 block text-[15px] font-semibold">{address}</p>
-                                </div>
-                                <div> 
-                                    <p className="ml-2 text-slate-500">create at: {time}</p>
-                                </div>
-                                {status === "pending" ? (
+                            {status === "pending" ? (
                                     <div className="flex justify-start mt-2">
                                     <Button onClick={() => handleAllow(id, 'business')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
                                     <Button onClick={() => handleReject(id, 'business')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
                                     </div>
-                                ) : status === "approved"|| "done" ? (
-                                    <p className="mt-2 text-green-600">Request approved</p>
+                                ) : status === "approved"|| status === "done" ? (
+                                    <p className="flex items-center justify-center text-sm mt-5 text-green-600 bg-green-200 rounded-full w-[40%]">Approved</p>
                                 ) : (
-                                    <p className="mt-2 text-red-600">Request rejected</p>
+                                    <p className="flex items-center justify-center text-sm mt-5 text-red-600 bg-red-200 rounded-full w-[40%]">Rejected</p>
                                  )}
 
+                            <div className="hidden group-hover:block transition-all duration-300">
+                                <hr className="mb-2 mt-2 border-t border-gray-300" />
+                                <div className="flex font-semibold">
+                                    <p className="ml-2">Email</p>
+                                    <p className="ml-2 text-[15px] font-normal text-gray-700">{email}</p>
+                                </div>
+                                <div className="flex">
+                                    <p className="ml-2 font-semibold">Tel.</p>
+                                    <p className="ml-2 text-[15px] font-normal text-gray-700">{contact}</p>
+                                </div>
+                                <div className="mr-2 flex relative">
+                                    <p className="ml-2 font-semibold">Address</p>
+                                    <p className="ml-2 block text-[15px] font-normal text-gray-700">{address}</p>
+                                </div>
+                                <div> 
+                                    <p className="ml-2 text-slate-500">request at: {time}</p>
+                                </div>
+                                
                             </div>
                             
                         </div>

@@ -82,7 +82,7 @@ export default async function Page() {
                 <div className="ml-5 mb-10 flex ">
                     <div className="mt-5 px-2 border-r-2 border-t-4">
                         <h1 className="text-2xl mt-5 font-bold ">Business request</h1>
-                        <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 ">
+                        <div className="flex overflow-auto items-center px-2 w-[37vw] mt-5">
                             {businessRequest.map((req)=>(
                                 <BusinessRequestCard 
                                 key={req._id}
@@ -94,7 +94,7 @@ export default async function Page() {
                                 tag={req.tag_list} 
                                 email={req.email}
                                 status={req.status}
-                                className='mr-5'
+                                className='mr-5 mb-10'
                                 time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}

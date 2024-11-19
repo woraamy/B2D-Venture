@@ -69,10 +69,10 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                     <p className="-mt-3">Request to : <b>{business}</b> </p>
                     
                 </CardHeader>
-                <div className="relative  group">
+                <div className="relative group">
                     <CardContent className="relative z-0  h-[210px]">
                         <div className="relative ">
-                            <div className=" relative ml-2 h-[150px] ">
+                            <div className=" relative ml-2 h-[150px]">
                                 <div className="flex mt-2 ">
                                         <img
                                             src={profile || "/assets/images/profile-user.png"}
