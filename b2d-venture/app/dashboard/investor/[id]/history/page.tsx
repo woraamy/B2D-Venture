@@ -48,7 +48,7 @@ function getPieChartData(data) {
 
     const chartData = Object.values(totalRaised);
     const pieData = chartData.map((item, index) => ({
-        ...item,  
+        ...(typeof item === 'object' ? item : {}),  
         fill: `var(--color-chart${index % 5 + 1})` 
     }));
     return pieData;
@@ -84,27 +84,28 @@ export default async function Page({params}) {
                 <div className="mt-7 flex flex-wrap gap-3">
                     <div><OverviewChart chartData={pieChartdata}/></div>
                     <div className='ml-5'>
-                    {overview.map((item, index)=>(   
+                    {overview.map((item: any, index)=>(   
                         <InvestHistoryCard 
-                        key = {index}
-                        businessName={item.name}
-                        businessImg={item.profile}
-                        link={item.link}
-                        valuation={item.valuation.toLocaleString()}
-                        raised={item.totalRaised.toLocaleString()}
-                        equityStake={((item.totalRaised/item.valuation)*100).toFixed(2).toLocaleString()}
-                        shared={(item.totalRaised/item.shared).toFixed(2).toLocaleString()}
-                        className="relative py-2"
+                            key = {index}
+                            businessName={item.name}
+                            businessImg={item.profile}
+                            link={item.link}
+                            valuation={item.valuation.toLocaleString()}
+                            raised={item.totalRaised.toLocaleString()}
+                            equityStake={((item.totalRaised/item.valuation)*100).toFixed(2).toLocaleString()}
+                            shared={(item.totalRaised/item.shared).toFixed(2).toLocaleString()}
+                            date={item.created_at}
+                            className="relative py-2"
                         />
                     ))}
                     </div>
                     </div>
                 <h1 className="font-bold mt-7 text-3xl">Invest History</h1>
-                <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold'/>
+                <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold' onDelete=""/>
                 <div className='mb-10'>
                     {
                         data.map((item,index)=>(
-                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
+                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold' onDelete=""/>
                         ))
                     }
                 </div>
