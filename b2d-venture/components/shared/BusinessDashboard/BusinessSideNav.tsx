@@ -22,6 +22,7 @@ export default function InvestorSidenav({id}) {
     const setting = pathname.startsWith(`/settings/account/${id}`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const dataroom = pathname.startsWith(`/dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const request = pathname.startsWith(`/dashboard/business/${id}/request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
+    const settings = pathname.startsWith(`/dashboard/business/${id}/settings`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
 
 
     return(
@@ -50,7 +51,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${setting}`}>
                     < IoIosSettings />
-                    <Link href={`/settings/account/${id}`} className="ml-2">Profile Setting</Link>
+                    <Link href={`/dashboard/business/${id}/settings`} className="ml-2">Profile Setting</Link>
                 </div>
 
             </div>
