@@ -147,11 +147,14 @@ export default function DragAndDrop({type, className, onUploadComplete}) {
           </span>{" "}
           to upload
         </p>
+      
+        
 
         </div>
       </form>
+      
       <div className="relative flex flex-col p-3 ml-10 self-stretch mt-[5%] h-[70%] w-[50%] overflow-auto ">
-        
+      <p className="text-gray-500">*Maximum upload size 10 MB</p>
         <h1 className="text-xl font-semibold mb-5">Uploaded File</h1>
           {files.map((file: any, idx: any) => (
             <div key={idx} className="flex flex-row items-center space-x-5">

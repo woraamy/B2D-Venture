@@ -87,12 +87,10 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "reject") {
-      const updatedRequest = await BusinessRequest.findOneAndUpdate(
-        { email },                   
-        { $set: { status: "declined" } },
-        { new: true }
-      );
-
+      const businessRequest = await BusinessRequest.findById(id);
+      businessRequest.status = 'declined'
+      businessRequest.save()
+      console.log("Updated business reject request:", businessRequest);
       return NextResponse.json(
         { message: "Business request rejected" },
         { status: 200 }

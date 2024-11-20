@@ -25,7 +25,6 @@ export async function POST(req, {params}) {
     });
     try {
         const request = await BusinessRequest.findById(id)
-        console.log(request)
         if (!request) {
             return NextResponse.json({ message: 'Business request not found' }, { status: 404 });
         }

@@ -60,56 +60,7 @@ export default function Page() {
         <div>
             <div className="ml-[10%] mt-[5%] w-[85vw]">
                 <h1 className="text-5xl font-bold">Business request</h1>
-                <h1 className="text-3xl mt-5">Current Request</h1>
-                <div className="w-[80%]">
-                    <div className="flex mt-5">
-                        <SearchBar 
-                        text="Search Business request by business's name" 
-                        data={curInitData}
-                        onSearch={handleCurSearchResults}
-                        obj={"BusinessName"}/>
-                        <Filter 
-                            className="ms-5"
-                            onSubmit={handleCurSearchResults}
-                            data={curInitData}
-                            obj="status"
-                            tag={[]}
-                            select={select}
-                            timeKey="createdAt"/>
-                    </div>
-                    <div className="flex px-5 py-5 mt-5 flex-wrap gap-4 justify-normal">
-                        {paginationCurData.map((req)=>(
-                            <BusinessRequestCard 
-                            key={req._id}
-                            id={req._id.toString()}
-                            contact={req.contactNumber}
-                            address={req.BusinessAddress + " " + req.stateProvince + " " + req.city + " " + req.country +  " " + req.postalCode}  
-                            name={req.BusinessName} 
-                            description={req.description}
-                            tag={req.tag_list} 
-                            email={req.email}
-                            status={req.status}
-                            className='mr-5\'
-                            time={req.createdAt}
-                            />
-                        ))}
-                    </div> 
-                    <div className="flex justify-between mt-10 mb-10">
-                        <Button
-                            disabled={currentCurPage === 1}
-                            onClick={() => setCurrentCurPage(currentCurPage - 1)}
-                        >
-                            Previous
-                        </Button>
-                        <span>Page {currentCurPage} of {totalCurPages}</span>
-                        <Button
-                            disabled={currentCurPage === totalCurPages}
-                            onClick={() => setCurrentCurPage(currentCurPage + 1)}
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </div>
+               
                 <h1 className="text-3xl mt-5">Request History</h1>
                 <div className="w-[80%]">
                     <div className="flex mt-5">

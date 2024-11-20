@@ -23,7 +23,7 @@ import { useState, useEffect } from "react"
 // Schema for form validation
 const investorAccountFormSchema = z.object({
     profilePicture: z.any().optional(), // Profile picture is optional
-    investor_description: z.string().max(160).optional(),
+    investor_description: z.string().optional(),
     firstName: z
       .string()
       .max(160, {
@@ -213,10 +213,11 @@ export function InvestorAccountForm({params, data}) {
             <FormItem>
                 <FormLabel>Investor Description</FormLabel>
                 <FormControl>
-                <Input 
+                <textarea 
                     placeholder="Tell us about yourself" 
                     {...field}
                     defaultValue={data.description || ""}
+                    className="block w-full p-2 border h-[15vh] border-gray-300 rounded-md"
                      />
                 </FormControl>
                 <FormDescription>

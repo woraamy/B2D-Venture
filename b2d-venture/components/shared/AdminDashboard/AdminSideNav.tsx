@@ -39,6 +39,9 @@ export default function AdminSideNav() {
                     < SiCampaignmonitor />
                     <Link href={`/dashboard/admin/campaign`} className="ml-2">Raise Campaign</Link>
                 </div>
+                <div className={`flex mt-[50vh] w-40  bg-[#FF553E] text-white p-3 rounded-3xl`}>
+                    <Link href={`/`} className="ml-10">Home</Link>
+                </div>
             </div>
         </div>
     );

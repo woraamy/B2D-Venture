@@ -14,7 +14,7 @@ const businessRequestSchema = new mongoose.Schema({
   tag_list: { type: [String], required: true },
   username: { type: String, required: true },
   password: { type: String, required: true },
-  status: { type: String, enum: ["pending", "approved", "rejected", "done"], default: "pending" },  // Tracks the status of the request
+  status: { type: String, enum: ["pending", "approved", "declined", "done"], default: "pending" },  // Tracks the status of the request
   createdAt: { type: Date, default: Date.now },
   description: {type: String}
 });

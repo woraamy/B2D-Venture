@@ -73,16 +73,16 @@ export default async function Page() {
                         <ReportCard className="" name='Total Profit' amount={profit.total.toLocaleString()}/>
                     </div>
                 <div className="px-2">
-                    <div className="ml-3 w-[75vw] h-[49vh] rounded-md shadow-md overflow-hidden">
+                    <div className="ml-3 w-[75vw] rounded-md shadow-md overflow-hidden">
                         <AdminChart 
                             className=""
                             data={chartData}/>
                     </div>
                 </div>
-                <div className='ml-5 mb-10 flex'>
-                    <div>
-                        <h1 className="text-[32px] mt-5 font-bold ">Business request</h1>
-                        <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
+                <div className="ml-5 mb-10 flex ">
+                    <div className="mt-5 px-2 border-r-2 border-t-4">
+                        <h1 className="text-2xl mt-5 font-bold ">Business request</h1>
+                        <div className="flex overflow-auto items-center px-2 w-[37vw] mt-5">
                             {businessRequest.map((req)=>(
                                 <BusinessRequestCard 
                                 key={req._id}
@@ -94,28 +94,28 @@ export default async function Page() {
                                 tag={req.tag_list} 
                                 email={req.email}
                                 status={req.status}
-                                className='mr-5'
+                                className='mr-5 mb-10'
                                 time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}
                         </div>    
                     </div>
-                    <div className="ml-7">
-                        <h1 className="text-[32px] mt-5 font-bold">Investor request</h1>    
-                        <div className="flex overflow-auto px-5 py-5 w-[37vw] h-[42vh] mt-5 bg-white rounded-xl shadow-md">
+                    <div className=" mt-5 px-5 border-l-2 border-t-4">
+                        <h1 className="text-2xl mt-5 font-bold">Investor request</h1>    
+                        <div className="flex overflow-auto items-center px-2 w-[37vw] mt-5">
                             {investorRequest.map((req)=>(
                                 <InvestorRequestCard
                                 key={req.id} 
                                 id={req._id.toString()}
                                 contact={req.investor_id.contactNumber} 
-                                name={req.investor_id.name}  
+                                name={req.investor_id.firstName + " " + req.investor_id.lastName}  
                                 description={req.investor_id.investor_description}  
                                 email={req.investor_id.email}
-                                link={req.business_id.toString()}
                                 business={req.business_id.BusinessName}
                                 reason={req.reason}
                                 status_from_admin={req.status_from_admin}
-                                className='mr-5'
+                                className='mr-5 mb-10'
+                                profile={req.investor_id.profile_picture}
                                 time={req.createdAt.toLocaleDateString('en-GB')}
                                 />
                             ))}

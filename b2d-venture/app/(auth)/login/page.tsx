@@ -26,7 +26,7 @@ function LoginPage() {
         toast.error("Invalid credentials");
         return;
       }
-      router.push("/");
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
       toast.error("An error occurred during login.");

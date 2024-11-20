@@ -7,6 +7,7 @@ import SearchBar from "@/components/ui/searchbar";
 import PaginationTable from "@/components/shared/PaginationTable";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Page() {
     const tag = ["investor", "business", "admin"]
@@ -92,7 +93,8 @@ export default function Page() {
             <div className="ml-[6%] mt-10">
                 <h1 className="font-bold text-3xl">User Mangement</h1>
                 <div className="flex mt-5 gap-5">
-                    <Button>+ Add New User</Button>
+                    <Link href= "user/create"> <Button>+ Add New User</Button></Link>
+                   
                     <SearchBar 
                             text='Search user'
                             data={initialData}
