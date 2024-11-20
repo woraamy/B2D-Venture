@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({
@@ -17,7 +16,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
     address: z.string().min(5, { message: "Address is required" }),
     city: z.string().min(1, { message: "City is required" }),
     postalCode: z.string().min(4, { message: "Postal Code is required" }),
-    cardNumber: z.string().min(16, { message: "Card number must be at least 16 digits" }),
+    cardNumber: z.string().min(12, { message: "Card number must be at least 12 digits" }),
     cvv: z.string().min(3, { message: "CVV must be at least 3 digits" }),
     name: z.string().min(1, { message: "Name on card is required" }),
     expiry: z.string().regex(/^\d{2}\/\d{2}$/, { message: "Expiry date must be in MM/YY format" }),
@@ -37,6 +36,8 @@ export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const campaignId = searchParams.get("campaignId");
+  const businessId = searchParams.get("businessId");
+  const investorId = searchParams.get("investorId");
   const [loading, setLoading] = useState(false);
   const [minInvestment, setMinInvestment] = useState(0);
   const [maxInvestment, setMaxInvestment] = useState(0);
@@ -78,14 +79,16 @@ export default function PaymentPage() {
   });
 
   const handlePayment = async (data) => {
+    console.log("Handling payment")
     setLoading(true);
     try {
       const response = await fetch("/api/investment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          investorDetails: data,
-          raisedCampaignId: campaignId,
+          investor_id: investorId,
+          raisedcampaign_id: campaignId,
+          amount: data.amount,
         }),
       });
 
@@ -93,7 +96,7 @@ export default function PaymentPage() {
         toast.success("Payment successful!");
         router.push(`/business/${campaignId}`);
       } else {
-        toast.error("Failed to process payment.");
+        toast.error("Failed to create investment.");
       }
     } catch (error) {
       toast.error("An error occurred while processing the payment.");
@@ -103,8 +106,8 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 ">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl ">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           Payment Details for {campaignData?.business_id?.BusinessName}'s Raise Campaign
         </h2>
@@ -292,15 +295,17 @@ export default function PaymentPage() {
 
           {/* Submit Button */}
           <div className="flex justify-center">
-            <Button
+            <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 px-4 text-white font-semibold rounded-md ${
-                loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+              className={`w-full py-3 px-4 text-white font-semibold rounded-md transition ${
+                loading
+                  ? "bg-indigo-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700"
               }`}
             >
               {loading ? "Processing..." : "Submit Payment"}
-            </Button>
+            </button>
           </div>
         </form>
       </div>

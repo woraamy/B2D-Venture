@@ -12,7 +12,6 @@ export async function POST(req) {
     await connectDB();
     const { investor_id, raisedcampaign_id, amount } = await req.json();
 
-    // Ensure investor and campaign exist
     const investor = await Investor.findById(investor_id);
     const campaign = await RaiseCampaign.findById(raisedcampaign_id);
     const business = await Business.findById(campaign.business_id);
