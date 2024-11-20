@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
-import "react-toastify/dist/ReactToastify.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,6 +18,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
     cardNumber: z.string().min(12, { message: "Card number must be at least 12 digits" }),
     cvv: z.string().min(3, { message: "CVV must be at least 3 digits" }),
     name: z.string().min(1, { message: "Name on card is required" }),
+    country: z.string().min(1, { message: "Country is required" }),
     expiry: z.string().regex(/^\d{2}\/\d{2}$/, { message: "Expiry date must be in MM/YY format" }),
     amount: z
       .number()
@@ -38,6 +38,7 @@ export default function PaymentPage() {
   const campaignId = searchParams.get("campaignId");
   const businessId = searchParams.get("businessId");
   const investorId = searchParams.get("investorId");
+
   const [loading, setLoading] = useState(false);
   const [minInvestment, setMinInvestment] = useState(0);
   const [maxInvestment, setMaxInvestment] = useState(0);
@@ -49,7 +50,7 @@ export default function PaymentPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/RaiseCampaign/${campaignId}`
       );
       const data = await response.json();
-      setCampaignData(data.data);
+      setCampaignData(data);
       setMinInvestment(data.data.min_investment);
       setMaxInvestment(data.data.max_investment);
     } catch (error) {
@@ -58,7 +59,9 @@ export default function PaymentPage() {
   };
 
   useEffect(() => {
-    if (campaignId) fetchCampaignData();
+    if (campaignId) {
+      fetchCampaignData();
+    }
   }, [campaignId]);
 
   const form = useForm({
@@ -72,6 +75,7 @@ export default function PaymentPage() {
       cardNumber: "",
       cvv: "",
       name: "",
+      country:"",
       expiry: "",
       amount: 0,
       termsAccepted: false,
@@ -79,7 +83,6 @@ export default function PaymentPage() {
   });
 
   const handlePayment = async (data) => {
-    console.log("Handling payment")
     setLoading(true);
     try {
       const response = await fetch("/api/investment", {
@@ -111,7 +114,9 @@ export default function PaymentPage() {
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           Payment Details for {campaignData?.business_id?.BusinessName}'s Raise Campaign
         </h2>
-        <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-5">
+
+        <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="cardNumber">
@@ -195,9 +200,13 @@ export default function PaymentPage() {
               </label>
               <input
                 type="text"
+                {...form.register("firstName")}
                 className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="John"
               />
+              {form.formState.errors.firstName && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.firstName.message}</p>
+            )}
             </div>
 
             {/* Last Name */}
@@ -207,60 +216,79 @@ export default function PaymentPage() {
               </label>
               <input
                 type="text"
+                {...form.register("lastName")}
                 className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Doe"
               />
+              {form.formState.errors.lastName && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.lastName.message}</p>
+            )}
             </div>
           </div>
 
-          {/* Address */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="address">
-              Address
-            </label>
-            <input
-                type="text"
-                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="123 Happy Street"
-              />
-          </div>
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="address">
+                Address
+              </label>
+              <input
+                  type="text"
+                  {...form.register("address")}
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="123 Happy Street"
+                />
+              {form.formState.errors.address && (
+                <p className="text-red-500 text-xs mt-1">{form.formState.errors.lastName.message}</p>
+              )}
+            </div>
 
-          {/* City */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
-              City
-            </label>
-            <input
-                type="text"
-                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="New York"
-              />
-          </div>
-
-          {/* Country */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
-              Country
-            </label>
-            <input
-                type="text"
-                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="USA"
-              />
-          </div>
-
-          {/* Postal Code */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="postalCode">
-              Postal Code
-            </label>
-            <Input {...form.register("postalCode")} placeholder="10001" />
-            {form.formState.errors.postalCode && (
-              <p className="text-red-500 text-xs mt-1">
-                {form.formState.errors.postalCode.message}
-              </p>
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
+                City
+              </label>
+              <input
+                  type="text"
+                  {...form.register("city")}
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="New York"
+                />
+                {form.formState.errors.city && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.city.message}</p>
             )}
-          </div>
+            </div>
+
+            {/* Country */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="city">
+                Country
+              </label>
+              <input
+                  type="text"
+                  {...form.register("country")}
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="USA"
+                />
+                {form.formState.errors.country && (
+              <p className="text-red-500 text-xs mt-1">{form.formState.errors.country.message}</p>
+            )}
+            </div>
+
+            {/* Postal Code */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="postalCode">
+                Postal Code
+              </label>
+              <input
+                    type="text"
+                    {...form.register("postalCode")}
+                    className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="10001"
+                  />
+                  {form.formState.errors.postalCode && (
+                <p className="text-red-500 text-xs mt-1">{form.formState.errors.postalCode.message}</p>
+              )}
+            </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="terms">
