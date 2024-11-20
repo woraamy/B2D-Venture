@@ -9,17 +9,10 @@ import { BsDatabaseFillAdd } from "react-icons/bs"
 import { CiSquareQuestion } from "react-icons/ci";
 
 export default function InvestorSidenav({id}) {
-
-    // dataroom (/dataroom)
-    // dashboard (/dashboard)
-    // create and edit raise campaign (/manage-raise-campaign)
-    // investment history (/investment-history)
-    // settings (/settings)
     const pathname = usePathname();
     const businesspage = pathname === `/dashboard/business/${id}` ? "bg-[#FFF8F2] text-[#FF553E]  rounded-xl" : "" ;
     const historypage = pathname.startsWith(`/dashboard/business/${id}/investment-history`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const raisecampaignmanagementpage = pathname.startsWith(`/dashboard/business/${id}/manage-raise-campaign`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
-    const setting = pathname.startsWith(`/settings/account/${id}`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const dataroom = pathname.startsWith(`/dashboard/business/${id}/dataroom`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const request = pathname.startsWith(`/dashboard/business/${id}/request`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
     const settings = pathname.startsWith(`/dashboard/business/${id}/settings`) ? "bg-[#FFF8F2] text-[#FF553E] p-3 rounded-xl" : "";
@@ -49,7 +42,7 @@ export default function InvestorSidenav({id}) {
                     <CiSquareQuestion />
                     <Link href={`/dashboard/business/${id}/request`} className="ml-2">Manage Investor's Request</Link>
                 </div>
-                <div className={`flex mt-2 p-3 ${setting}`}>
+                <div className={`flex mt-2 p-3 ${settings}`}>
                     < IoIosSettings />
                     <Link href={`/dashboard/business/${id}/settings`} className="ml-2">Profile Setting</Link>
                 </div>
