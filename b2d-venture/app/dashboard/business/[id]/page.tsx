@@ -189,6 +189,7 @@ async function getBusinessData(raiseCampaignIds) {
                         status_from_business={req.status_from_business}
                         className='mr-5'
                         time={req.createdAt.toLocaleDateString('en-GB')}
+                        link=""
                         />
                     ))}
                 </div>    

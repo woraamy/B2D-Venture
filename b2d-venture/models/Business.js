@@ -3,7 +3,6 @@ import User from "./user"
 
 const BusinessSchema = mongoose.Schema(
     { 
-      name: String,
       user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: false, 

@@ -10,9 +10,6 @@ const InvestorSchema = mongoose.Schema(
         },
       investor_description: String,
       profile_picture: String,
-      investment_history: [{
-        type:mongoose.Schema.Types.ObjectId, ref:"Investment"
-        }],
       firstName: {
         type: String,
       },
