@@ -18,9 +18,9 @@ export default function Page() {
 
     async function fetchData(){
         const response = await fetch('/api/fetchingData/User');
-            const data = await response.json();
-            setUserData(data.data || []);
-            setInitialData(data.data || []);
+        const data = await response.json();
+        setUserData(data.data || []);
+        setInitialData(data.data || []);
     }
 
     useEffect(()  => {

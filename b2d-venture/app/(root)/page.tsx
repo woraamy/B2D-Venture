@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import { redirect } from 'next/navigation';
 import BusinessCard from "@/components/shared/BusinessCard";
@@ -5,22 +6,34 @@ import Link from "next/link";
 import { promises as fs } from "fs";
 import Business from '@/models/Business'
 import RaisedCampaign from '@/models/RaiseCampaign'
-import connect from '@/lib/connectDB'
-import DOMPurify from 'dompurify';
-import parse from "html-react-parser";
+import { useState, useEffect } from "react";
+import { setDate } from "date-fns";
 
-const getRaisedCampaign = async () => {
-    const business = await Business.find()
-    const now = new Date();
-    const trend = await RaisedCampaign.find({status: 'open',start_date: { $lt: now }}).populate("business_id").sort({raised: -1 }).limit(3);
-    const latest = await RaisedCampaign.find({status: 'open',start_date: { $lt: now }}).populate("business_id").sort({start_date: -1 }).limit(3);
-    return {trend, latest}
+function convertDate(time){
+    const [day, month, year] = time.split('/').map(Number);
+    const date = new Date(year, month - 1, day);
+    return date
 }
 
-export default async function Home() {
-    await connect()
-    const {trend: trendData, latest :latestData} = await getRaisedCampaign()
-        
+export default function Home() {
+    // const {trend: trendData, latest :latestData} = await getRaisedCampaign()
+    const [data, setData] = useState([]);
+
+    async function fetchData(){  
+        const response = await fetch("/api/fetchingData/RaiseCampaign");
+        const res = await response.json();
+        setData(res.data || []);
+    }
+    
+    useEffect(()  => {
+        fetchData();
+    }, [])
+    const openData = data.filter((item)=>(item.status==="open"))
+    const trendData = openData.sort((a, b) => b.raised - a.raised).slice(0,3)
+    const latestData = openData.sort((a, b) => 
+        convertDate(b.start_date) - convertDate(a.start_date)
+    ).slice(0,3)
+
     return (
         <div className="flex-col">
             <div className="flex ">
@@ -70,10 +83,10 @@ export default async function Home() {
                 </div>
             </div>
             <div className="relative -mt-20">
-                <div className="static h-[700px] w-auto">
+                <div className="static h-[50vh] w-[100vw]">
                     <Image 
                         src='/assets/images/home-image.png' 
-                        style={{objectFit:"contain"}}
+                        style={{objectFit:"fill"}}
                         alt="Business Image" 
                         fill={true}
                         />
