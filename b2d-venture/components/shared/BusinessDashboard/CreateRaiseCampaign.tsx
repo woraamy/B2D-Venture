@@ -118,7 +118,7 @@ export function CreateRaiseCampaignForm({ params }) {
       if (response.ok) {
         window.location.href = 'manage-raise-campaign';        
         toast.success("Raise campaign updated successfully");
-      } if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
+      } else if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
         toast.error("You already have an open raise campaign");
       } 
       else {
