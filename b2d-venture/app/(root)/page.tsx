@@ -8,7 +8,7 @@ import Business from '@/models/Business'
 import RaisedCampaign from '@/models/RaiseCampaign'
 import { useState, useEffect } from "react";
 import { setDate } from "date-fns";
-
+import { Button } from "@/components/ui/button";
 function convertDate(time){
     const [day, month, year] = time.split('/').map(Number);
     const date = new Date(year, month - 1, day);
@@ -18,22 +18,47 @@ function convertDate(time){
 export default function Home() {
     // const {trend: trendData, latest :latestData} = await getRaisedCampaign()
     const [data, setData] = useState([]);
-
+    const [rec, setRec] = useState(0)
+    const [curImage, setCurImage] = useState(1)
     async function fetchData(){  
         const response = await fetch("/api/fetchingData/RaiseCampaign");
         const res = await response.json();
         setData(res.data || []);
+       
+        
     }
+
+    const recommend = [];
+    for (let i=0; i<5;i++){
+        const random = Math.floor(Math.random() * 12)
+        if (recommend.includes(random)){
+            i = i-1
+            continue;
+        } 
+        recommend.push(random);
+    }
+    console.log(recommend)
+
     
     useEffect(()  => {
         fetchData();
-    }, [])
+        setRec(recommend[0])
+        const interval = setInterval(() => {
+            setCurImage(prev => (prev + 1) % 5); 
+            setRec(recommend[curImage]);
+        }, 5000);
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, [curImage]);
+
+
     const openData = data.filter((item)=>(item.status==="open"))
     const trendData = openData.sort((a, b) => b.raised - a.raised).slice(0,3)
     const latestData = openData.sort((a, b) => 
         convertDate(b.start_date) - convertDate(a.start_date)
     ).slice(0,3)
 
+    // random 12 latest Raise campaign for 5 campaign
+    
     return (
         <div className="flex-col">
             <div className="flex ">
@@ -48,7 +73,7 @@ export default function Home() {
                     </div>
                     <div className="relative mt-5 h-[100%] w-[50%]">
                         <Image 
-                            src='/assets/icons/home-logo.png' 
+                            src={'/assets/icons/home-logo.png'} 
                             style={{objectFit:"contain"}}
                             alt="Business Image" 
                             fill={true}
@@ -84,14 +109,36 @@ export default function Home() {
             </div>
             <div className="relative -mt-20">
                 <div className="static h-[50vh] w-[100vw]">
-                    <Image 
-                        src='/assets/images/home-image.png' 
-                        style={{objectFit:"fill"}}
-                        alt="Business Image" 
-                        fill={true}
-                        />
+                    {openData.length > 0 && (
+                        <div className="relative w-full h-full">
+                            <Image 
+                                src={openData[rec].business_id.coverimg} 
+                                style={{objectFit:"fill"}}
+                                alt="Business Image" 
+                                fill={true}
+                                className=""
+                            />
+                            <div className="absolute text-white z-30 ml-[20vw] mt-24 max-w-[60%]">
+                                <div className="h-[25vh]">
+                                <h1 className="text-5xl font-bold">{openData[rec].business_id.BusinessName}</h1>
+                                <p className="mt-5 h-[50%]">{openData[rec].business_id.description}</p>
+                                </div>
+                                <Link href={`business/${openData[rec]._id}`}><Button>View more</Button></Link>
+                            </div> 
+                            <div className="absolute inset-0 bg-[#000000] bg-opacity-60 z-10"></div> 
+                            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex justify-between w-[20%] z-20">
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <div 
+                                    key={index} 
+                                    className={`w-4 h-4 rounded-full border-2 ${index === curImage ? 'bg-[#FF553E]' : 'bg-[#353131]'}`}
+                                    ></div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
+
             <div className="relative flex-col text-[#FF553E] mx-[15vw] my-20 ">
                 <h1 className="font-semibold text-3xl">Trending Businesses</h1>
                 <div className="flex flex-wrap gap-3 justify-center">
