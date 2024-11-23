@@ -1,10 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
+
 export default function UploadInvestorProfile({investor_id}) {
+  const [data, setData] = useState("")
   const [isUpload, setIsUpload] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+
+  async function fetchData(){
+    const response = await fetch(`/api/fetchingData/Investor/${investor_id}`);
+    const res = await response.json();
+    setData(res.data.profile_picture || "");
+}
+
+useEffect(()  => {
+  fetchData()
+}, [])
 
   // Handle file selection
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -45,7 +57,18 @@ export default function UploadInvestorProfile({investor_id}) {
 
   return (
     <div>
-      {/* File input and upload button */}
+      <label className="font-medium text-gray-700 ">Profile Picture</label>
+      {data ? (
+            <img
+                src={data}
+                alt="Profile preview"
+                className="w-52 h-52 mt-5 rounded-full object-cover mb-4"
+            />
+            ) : (
+            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+                <span className="text-gray-400 mt-5">No image</span>
+            </div>
+            )}
       <input
         type="file"
         onChange={handleFileChange}

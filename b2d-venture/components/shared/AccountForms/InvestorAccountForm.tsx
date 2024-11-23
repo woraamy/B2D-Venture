@@ -92,24 +92,9 @@ export function InvestorAccountForm({params, data}) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
         <div className="flex flex-col">
-            {data.profile_picture ? (
-            <img
-                src={data.profile_picture}
-                alt="Profile preview"
-                className="w-52 h-52 rounded-full object-cover mb-4"
-            />
-            ) : (
-            <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                <span className="text-gray-400">No image</span>
-            </div>
-            )}
-
-            <label className="font-medium text-gray-700">
-            Profile Picture
-            </label>
             <UploadInvestorProfile investor_id={id} />
             <FormDescription>
-            Please upload an image for your profile (optional).
+            Only PNG, JPG, and JPEG files are allowed, with a maximum size of 10 MB.
             </FormDescription>
         </div>
 
@@ -198,7 +183,7 @@ export function InvestorAccountForm({params, data}) {
                 <Input 
                     placeholder="Your nationality" 
                     {...field}
-                    defaultValue={data.Nationality || ""}
+                    defaultValue={data.nationality || ""}
                      />
                 </FormControl>
                 <FormMessage />
@@ -216,7 +201,7 @@ export function InvestorAccountForm({params, data}) {
                 <textarea 
                     placeholder="Tell us about yourself" 
                     {...field}
-                    defaultValue={data.description || ""}
+                    defaultValue={data.investor_description || ""}
                     className="block w-full p-2 border h-[15vh] border-gray-300 rounded-md"
                      />
                 </FormControl>
