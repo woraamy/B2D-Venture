@@ -95,7 +95,7 @@ export function CreateRaiseCampaignForm({ params }) {
         min_investment: data.min_investment,
         max_investment: data.max_investment,
         raised: 0,
-        shared_price: 0,
+        shared_price: data.shared_price,
         goal: data.goal,
         description: data.description,
         start_date: data.start_date, 

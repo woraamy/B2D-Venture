@@ -37,7 +37,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                             </div>
                         </div>
                         <div className="relative -top-7">
-                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                            <div className="overflow-auto relative ml-2 h-[110px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>

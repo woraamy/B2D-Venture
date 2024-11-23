@@ -43,7 +43,7 @@ useEffect(()  => {
       if (response.ok) {
         setIsUpload(true);
         toast.success("File uploaded successfully")
-        fetchData()
+        window.location.reload(); 
         console.log("File uploaded successfully");
       } else {
         const errorData = await response.json();
@@ -59,7 +59,6 @@ useEffect(()  => {
 
   return (
     <div>
-      <Toaster />
       <div className="flex flex-col">
             <label className="font-medium text-gray-700 mb-5">Profile Picture</label>
 

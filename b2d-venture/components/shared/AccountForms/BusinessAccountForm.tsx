@@ -49,8 +49,8 @@ const businessFormSchema = z.object({
       message: "Contact number must not exceed 15 characters.",
     })
     .optional(),
-  description: z.string().optional(),
-  website: z.string().url().optional(),
+  description: z.string({ invalid_type_error: "Valuation must be a number" }).optional(),
+  valuation: z.number().optional(),
   BusinessAddress: z.string().max(160).optional(),
   city: z.string().max(160).optional(),
   stateProvince: z.string().max(160).optional(),
@@ -118,8 +118,6 @@ export function BusinessAccountForm({ params, data }) {
   
 
   return (
-    <div>
-    <Toaster />
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Profile Picture */}
@@ -239,15 +237,16 @@ export function BusinessAccountForm({ params, data }) {
         {/* Website */}
         <FormField
           control={form.control}
-          name="website"
+          name="valuation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website</FormLabel>
+              <FormLabel>Valuation</FormLabel>
               <FormControl>
                 <Input 
-                placeholder="Your business website" 
+                placeholder="Your business valuation" 
                 {...field}
-                defaultValue={data.website || ""} />
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                defaultValue={data.valuation || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -395,6 +394,5 @@ export function BusinessAccountForm({ params, data }) {
         <Button type="submit">Update Business Account</Button>
       </form>
     </Form>
-    </div>
   );
 }

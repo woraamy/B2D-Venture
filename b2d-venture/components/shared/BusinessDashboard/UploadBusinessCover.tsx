@@ -43,7 +43,7 @@ useEffect(()  => {
 
       if (response.ok) {
         setIsUpload(true);
-        fetchData();
+        window.location.reload(); 
         console.log("File uploaded successfully");
 
       } else {
@@ -59,7 +59,6 @@ useEffect(()  => {
 
   return (
     <div>
-      <Toaster />
       <label className="font-medium text-gray-700 ">Cover Picture</label>
       {data ? (
                 <img
