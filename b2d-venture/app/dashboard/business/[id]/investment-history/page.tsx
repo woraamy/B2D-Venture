@@ -1,67 +1,69 @@
-import useSWR from 'swr';
-import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
-import Header from "@/components/shared/Header";
+"use client"
+
 import TableCard from "@/components/shared/TableCard";
-import Investment from "@/models/Investment";
-import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard";
-import { OverviewChart } from "@/components/charts/overviewchart";
-import Business from "@/models/Business";
-import RaiseCampaign from '@/models/RaiseCampaign';
+import { useState, useEffect } from 'react';
+import PaginationTable from '@/components/shared/PaginationTable';
+import Filter from "@/components/shared/filter";
+import SearchBar from "@/components/ui/searchbar";
 
-async function fetchInvestmentData(id) {
-    // fetch investment data
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/fetchingData/Investment/${id}`, { next: { revalidate: 100 } });
-    const res = await response.json();
-    return res.data || [];
-}
-
-export default async function Page({ params }) {
+export default  function Page({ params }) {
     const { id } = params;
+    const tag = ["closed", "open"]
+    const select = ["Newest", "Oldest"]
+    const [tableData, setTableData] = useState([]);
+    const [initialData, setInitialData] = useState([]);
+    // const [filteredData, setFilteredData] = useState([]);
+    async function fetchingData(){
+        const response = await fetch(`/api/fetchingData/RaiseCampaign/businessId/${id}`, { next: { revalidate: 100 }});
+        const res = await response.json();
+        const raise_campaign_list = res || []
 
-    // Fetch business details
-    const business = await Business.findById(id);
-    console.log(business);
-
-    // Fetch all Raise Campaigns for the business
-    const raise_campaign_list = await RaiseCampaign.find({ business_id: id })
-        .populate({
-            path: 'business_id',
-            populate: {
-                path: 'user_id',
-            },
-        })
-        .lean();
-
-    // If no campaigns exist, show a message
-    if (!raise_campaign_list || raise_campaign_list.length === 0) {
-        return <p>No raise campaigns available for this business.</p>;
+        if (!raise_campaign_list?.length) {
+            setTableData([]);
+            return;
+        }
+        // Prepare table data for all campaigns
+        const tableDatas = [];
+        console.log(raise_campaign_list)
+        for (const campaign of raise_campaign_list) {
+            const response1 = await fetch(`/api/fetchingData/Investment/${campaign._id}`, { next: { revalidate: 100 }});
+            const res1 = await response1.json();
+            const investmentData = res1.data || [];
+            for(const item of investmentData){
+                tableDatas.push(item);
+            }
+        }
+        setTableData(tableDatas);
+        setInitialData(tableDatas);
     }
+    
+    useEffect(() => {
+        fetchingData();
+    }, [])
 
-    // Prepare table data for all campaigns
-    const tableData = [];
+    const handleSearchResults = (newData) => {
+        if (newData && newData.length > 0) {
+            setTableData(newData); // Set search results
+        } else {
+            setTableData(initialData); // Reset to initial data if no results
+        }
+    };
 
-    for (const campaign of raise_campaign_list) {
-        const investmentData = await fetchInvestmentData(campaign._id); // Fetch investments for each campaign
-
-        // Format investment data for each campaign, including campaign status
-        const formattedData = investmentData.map((item) => [
-            { value: item.created_at, type: "text" },
-            {
-                value: {
-                    src: item.investor_id.profile_picture,
-                    text: item.investor_id.user_id.username
-                },
-                type: "image"
+    const formattedData = tableData.map((item) => [
+        { value: item.created_at, type: "text" },
+        {
+            value: {
+                src: item.investor_id.profile_picture,
+                text: item.investor_id.firstName + " " + item.investor_id.lastName 
             },
-            { value: item.amount.toLocaleString(), type: "text" },
-            { value: ((item.amount / campaign.raised) * 100).toFixed(2).toLocaleString(), type: "text" },
-            { value: (item.amount / campaign.shared_price).toFixed(2).toLocaleString(), type: "text" },
-            { value: campaign.status, type: "text" } // Show campaign status
-        ]);
-
-        tableData.push(...formattedData); // Add all investments for this campaign to the main table data array
-    }
-
+            type: "image"
+        },
+        { value: item.amount.toLocaleString(), type: "text" },
+        { value: ((item.amount / item.raise_campaign_id.raised) * 100).toFixed(2).toLocaleString(), type: "text" },
+        { value: (item.amount / item.raise_campaign_id.shared_price).toFixed(2).toLocaleString(), type: "text" },
+        { value:  item.raise_campaign_id.status, type: "text" } // Show campaign status
+    ]);
+    
     // Define the headers with campaign status column
     const headData = [
         { value: "Date", type: "text" },
@@ -81,13 +83,39 @@ export default async function Page({ params }) {
                     </div>
                 </div>
                 <h1 className="font-bold mt-7 text-3xl">Investment History</h1>
-                <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold'/>
+                <div className="flex mt-5">
+                    <SearchBar 
+                                text='Search incestor by name'
+                                data={initialData}
+                                onSearch={handleSearchResults}
+                                obj={"investor_id.firstName"}
+                                />
+                    <Filter 
+                            className="ms-5"
+                            onSubmit={handleSearchResults}
+                            data={initialData}
+                            obj="raise_campaign_id.status"
+                            tag={tag}
+                            select={select}
+                            timeKey="created_at"/>
+                </div>
+                <TableCard 
+                    data={headData} 
+                    className='mt-7 mb-5' 
+                    valueClassname='font-semibold'
+                    onDelete=""/>
                 <div className='mb-10'>
-                    {
-                        tableData.map((item, index) => (
-                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
-                        ))
-                    }
+                {!tableData.length ? (
+                    <p>No raise campaigns available for this business.</p>
+                ) : (
+                    <PaginationTable 
+                    data={formattedData}
+                    itemsPerPage={10}
+                    onDelete=""
+                    buttonIndex={0}
+                    onEdit=""
+                    />
+                )}
                 </div>
             </div>
         </div>
