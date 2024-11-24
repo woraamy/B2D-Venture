@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import InvestorRequest from "@/models/InvestorRequest";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { redirect } from 'next/navigation'
+import toast from "react-hot-toast";
 // Named export for the POST method
 export async function POST(req: NextRequest) {
     try {
         await connectDB();  // Connect to the database
-
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user) {
+            return NextResponse.json(
+                { message: "Unauthenticated, please log in", redirectToLogin: true },
+                { status: 401 }
+            );
+          }
         const body = await req.json();  // Parse the JSON body
         const { investor_id, business_id, reason } = body;
         console.log('Request body:', body);
