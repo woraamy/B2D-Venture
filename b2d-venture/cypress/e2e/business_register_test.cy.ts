@@ -31,6 +31,7 @@ describe('Business Creation, Admin Approval, and Login Flow', () => {
       cy.get('input[placeholder="Your email"]').type('amy@gmail.com');
       cy.get('input[placeholder="Your Password"]').type('12345678');
       cy.contains('Login').click();
+      cy.url().should('eq', 'http://localhost:3000/');
       cy.contains('Profile').click();
       cy.contains('Business Request').click();
   
@@ -44,7 +45,9 @@ describe('Business Creation, Admin Approval, and Login Flow', () => {
       cy.get('input[placeholder="Your email"]').type('daisydoe@example.com');
       cy.get('input[placeholder="Your Password"]').type('Password@123');
       cy.contains('Login').click();
-
+      cy.url().should('eq', 'http://localhost:3000/');
+      cy.contains('Profile').click();
+      cy.contains('Tech Innovators').should('exist');
     });
   });
   
