@@ -30,7 +30,7 @@ describe('Investing in a Business and Verifying Investment History', () => {
       cy.visit('http://localhost:3000/');
       cy.contains('Profile').click();
       cy.contains('Invest History').click();
-      cy.contains('The New Shop').should('exist'); // Verify the business name in investment history
+      cy.contains('The New Shop').should('exist');
     });
   });
   

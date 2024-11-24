@@ -191,6 +191,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       {...field}
                       value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      id="min_investment"
                     />
                   </FormControl>
                   <FormMessage />
@@ -212,6 +213,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       {...field}
                       value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      id="max_investment"
                     />
                   </FormControl>
                   <FormMessage />
@@ -233,6 +235,7 @@ export function CreateRaiseCampaignForm({ params }) {
                       {...field}
                       value={field.value ?? ""}
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      id="goal"
                     />
                   </FormControl>
                   <FormMessage />
@@ -253,6 +256,7 @@ export function CreateRaiseCampaignForm({ params }) {
                         {...field}
                         value={field.value ?? 0}
                         onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                        id="shared_price"
                         />
                     </FormControl>
                     <FormMessage />
@@ -270,7 +274,9 @@ export function CreateRaiseCampaignForm({ params }) {
                         <Input
                         type="date"
                         {...field}
-                        defaultValue={new Date().toISOString().split('T')[0]} />
+                        defaultValue={new Date().toISOString().split('T')[0]}
+                        id="start_date"
+                        />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -289,6 +295,7 @@ export function CreateRaiseCampaignForm({ params }) {
                         type="date"
                         {...field}
                         value={field.value || ""}
+                        id="end_date"
                         />
                     </FormControl>
                     <FormMessage />
