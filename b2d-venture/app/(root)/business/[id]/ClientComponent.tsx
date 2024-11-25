@@ -93,7 +93,7 @@ export default function ClientComponent({
           Invest
         </Button>
     
-        <AskInFormationPopup link={`/business/${campaignId}`} role={userRole} successmessage='Send request successed' investorId={investorId} businessId={businessId} />
+        <AskInFormationPopup link={`/business/${campaignId}`} role={userRole} investorId={investorId} businessId={businessId} />
       </>
   );
 }

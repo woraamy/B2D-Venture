@@ -17,7 +17,8 @@ import {
 
 type Props = {
     link: string;
-    investorId: string;  
+    investorId: string;
+    role: string;  
     businessId: string;  
 };
 
