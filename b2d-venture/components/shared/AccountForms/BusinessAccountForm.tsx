@@ -15,11 +15,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Business from "@/models/Business";
 import UploadBusinessProfile from "../BusinessDashboard/UploadBusinessProfile";
 import UploadBusinessCover from "../BusinessDashboard/UploadBusinessCover";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 // Validation schema using zod
 const businessFormSchema = z.object({
@@ -47,8 +49,8 @@ const businessFormSchema = z.object({
       message: "Contact number must not exceed 15 characters.",
     })
     .optional(),
-  description: z.string().optional(),
-  website: z.string().url().optional(),
+  description: z.string({ invalid_type_error: "Valuation must be a number" }).optional(),
+  valuation: z.number().optional(),
   BusinessAddress: z.string().max(160).optional(),
   city: z.string().max(160).optional(),
   stateProvince: z.string().max(160).optional(),
@@ -72,11 +74,14 @@ const businessFormSchema = z.object({
 
 type BusinessFormValues = z.infer<typeof businessFormSchema>;
 
-const defaultValues: Partial<BusinessFormValues> = {
-  tag_list: [],
-};
 
 export function BusinessAccountForm({ params, data }) {
+
+  const defaultValues: Partial<BusinessFormValues> = {
+    ...data, // Use the provided data for default values
+    tag_list: data?.tag_list || [], // Initialize tag_list from provided data
+  };
+  
   const id = params;
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -85,7 +90,6 @@ export function BusinessAccountForm({ params, data }) {
     defaultValues,
   });
 
-  const { toast } = useToast();
 
   async function onSubmit(data: BusinessFormValues) {
     try {
@@ -101,34 +105,15 @@ export function BusinessAccountForm({ params, data }) {
       const result = await response.json();
       console.log(result);
       
-      if (response.ok) {
-        console.log("Account updated successfully");
-        toast({
-          title: "Account updated successfully",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(result.business, null, 2)}</code>
-            </pre>
-          ),
-        });
-        
-
-        window.location.reload();
-      } else {
-        toast({
-          title: "Update failed",
-          description: result.error,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Update failed",
-        description: "An error occurred while updating your account.",
-        variant: "destructive",
-      });
-      console.error("Error updating business account:", error);
-    }
+      
+          if (response.ok) {
+            toast.success("Account updated successfully");
+          } else {
+            toast.error(result?.message || "Failed to update account");
+          }
+        } catch (error) {
+          toast.error("An unexpected error occurred while updating the account.");
+        }
   }
   
 
@@ -138,36 +123,17 @@ export function BusinessAccountForm({ params, data }) {
         {/* Profile Picture */}
         <div className="flex">
           <div className="flex flex-col">
-            {data.profile ? (
-              <img
-                src={data.profile}
-                alt="Profile preview"
-                className="w-52 h-52 rounded-full object-cover mb-4"
-              />
-            ) : (
-              <div className="w-52 h-52 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                <span className="text-gray-400">No image</span>
-              </div>
-            )}
-            <label className="font-medium text-gray-700">Profile Picture</label>
+           
             < UploadBusinessProfile business_id={id}/>
             <FormDescription>
-              Please upload an image for your profile (optional).
+              Only PNG, JPG, and JPEG files are allowed, with a maximum size of 10 MB.
             </FormDescription>
           </div >
-          <div className="flex flex-col">
-            {data.coverimg ? (
-                <img
-                  src={data.coverimg}
-                  alt="Profile preview"
-                  className="w-96 h-52  object-cover mb-4"
-                />
-              ) : (
-                <div className="w-80 h-44 bg-gray-200 mb-4 flex items-center justify-center">
-                  <span className="text-gray-400">No image</span>
-                </div>
-              )}
+          <div className="flex flex-col ml-10">
               <UploadBusinessCover business_id={id}/>
+              <FormDescription>
+              Only PNG, JPG, and JPEG files are allowed, with a maximum size of 10 MB.
+            </FormDescription>
             </div>
         </div>
         {/* Business Name */}
@@ -271,15 +237,16 @@ export function BusinessAccountForm({ params, data }) {
         {/* Website */}
         <FormField
           control={form.control}
-          name="website"
+          name="valuation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website</FormLabel>
+              <FormLabel>Valuation</FormLabel>
               <FormControl>
                 <Input 
-                placeholder="Your business website" 
+                placeholder="Your business valuation" 
                 {...field}
-                defaultValue={data.website || ""} />
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                defaultValue={data.valuation || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>

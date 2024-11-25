@@ -5,13 +5,17 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }) {
     const { businessId } = params; // Extract businessId from the request params
-    console.log("Business ID " + businessId);
     
     try {
         await connectDB(); 
         
         const data = await RaiseCampaign.find({ business_id: businessId })
-            .populate('business_id') 
+        .populate({
+                path: 'business_id',
+                populate: {
+                    path: 'user_id',
+                },
+            }) 
             console.log("raise campaign " + data);
 
         if (data.length > 0) { 

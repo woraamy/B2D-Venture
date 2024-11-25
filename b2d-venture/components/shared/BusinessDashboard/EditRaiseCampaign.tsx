@@ -74,6 +74,7 @@ export function EditRaiseCampaignForm({ params, data }) {
       const result = await response.json();
 
       if (result.message === "Raise campaign updated successfully") {
+        window.location.href = 'manage-raise-campaign'; 
         toast.success("Raise campaign updated successfully");
       } else {
         console.log(result);

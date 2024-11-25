@@ -33,122 +33,6 @@ function LoginPage() {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     // First, check if the user already exists in the database by email
-  //     const userRes = await fetch(`/api/fetchingData/getUserbyEmail?email=${email}`);
-  //     const userData = await userRes.json();
-      
-  //     // If user exists
-  //     if (userData.user) {
-  //       const userRole = userData.user.role;
-  //       if (userRole) {
-  //         // Log in the existing user without creating a new business
-  //         const res = await signIn("credentials", {
-  //           email, 
-  //           password, 
-  //           redirect: false, 
-  //           callbackUrl: "/"
-  //         });
-  
-  //         if (res.error) {
-  //           setError("Invalid credentials");
-  //           toast.error("Invalid credentials");
-  //           return;
-  //         }
-  
-  //         window.location.href = "/"
-  //         return;
-  //       }
-  //     }
-  
-  //     // If no user exists, check the status of the business registration request
-  //     const businessRequestRes = await fetch(`/api/fetchingData/getBusinessRequestStatus?email=${email}`);
-  //     const businessRequestData = await businessRequestRes.json();
-  
-  //     if (!businessRequestData.businessRequest) {
-  //       toast.error("No business request found for this email");
-  //       return;
-  //     }
-  
-  //     const status = businessRequestData.businessRequest.status; // Get status from the returned object
-  //     const { 
-  //       firstName, 
-  //       lastName, 
-  //       BusinessName, 
-  //       contactNumber, 
-  //       BusinessAddress, 
-  //       city, 
-  //       stateProvince, 
-  //       postalCode, 
-  //       country, 
-  //       tag_list, 
-  //       username, 
-  //       password: businessPassword 
-  //     } = businessRequestData.businessRequest;
-  
-  //     // If business request is approved, create the business user and activate it
-  //     console.log(status);
-  //     if (status === "approved") {
-  //       const activateBusinessRes = await fetch("/api/register/business", {
-  //         method: "POST",
-  //         body: JSON.stringify({ 
-  //           firstName,
-  //           lastName,
-  //           BusinessName,
-  //           contactNumber,
-  //           BusinessAddress,
-  //           stateProvince,
-  //           postalCode,
-  //           city,
-  //           country,
-  //           tag_list,
-  //           username,
-  //           password: businessPassword,
-  //           email,
-  //           status: "active",
-  //           role: "business"
-  //         }),
-  //         headers: { "Content-Type": "application/json" },
-  //       });
-  
-  //       if (!activateBusinessRes.ok) {
-  //         toast.error("Error activating business account");
-  //         console.log(activateBusinessRes);
-  //         return;
-  //       }
-
-  //     } else {
-  //       if (status === "done") {
-  //         await signIn("credentials", { email, password, redirect: false, callbackUrl: "/" });
-  //         router.push("/");
-  //         return; // Exit the function, no need to continue further
-  //       }
-  //       toast.error("Business request not approved yet.");
-  //       return;
-  //     }
-  
-  //     // Now sign in the newly created business user
-  //     const res = await signIn("credentials", {
-  //       email, 
-  //       password, 
-  //       redirect: false, 
-  //       callbackUrl: "/"
-  //     });
-  
-  //     if (res.error) {
-  //       setError("Invalid credentials");
-  //       toast.error("Invalid credentials");
-  //       return;
-  //     }
-  //     router.push("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("An error occurred during login.");
-  //   }
-  // };
-
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
       <Toaster />
@@ -191,9 +75,9 @@ function LoginPage() {
             <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">Login</Button>
           </div>
         </form>
-        <div className="flex justify-center mt-5">
-          <button onClick={() => signIn("google")} className="w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
-            <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2" />
+        <div className="flex justify-center items-center mt-5">
+          <button onClick={() => signIn("google")} className="flex justify-center items-center w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
+            <img src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2 " />
             Login with Google
           </button>
         </div>

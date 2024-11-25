@@ -13,7 +13,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                 <CardHeader className="relative flex-grow h-1/2 p-0 m-0">
                     <div className="relative w-full h-full">
                         <Image 
-                        src={coverimg} 
+                        src={coverimg || "/assets/images/no-image.jpg"} 
                         style={{objectFit:"cover"}}
                         alt="Business Image" 
                         fill={true}
@@ -28,7 +28,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                         <div className="relative z-10 -top-7  ">
                             <div className="relative w-[50px] h-[50px] ">
                                 <Image 
-                                src={profile} 
+                                src={profile || "/assets/images/profile-user.png"} 
                                 style={{objectFit:"cover"}}
                                 alt="Business Image" 
                                 fill={true}
@@ -37,7 +37,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                             </div>
                         </div>
                         <div className="relative -top-7">
-                            <div className="overflow-hidden relative ml-2 h-[110px]">
+                            <div className="overflow-auto relative ml-2 h-[110px]">
                                 <h2 className="mt-2 font-semibold">{name}</h2>
                                 <p className="text-[15px] font-normal">{description}</p>
                             </div>
@@ -49,7 +49,7 @@ const BusinessCard = ({className, coverimg, profile, name, description, raised, 
                                     />
                                 ))}
                             </div>
-                            <div className="mt-4">
+                            <div className="mt-4 hidden group-hover:block transition-all duration-300">
                                 <hr className="mb-2  border-t border-gray-300" />
                                 <div className="flex">
                                     <p className="ml-2 text-[15px] font-semibold">{raised.toLocaleString()}</p>

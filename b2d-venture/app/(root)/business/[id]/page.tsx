@@ -36,10 +36,10 @@ export default async function Page({ params }) {
     return (
         <div className="flex justify-center min-h-screen bg-[#FFF5EE] py-10 px-6">
             <Toaster />
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
+            <div className="relative bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full lg:w-2/3">
                 {/* Header with Business Name and Profile Image */}
                 <div className="flex items-center gap-4 mb-6">
-                    <div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300">
+                    <div className="relative flex-shrink-0 h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300">
                         <Image
                             src={business_data.profile}
                             alt="profile"
@@ -47,7 +47,7 @@ export default async function Page({ params }) {
                             style={{ objectFit: "cover" }}
                         />
                     </div>
-                    <div>
+                    <div className="">
                         <h1 className="text-3xl font-bold text-gray-800">
                             {business_data.BusinessName}
                         </h1>

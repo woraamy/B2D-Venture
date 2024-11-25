@@ -2,9 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { InvestChart } from "@/components/charts/investchart";
 import Image from "next/image";
-import { OverviewChart } from "@/components/charts/overviewchart";
-import InvestHistoryCard from "@/components/shared/InvestorDashboard/InvestHistoryCard"
-import RequestStatus from "@/components/shared/InvestorDashboard/RequestStatus";
+import Tag from "@/components/ui/tag";
 import connect from "@/lib/connectDB"
 import Investment from "@/models/Investment";
 import mongoose from "mongoose"; 
@@ -124,7 +122,7 @@ async function getBusinessData(raiseCampaignIds) {
                 <div className="mt-5 ml-10">
                     <h1 className="text-[32px] font-bold">Dashboard</h1>                    
                     <div className="ml-3">
-                        <BusinessChart data={barChartdata} />
+                        <BusinessChart data={barChartdata || []} />
                     </div>
                 </div>
             </div>
@@ -142,6 +140,7 @@ async function getBusinessData(raiseCampaignIds) {
                     </div>
                     <div className="ml-2">
                         <h1 className="text-[32px] font-bold">{business.BusinessName}</h1>
+                        <h2>{business.firstName} {business.lastName}</h2>
                     </div>
                 </div>
 
@@ -151,22 +150,28 @@ async function getBusinessData(raiseCampaignIds) {
                     </p>
 
                     <table className="mt-3 text-[12px] font-light">
-                        <tr>
-                            <td className="w-[150px]">Email</td>
-                            <td>{business.user_id.email || "-"}</td>
-                        </tr>
+                    <tbody>
                         <tr>
                             <td>Tags</td>
-                            <td>
+                            <td className="flex">
                                 {business.tag_list && business.tag_list.length > 0 ? (
                                     business.tag_list.map((tag, index) => (
-                                        <div key={index}>{tag}</div>
+                                        <div key={index} ><Tag tagName={tag} className="mr-2"/></div>
                                     ))
                                 ) : (
                                     "-"
                                 )}
                             </td>
                         </tr>
+                        <tr>
+                            <td className="w-[150px] h-10">Email</td>
+                            <td>{business.email || "-"}</td>
+                        </tr>
+                        <tr>
+                            <td className="w-[150px]">Tel.</td>
+                            <td>{business.contactNumber || "-"}</td>
+                        </tr>
+                    </tbody>
                     </table>
                 </div>
             </div>

@@ -95,7 +95,7 @@ export function CreateRaiseCampaignForm({ params }) {
         min_investment: data.min_investment,
         max_investment: data.max_investment,
         raised: 0,
-        shared_price: 0,
+        shared_price: data.shared_price,
         goal: data.goal,
         description: data.description,
         start_date: data.start_date, 
@@ -118,7 +118,7 @@ export function CreateRaiseCampaignForm({ params }) {
       if (response.ok) {
         window.location.href = 'manage-raise-campaign';        
         toast.success("Raise campaign updated successfully");
-      } if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
+      } else if (result.message === "An open raise campaign already exists for this business." && result.status === 400) {
         toast.error("You already have an open raise campaign");
       } 
       else {
