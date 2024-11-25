@@ -25,21 +25,21 @@ export default function AdminSideNav() {
                 </div>
                 <div className={`flex mt-2 p-3 ${businessrequest}`}>
                     < MdBusinessCenter />
-                    <Link href={`/dashboard/admin/business-request`} className="ml-2">Business Request</Link>
+                    <Link href={`/dashboard/admin/business-request`} className="ml-2" id="business-request">Business Request</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${investorrequest}`}>
                     < IoIosInformationCircle />
-                    <Link href={`/dashboard/admin/investor-request`} className="ml-2">Investor Request</Link>
+                    <Link href={`/dashboard/admin/investor-request`} className="ml-2" id="investor-request">Investor Request</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${user}`}>
                     < FaUser />
-                    <Link href={`/dashboard/admin/user`} className="ml-2">User</Link>
+                    <Link href={`/dashboard/admin/user`} className="ml-2" id="user-management">User</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${campaign}`}>
                     < SiCampaignmonitor />
-                    <Link href={`/dashboard/admin/campaign`} className="ml-2">Raise Campaign</Link>
+                    <Link href={`/dashboard/admin/campaign`} className="ml-2" id="raise-campaign-management">Raise Campaign</Link>
                 </div>
-                <div className={`flex mt-[50vh] w-40  bg-[#FF553E] text-white p-3 rounded-3xl`}>
+                <div className={`flex mt-[50vh] w-40  bg-[#FF553E] text-white p-3 rounded-3xl`} id="home" >
                     <Link href={`/`} className="ml-10">Home</Link>
                 </div>
             </div>

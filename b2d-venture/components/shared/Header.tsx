@@ -37,7 +37,7 @@ const AuthenticatedHeader = ({ role, userId, investorId, businessId }) => {
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">
             {/* Redirect user to the appropriate dashboard based on their role */}
-            <Link href={profileLink} className="hover:text-blue-500">
+            <Link href={profileLink} className="hover:text-blue-500" id="profile-button">
               Profile
             </Link>
             <SignOutButton />

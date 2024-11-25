@@ -32,8 +32,8 @@ describe('Business Creation, Admin Approval, and Login Flow', () => {
       cy.get('input[placeholder="Your Password"]').type('12345678');
       cy.contains('Login').click();
       cy.url().should('eq', 'http://localhost:3000/');
-      cy.contains('Profile').click();
-      cy.contains('Business Request').click();
+      cy.get("#profile-button").click();
+      cy.get("#business-request").click();
   
       cy.contains('Tech Innovators').should('exist');
       cy.contains('Allow').click();

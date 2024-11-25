@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function SearchBar({ text, data, onSearch, obj }) {
+export default function SearchBar({ text, data, onSearch, obj}) {
     const [query, setQuery] = useState('');
     const [isFound, setIsFound] = useState(true);
 
