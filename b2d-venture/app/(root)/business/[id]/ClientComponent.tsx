@@ -88,6 +88,7 @@ export default function ClientComponent({
         <Button
           className="text-white w-[30rem] h-[3rem] rounded-3xl mt-7"
           onClick={handleRedirectToPayment}
+          id="invest-button"
         >
           Invest
         </Button>

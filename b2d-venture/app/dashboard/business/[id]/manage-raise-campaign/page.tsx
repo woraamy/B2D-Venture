@@ -108,7 +108,6 @@ export default function ManageRaiseCampaignPage({ params }) {
 
         {/* Action Buttons */}
         <div className="flex flex-col ml-24 mt-10 gap-4">
-          {/* Edit Campaign Button */}
           <Link href={`/dashboard/business/${id}/edit-raise-campaign`}>
             <button
               className={`px-4 py-2 w-[15vw] rounded-xl text-white ${
@@ -117,6 +116,7 @@ export default function ManageRaiseCampaignPage({ params }) {
                   : "bg-gray-400 opacity-50 text-gray-700 cursor-not-allowed"
               }`}
               disabled={!campaignData || status === "closed"}
+              id="edit-campaign-button"
             >
               Edit Campaign
             </button>
@@ -132,6 +132,7 @@ export default function ManageRaiseCampaignPage({ params }) {
               }`}
               onClick={campaignData && status === "open" ? handleCreateAttempt : undefined}
               disabled={campaignData && status === "open"}
+              id="create-campaign-button"
             >
               Create Campaign
             </button>
@@ -146,6 +147,7 @@ export default function ManageRaiseCampaignPage({ params }) {
             }`}
             onClick={handleClose}
             disabled={!campaignData || status === "closed"}
+            id="close-campaign-button"
           >
             Close Campaign
           </button>

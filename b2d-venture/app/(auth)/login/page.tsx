@@ -52,6 +52,7 @@ function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="flex justify-center">
             <input 
+              id="email"
               type="text" 
               placeholder="Your email"
               onChange={(e) => setEmail(e.target.value)}
@@ -59,6 +60,7 @@ function LoginPage() {
           </div>
           <div className="flex justify-center">
             <input 
+              id="password"
               type="password" 
               placeholder="Your Password"
               onChange={(e) => setPassword(e.target.value)}
@@ -72,7 +74,7 @@ function LoginPage() {
             <a href="#" className="text-blue-500 text-sm md:text-lg">Forgot password?</a>
           </div>
           <div className="flex justify-center mt-8">
-            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]">Login</Button>
+            <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]" id="login-button">Login</Button>
           </div>
         </form>
         <div className="flex justify-center items-center mt-5">

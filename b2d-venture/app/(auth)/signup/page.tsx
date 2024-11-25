@@ -101,6 +101,7 @@ function SignUp() {
                 value="Investor"
                 className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'investor' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
                 onClick={() => handleRoleSelect("investor")}
+                id="investor-tab"
               >
                 Investor
               </TabsTrigger>
@@ -108,6 +109,7 @@ function SignUp() {
                 value="Business"
                 className={`transition-all text-sm md:text-base duration-300 shadow-md w-1/2 text-center ${selectedRole === 'Business' ? 'bg-white text-black shadow-lg' : 'bg-gray-200 text-gray-500'}`}
                 onClick={() => handleRoleSelect("Business")}
+                id="business-tab"
               >
                 Business
               </TabsTrigger>
