@@ -1,5 +1,6 @@
 describe('Investing in a Business and Verifying Investment History', () => {
     it('should log in, search for a business, invest, and verify investment in the history', () => {
+      cy.viewport(1920, 1080)
       cy.visit('http://localhost:3000/login');
       cy.get('input[placeholder="Your email"]').type('jane@gmail.com'); 
       cy.get('input[placeholder="Your Password"]').type('12345678');
