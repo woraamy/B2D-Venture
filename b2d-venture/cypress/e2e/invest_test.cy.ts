@@ -7,8 +7,8 @@ describe('Investing in a Business and Verifying Investment History', () => {
       cy.url().should('eq', 'http://localhost:3000/');
   
       cy.visit('http://localhost:3000/business');
-      cy.get('input[placeholder="Search"]').type('The New Shop');
-      cy.contains('The New Shop').click();
+      cy.get('input[placeholder="Search"]').type('Wellwell{enter}');
+      cy.contains('Wellwell').click();
       cy.get("#invest-button").click();
   
       cy.url().should('include', '/payment'); 
@@ -23,14 +23,15 @@ describe('Investing in a Business and Verifying Investment History', () => {
       cy.get('input[placeholder="Investment between"]').type('100');
       cy.get('input[type="checkbox"]').check(); 
       cy.contains('Submit Payment').click();
+      cy.wait(1000);
       cy.url().should('include', '/business'); // Redirected back to business page
     });
 
     it('should verify the investment in the history', () => {
       cy.visit('http://localhost:3000/');
-      cy.contains('Profile').click();
+      cy.get("#profile-button").click();
       cy.contains('Invest History').click();
-      cy.contains('The New Shop').should('exist');
+      cy.contains('Wellwell').should('exist');
     });
   });
   

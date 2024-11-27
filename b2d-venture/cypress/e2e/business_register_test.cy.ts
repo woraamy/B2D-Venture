@@ -34,7 +34,6 @@ describe('Business Creation, Admin Approval, and Login Flow', () => {
       cy.url().should('eq', 'http://localhost:3000/');
       cy.get("#profile-button").click();
       cy.get("#business-request").click();
-  
       cy.contains('Tech Innovators').should('exist');
       cy.contains('Allow').click();
     });
