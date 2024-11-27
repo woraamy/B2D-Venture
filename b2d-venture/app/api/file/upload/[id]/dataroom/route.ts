@@ -1,4 +1,3 @@
-import { UploadFile } from '@/lib/googleStorageAction';
 import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
 import File from '@/models/file';
@@ -34,15 +33,15 @@ export async function POST(req: Request, { params }) {
         for (const i of file){
             const existingFile = await File.findOne({
                 dataroom_id: dataroomData._id.toString(),
-                name: i.name,
+                name: i["name"],
                 type: 'dataroom'
             });
             if (existingFile) {
-                return NextResponse.json({ error: `File ${i.name} already exists in the dataroom.` }, { status: 400 });
+                return NextResponse.json({ error: `File ${i["name"]} already exists in the dataroom.` }, { status: 400 });
             }
-            const filePath = `${id}/${i.name}`
+            const filePath = `${id}/${i["name"]}`
             const fileData = new File({
-                name: i.name,
+                name: i["name"],
                 file_path: filePath, 
                 dataroom_id: dataroomData._id.toString(),
                 type: 'dataroom'

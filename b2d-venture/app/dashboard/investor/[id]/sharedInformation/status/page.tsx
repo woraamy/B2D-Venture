@@ -35,12 +35,12 @@ export default async function Page({params}) {
                     <Link href='status' className="text-xl text-[#FF553E] underline">Status</Link>
                     <Link href='file' className="text-xl ml-10 text-gray-400">Allowed file</Link>
                 </div>
-                <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                <TableCard data={headData} className='mt-7' valueClassname='font-semibold' onDelete=""/>
                 
                 <div>
                     {
                         data.map((item,index)=>(
-                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold'/>
+                            <TableCard key={index} data={item} className='mt-3' valueClassname='font-semibold' onDelete=""/>
                         ))
                     }
                 </div>

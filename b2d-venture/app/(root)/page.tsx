@@ -1,13 +1,8 @@
 "use client"
 import Image from "next/image";
-import { redirect } from 'next/navigation';
 import BusinessCard from "@/components/shared/BusinessCard";
 import Link from "next/link";
-import { promises as fs } from "fs";
-import Business from '@/models/Business'
-import RaisedCampaign from '@/models/RaiseCampaign'
 import { useState, useEffect } from "react";
-import { setDate } from "date-fns";
 import { Button } from "@/components/ui/button";
 
 
@@ -67,10 +62,10 @@ export default function Home() {
                 <div className="flex ">
                     <div className="flex-col font-semibold w-[50%] ml-20 mt-[10%]">
                         <div className="text-5xl">
-                            <h1>Invest in <b className="text-[#FF553E]">Southeast Asia</b>'s best startups</h1>
+                            <h1>Invest in <b className="text-[#FF553E]">Southeast Asia</b>&apos;s best startups</h1>
                         </div>
                         <div className="mt-5">
-                            <p>Invest in Southeast Asia's top startups and tap into a fast-growing market. With a thriving tech ecosystem and high digital adoption, this region offers unparalleled opportunities for forward-thinking investors.</p>
+                            <p>Invest in Southeast Asia&apos;s top startups and tap into a fast-growing market. With a thriving tech ecosystem and high digital adoption, this region offers unparalleled opportunities for forward-thinking investors.</p>
                         </div>
                     </div>
                     <div className="relative mt-5 h-[100%] w-[50%]">

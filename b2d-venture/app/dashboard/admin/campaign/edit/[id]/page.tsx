@@ -9,7 +9,7 @@ import { EditRaiseCampaignForm } from "@/components/shared/BusinessDashboard/Edi
 export default function({params}){
     const {id} = params;
     const router = useRouter();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any>({});
 
     async function fetchData(){
         const response = await fetch(`/api/fetchingData/RaiseCampaign/${id}`);
@@ -20,7 +20,7 @@ export default function({params}){
         fetchData()
       }, [])
     
-      if (data.length === 0) {
+      if (!data || Object.keys(data).length === 0) {
         return <div>No campaign data</div>;
     }
     

@@ -6,7 +6,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import User from "@/models/user";
 import toast from 'react-hot-toast';
 import bcrypt from "bcryptjs";
-import { Password } from 'primereact/password';
 
 export async function POST(req) { 
     await connect();
@@ -17,7 +16,7 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
     }
 
-    if (session.user.role !== "admin") {
+    if ((session.user as { role: string }).role !== "admin") {
         return NextResponse.json({ error: 'User does not have permission' }, { status: 403 });
     }
     console.log('Authentication successful');

@@ -10,7 +10,6 @@ import RegisterBusiness  from "@/components/shared/Register_business";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSession } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 
 function SignUp() {
@@ -19,8 +18,6 @@ function SignUp() {
   const [formValidated, setFormValidated] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const router = useRouter();
-
-  const { data: session } = useSession();
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
@@ -48,13 +45,13 @@ function SignUp() {
   return (
     <div className="signUp-bg relative">
       <Toaster />
-      <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347] hidden md:block">
+      <Link href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347] hidden md:block">
         B2D Venture
-      </a>
-      <a href="/" className="absolute top-10 left-4 md:hidden flex items-center">
+      </Link>
+      <Link href="/" className="absolute top-10 left-4 md:hidden flex items-center">
         <ChevronsLeft className="text-[#FF6347] text-2xl cursor-pointer" />
         <p className="text-[#FF6347] p-medium-16 ml-2">Back to home</p>
-      </a>
+      </Link>
 
       {/* Title */}
       <p className="flex-center text-3xl md:text-5xl font-bold text-[#FF6347] mt-32">Join the Community</p>
@@ -130,7 +127,7 @@ function SignUp() {
           {/* Already have an account */}
           <p className="mt-10 flex justify-center items-center space-x-2 mb-20">
             <span className="text-sm md:text-base">Already have an account?</span>
-            <a href="/login" className="text-[#FF6347] font-medium">Login here</a>
+            <Link href="/login" className="text-[#FF6347] font-medium">Login here</Link>
           </p>
         </>
       )}

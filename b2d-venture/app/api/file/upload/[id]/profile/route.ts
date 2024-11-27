@@ -31,7 +31,7 @@ export async function POST(req: Request, { params }) {
                 console.log(oldName)
                 const result = await asset.deleteFile(`investor/${id}/${oldName}`);
             }
-            const filePath = `investor/${id}/${file.name}`
+            const filePath = `investor/${id}/${file["name"]}`
             const url = await asset.getPublicUrl(filePath)
             investor.profile_picture = url
             await investor.save();
@@ -46,7 +46,7 @@ export async function POST(req: Request, { params }) {
                 const oldName = oldUrlArray[oldUrlArray.length - 1]
                 const result = await asset.deleteFile(`business/${id}/${oldName}`);
             }
-            const filePath = `business/${id}/${file.name}`
+            const filePath = `business/${id}/${file["name"]}`
             const url = await asset.getPublicUrl(filePath)
             business.profile = url
             await business.save();

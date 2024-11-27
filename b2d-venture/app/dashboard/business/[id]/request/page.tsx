@@ -112,11 +112,10 @@ export default function Page({params}) {
                                 select={select}
                                 timeKey="createdAt"/>
                         </div>
-                        <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold'/>
+                        <TableCard data={headData} className='mt-7 mb-5' valueClassname='font-semibold' onDelete=""/>
                         <PaginationTable 
                         data={data}
-                        itemsPerPage={10}
-                         />
+                        itemsPerPage={10} buttonIndex={undefined} onDelete={undefined} onEdit={undefined}                         />
                     </div>
                
             </div>

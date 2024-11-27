@@ -4,10 +4,8 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import connectDB from "@/lib/connectDB";
-import { toast } from "react-toastify";
 import Investor from "@/models/Investor";
 import Business from "@/models/Business";
-import { profile } from "console";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -59,6 +57,7 @@ const authOptions: NextAuthOptions = {
     signIn: "/login", 
   },
   callbacks: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async signIn({ user, account }: { user: any; account: any }) {
       if (account.provider === "google") {
         try {
@@ -93,8 +92,10 @@ const authOptions: NextAuthOptions = {
             birthDate: "",
             nationality: "",
           });
+
+      
     
-          console.log(`Investor profile created for: ${newUser.email}`);
+          console.log(`Investor profile created for: ${newInvestor.firstName}`);
     
           return true;
         } catch (err) {
@@ -106,6 +107,7 @@ const authOptions: NextAuthOptions = {
     },
     
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.email = user.email;
@@ -117,6 +119,7 @@ const authOptions: NextAuthOptions = {
     },
     
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
         session.user.email = token.email;

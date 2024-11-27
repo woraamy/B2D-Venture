@@ -9,7 +9,7 @@ import { Key } from "lucide-react";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, id, email, contact, name, description, business, link, reason, status_from_business, time, profile}) => {
+const InvestorRequestCard = ({ className, id, email, contact, name, description, business, reason, status_from_business, time, profile}) => {
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
             const response = await fetch('/api/request/investorRequestAction', {

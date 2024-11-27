@@ -58,7 +58,7 @@ export default function({params}){
                             onChange={(e)=> setRole(e.target.value)}
                             name="role"
                             >
-                            <option>{data.role}</option>
+                            <option>{data[0]?.role}</option>
                             <option>admin</option>
                             </select>
                     </td>
@@ -69,7 +69,7 @@ export default function({params}){
                         <input
                             type="text"
                             name="name"
-                            defaultValue={data.username}
+                            defaultValue={data[0]?.username}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             onChange={(e)=> setName(e.target.value) }
                             />
@@ -92,7 +92,7 @@ export default function({params}){
                         <input
                             type="text"
                             name="email"
-                            defaultValue={data.email}
+                            defaultValue={data[0]?.email}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             onChange={(e)=> setEmail(e.target.value) }
                             />

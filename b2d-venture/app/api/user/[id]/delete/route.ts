@@ -1,7 +1,7 @@
 "use server"
 import { NextResponse } from 'next/server';
 import connect from '@/lib/connectDB';
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import User from "@/models/user";
 import Investor from "@/models/Investor";
@@ -17,7 +17,7 @@ export async function DELETE(req, { params }) {
     await connect();
 
     // Authentication check
-    const session = await getServerSession(authOptions);
+    const session: Session & { user: { role: string } } = await getServerSession(authOptions);
     if (!session || !session.user) {
         return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
     }

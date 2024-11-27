@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
-import Dialog from "@/components/shared/AskInFormationPopup";
 import ClientComponent from "./ClientComponent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RaiseCampaign from "@/models/RaiseCampaign";
-import Business from "@/models/Business";
 import parse from "html-react-parser";
 import { Toaster } from "react-hot-toast";
 

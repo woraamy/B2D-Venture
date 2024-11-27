@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 function getNestedProperty(obj, path) {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
-function convertDate(time){
+function convertDate(time: string): number {
     const [day, month, year] = time.split('/').map(Number);
     const date = new Date(year, month - 1, day);
-    return date
+    return date.getTime(); 
 }
 export async function POST(req) {
     const { data, tag, sort , obj, timeKey} = await req.json();

@@ -5,7 +5,8 @@ import { Button } from "../ui/button"
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
 import Link from "next/link"
-export default function TableCard({className, data, valueClassname, onDelete}){
+
+export default function TableCard({className, data, valueClassname, onDelete}) {
     if(!Array.isArray(data)){
         return (<div>Invalid value</div>)
     }

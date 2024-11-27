@@ -3,13 +3,10 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import DetailCard from "@/components/shared/DetailCard";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; 
 import { useEffect, useState } from "react";
-import RaiseCampaign from "@/models/RaiseCampaign";
-import connectDB from "@/lib/connectDB";
 
 import AskInFormationPopup from "@/components/shared/AskInFormationPopup";
 import { Toaster } from "react-hot-toast";
@@ -26,7 +23,7 @@ export default function ClientComponent({
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
   const [investorId, setInvestorId] = useState<string | null>(null); 
-  const [campaignData, setCampaignData] = useState<any>(null); 
+  const [campaignData, setCampaignData] = useState(null); 
   
 
   // Function to fetch user role from the server
@@ -54,6 +51,7 @@ export default function ClientComponent({
       const campaignData = await response.json(); 
       setCampaignData(campaignData); 
     } catch (error) {
+      console.error("Error fetching campaign data:", error);
     }
   };
 
@@ -64,6 +62,7 @@ export default function ClientComponent({
     if (campaignId) {
       fetchCampaignData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail, campaignId]);
 
   const handleRedirectToPayment = () => {

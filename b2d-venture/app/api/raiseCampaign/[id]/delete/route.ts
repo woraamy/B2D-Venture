@@ -1,5 +1,4 @@
 "use server"
-import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
 import connect from '@/lib/connectDB';
 import { getServerSession } from "next-auth";
@@ -20,7 +19,7 @@ export async function DELETE(req, {params}) {
       return NextResponse.json({ error: 'Unauthentication' }, { status: 405 });
     }
 
-    if (session.user.role !== "admin"){
+    if (session.user["role"] !== "admin"){
         return NextResponse.json({ error: 'User not have permission to view this file' }, { status: 401 });
     }
     console.log('Authen success')

@@ -6,7 +6,6 @@ import { toast } from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
 
 const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({

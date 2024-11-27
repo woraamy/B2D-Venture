@@ -114,7 +114,7 @@ export default function Page() {
                         <p className="px-2"> {data.length}</p>
                     </div>
                 </div>
-                <TableCard data={headData} className='mt-7' valueClassname='font-semibold'/>
+                <TableCard data={headData} className='mt-7' valueClassname='font-semibold' onDelete=""/>
                 <PaginationTable 
                     data={data}
                     itemsPerPage={10}
