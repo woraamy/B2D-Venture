@@ -1,6 +1,8 @@
 describe('Investor Registration and Login Flow', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3000/signup');
+      cy.viewport(1920, 1080)
+
     });
   
     it('should complete the investor registration successfully', () => {

@@ -43,7 +43,7 @@ function SignUp() {
 
 
   return (
-    <div className="signUp-bg relative">
+    <div className="signUp-bg relative ">
       <Toaster />
       <Link href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347] hidden md:block">
         B2D Venture
