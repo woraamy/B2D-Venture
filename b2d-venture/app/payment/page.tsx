@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,12 +31,12 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
     termsAccepted: z.literal(true, { errorMap: () => ({ message: "You must accept the terms and conditions." }) }),
   });
 
-export default function PaymentPage() {
+  export default function PaymentPage({ params }: { params: { campaignId: string, businessId: string, investorId: string} }
+  ) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const campaignId = searchParams.get("campaignId");
-  const businessId = searchParams.get("businessId");
-  const investorId = searchParams.get("investorId");
+  const campaignId = params.campaignId
+  const businessId = params.businessId
+  const investorId = params.investorId
 
   const [loading, setLoading] = useState(false);
   const [minInvestment, setMinInvestment] = useState(0);

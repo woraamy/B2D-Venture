@@ -15,7 +15,8 @@ describe('Business dataroom upload', () => {
         cy.contains('Profile').click();
         cy.contains('Data').click();
         const fileName = 'example.pdf'; // Ensure this file exists in cypress/fixtures
-        cy.get('input[type="file"]').attachFile(fileName);        cy.contains('Submit').click();
+        cy.get('input[type="file"]').attachFile(fileName);        
+        cy.contains('Submit').click();
         cy.screenshot()
 
         cy.contains('File uploaded successfully!').should('be.visible');
