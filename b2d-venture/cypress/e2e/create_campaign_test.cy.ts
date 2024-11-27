@@ -1,6 +1,8 @@
 describe('Create and Verify Raise Campaign', () => {
     it('should log in as a business user, create a raise campaign, and verify it on the business page', () => {
         cy.visit('http://localhost:3000/login');
+        cy.viewport(1920, 1080)
+
         cy.wait(500);
         cy.get('#email')
           .should('be.visible')

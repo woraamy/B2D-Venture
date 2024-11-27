@@ -1,6 +1,8 @@
 describe('Business Search and Filter Page', () => {
   beforeEach(() => {
       cy.visit('http://localhost:3000/business');
+      cy.viewport(1920, 1080)
+
   });
 
   it('should search for the business "Zephyr Aerospace" and display the results', () => {

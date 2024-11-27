@@ -1,6 +1,8 @@
 describe('Business Creation, Admin Approval, and Login Flow', () => {
     it('should complete the business creation process successfully', () => {
       cy.visit('http://localhost:3000/signup');
+      cy.viewport(1920, 1080)
+
   
       cy.contains('Join the Community').should('exist');
       cy.get('#business-tab').click();
