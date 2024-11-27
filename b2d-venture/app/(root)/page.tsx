@@ -9,10 +9,12 @@ import RaisedCampaign from '@/models/RaiseCampaign'
 import { useState, useEffect } from "react";
 import { setDate } from "date-fns";
 import { Button } from "@/components/ui/button";
-function convertDate(time){
+
+
+function convertDate(time: string): number {
     const [day, month, year] = time.split('/').map(Number);
     const date = new Date(year, month - 1, day);
-    return date
+    return date.getTime(); // Convert to numeric timestamp
 }
 
 export default function Home() {

@@ -24,6 +24,7 @@ export async function GET(req: Request) {
       const file = await File.find({ business_id: businessId, type: 'asset' });
 
       if (file.length === 0) {
+        console.log("File not found");
         return NextResponse.json({ file: null, message: "File not found" }, { status: 404 });
       }
       return NextResponse.json({ file }, { status: 200 });
@@ -32,6 +33,7 @@ export async function GET(req: Request) {
     const file = await File.find({ business_id: id, type: 'asset' });
 
     if (file.length === 0) {
+      console.log("File not found");
       return NextResponse.json({ file: null, message: "File not found" }, { status: 404 });
     }
     return NextResponse.json({ file }, { status: 200 });

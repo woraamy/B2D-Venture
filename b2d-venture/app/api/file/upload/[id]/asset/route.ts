@@ -1,4 +1,4 @@
-import { UploadFile } from '@/lib/googleStorageAction';
+
 import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
 import File from '@/models/file';
@@ -25,16 +25,16 @@ export async function POST(req: Request, { params }) {
         for (const i of file){
             const existingFile = await File.findOne({
                 business_id: id.toString(),
-                name: i.name,
+                name: i["name"],
                 type: 'asset'
             });
             if (existingFile) {
-                return NextResponse.json({ error: `File ${i.name} already exists in the asset.` }, { status: 400 });
+                return NextResponse.json({ error: `File ${i["name"]} already exists in the asset.` }, { status: 400 });
             }
-            const filePath = `business/${id}/post/${i.name}`
+            const filePath = `business/${id}/post/${i["name"]}`
             const url = await asset.getPublicUrl(filePath)
             const fileData = new File({
-                name: i.name,
+                name: i["name"],
                 file_path: url, 
                 business_id: id.toString(),
                 type: 'asset'

@@ -38,7 +38,7 @@ export default function DragAndDrop({type, className, onUploadComplete}) {
     console.log(type)
     const formData = new FormData();
     files.forEach((file: File) => {
-      formData.append('files', file);
+      formData.append('files', file, file.name);
     });
     setIsLoading(true);
     try{
