@@ -31,17 +31,22 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
     termsAccepted: z.literal(true, { errorMap: () => ({ message: "You must accept the terms and conditions." }) }),
   });
 
-  export default function PaymentPage({ params }: { params: { campaignId: string, businessId: string, investorId: string} }
-  ) {
-  const router = useRouter();
-  const campaignId = params.campaignId
-  const businessId = params.businessId
-  const investorId = params.investorId
+  export default function PaymentPage() {
+    const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
-  const [minInvestment, setMinInvestment] = useState(0);
-  const [maxInvestment, setMaxInvestment] = useState(0);
-  const [campaignData, setCampaignData] = useState(null);
+    let campaignId, businessId, investorId;
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      campaignId = searchParams.get('campaignId');
+      businessId = searchParams.get('businessId');
+      investorId = searchParams.get('investorId');
+      console.log(campaignId, businessId, investorId);
+    }
+  
+    const [loading, setLoading] = useState(false);
+    const [minInvestment, setMinInvestment] = useState(0);
+    const [maxInvestment, setMaxInvestment] = useState(0);
+    const [campaignData, setCampaignData] = useState(null);
 
   const fetchCampaignData = async () => {
     try {
@@ -96,7 +101,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
 
       if (response.ok) {
         toast.success("Payment successful!");
-        router.push(`/business/${campaignId}`);
+        window.location.href = `/business/${campaignId}`;
       } else {
         toast.error("Failed to create investment.");
       }

@@ -34,7 +34,7 @@ function LoginPage() {
       <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center p-8 relative">
         <a href="/" className="absolute top-10 left-20 text-2xl font-bold text-[#FF6347]">B2D Venture</a>
         <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
-          <Image src="/assets/images/rocket-gif.gif" alt="Rocket with Laptop" className="w-full h-full object-contain" />
+          <Image src="/assets/images/rocket-gif.gif" alt="Rocket with Laptop" width={60} height={60} className="w-full h-full object-contain" />
         </div>
       </div>
       <div className="w-full h-full md:w-1/2 flex flex-col justify-center p-8 bg-white">
@@ -74,7 +74,7 @@ function LoginPage() {
         </form>
         <div className="flex justify-center items-center mt-5">
           <button onClick={() => signIn("google")} className="flex justify-center items-center w-[300px] md:w-[450px] h-[50px] border-2 border-[#D9D9D9] rounded-full text-[#1C0E0D] bg-white hover:bg-[#D9D9D9]">
-            <Image src="assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2 " />
+            <Image src="/assets/icons/google-logo.png" alt="Google logo" height={23} width={23} className="mr-2 " />
             Login with Google
           </button>
         </div>

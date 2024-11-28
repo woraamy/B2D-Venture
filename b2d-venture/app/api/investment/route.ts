@@ -30,9 +30,6 @@ export async function POST(req) {
 
     await newInvestment.save();
 
-    investor.investment_history.push(newInvestment._id);
-    await investor.save();
-
     campaign.raised += parseInt(amount);
     await campaign.save();
 
