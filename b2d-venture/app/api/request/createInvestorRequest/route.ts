@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
             );
           }
         const body = await req.json();  // Parse the JSON body
-        const { investor_id, business_id, reason } = body;
+        const { investor_id, business_id, reason, consent } = body;
         console.log('Request body:', body);
 
         // Validate request body
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
             status_from_business: "pending",  // Set business status to pending
             status_from_admin: "pending",     // Set admin status to pending
             reason,
+            consent
         });
 
         await newRequest.save();

@@ -86,6 +86,7 @@ export default function Page() {
                                 status_from_admin={req.status_from_admin}
                                 className='mr-5'
                                 time={req.createdAt}
+                                consent={req.consent}
                                 />
                             ))}
                     </div> 

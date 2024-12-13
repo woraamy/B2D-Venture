@@ -63,7 +63,55 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
                     business_id: businessId,  
                     status_from_admin: "pending", 
                     status_from_business: "pending",       
-                    reason,                   
+                    reason,
+                    consent: true                   
+                }),
+            });
+            
+            if (res.status === 401){
+                toast.error("You have to login first")
+                window.location.href = "/login"
+                throw new Error("Not Authenticated");
+            }
+            else if (role != "investor"){
+                toast.error("Only investor can ask for more information")
+                throw new Error("Not investor");
+            }
+            else if (!res.ok) {
+                toast.error("Failed to send request. Please try again.", { id: toastId });
+                throw new Error("Failed to send the request");
+            }
+            toast.success("Send request successful", { id: toastId });
+            setTimeout(() => {
+                setIsDialogOpen(false);  
+            }, 2000);
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const clickNotOk = async () => {
+        if (!reason) {
+            toast.error("Please provide a reason.");  // Check if reason is provided
+            return;
+        }
+
+        const toastId = toast.loading("Sending request...");
+
+        try {
+            const res = await fetch("/api/request/createInvestorRequest", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    investor_id: investorId,  
+                    business_id: businessId,  
+                    status_from_admin: "pending", 
+                    status_from_business: "pending",       
+                    reason,             
+                    consent: false      
                 }),
             });
             
@@ -157,6 +205,15 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
                     <Button type="button" variant="secondary" onClick={clickOk}>
                         Allow
                       </Button>
+                      <div className="relative inline-block group">
+                        <Button type="button" variant="secondary" className="bg-red-500 " onClick={clickNotOk}>
+                            Still request but Not Allow
+                        </Button>
+                        <span className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white px-2 py-1 rounded">
+                            Only your name and reason will be visible to the admin and business. There is a highly chance of rejection.
+                        </span>
+                      </div>
+                     
                     
                   </DialogFooter>
                 </DialogContent>

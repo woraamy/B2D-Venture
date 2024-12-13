@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Investor from "@/models/Investor"
 import Business from "./Business"
+import { boolean } from "zod";
 
 const InvestorRequestSchema = new mongoose.Schema(
   {
@@ -25,6 +26,9 @@ const InvestorRequestSchema = new mongoose.Schema(
       type: String,
       enum: ["approved", "pending", "declined"],
       default: "pending"  
+    },
+    consent: {
+      type: Boolean
     },
     reason: {
       type: String,

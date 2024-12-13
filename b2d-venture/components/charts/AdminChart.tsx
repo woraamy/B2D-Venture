@@ -50,7 +50,7 @@ export function AdminChart({className, data}) {
         }
       });
     const chartData =  data.map((data,index)=>({
-        month: months[index].month, 
+        month: months.month, 
         raised: data.raised,
 
         profit: data.profit,

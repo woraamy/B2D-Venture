@@ -117,6 +117,7 @@ export default async function Page() {
                                 className='mr-5 mb-10'
                                 profile={req.investor_id.profile_picture}
                                 time={req.createdAt.toLocaleDateString('en-GB')}
+                                consent={req.consent}
                                 />
                             ))}
                         </div>    

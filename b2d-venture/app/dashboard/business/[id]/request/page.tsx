@@ -74,6 +74,7 @@ export default function Page({params}) {
                                 status_from_business={req.status_from_business}
                                 className='mr-5'
                                 time={req.createdAt}
+                                consent={req.consent}
                                 />
                             ))}
 

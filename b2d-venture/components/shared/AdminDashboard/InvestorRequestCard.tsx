@@ -8,7 +8,7 @@ import connectDB from "@/lib/connectDB";
 import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
-const InvestorRequestCard = ({ className, id, email, contact, name, description, business, reason, status_from_admin, time, profile }) => {
+const InvestorRequestCard = ({ className, id, email, contact, name, description, business, reason, status_from_admin, time, profile, consent }) => {
     console.log(profile)
     async function handleAllow(id: string, type: 'business' | 'admin') {
         try {
@@ -64,6 +64,51 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
 
     return (
         <div className={className}>
+            {consent === false ? (
+            <Card className="shadow-md overflow-hidden relative w-[350px] h-[270px] bg-white rounded-xl  transition-all duration-300 transform group hover:h-[320px]">
+                <CardHeader className='flex bg-[#FF553E] w-full text-white h-[7%] inline-block'>
+                    <p className="-mt-3">Request to : <b>{business}</b> </p>
+                    
+                </CardHeader>
+                <div className="relative group">
+                    <CardContent className="relative z-0  h-[210px]">
+                        <div className="relative ">
+                            <div className=" relative ml-2 h-[150px]">
+                                <div className="flex mt-2 ">
+                                        <img
+                                            src={profile || "/assets/images/profile-user.png"}
+                                            alt="Profile preview"
+                                            className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center"
+                                        />
+                                        
+                                    <h2 className="mt-2 ml-2 font-semibold">{name}</h2>
+                                </div> 
+                                <div className=" mt-1 font-semibold">Reason</div>
+                                <div className="overflow-auto h-[75%] text-[15px] mt-1 font-normal">{reason}</div>
+                                
+                            </div>
+                            {status_from_admin === "pending" ? (
+                                    <div className="flex justify-start mt-2">
+                                        <Button onClick={() => handleAllow(id, 'admin')} className="rounded-3xl bg-green-600 hover:bg-blue-950">Allow</Button>
+                                        <Button onClick={() => handleReject(id, 'admin')} className="rounded-3xl ml-3 bg-red-600 hover:bg-blue-950">Reject</Button>
+                                    </div>
+                                ) : status_from_admin === "approved" || status_from_admin === "done" ? (
+                                    <div className="flex items-center justify-center text-sm mt-5 text-green-600 bg-green-200 rounded-full w-[40%]"> <p>Approved</p></div>
+                                ) : status_from_admin === "declined" ? (
+                                    <div className="flex items-center justify-center text-sm mt-5 text-red-600 bg-red-200 rounded-full w-[40%]"> Rejected</div>
+                                ) : null}
+                        </div>
+                        <div className="hidden group-hover:block transition-all duration-300">
+                                <hr className="mb-2 mt-2 border-t border-gray-300" />
+                                <h1 className="text-red-500 text-sm"> User not allow to share their information </h1>
+                                <div> 
+                                    <p className="text-slate-500 text-sm">Request at: {time}</p>
+                                </div>
+                        </div>
+                    </CardContent>
+                </div>
+            </Card>) 
+            :  
             <Card className="shadow-md overflow-hidden relative w-[350px] h-[270px] bg-white rounded-xl  transition-all duration-300 transform group hover:h-[425px]">
                 <CardHeader className='flex bg-[#FF553E] w-full text-white h-[7%] inline-block'>
                     <p className="-mt-3">Request to : <b>{business}</b> </p>
@@ -119,7 +164,7 @@ const InvestorRequestCard = ({ className, id, email, contact, name, description,
                         </div>
                     </CardContent>
                 </div>
-            </Card>
+            </Card> }            
         </div>
     );
 };
