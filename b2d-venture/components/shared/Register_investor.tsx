@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import React, { useRef, useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
+import Link from "next/link";
 
 const FormSchema = z
   .object({
@@ -45,7 +46,8 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
   const [success, setSuccess] = useState("");
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [isVerified, setIsVerified] = useState(false);
-
+  const [isChecked, setIsChecked] = useState(false);
+  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -66,7 +68,11 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     const { username, email, password, role } = data;
 
     try {
-      if (isVerified){
+      if (!isVerified){
+        toast.error("Please verify that you are not a robot.")
+      } else if (!isChecked) {
+        toast.error("Please accept term of service and privacy policy to sign up.");
+      } else {
         const res = await fetch("http://localhost:3000/api/register/investor", {
           method: "POST",
           headers: {
@@ -94,8 +100,6 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
           const errorData = await res.json();
           setError(errorData.message || "Registration failed.");
         }
-      } else {
-        toast.error("Please verify that you are not a robot.")
       }
       
     } catch (error) {
@@ -130,6 +134,10 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     setIsVerified(false);
   }
 
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+  
   return (
     <Form {...form}>
       
@@ -290,7 +298,17 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
             />
 
         </div>  
-
+        <div className="flex justify-center">
+          <label className="flex items-center text-sm md:text-md">
+              <input 
+                type="checkbox" 
+                className="mr-2 form-checkbox text-yellow-500 focus:ring-yellow-500 rounded-full" 
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+              I have read and accept the <Link href="/term-of-service" className="font-bold text-blue-600"> Terms of Service </Link> and <Link href="/privacy-policy" className="font-bold text-blue-600"> Privacy Policy </Link>. 
+            </label>
+            </div>
         <div className="flex justify-center">
           <ReCAPTCHA
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}

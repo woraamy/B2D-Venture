@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import RegisterInvestor from "@/components/shared/Register_investor";
-import RegisterBusiness  from "@/components/shared/Register_business";
+import RegisterBusiness  from "@/components/shared/RegisterBusiness";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

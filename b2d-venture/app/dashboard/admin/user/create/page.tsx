@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import RegisterInvestor from "@/components/shared/Register_investor";
 import { Password } from 'primereact/password';
-import RegisterBusiness from "@/components/shared/Register_business";
+import RegisterBusiness from "@/components/shared/RegisterBusiness";
 
 
 export default function page(){
