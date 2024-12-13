@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import {
     Dialog,
@@ -27,6 +28,8 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
     const dialogRef = useRef<null | HTMLDialogElement>(null);
     const router = useRouter();
     const [reason, setReason] = useState("");  // State to track reason input
+    const [isChecked, setIsChecked] = useState(false);
+
     const closeDialog = () => {
         dialogRef.current?.close();
         router.push(link);
@@ -39,6 +42,11 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
     const clickOk = async () => {
         if (!reason) {
             toast.error("Please provide a reason.");  // Check if reason is provided
+            return;
+        }
+
+        if(!isChecked){
+            toast.error("Please accept term of service and privacy policy to request for more information");
             return;
         }
 
@@ -81,6 +89,10 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
             console.log(error);
         }
     };
+    
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
 
     return (
         <>
@@ -122,6 +134,15 @@ export default function AskInFormationPopup({ role, link, investorId, businessId
 
                       By submitting your profile and request for access, you agree to the terms outlined above and acknowledge your understanding of the responsibilities associated with accessing company data. If you have any questions or require further assistance, please contact our support team.
                     </p>
+                    <label className="flex items-center text-sm md:text-md">
+                    <input 
+                        type="checkbox" 
+                        className="mr-2 form-checkbox text-yellow-500 focus:ring-yellow-500 rounded-full" 
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                    />
+                    I have read and accept the <Link href="/term-of-service" className="font-bold text-blue-600"> Terms of Service </Link> and <Link href="/privacy-policy" className="font-bold text-blue-600"> Privacy Policy </Link>. 
+                    </label>
                     <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700">Reason for Request</label>
                             <input
