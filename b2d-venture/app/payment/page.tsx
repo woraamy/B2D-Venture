@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Link from "next/link";
 
 const createPaymentSchema = (minInvestment, maxInvestment) =>
   z.object({
@@ -330,7 +331,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
                     <li><strong>Confidentiality:</strong> You agree to keep all campaign-related information confidential.</li>
                     <li><strong>Data Privacy:</strong> Your personal information will be handled in accordance with our Privacy Policy.</li>
                     <li><strong>Limitation of Liability:</strong> The company is not liable for any indirect, incidental, or consequential damages arising from your investment.</li>
-                    <li><strong>Dispute Resolution:</strong> Any disputes will be resolved under the laws of [Insert Jurisdiction].</li>
+                    <li><strong>Dispute Resolution:</strong> Any disputes will be resolved under the laws of Thailand.</li>
                   </ul>
                 </div>
                 <div className="mt-2">
@@ -340,7 +341,7 @@ const createPaymentSchema = (minInvestment, maxInvestment) =>
                     className="mr-2"
                   />
                   <label className="text-sm text-gray-700">
-                    I accept the terms and conditions.
+                  I have read and accept the <Link href="/term-of-service" className="font-bold text-blue-600"> Terms of Service </Link> and <Link href="/privacy-policy" className="font-bold text-blue-600"> Privacy Policy </Link>. 
                   </label>
                 </div>
                 </div>
