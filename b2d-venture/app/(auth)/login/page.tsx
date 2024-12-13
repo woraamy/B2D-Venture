@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft } from 'lucide-react';
 import { signIn } from 'next-auth/react';
@@ -8,25 +8,59 @@ import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
+import ReCAPTCHA from "react-google-recaptcha";
+import type { NextPage } from "next";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await signIn("credentials", { email, password, redirect: false, callbackUrl: "/" });
-      if (res.error) {
-        toast.error("Invalid credentials");
-        return;
+      if (isVerified){
+        const res = await signIn("credentials", { email, password, redirect: false, callbackUrl: "/" });
+        if (res.error) {
+          toast.error("Invalid credentials");
+          return;
+        }
+        window.location.href = "/";
+      }else{
+        toast.error("Please verify that you are not a robot.");
       }
-      window.location.href = "/";
     } catch (error) {
       console.log(error);
       toast.error("An error occurred during login.");
     }
   };
+
+  async function handleCaptchaSubmission(token: string | null) {
+    try {
+      if (token) {
+        await fetch("/api/captcha", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+        setIsVerified(true);
+      }
+    } catch (e) {
+      setIsVerified(false);
+    }
+  }
+
+  const handleChange = (token: string | null) => {
+    handleCaptchaSubmission(token);
+  };
+
+  function handleExpired() {
+    setIsVerified(false);
+  }
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#FFF5EE]">
@@ -61,12 +95,20 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-[300px] md:w-[450px] h-[50px] p-4 border-2 border-[#D9D9D9] rounded-full focus:outline-none focus:border-[#FF7A00]" />
           </div>
-          <div className="flex justify-between items-center mt-5 w-[300px] md:w-[450px] mx-auto">
+          {/* <div className="flex justify-between items-center mt-5 w-[300px] md:w-[450px] mx-auto">
             <label className="flex items-center text-sm md:text-lg">
               <input type="checkbox" className="mr-2 form-checkbox text-yellow-500 focus:ring-yellow-500 rounded-full" />
               Remember me
             </label>
             <a href="#" className="text-blue-500 text-sm md:text-lg">Forgot password?</a>
+          </div> */}
+          <div className="flex justify-center mt-8">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+              ref={recaptchaRef}
+              onChange={handleChange}
+              onExpired={handleExpired}
+            />     
           </div>
           <div className="flex justify-center mt-8">
             <Button type="submit" className="w-[300px] md:w-[450px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00]" id="login-button">Login</Button>
@@ -82,7 +124,9 @@ function LoginPage() {
           <span className="text-sm md:text-base">Don&apos;t have an account?</span>
           <a href="/signup" className="text-[#FF6347] font-medium">Sign up now</a>
         </p>
+      
       </div>
+      
     </div>
   );
 };

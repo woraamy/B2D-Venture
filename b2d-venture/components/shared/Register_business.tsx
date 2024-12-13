@@ -14,9 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import React, { useRef, useState } from 'react';
 import { toast } from "react-hot-toast";
 import { description } from "../charts/overviewchart";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Define the validation schema with zod
 const FormSchema = z.object({
@@ -73,6 +74,8 @@ interface RegisterBusinessProps {
 const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -99,10 +102,13 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
 
   const handleFormSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      await handleBusinessSubmit(data);
-      toast.success("Form submitted successfully!");
-      onFormValidated(true);
-
+      if (isVerified){
+        await handleBusinessSubmit(data);
+        toast.success("Form submitted successfully!");
+        onFormValidated(true);
+      }else{
+        toast.error("Please verify that you are not a robot.");
+      }
     } catch (error) {
       setError("An error occurred while submitting the form.");
       console.error("Error:", error);
@@ -166,6 +172,32 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
       console.error("Error during registration:", error);
     }
   };
+
+  async function handleCaptchaSubmission(token: string | null) {
+    try {
+      if (token) {
+        await fetch("/api/captcha", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+        setIsVerified(true);
+      }
+    } catch (e) {
+      setIsVerified(false);
+    }
+  }
+
+  const handleChange = (token: string | null) => {
+    handleCaptchaSubmission(token);
+  };
+
+  function handleExpired() {
+    setIsVerified(false);
+  }
 
   const handleFormError = () => {
     onFormValidated(false);
@@ -533,6 +565,14 @@ const RegisterBusiness = ({ onFormValidated }: RegisterBusinessProps) => {
         </div>
 
         {/* Submit Button */}
+        <div className="flex justify-center">
+          <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                ref={recaptchaRef}
+                onChange={handleChange}
+                onExpired={handleExpired}
+              />     
+          </div>
         <div className="flex justify-center">
           <Button type="submit" className="w-[200px] md:w-[300px] h-[50px] rounded-full text-white bg-[#FF993B] hover:bg-[#FF7A00] text-base md:text-lg">
             Submit your details

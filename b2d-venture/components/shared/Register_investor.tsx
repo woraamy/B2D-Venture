@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
 import {
   Form,
   FormControl,
@@ -15,7 +15,8 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { useState } from "react";
+import React, { useRef, useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const FormSchema = z
   .object({
@@ -42,6 +43,8 @@ interface RegisterInvestorProps {
 const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -63,41 +66,69 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
     const { username, email, password, role } = data;
 
     try {
-      const res = await fetch("http://localhost:3000/api/register/investor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: data.username,
-          email: data.email,
-          password: data.password,
-          role: "investor",
-          firstName: data.firstName,
-          lastName: data.lastName,
-          birthDate: data.birthDate,
-          nationality: data.nationality,
-          contactNumber: data.contactNumber,
-        }),
-      });
-
-      if (res.ok) {
-        setError("");
-        setSuccess("User registration successful!");
-        toast({
-          title: "Registration Success",
-          description: `Welcome ${username}!`,
+      if (isVerified){
+        const res = await fetch("http://localhost:3000/api/register/investor", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            role: "investor",
+            firstName: data.firstName,
+            lastName: data.lastName,
+            birthDate: data.birthDate,
+            nationality: data.nationality,
+            contactNumber: data.contactNumber,
+          }),
         });
-        form.reset(); // Reset form after successful submission
+  
+        if (res.ok) {
+          setError("");
+          setSuccess("User registration successful!");
+          toast.success("Registration Success");
+          form.reset(); // Reset form after successful submission
+        } else {
+          const errorData = await res.json();
+          setError(errorData.message || "Registration failed.");
+        }
       } else {
-        const errorData = await res.json();
-        setError(errorData.message || "Registration failed.");
+        toast.error("Please verify that you are not a robot.")
       }
+      
     } catch (error) {
       setError("An error occurred during registration.");
       console.error("Error during registration:", error);
     }
   };
+
+  async function handleCaptchaSubmission(token: string | null) {
+    try {
+      if (token) {
+        await fetch("/api/captcha", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+        setIsVerified(true);
+      }
+    } catch (e) {
+      setIsVerified(false);
+    }
+  }
+
+  const handleChange = (token: string | null) => {
+    handleCaptchaSubmission(token);
+  };
+
+  function handleExpired() {
+    setIsVerified(false);
+  }
 
   return (
     <Form {...form}>
@@ -260,6 +291,14 @@ const RegisterInvestor = ({ onFormValidated }: RegisterInvestorProps) => {
 
         </div>  
 
+        <div className="flex justify-center">
+          <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                ref={recaptchaRef}
+                onChange={handleChange}
+                onExpired={handleExpired}
+              />     
+          </div>
         {/* Submit Button */}
         <div className="flex justify-center">
           <Button
