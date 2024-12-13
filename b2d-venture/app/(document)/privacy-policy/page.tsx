@@ -30,7 +30,7 @@ export default function Page(){
             <ul>Company name (if applicable)</ul>
             <ul>Company address (if applicable)</ul>
             <ul>Investment preferences and history</ul>
-            <ul> Financial information (if applicable)</ul>
+            <ul>Financial information (if applicable)</ul>
 
             <h2 className="mt-5 font-semibold text-lg">4. Purpose of Data Collection</h2>
 
@@ -85,7 +85,7 @@ export default function Page(){
             <ul>B2D Venture</ul>
             <ul>b2d.service@gmail.com</ul>
             <ul>02-xxx-xxxx</ul>
-            
+
             </div>
         </div>
     )
