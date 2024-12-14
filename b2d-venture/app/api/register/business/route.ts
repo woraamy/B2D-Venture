@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "allow") {
-      const hashedPassword = await hashPassword(businessRequest.password);
 
       // Handle case where tag_list is an array
       const businessType = Array.isArray(businessRequest.tag_list)
@@ -48,7 +47,7 @@ export async function POST(req: NextRequest) {
       const newUser = new User({
         username: businessRequest.username,
         email: email,
-        password: hashedPassword,
+        password: businessRequest.password,
         role: "business",
       });
       await newUser.save();
