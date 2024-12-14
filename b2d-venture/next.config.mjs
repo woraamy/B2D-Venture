@@ -17,6 +17,36 @@ const nextConfig = {
             },
         ],
     },
-};
+    reactStrictMode: true,
+    swcMinify: true,
+    async headers() {
+        return [
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY',
+                    }
+                ],
+            },
+        ]
+    },
+    async headers() {
+        return [
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Permissions-Policy',
+                        value:
+                        "camera=(); battery=(self); browsing-topics=(); geolocation=(); microphone=()",
+                        //Empty brackets are used to define that we are denying them..
+                    }
+                ],
+            },
+        ];
+    },
+}
 
 export default nextConfig;
