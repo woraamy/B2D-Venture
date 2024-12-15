@@ -14,6 +14,12 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
+  if (pathname.startsWith('/dashboard/admin')) {
+    if (token.role !== 'admin') {
+      return NextResponse.redirect(new URL('/403', req.url));
+    }
+  }
+
   if (pathname.startsWith('/dashboard/business')) {
     const pathParts = pathname.split('/');
     const businessIdFromPath = pathParts[3]; 
