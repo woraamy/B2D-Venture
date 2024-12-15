@@ -4,7 +4,7 @@ import TableCard from "@/components/shared/TableCard";
 import { Button } from "@/components/ui/button";
 
 
-export default function PaginationTable({data, itemsPerPage, buttonIndex, onDelete, onEdit}) {
+export default function PaginationTable({data, itemsPerPage, buttonIndex, onDelete}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);

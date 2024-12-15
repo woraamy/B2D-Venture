@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+
 import connectDB from '@/lib/connectDB';
 import BusinessRequest from '@/models/businessRequest'; // Assuming you have a model for business requests
 import { NextResponse, NextRequest } from 'next/server';

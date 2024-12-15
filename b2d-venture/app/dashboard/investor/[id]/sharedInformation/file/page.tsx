@@ -1,6 +1,4 @@
-import Sidenav from "@/components/shared/InvestorDashboard/InvestorSideNav";
-import Header from "@/components/shared/Header"
-import TableCard from "@/components/shared/TableCard";
+
 import Link from "next/link";
 import FileContainer from "@/components/shared/BusinessDashboard/FileContainer";
 import DataRoom from "@/models/DataRoom";

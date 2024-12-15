@@ -1,7 +1,7 @@
 import BusinessRequest from "@/models/businessRequest";
 import connect from "@/lib/connectDB";
-import { NextResponse, NextRequest } from "next/server";
-export async function GET(req: Request) {
+import { NextResponse } from "next/server";
+export async function GET() {
     try{
         await connect();
         const data = await BusinessRequest.find()

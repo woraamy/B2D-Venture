@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
-import Investor from "@/models/Investor";
 import File from "@/models/file";
 import RaiseCampaign from "@/models/RaiseCampaign";
 

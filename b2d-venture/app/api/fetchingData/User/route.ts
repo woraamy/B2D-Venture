@@ -1,8 +1,7 @@
 import User from "@/models/user";
 import connectDB from "@/lib/connectDB";
-import { NextResponse, NextRequest } from "next/server";
-import { BsSendDash } from "react-icons/bs";
-export async function GET(req: Request) {
+import { NextResponse } from "next/server";
+export async function GET() {
     try{
         await connectDB();
         const data = await User.find();

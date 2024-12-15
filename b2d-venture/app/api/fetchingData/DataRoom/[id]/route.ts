@@ -1,4 +1,4 @@
-import Investor from "@/models/Investor";
+
 import connect from "@/lib/connectDB";
 import DataRoom from "@/models/DataRoom";
 import { NextResponse } from "next/server";
@@ -8,7 +8,7 @@ export async function GET(req: Request, { params }) {
     try {
         await connect();
  
-        let data = await DataRoom.findOne({'business_id':id}).populate('files')
+        const data = await DataRoom.findOne({'business_id':id}).populate('files')
         if (data) {
             return NextResponse.json({ data });
         }

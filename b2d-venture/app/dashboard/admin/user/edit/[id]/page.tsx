@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'
 import { Toaster } from "react-hot-toast";
 
-export default function({params}){
+export default function Edit ({params}){
     const {id} = params;
     const router = useRouter();
     const [data, setData] = useState([]);

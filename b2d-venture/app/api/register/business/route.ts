@@ -3,19 +3,13 @@ import connectDB from "@/lib/connectDB";
 import BusinessRequest from "@/models/businessRequest";
 import User from "@/models/user";
 import Business from "@/models/Business";
-import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
-  const hashPassword = async (password: string) => {
-    const saltRounds = 10;
-    return bcrypt.hash(password, saltRounds);
-  };
 
   try {
 
     const {
       id,
-      type,
       email,
       action} = await req.json();
 
@@ -38,11 +32,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "allow") {
-
-      // Handle case where tag_list is an array
-      const businessType = Array.isArray(businessRequest.tag_list)
-        ? businessRequest.tag_list.join(", ")
-        : businessRequest.tag_list;
 
       const newUser = new User({
         username: businessRequest.username,

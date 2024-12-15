@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import RegisterInvestor from "@/components/shared/Register_investor";

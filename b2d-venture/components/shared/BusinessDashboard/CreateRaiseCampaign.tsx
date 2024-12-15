@@ -57,17 +57,6 @@ const createRaiseCampaignFormSchema = z.object({
 
 type CreateFormValues = z.infer<typeof createRaiseCampaignFormSchema>;
 
-// Initialize default values
-const defaultValues: Partial<CreateFormValues> = {
-  min_investment: 0, // Default to 0 or a reasonable value
-  max_investment: 0,
-  goal: 0,
-  shared_price: 0,
-  description: "",
-  start_date: "",
-  end_date: "",
-  files: [],
-};
 
 export function CreateRaiseCampaignForm({ params }) {
   const id = params;  // Assuming you're passing `params` correctly

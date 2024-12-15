@@ -94,7 +94,7 @@ export default function Page() {
         <div className="mb-10">
             <Toaster />
             <div className="ml-[6%] mt-10">
-                <h1 className="font-bold text-3xl">Business's raise campaign Mangement</h1>
+                <h1 className="font-bold text-3xl">Business&apos;s raise campaign Mangement</h1>
                 <div className="flex mt-5 gap-5">
                     <Link href={'campaign/create'}>
                         <Button>+ Add Raised Campaign</Button>

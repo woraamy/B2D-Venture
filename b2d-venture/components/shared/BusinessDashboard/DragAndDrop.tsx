@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
 import toast from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 

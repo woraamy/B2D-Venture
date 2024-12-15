@@ -1,9 +1,6 @@
 "use client"
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import { Button } from "../ui/button"
-import { useState } from "react"
-import { useRouter } from 'next/navigation'
 import Link from "next/link"
 
 export default function TableCard({className, data, valueClassname, onDelete}) {

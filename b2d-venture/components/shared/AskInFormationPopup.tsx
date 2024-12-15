@@ -1,8 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useRef, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import {
     Dialog,
@@ -12,7 +10,6 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogFooter,
-    DialogClose
     } from "@/components/ui/dialog"
 
 type Props = {

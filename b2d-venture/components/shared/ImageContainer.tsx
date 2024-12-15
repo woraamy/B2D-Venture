@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 export default function ImageContainer({data, onSubmit,onDelete, setIsDialogOpen}) {
@@ -61,7 +61,7 @@ export default function ImageContainer({data, onSubmit,onDelete, setIsDialogOpen
                         }} />
             ))}
             </div>
-            <div className="flex gap-4">'
+            <div className="flex gap-4">
               <Button className='relative text-white' onClick={handleSubmit}>
                   Select
               </Button>

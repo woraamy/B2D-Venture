@@ -1,5 +1,4 @@
 import { InvestorAccountForm } from "@/components/shared/AccountForms/InvestorAccountForm";
-import { BusinessAccountForm } from "@/components/shared/AccountForms/BusinessAccountForm";
 import { Toaster } from "react-hot-toast";
 
 export default async function SettingsAccountPage({ params }: { params: { id: string } }) {
@@ -12,7 +11,7 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
     const responseRole = await fetch(apiUrl);
     const responseInvestor = await fetch(investorUrl);
 
-    const data = await responseRole.json();
+    await responseRole.json();
     const investorData =  await responseInvestor.json();
     const investor = investorData.data
 

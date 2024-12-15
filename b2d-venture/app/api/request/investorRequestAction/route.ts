@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from "@/lib/connectDB"; // Import your connectDB function
-import InvestorRequest from "@/models/InvestorRequest"; // Import your InvestorRequest model
-import BusinessRequest from "@/models/businessRequest"; // Import your BusinessRequest model
+import InvestorRequest from "@/models/InvestorRequest"; 
 
 export async function POST(req: Request) {
     try {
@@ -9,10 +8,8 @@ export async function POST(req: Request) {
 
         await connectDB();
 
-        let request;
-
         // Find investor request by ID
-        request = await InvestorRequest.findById(id);
+        const request = await InvestorRequest.findById(id);
 
         if (!request) {
             console.log('Request not found');
