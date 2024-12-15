@@ -27,7 +27,7 @@ export default function Home() {
 
     const recommend = [];
     for (let i=0; i<5;i++){
-        const random = Math.floor(Math.random() * 12)
+        const random = Math.floor(Math.random() * 10)
         if (recommend.includes(random)){
             i = i-1
             continue;
