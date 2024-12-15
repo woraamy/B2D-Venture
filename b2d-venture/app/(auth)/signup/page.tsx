@@ -60,7 +60,7 @@ function SignUp() {
       {/* Center guidance */}
       <div className="flex flex-col items-center justify-center md:flex-row md:justify-center md:items-center space-y-2 md:space-x-8 md:space-y-0 mt-10">        
         <div className="flex items-center space-x-2">
-          <Image src="/assets/icons/number1.svg" alt="Number 1 Icon" className="w-6 h-6 md:w-8 md:h-8" />
+          <img src="/assets/icons/number1.svg" alt="Number 1 Icon" className="w-6 h-6 md:w-8 md:h-8" />
           <p
             className={`text-sm md:text-lg cursor-pointer transition-colors duration-300 ${currentStep === 1 ? 'text-red-500' : 'text-gray-500'}`}
           >
@@ -69,7 +69,7 @@ function SignUp() {
         </div>
         <Separator orientation="vertical" className="hidden md:block" />
         <div className="flex items-center space-x-2">
-          <Image src="/assets/icons/number2.svg" alt="Number 2 Icon" className="w-6 h-6 md:w-8 md:h-8" />
+          <img src="/assets/icons/number2.svg" alt="Number 2 Icon" className="w-6 h-6 md:w-8 md:h-8" />
           <p
             className={`text-sm md:text-lg cursor-pointer transition-colors duration-300 ${currentStep === 2 && !submitted ? 'text-red-500' : 'text-gray-500'}`}
           >
@@ -78,7 +78,7 @@ function SignUp() {
         </div>
         <Separator orientation="vertical" className="hidden md:block" />
         <div className="flex items-center space-x-2">
-          <Image src="/assets/icons/number3.svg" alt="Number 3 Icon" className="w-6 h-6 md:w-8 md:h-8" />
+          <img src="/assets/icons/number3.svg" alt="Number 3 Icon" className="w-6 h-6 md:w-8 md:h-8" />
           <div className="flex flex-col">
             <p className={`text-sm md:text-lg ${formValidated ? 'text-red-500' : 'text-gray-500'} cursor-pointer transition-colors duration-300`}>
               Waiting for approval
@@ -137,7 +137,7 @@ function SignUp() {
       {submitted && selectedRole === "Business" && (
         <div className="text-center">
         <div className="flex justify-center items-center">
-          <Image src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
+          <img src="/assets/icons/success.gif" alt="Success icon" className="w-48 h-48 md:w-80 md:h-80" />
         </div>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Your details have been submitted successfully.</p>
           <p className="text-lg md:text-2xl font-bold text-[#4BB543]">Please wait for approval to create your account.</p>
