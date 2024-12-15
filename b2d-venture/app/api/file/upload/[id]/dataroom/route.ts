@@ -39,7 +39,7 @@ export async function POST(req: Request, { params }) {
             if (existingFile) {
                 return NextResponse.json({ error: `File ${i["name"]} already exists in the dataroom.` }, { status: 400 });
             }
-            const filePath = `${id}/${i["name"]}`
+            const filePath = `${id}/${i.name}`
             const fileData = new File({
                 name: i["name"],
                 file_path: filePath, 

@@ -37,7 +37,7 @@ export default function ToolsBar({editor, id}) {
         setData(data.file || []);
     }
     useEffect(()  => {
-        fetchData()
+        void fetchData()
         setIsLoading(false)
       }, [])
     

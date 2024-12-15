@@ -15,7 +15,7 @@ export default function UploadBusinessCover({business_id}) {
 }
 
 useEffect(()  => {
-  fetchData()
+  void fetchData()
 }, [])
 
 

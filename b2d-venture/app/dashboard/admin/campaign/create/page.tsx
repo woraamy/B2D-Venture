@@ -23,7 +23,7 @@ export default function Page() {
     }
 
     useEffect(()  => {
-      fetchData()
+      void fetchData()
     }, [])
 
     function handleSelect(name, ids){

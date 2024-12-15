@@ -18,7 +18,7 @@ export async function POST(req){
     }
     const queriedData = data.filter(item => {
         const propertyValue = getNestedProperty(item, obj); // Get nested property dynamically
-        return propertyValue && propertyValue.toLowerCase().includes(value.toLowerCase());
+        return propertyValue?.toLowerCase().includes(value.toLowerCase());
     });
     return NextResponse.json(queriedData, { status: 200 });
 }

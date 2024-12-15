@@ -23,7 +23,7 @@ export async function POST(req) {
         tag.forEach((tagItem) => {
             queriedData = queriedData.filter(item => {
                 const propertyValue = getNestedProperty(item, obj); // Get nested property dynamically
-                return propertyValue && propertyValue.includes(tagItem);
+                return propertyValue?.includes(tagItem);
             })
         });
         

@@ -31,7 +31,7 @@ export default function PaginationTable({data, itemsPerPage, buttonIndex, onDele
             <div className="flex justify-between mt-5">
                 <Button
                     disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() => { setCurrentPage(currentPage - 1); }}
                 >
                     Previous
                 </Button>

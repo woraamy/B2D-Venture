@@ -71,7 +71,7 @@ export default function({params}){
                             name="name"
                             defaultValue={data[0]?.username}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setName(e.target.value) }
+                            onChange={(e)=> { setName(e.target.value); } }
                             />
                     </td>
                 </tr>
@@ -94,7 +94,7 @@ export default function({params}){
                             name="email"
                             defaultValue={data[0]?.email}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            onChange={(e)=> setEmail(e.target.value) }
+                            onChange={(e)=> { setEmail(e.target.value); } }
                             />
                     </td>
                 </tr>
