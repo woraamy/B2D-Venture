@@ -1,8 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
 export default function UploadBusinessCover({business_id}) {
   const [data, setData] = useState("")
   const [isUpload, setIsUpload] = useState(false);
@@ -15,7 +13,7 @@ export default function UploadBusinessCover({business_id}) {
 }
 
 useEffect(()  => {
-  fetchData()
+  void fetchData()
 }, [])
 
 

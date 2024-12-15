@@ -1,4 +1,4 @@
-import { InvestorAccountForm } from "@/components/shared/AccountForms/InvestorAccountForm";
+
 import { BusinessAccountForm } from "@/components/shared/AccountForms/BusinessAccountForm";
 import { Toaster } from "react-hot-toast";
 
@@ -16,7 +16,7 @@ export default async function SettingsAccountPage({ params }: { params: { id: st
       throw new Error("Failed to fetch user role or business data");
     }
 
-    const data = await responseRole.json();
+    await responseRole.json();
     const businessData = await responseBusiness.json();
     const business = businessData.data;
 

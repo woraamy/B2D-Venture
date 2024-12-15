@@ -2,7 +2,6 @@
 import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
 import File from '@/models/file';
-import DataRoom from '@/models/DataRoom';
 import connect from '@/lib/connectDB';
 
 

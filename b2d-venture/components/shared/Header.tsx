@@ -1,18 +1,15 @@
-import Image from "next/image";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import NavItems from "./NavItems";
 import MobileNav from "./MoblieNav";
 import SignOutButton from "./signOutButton";
-import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import User from "@/models/user";
-import Investor from "@/models/Investor";
 import connectDB from "@/lib/connectDB";
 
 // Authenticated Header
-const AuthenticatedHeader = ({ role, userId, investorId, businessId }) => {
+const AuthenticatedHeader = ({ role, investorId, businessId }) => {
 
   let profileLink = `/dashboard/investor/${investorId}`;
   if (role === "admin") {
@@ -127,7 +124,7 @@ const Header = async () => {
       }
     }
 
-    return <AuthenticatedHeader role={user.role} userId={user._id} investorId={investorId} businessId={businessId} />;
+    return <AuthenticatedHeader role={user.role} investorId={investorId} businessId={businessId} />;
   } catch (error) {
     console.error("Error in Header component:", error);
     return <UnauthenticatedHeader />;

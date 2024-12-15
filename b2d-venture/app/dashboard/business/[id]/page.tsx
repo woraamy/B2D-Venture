@@ -1,13 +1,10 @@
-// import business from '@/models/Business';
-import { Button } from "@/components/ui/button";
-import { InvestChart } from "@/components/charts/investchart";
+
 import Image from "next/image";
 import Tag from "@/components/ui/tag";
 import connect from "@/lib/connectDB"
 import Investment from "@/models/Investment";
 import mongoose from "mongoose"; 
 import React from "react";
-import User from "@/models/user";
 import { BusinessChart } from "@/components/charts/BusinessChart";
 import ReportCard from "@/components/shared/ReportCard";
 import InvestorRequestCard from "@/components/shared/BusinessDashboard/InvestorRequestCard";
@@ -96,7 +93,6 @@ async function getBusinessData(raiseCampaignIds) {
         return { notFound: true };  
     }
 
-    let raiseCampaignObjectIds
     let barChartdata
     let totalInvestor, totalInvestment, totalRaised
 

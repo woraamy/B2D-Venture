@@ -1,4 +1,4 @@
-import Business from "@/models/Business";
+
 import RaiseCampaign from "@/models/RaiseCampaign";
 import connectDB from "@/lib/connectDB";
 import { NextResponse, NextRequest } from "next/server";

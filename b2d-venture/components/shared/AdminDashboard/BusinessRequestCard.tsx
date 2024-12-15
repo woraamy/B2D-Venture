@@ -1,11 +1,7 @@
 "use client";
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import Image from "next/image";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card"
 import Tag from "../../ui/tag";
-import connectDB from "@/lib/connectDB";
 import { Button } from "../../ui/button";
-import BusinessRequest from "@/models/businessRequest";
 import toast from "react-hot-toast";
 
 const BusinessRequestCard = ({className, id, email, contact, address, name, description, tag, status, time}) => {

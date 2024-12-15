@@ -40,7 +40,7 @@ export default function InvestorSidenav({id}) {
                 </div>
                 <div className={`flex mt-2 p-3 ${request}`}>
                     <CiSquareQuestion />
-                    <Link href={`/dashboard/business/${id}/request`} className="ml-2">Manage Investor's Request</Link>
+                    <Link href={`/dashboard/business/${id}/request`} className="ml-2">Manage Investor&apos;s Request</Link>
                 </div>
                 <div className={`flex mt-2 p-3 ${settings}`}>
                     < IoIosSettings />

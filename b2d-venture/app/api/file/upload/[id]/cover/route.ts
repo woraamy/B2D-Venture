@@ -1,9 +1,7 @@
 import GoogleStorage from '@/lib/googleStorage';
 import { NextResponse } from 'next/server';
 import File from '@/models/file';
-import DataRoom from '@/models/DataRoom';
 import connect from '@/lib/connectDB';
-import Investor from '@/models/Investor';
 import Business from '@/models/Business';
 
 const assetBucket = process.env.ASSET_BUCKET_NAME;
@@ -25,7 +23,7 @@ export async function POST(req: Request, { params }) {
         if (oldUrl){
             const oldUrlArray = oldUrl.split("/");
             const oldName = oldUrlArray[oldUrlArray.length - 1]
-            const result = await asset.deleteFile(`business/${id}/${oldName}`);
+            await asset.deleteFile(`business/${id}/${oldName}`);
         }
         const filePath = `business/${id}/${file["name"]}`
         const url = await asset.getPublicUrl(filePath)

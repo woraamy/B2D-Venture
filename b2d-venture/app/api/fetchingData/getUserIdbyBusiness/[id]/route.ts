@@ -11,7 +11,7 @@ export async function GET(req: Request, { params }) {
         await connect();
 
         // Try to find business by ID first
-        let data = await Business.findById(id);
+        const data = await Business.findById(id);
         if (data) {
             console.log(`Business found by ID: ${data.user_id.toString()}`);
             return NextResponse.json({ user_id: data.user_id.toString()  });

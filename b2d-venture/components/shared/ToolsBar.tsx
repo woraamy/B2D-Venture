@@ -17,11 +17,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogFooter,
-    DialogClose
     } from "@/components/ui/dialog"
 import { Toggle } from "@/components/ui/toggle"
-import { useEditor } from "@tiptap/react"
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import ImageContainer from "./ImageContainer";
@@ -37,7 +34,7 @@ export default function ToolsBar({editor, id}) {
         setData(data.file || []);
     }
     useEffect(()  => {
-        fetchData()
+        void fetchData()
         setIsLoading(false)
       }, [])
     

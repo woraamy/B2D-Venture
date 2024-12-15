@@ -1,7 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import InvestorRequest from '@/models/InvestorRequest';
-
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 // Handles POST requests to /api
 
@@ -33,12 +32,11 @@ export async function POST(req, {params}) {
             return NextResponse.json({ message: 'Investor request not found' }, { status: 404 });
         }
         
-        const status = request.status_from_business
         const link = `${web}/dashboard/admin/${request.business_id._id}`
         const message = `<p>Investor ${request.investor_id.firestName} have been send ${request.business_id.BusinessName}'s data room access request. You can see more detail here </p> <a href='${link}'>Link</a>`
     
         
-        const mail = await transporter.sendMail({
+        await transporter.sendMail({
             from: username,
             to: email,
             subject: `Investor ${request.investor_id.firestName} send ${request.business_id.BusinessName}'s data room access request `,

@@ -1,7 +1,7 @@
 "use client"
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 
-export default function ReportCard({className, name, amount}){
+export default function ReportCard({name, amount}){
     if (amount === undefined) {
         amount = 0;
     }

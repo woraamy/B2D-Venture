@@ -1,11 +1,7 @@
 "use client";
 
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "../../ui/button";
-import connectDB from "@/lib/connectDB";
-import InvestorRequest from "@/models/InvestorRequest";
 import { toast } from "react-toastify";
 
 const InvestorRequestCard = ({ className, id, email, contact, name, description, business, reason, status_from_admin, time, profile, consent }) => {

@@ -3,8 +3,6 @@ import connectDB from "@/lib/connectDB";
 import InvestorRequest from "@/models/InvestorRequest";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { redirect } from 'next/navigation'
-import toast from "react-hot-toast";
 // Named export for the POST method
 export async function POST(req: NextRequest) {
     try {
