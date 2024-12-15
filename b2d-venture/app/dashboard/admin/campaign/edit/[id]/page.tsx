@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Toaster } from "react-hot-toast";
 import { EditRaiseCampaignForm } from "@/components/shared/BusinessDashboard/EditRaiseCampaign";
 
-export default function({params}){
+export default function Edit({params}){
     const {id} = params;
     const router = useRouter();
     const [data, setData] = useState<any>({});

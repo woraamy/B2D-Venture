@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import RegisterInvestor from "@/components/shared/Register_investor";
@@ -61,7 +61,7 @@ export default function page(){
             <div className="flex mt-10 ml-24">
                   <span className="text-xl text-gray-400 cursor-pointer" onClick={() => setRole("investor")}> Investor </span>
                   <span className="text-xl ml-10 text-gray-400 cursor-pointer" onClick={() => setRole("business")}> Business </span>
-                  <span className="text-xl ml-10 text-[#FF553E] underline cursor-pointer" onClick={() => setRole("admin")}> Admin </span>
+                  <span className="text-xl ml-10 text-[#FF553E] underline cursor-pointer" onClick={() => { setRole("admin"); }}> Admin </span>
             </div>
             <form method="post" onSubmit={handleAdminSubmit}>
               <div className="flex flex-col mt-24 justify-center items-center w-[85vw]">
@@ -120,7 +120,7 @@ export default function page(){
         <div className="w-[85vw] ">
             <Toaster />
             <div className="flex mt-10 ml-24">
-                  <span className="text-xl text-[#FF553E] underline cursor-pointer" onClick={() => setRole("investor")}> Investor </span>
+                  <span className="text-xl text-[#FF553E] underline cursor-pointer" onClick={() => { setRole("investor"); }}> Investor </span>
                   <span className="text-xl ml-10 text-gray-400 cursor-pointer" onClick={() => setRole("business")}> Business </span>
                   <span className="text-xl ml-10 text-gray-400 cursor-pointer" onClick={() => setRole("admin")}> Admin </span>
             </div>

@@ -41,7 +41,7 @@ export default function SearchBar({ text, data, onSearch, obj}) {
                 value={query}
                 placeholder={text}
                 className="h-42px border p-2 w-full rounded-md bg-[#F2EBEB]"
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => { setQuery(e.target.value); }}
                 onKeyDown={handleKeyDown}
             />
             {!isFound && (

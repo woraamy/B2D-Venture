@@ -92,7 +92,7 @@ export default function Page() {
                     <div className="flex justify-between mt-10 mb-10">
                         <Button
                             disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}
+                            onClick={() => { setCurrentPage(currentPage - 1); }}
                         >
                             Previous
                         </Button>

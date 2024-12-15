@@ -1,6 +1,4 @@
 "use client"
-
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
@@ -17,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Interface } from "readline";
 
 function getLastSixMonth(){
     const months = [];
@@ -29,7 +28,6 @@ function getLastSixMonth(){
       }
     return months
 }
-
 
 const chartConfig = {
     raised: {
@@ -49,8 +47,8 @@ export function AdminChart({className, data}) {
           data.splice(i, 0, { _id: { year: 2024, month: month.monthNum }, raised: 0, profit: 0 });
         }
       });
-    const chartData =  data.map((data,index)=>({
-        month: months[index].month, 
+    const chartData =  data.map((data)=>({
+        month: months.month, 
         raised: data.raised,
 
         profit: data.profit,

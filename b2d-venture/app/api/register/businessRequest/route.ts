@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
       tag_list,
       username,
       password,
-      status,
     } = await req.json();
 
     await connectDB();

@@ -1,10 +1,8 @@
 "use client";
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "@/components/ui/tag";
-import { Button } from "@/components/ui/button";
-const InvestHistoryCard = ({className, businessName, businessImg, link, valuation, raised, equityStake, shared, date}) => {
+const InvestHistoryCard = ({className, businessName, businessImg, link, valuation, raised, equityStake, date}) => {
     return (
     <div className ={className}>
             <Card className= "shadow-md overflow-hidden relative bg-white w-[420px] h-[110px] bg-white rounded-xl">

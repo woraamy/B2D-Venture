@@ -3,11 +3,7 @@
 import { useState } from 'react';
 import { IoFilter } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
-import { Input } from '../ui/input';
-import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import SearchBar from '../ui/searchbar';
 import {
     DropdownMenu,
     DropdownMenuTrigger,

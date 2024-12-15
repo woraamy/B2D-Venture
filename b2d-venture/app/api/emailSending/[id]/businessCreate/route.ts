@@ -1,7 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server'
-import InvestorRequest from '@/models/InvestorRequest';
+import { NextResponse } from 'next/server'
 import BusinessRequest from '@/models/businessRequest';
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 // Handles POST requests to /api
 
@@ -11,7 +10,6 @@ export async function POST(req, {params}) {
     const web = process.env.NEXT_PUBLIC_API_URL;
 
     const {id} = params
-    // id is businessRequest id
    
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -38,7 +36,7 @@ export async function POST(req, {params}) {
         } else{
             message = `<p>Thank you for submitting your request. After careful review, we regret to inform you that your request to create business has been declined.</p>`
         }
-        const mail = await transporter.sendMail({
+        await transporter.sendMail({
             from: username,
             to: request.email,
             subject: `Your request has been ${status}`,

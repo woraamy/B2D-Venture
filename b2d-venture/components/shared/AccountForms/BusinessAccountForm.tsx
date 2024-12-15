@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,12 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import Business from "@/models/Business";
+import { useState } from "react";
 import UploadBusinessProfile from "../BusinessDashboard/UploadBusinessProfile";
 import UploadBusinessCover from "../BusinessDashboard/UploadBusinessCover";
-import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
 // Validation schema using zod
@@ -83,7 +79,6 @@ export function BusinessAccountForm({ params, data }) {
   };
   
   const id = params;
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const form = useForm<BusinessFormValues>({
     resolver: zodResolver(businessFormSchema),
@@ -112,6 +107,7 @@ export function BusinessAccountForm({ params, data }) {
             toast.error(result?.message || "Failed to update account");
           }
         } catch (error) {
+          console.error("Failed to update account:", error);
           toast.error("An unexpected error occurred while updating the account.");
         }
   }

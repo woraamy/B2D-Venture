@@ -1,7 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import InvestorRequest from '@/models/InvestorRequest';
-
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 // Handles POST requests to /api
 
@@ -42,7 +41,7 @@ export async function POST(req, {params}) {
         } else{
             message = `<p>Thank you for submitting your request. After careful review, we regret to inform you that your request to ${request.business_id.BusinessName} has been declined.</p>`
         }
-        const mail = await transporter.sendMail({
+        await transporter.sendMail({
             from: username,
             to: email,
             subject: `Your request has been ${status}`,

@@ -52,7 +52,7 @@ export default function Page() {
             });
             if (response.ok) {
                 console.log("Delete User Successful");
-                fetchData();
+                void fetchData();
                 toast.success("Delete User Successful")
               } else {
                 toast.error("Failed to delete user")

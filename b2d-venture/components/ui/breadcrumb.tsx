@@ -12,7 +12,7 @@ interface BreadcrumbLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorEleme
   asChild?: boolean;
 }
 interface BreadcrumbPageProps extends React.HTMLAttributes<HTMLSpanElement> {}
-interface BreadcrumbSeparatorProps extends React.LiHTMLAttributes<HTMLLIElement> {}
+type BreadcrumbSeparatorProps = React.LiHTMLAttributes<HTMLLIElement>
 interface BreadcrumbEllipsisProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
 const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(

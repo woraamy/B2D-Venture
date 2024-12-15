@@ -4,14 +4,13 @@ import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
 import toast from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 
 export default function DragAndDrop({type, className, onUploadComplete}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
-  const [files, setFiles] = useState<any>([]);
+  const [files, setFiles] = useState<unknown>([]);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const pathParts = pathname.split('/');
@@ -28,7 +27,7 @@ export default function DragAndDrop({type, className, onUploadComplete}) {
     }
   }
 
-  async function handleSubmitFile(e: any) {
+  async function handleSubmitFile(e: unknown) {
     e.preventDefault();
 
     if (files.length === 0) {
@@ -68,7 +67,7 @@ export default function DragAndDrop({type, className, onUploadComplete}) {
 
   }
 
-  function handleDrop(e: any) {
+  function handleDrop(e: unknown) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -85,7 +84,7 @@ export default function DragAndDrop({type, className, onUploadComplete}) {
     setDragActive(false);
   }
 
-  function handleDragOver(e: any) {
+  function handleDragOver(e: unknown) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(true);

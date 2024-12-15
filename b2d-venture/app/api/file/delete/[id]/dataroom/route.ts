@@ -17,7 +17,7 @@ export async function POST(req, {params}) {
     // authentication check
     const session = await getServerSession(authOptions);
       
-    if (!session || !session.user) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthentication' }, { status: 405 });
     }
 

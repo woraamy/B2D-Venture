@@ -9,7 +9,6 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Button } from "@/components/ui/button";
-import { IoFilter } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
 
 export default function Page() {
@@ -23,7 +22,7 @@ export default function Page() {
     }
 
     useEffect(()  => {
-      fetchData()
+      void fetchData()
     }, [])
 
     function handleSelect(name, ids){

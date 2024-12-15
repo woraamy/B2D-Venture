@@ -4,7 +4,7 @@ import TableCard from "@/components/shared/TableCard";
 import { Button } from "@/components/ui/button";
 
 
-export default function PaginationTable({data, itemsPerPage, buttonIndex, onDelete, onEdit}) {
+export default function PaginationTable({data, itemsPerPage, buttonIndex, onDelete}) {
     
     // Set up pagination states
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +31,7 @@ export default function PaginationTable({data, itemsPerPage, buttonIndex, onDele
             <div className="flex justify-between mt-5">
                 <Button
                     disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() => { setCurrentPage(currentPage - 1); }}
                 >
                     Previous
                 </Button>

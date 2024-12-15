@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { description } from "../charts/overviewchart";
 
 // Define the validation schema with zod
 const FormSchema = z.object({

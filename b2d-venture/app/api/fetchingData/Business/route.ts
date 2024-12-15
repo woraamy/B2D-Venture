@@ -1,6 +1,6 @@
 import Business from "@/models/Business";
 import connect from "@/lib/connectDB";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 export async function GET() {
     try{
         await connect();

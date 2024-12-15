@@ -36,7 +36,6 @@ export default function PaymentPageContent() {
   const searchParams = useSearchParams();
 
   const campaignId = searchParams.get("campaignId");
-  const businessId = searchParams.get("businessId");
   const investorId = searchParams.get("investorId");
 
   const [loading, setLoading] = useState(false);

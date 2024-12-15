@@ -26,7 +26,7 @@ export default function Page({params}) {
     useEffect(() => {
         fetchingData();
     }, [])
-    const data = request.map((item,index)=>(
+    const data = request.map((item)=>(
         [
             {value: {text:  item.investor_id.firstName || "NO first name data", src: item.investor_id.profile_picture}, type:"image"},
             {value: item.status_from_business, type:"text"},
@@ -58,7 +58,7 @@ export default function Page({params}) {
     return(
         <div className='w-[80vw] mt-'>
             <div className="ml-[6%] mt-10">
-                <h1 className="font-bold mt-7 text-3xl">Investor's Request Manage</h1>
+                <h1 className="font-bold mt-7 text-3xl">Investor&apos;s Request Manage</h1>
                 <div className="mt-7 flex flex-wrap gap-3 w-full h-[35vh] z-0">
                     {paginatedData.map((req)=>(
                                 <InvestorRequestCard

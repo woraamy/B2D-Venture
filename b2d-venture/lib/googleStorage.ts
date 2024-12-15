@@ -1,8 +1,6 @@
 'use server';
 
 import { Storage, Bucket} from '@google-cloud/storage';
-import fs from 'fs';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 const keyFile = JSON.parse(process.env.KEY_FILE);
 const projectId = process.env.PROJECT_ID;
@@ -20,7 +18,7 @@ class GoogleStorage {
         this.bucket = this.storage.bucket(bucketName);
      }
 
-  getPublicUrl(fileName:String) {
+  getPublicUrl(fileName: string) {
     return `https://storage.googleapis.com/${this.bucketName}/${fileName}`
   }
 
@@ -41,7 +39,7 @@ class GoogleStorage {
     }
   }
   async getSignedUrl(filePath:string){
-    var filedata = this.bucket.file(filePath);
+    const filedata = this.bucket.file(filePath);
     const [readUrl] = await filedata.getSignedUrl({
       version: 'v4',
       action: 'read',
