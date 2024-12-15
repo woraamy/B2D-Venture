@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import BusinessRequest from "@/models/businessRequest";
-import User from "@/models/user";
-import Business from "@/models/Business";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"; 
 
 export async function POST(req: NextRequest) {
-
+  const hashPassword = async (password: string) => {
+    const saltRounds = 10;
+    return bcrypt.hash(password, saltRounds);
+  };
 
   try {
     // Parse the request body
@@ -30,6 +31,8 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
+    const hashedPassword = await hashPassword(password);
+
     // If not approved, create a pending business registration request
     const newRequest = new BusinessRequest({
       firstName,
@@ -45,7 +48,7 @@ export async function POST(req: NextRequest) {
       description,
       tag_list,
       username,
-      password,
+      password: hashedPassword,
       role: "business",
       status: "pending", // Request is pending approval
     });
