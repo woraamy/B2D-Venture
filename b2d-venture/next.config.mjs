@@ -25,23 +25,14 @@ const nextConfig = {
                 source: '/(.*)',
                 headers: [
                     {
-                        key: 'X-Frame-Options',
-                        value: 'DENY',
-                    }
-                ],
-            },
-        ]
-    },
-    async headers() {
-        return [
-            {
-                source: '/(.*)',
-                headers: [
-                    {
                         key: 'Permissions-Policy',
                         value:
                         "camera=(); battery=(self); browsing-topics=(); geolocation=(); microphone=()",
                         //Empty brackets are used to define that we are denying them..
+                    },
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY',
                     }
                 ],
             },
